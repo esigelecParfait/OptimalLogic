@@ -75,25 +75,6 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-[#f7f4ef] text-[#161616]">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 lg:px-8">
-        <a href="/" className="text-xl font-semibold tracking-tight">
-          DigitSoluce
-        </a>
-
-        <div className="hidden items-center gap-8 text-sm text-neutral-700 md:flex">
-          <a href="/services" className="hover:text-black">Services</a>
-          <a href="/tarifs" className="hover:text-black">Tarifs</a>
-          <a href="/prise-de-rdv" className="hover:text-black">Prise de RDV</a>
-          <a href="/contact" className="hover:text-black">Contact</a>
-        </div>
-
-        <a
-          href="/prise-de-rdv"
-          className="rounded-full bg-black px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
-        >
-          Appel gratuit
-        </a>
-      </nav>
 
       <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 pb-20 pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-28 lg:pt-20">
         <div>
@@ -355,16 +336,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <footer className="border-t border-black/10 px-6 py-10 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 text-sm text-neutral-600 md:flex-row">
-          <p>© 2026 Maison Digitale. Tous droits réservés.</p>
-          <div className="flex gap-6">
-            <a href="/mentions-legales" className="hover:text-black">Mentions légales</a>
-            <a href="/confidentialite" className="hover:text-black">Confidentialité</a>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

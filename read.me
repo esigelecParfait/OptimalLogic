@@ -1,0 +1,77 @@
+Architecture de notre page Web 
+
+maison-digitale/
+│app c'est le dossier principal il gere les routes et les pages  
+├── app/
+│   ├── layout.tsx  // il gere la structure globale de toutes les pages et sert a mettre ce qui doit etre present partout (header, footer et autres)
+│   ├── page.tsx   // c'est la page qui pointe vers localhost directement
+│   ├── globals.css // fichier de mise en forme 
+│   │
+│   ├── services/    // page services
+│   │   └── page.tsx
+│   │
+│   ├── tarifs/   // pages tarifs
+│   │   └── page.tsx
+│   │
+│   ├── prise-de-rdv/ page prise de rdv 
+│   │   └── page.tsx
+│   │
+│   ├── contact/
+│   │   └── page.tsx
+│   │
+│   ├── mentions-legales/
+│   │   └── page.tsx
+│   │
+│   └── confidentialite/
+│       └── page.tsx
+│
+├── components/
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   └── Footer.tsx
+│   │
+│   ├── home/
+│   │   ├── HeroSection.tsx
+│   │   ├── ProblemSection.tsx
+│   │   ├── SolutionSection.tsx
+│   │   ├── AudienceSection.tsx
+│   │   ├── BenefitsSection.tsx
+│   │   └── FinalCtaSection.tsx
+│   │
+│   ├── rdv/
+│   │   └── CalEmbed.tsx
+│   │
+│   ├── ai/
+│   │   └── ChatbaseScript.tsx
+│   │
+│   └── ui/
+│       ├── Button.tsx
+│       ├── SectionTitle.tsx
+│       └── Card.tsx
+│
+├── lib/
+│   ├── constants.ts
+│   └── site.ts
+│
+├── public/
+│   ├── logo.svg
+│   └── images/
+│
+├── package.json
+├── next.config.ts
+└── tsconfig.json
+
+
+Commandes terminal pour créer un footer ou header 
+    New-Item -ItemType File -Force components\Footer.tsx
+    notepad components\Footer.tsx
+
+Chaque page présente des importances qu'ils seront claires de détailler ici:
+    Pour la page services: elle permet de présenter les solutions faites pour tous types de client 
+        Importance psychologique:permet d'orienter de maniere concise  le client  vers une solution 
+        Importance commerciale:Permettre de comprendre l'offre 
+        Importance relationnelle:Permettre de montrer qu'on comprend le besoin et qu'on peut les proposer une solution adéquate
+        Importance technique: ca c'est pour la structuration du projet 
+    Pour la Page contact: elle permet au client de contacter l'entreprise soit en le redirigeant vers la page
+    appel(prise de rdv) ou de nous contacter via un formulaire
+    
