@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 type PricingPack = {
   name: string;
   category: string;
@@ -12,7 +16,67 @@ type PricingPack = {
   cta?: string;
 };
 
+type OfferRequestForm = {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  activity: string;
+  objective: string;
+  message: string;
+};
+
 export default function TarifsPage() {
+  const [selectedPack, setSelectedPack] = useState<PricingPack | null>(null);
+  const [formSent, setFormSent] = useState(false);
+  const [leadForm, setLeadForm] = useState<OfferRequestForm>({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    activity: "",
+    objective: "",
+    message: ""
+  });
+
+  function openOfferModal(pack: PricingPack) {
+    setSelectedPack(pack);
+    setFormSent(false);
+    setLeadForm((current) => ({
+      ...current,
+      message: current.message || `Bonjour, je suis intéressé(e) par la formule ${pack.name}.`
+    }));
+  }
+
+  function closeOfferModal() {
+    setSelectedPack(null);
+    setFormSent(false);
+  }
+
+  function updateLeadField(field: keyof OfferRequestForm, value: string) {
+    setLeadForm((current) => ({ ...current, [field]: value }));
+  }
+
+  function handleOfferSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const payload = {
+      selectedOffer: selectedPack
+        ? {
+            name: selectedPack.name,
+            category: selectedPack.category,
+            setupPrice: selectedPack.setupPrice,
+            monthlyPrice: selectedPack.monthlyPrice
+          }
+        : null,
+      lead: leadForm
+    };
+
+    // À connecter plus tard à une API Next.js, Formspree, Resend, Brevo, Make ou n8n.
+    console.log("Nouvelle demande d'offre :", payload);
+    setFormSent(true);
+  }
+
   const commercePacks: PricingPack[] = [
     {
       name: "Commerce Intelligent",
@@ -90,6 +154,7 @@ export default function TarifsPage() {
       highlighted: false,
       setupIncludes: [
         "Analyse du besoin et de l’activité",
+        "Optimisation ou création de la fiche Google Business",
         "Création d’un site web professionnel simple",
         "Présentation claire de l’entreprise",
         "Pages services essentielles",
@@ -206,7 +271,7 @@ export default function TarifsPage() {
         "Chatbot IA de qualification",
         "CRM simple",
         "E-mails automatiques",
-        "Dashboard de traction"
+        "Dashboard de traction",
       ],
       monthlyIncludes: [
         "Suivi des leads et inscriptions",
@@ -279,7 +344,7 @@ export default function TarifsPage() {
     {
       question: "Les tarifs sont-ils définitifs ?",
       answer:
-        "Ce sont des tarifs de départ. Le prix final dépend du nombre de pages, du niveau d’automatisation, des outils à connecter et du niveau d’accompagnement souhaité."
+        "Ce sont des tarifs de départ avec un périmètre clair. Une proposition sur mesure est réalisée uniquement si le projet demande des fonctionnalités spécifiques, des intégrations complexes ou un accompagnement particulier."
     },
     {
       question: "Quelle formule choisir si je ne sais pas encore ?",
@@ -383,14 +448,15 @@ export default function TarifsPage() {
           <p className="mt-3 text-xs leading-5 text-white/75">{pack.result}</p>
         </div>
 
-        <a
-          href="/contact"
-          className={`mt-7 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold transition ${
+        <button
+          type="button"
+          onClick={() => openOfferModal(pack)}
+          className={`mt-7 inline-flex justify-center rounded-full px-5 py-2.5 text-xs font-semibold transition ${
             pack.highlighted ? "bg-white text-black hover:bg-white/85" : "bg-black text-white hover:bg-black/85"
           }`}
         >
-          {pack.cta || "Demander un diagnostic"}
-        </a>
+          Demander cette offre
+        </button>
       </article>
     );
   }
@@ -416,21 +482,33 @@ export default function TarifsPage() {
                 Chaque formule sépare ce qui est créé au départ et ce qui est suivi chaque mois. Vous savez ce que vous payez, pourquoi vous le payez, et ce qui est réellement pris en charge.
               </p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
-                >
-                  Demander un diagnostic
-                </a>
-                <a
-                  href="#formules"
-                  className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
-                >
-                  Voir les formules
-                </a>
+              <div className="mt-10">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-black/40">
+                  Accès rapide
+                </p>
+                <div className="flex flex-wrap gap-2.5">
+                  <a
+                    href="#commerce"
+                    className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/85"
+                  >
+                    Commerce
+                  </a>
+                  <a
+                    href="#tpe-pme"
+                    className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-black hover:text-white"
+                  >
+                    TPE/PME
+                  </a>
+                  <a
+                    href="#startup"
+                    className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-black hover:text-white"
+                  >
+                    Startup
+                  </a>
+                </div>
               </div>
             </div>
+            
 
             <div className="rounded-[2rem] border border-black/10 bg-white/80 p-6 shadow-xl shadow-black/5 backdrop-blur">
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
@@ -454,24 +532,7 @@ export default function TarifsPage() {
           </div>
         </div>
       </section>
-
-      <section className="px-6 pb-10 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-black p-8 text-white sm:p-10 lg:p-12">
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">Offre de lancement</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Des tarifs accessibles pour nos premiers clients
-              </h2>
-            </div>
-            <p className="text-lg leading-8 text-white/70">
-              Les prix affichés sont des tarifs de départ en HT. Le devis final peut varier selon le nombre de pages, les outils à connecter, le niveau d’automatisation et l’accompagnement souhaité.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="formules" className="px-6 py-16 sm:px-10 lg:px-20">
+      <section id="commerce" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">Commerces locaux</p>
@@ -491,7 +552,7 @@ export default function TarifsPage() {
         </div>
       </section>
 
-      <section className="px-6 py-16 sm:px-10 lg:px-20">
+      <section id="tpe-pme" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">TPE / PME</p>
@@ -511,7 +572,7 @@ export default function TarifsPage() {
         </div>
       </section>
 
-      <section className="px-6 py-16 sm:px-10 lg:px-20">
+      <section id="startup" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">Startups</p>
@@ -626,6 +687,176 @@ export default function TarifsPage() {
           </div>
         </div>
       </section>
+
+      {selectedPack && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
+          <button
+            type="button"
+            aria-label="Fermer la fenêtre"
+            onClick={closeOfferModal}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          />
+
+          <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-2xl shadow-black/30 sm:p-8">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-black/40">
+                  Demande d’offre
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-black">
+                  {selectedPack.name}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-black/60">
+                  {selectedPack.category} · Mise en place {selectedPack.setupPrice} · Abonnement {selectedPack.monthlyPrice}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeOfferModal}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/10 text-xl leading-none text-black transition hover:bg-black hover:text-white"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="mt-6 rounded-2xl bg-[#f7f4ef] p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-black/40">
+                Offre préremplie
+              </p>
+              <p className="mt-2 text-sm font-semibold text-black">
+                {selectedPack.name}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-black/60">
+                Le formulaire est déjà relié à cette formule. Quand l’envoi sera connecté, tu recevras la demande avec le nom de l’offre choisie.
+              </p>
+            </div>
+
+            {formSent ? (
+              <div className="mt-6 rounded-[1.5rem] bg-black p-6 text-center text-white">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-black">
+                  ✓
+                </div>
+                <h4 className="text-xl font-semibold">Demande préparée</h4>
+                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/65">
+                  Le popup fonctionne côté interface. Il faut maintenant connecter ce formulaire à un service d’envoi pour recevoir les demandes par e-mail.
+                </p>
+                <button
+                  type="button"
+                  onClick={closeOfferModal}
+                  className="mt-6 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black transition hover:bg-white/85"
+                >
+                  Fermer
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleOfferSubmit} className="mt-6 grid gap-4">
+                <input type="hidden" name="offer" value={`${selectedPack.category} - ${selectedPack.name}`} />
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">Nom complet *</span>
+                    <input
+                      required
+                      value={leadForm.name}
+                      onChange={(event) => updateLeadField("name", event.target.value)}
+                      placeholder="Votre nom"
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    />
+                  </label>
+
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">E-mail *</span>
+                    <input
+                      required
+                      type="email"
+                      value={leadForm.email}
+                      onChange={(event) => updateLeadField("email", event.target.value)}
+                      placeholder="vous@email.com"
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    />
+                  </label>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">Téléphone</span>
+                    <input
+                      value={leadForm.phone}
+                      onChange={(event) => updateLeadField("phone", event.target.value)}
+                      placeholder="Votre numéro"
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    />
+                  </label>
+
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">Entreprise</span>
+                    <input
+                      value={leadForm.company}
+                      onChange={(event) => updateLeadField("company", event.target.value)}
+                      placeholder="Nom de l’entreprise"
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    />
+                  </label>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">Type d’activité</span>
+                    <input
+                      value={leadForm.activity}
+                      onChange={(event) => updateLeadField("activity", event.target.value)}
+                      placeholder="Ex : restaurant, BTP, SaaS..."
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    />
+                  </label>
+
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">Objectif principal *</span>
+                    <select
+                      required
+                      value={leadForm.objective}
+                      onChange={(event) => updateLeadField("objective", event.target.value)}
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition focus:border-black/40 focus:bg-white"
+                    >
+                      <option value="">Choisissez un objectif</option>
+                      <option value="Plus d’appels ou de réservations">Plus d’appels ou de réservations</option>
+                      <option value="Plus de devis ou demandes qualifiées">Plus de devis ou demandes qualifiées</option>
+                      <option value="Mieux suivre les prospects">Mieux suivre les prospects</option>
+                      <option value="Lancer ou tester une offre">Lancer ou tester une offre</option>
+                      <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label className="grid gap-2">
+                  <span className="text-xs font-semibold text-black/65">Message</span>
+                  <textarea
+                    rows={4}
+                    value={leadForm.message}
+                    onChange={(event) => updateLeadField("message", event.target.value)}
+                    placeholder="Décrivez brièvement votre besoin."
+                    className="resize-none rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                  />
+                </label>
+
+                <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-xs leading-5 text-black/45">
+                    Aucun paiement maintenant. Cette demande sert à préparer un devis clair.
+                  </p>
+                  <button
+                    type="submit"
+                    className="inline-flex justify-center rounded-full bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-black/85"
+                  >
+                    Envoyer ma demande
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
     </main>
   );
 }
