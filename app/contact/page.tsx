@@ -1,11 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import PhoneInput, {
+  parsePhoneNumber,
+} from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 type ClientType = "" | "commerce" | "tpe-pme" | "startup" | "autre";
+const labelClass = "grid gap-2";
 
+const labelTextClass = "text-sm font-semibold text-black/70";
+
+const fieldClass =
+  "h-12 w-full rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white";
+
+const textareaClass =
+  "min-h-[150px] w-full resize-none rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white";
 type FormState = {
-  name: string;
+  lastname: string;
+  firstname:string
   email: string;
   phone: string;
   company: string;
@@ -15,7 +28,8 @@ type FormState = {
 
 export default function ContactPage() {
   const [form, setForm] = useState<FormState>({
-    name: "",
+    lastname: "",
+    firstname:"",
     email: "",
     phone: "",
     company: "",
@@ -29,14 +43,45 @@ export default function ContactPage() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
 
-    // Ici, tu pourras plus tard connecter le formulaire à un service comme :
-    // Formspree, Resend, EmailJS, Brevo, Make, n8n, Supabase, Firebase ou ton propre backend.
-    console.log("Nouvelle demande de contact :", form);
-    setSubmitted(true);
+  const parsedPhone = parsePhoneNumber(form.phone);
+
+  if (!parsedPhone) {
+    console.error("Numéro invalide");
+    return;
   }
+
+  const payload = {
+    first_name: form.firstname,
+    last_name: form.lastname,
+    email: form.email,
+
+    phone_country_code: `+${parsedPhone.countryCallingCode}`,
+    phone_number: parsedPhone.nationalNumber,
+
+    company_name: form.company || null,
+    project_type: form.clientType,
+    message: form.message,
+  };
+
+  const response = await fetch("/api/contact-requests", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.details || result.error || "Erreur lors de l'envoi");
+  }
+
+  setSubmitted(true);
+}
 
 
   const contactOptions = [
@@ -153,7 +198,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
+      
       {/* Contact form + side info */}
       <section id="formulaire" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_0.8fr]">
@@ -187,59 +232,72 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-5">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-black/70">Nom complet</span>
+                  <label className={labelClass}>
+                    <span className={labelTextClass}>Nom de Famille</span>
                     <input
-                      value={form.name}
-                      onChange={(event) => updateField("name", event.target.value)}
+                      value={form.lastname}
+                      onChange={(event) => updateField("lastname", event.target.value)}
                       required
-                      placeholder="Votre nom"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className={fieldClass}
+                    />
+                  </label>
+                  <label className={labelClass}>
+                    <span className={labelTextClass}>Prénom</span>
+                    <input
+                      value={form.firstname}
+                      onChange={(event) => updateField("firstname", event.target.value)}
+                      required
+                      className={fieldClass}
                     />
                   </label>
 
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-black/70">E-mail</span>
+                </div>
+
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className={labelClass}>
+                    <span className={labelTextClass}>E-mail</span>
                     <input
                       type="email"
                       value={form.email}
                       onChange={(event) => updateField("email", event.target.value)}
                       required
                       placeholder="vous@email.com"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className={fieldClass}
                     />
+                  </label>
+                  <label className={labelClass}>
+                    <span className={labelTextClass}>
+                      Numéro de téléphone *
+                    </span>
+
+                    <div className="phone-input-wrapper rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 transition focus-within:border-black/40 focus-within:bg-white">
+                      <PhoneInput
+                        international
+                        defaultCountry="FR"
+                        value={form.phone}
+                        onChange={(value) => updateField("phone", value || "")}
+                        className="phone-input-custom"
+                      />
+                    </div>
                   </label>
                 </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-black/70">Téléphone</span>
-                    <input
-                      value={form.phone}
-                      onChange={(event) => updateField("phone", event.target.value)}
-                      placeholder="Votre numéro"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
-                    />
-                  </label>
-
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-black/70">Entreprise</span>
+                 <div className="grid gap-5 sm:grid-cols-2">
+                 <label className={labelClass}>
+                    <span className={labelTextClass}>Entreprise</span>
                     <input
                       value={form.company}
                       onChange={(event) => updateField("company", event.target.value)}
                       placeholder="Nom de votre entreprise"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className={fieldClass}
                     />
                   </label>
-                </div>
-
-                <label className="grid gap-2">
-                  <span className="text-sm font-semibold text-black/70">Type de projet</span>
+                <label className={labelClass}>
+                  <span className={labelTextClass}>Type de projet</span>
                   <select
                     value={form.clientType}
                     onChange={(event) => updateField("clientType", event.target.value)}
                     required
-                    className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition focus:border-black/40 focus:bg-white"
+                    className={fieldClass}
                   >
                     <option value="">Sélectionnez une option</option>
                     <option value="commerce">Commerce local</option>
@@ -248,16 +306,16 @@ export default function ContactPage() {
                     <option value="autre">Autre / Je ne sais pas encore</option>
                   </select>
                 </label>
-
-                <label className="grid gap-2">
-                  <span className="text-sm font-semibold text-black/70">Votre message</span>
+                </div>
+                <label className={labelClass}>
+                  <span className={labelTextClass}>Votre message</span>
                   <textarea
                     value={form.message}
                     onChange={(event) => updateField("message", event.target.value)}
                     required
                     rows={6}
                     placeholder="Expliquez votre activité, votre besoin et ce que vous aimeriez améliorer."
-                    className="resize-none rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    className={textareaClass}
                   />
                 </label>
 

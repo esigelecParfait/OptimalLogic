@@ -5,9 +5,12 @@ type QuoteRequestBody = {
   client_type: string;
   offer_code: string;
 
-  contact_full_name: string;
+  contact_first_name: string;
+  contact_last_name: string;
   contact_email: string;
-  contact_phone?: string | null;
+
+  phone_country_code: string;
+  phone_number: string;
 
   business_name?: string | null;
   business_city: string;
@@ -45,9 +48,12 @@ export async function POST(request: Request) {
     const client_type = cleanText(body.client_type);
     const offer_code = cleanText(body.offer_code);
 
-    const contact_full_name = cleanText(body.contact_full_name);
+    const contact_first_name = cleanText(body.contact_first_name);
+    const contact_last_name = cleanText(body.contact_last_name);
     const contact_email = cleanText(body.contact_email);
-    const contact_phone = optionalText(body.contact_phone);
+
+    const phone_country_code = cleanText(body.phone_country_code);
+    const phone_number = cleanText(body.phone_number);
 
     const business_name = optionalText(body.business_name);
     const business_city = cleanText(body.business_city);
@@ -59,18 +65,21 @@ export async function POST(request: Request) {
     const consent_rgpd = body.consent_rgpd === true;
 
     if (
-      !client_type ||
-      !offer_code ||
-      !contact_full_name ||
-      !contact_email ||
-      !business_city ||
-      !primary_objective_code
-    ) {
-      return NextResponse.json(
-        { error: "Certains champs obligatoires sont manquants." },
-        { status: 400 }
-      );
-    }
+  !client_type ||
+  !offer_code ||
+  !contact_first_name ||
+  !contact_last_name ||
+  !contact_email ||
+  !phone_country_code ||
+  !phone_number ||
+  !business_city ||
+  !primary_objective_code
+) {
+  return NextResponse.json(
+    { error: "Certains champs obligatoires sont manquants." },
+    { status: 400 }
+  );
+}
 
     if (!allowedClientTypes.has(client_type)) {
       return NextResponse.json(
@@ -94,35 +103,43 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await supabaseAdmin
-      .from("quote_requests")
-      .insert({
-        client_type,
-        offer_code,
+  .from("quote_requests")
+  .insert({
+    client_type,
+    offer_code,
 
-        contact_full_name,
-        contact_email,
-        contact_phone,
+    contact_first_name,
+    contact_last_name,
+    contact_email,
 
-        business_name,
-        business_city,
-        business_sector,
+    phone_country_code,
+    phone_number,
 
-        primary_objective_code,
-        need_description,
+    business_name,
+    business_city,
+    business_sector,
 
-        consent_rgpd,
-      })
-      .select("id, created_at")
-      .single();
+    primary_objective_code,
+    need_description,
 
-    if (error) {
-      console.error("Erreur Supabase quote_requests:", error);
+    consent_rgpd,
+  })
+  .select("id, created_at")
+  .single();
 
-      return NextResponse.json(
-        { error: "Impossible d'enregistrer la demande." },
-        { status: 500 }
-      );
-    }
+   if (error) {
+  console.error("Erreur Supabase quote_requests:", error);
+
+  return NextResponse.json(
+    {
+      error: "Impossible d'enregistrer la demande.",
+      details: error.message,
+      code: error.code,
+      hint: error.hint,
+    },
+    { status: 500 }
+  );
+}
 
     return NextResponse.json(
       {

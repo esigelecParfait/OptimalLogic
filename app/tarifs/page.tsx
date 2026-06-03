@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import PhoneInput, {
+  parsePhoneNumber,
+} from "react-phone-number-input";
 
+import "react-phone-number-input/style.css";
 type PricingPack = {
   name: string;
   category: string;
@@ -17,9 +21,10 @@ type PricingPack = {
 };
 
 type OfferRequestForm = {
-  name: string;
+  lastname: string;
+  firstname : string 
   email: string;
-  phone: string;
+  phoneFullNumber: string;
   company: string;
   businessCity: string;
   activity: string;
@@ -34,9 +39,10 @@ export default function TarifsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [leadForm, setLeadForm] = useState<OfferRequestForm>({
-    name: "",
+    lastname: "",
+    firstname: "",
     email: "",
-    phone: "",
+    phoneFullNumber: "",
     company: "",
     businessCity: "",
     activity: "",
@@ -87,14 +93,22 @@ export default function TarifsPage() {
   if (!selectedPack) {
     return;
   }
+  const parsedPhone = parsePhoneNumber(leadForm.phoneFullNumber);
 
+if (!parsedPhone) {
+  setFormError("Le numéro de téléphone est invalide.");
+  setIsSubmitting(false);
+  return;
+}
   const payload = {
     client_type: getClientType(selectedPack.category),
     offer_code: getOfferCode(selectedPack.name),
 
-    contact_full_name: leadForm.name,
+    contact_last_name: leadForm.lastname,
+    contact_first_name:leadForm.firstname,
     contact_email: leadForm.email,
-    contact_phone: leadForm.phone || null,
+    phone_country_code: `+${parsedPhone.countryCallingCode}`,
+    phone_number: parsedPhone.nationalNumber,
 
     business_name: leadForm.company || null,
     business_city: leadForm.businessCity,
@@ -107,8 +121,22 @@ export default function TarifsPage() {
   };
 
   console.log("Nouvelle demande d'offre :", payload);
+  const response = await fetch("/api/quote-requests", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(payload),
+});
+ const result = await response.json();
 
-  setFormSent(true);
+console.log("Status API :", response.status);
+console.log("Réponse API complète :", result);
+
+if (!response.ok) {
+  throw new Error(result.error || "Erreur lors de l'envoi");
+}
+setFormSent(true);
 }
 
   const commercePacks: PricingPack[] = [
@@ -757,9 +785,6 @@ export default function TarifsPage() {
               <p className="mt-2 text-sm font-semibold text-black">
                 {selectedPack.name}
               </p>
-              <p className="mt-1 text-xs leading-5 text-black/60">
-                Le formulaire est déjà relié à cette formule. Quand l’envoi sera connecté, tu recevras la demande avec le nom de l’offre choisie.
-              </p>
             </div>
 
             {formSent ? (
@@ -785,16 +810,28 @@ export default function TarifsPage() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">Nom complet *</span>
+                    <span className="text-xs font-semibold text-black/65">Nom de Famille *</span>
                     <input
                       required
-                      value={leadForm.name}
-                      onChange={(event) => updateLeadField("name", event.target.value)}
+                      value={leadForm.lastname}
+                      onChange={(event) => updateLeadField("lastname", event.target.value)}
                       placeholder="Votre nom"
                       className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
                     />
                   </label>
+                  <label className="grid gap-2">
+                    <span className="text-xs font-semibold text-black/65">Prénom *</span>
+                    <input
+                      required
+                      value={leadForm.firstname}
+                      onChange={(event) => updateLeadField("firstname", event.target.value)}
+                      placeholder="Votre nom"
+                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    />
+                  </label>
+                </div>
 
+                <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
                     <span className="text-xs font-semibold text-black/65">E-mail *</span>
                     <input
@@ -806,20 +843,24 @@ export default function TarifsPage() {
                       className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
                     />
                   </label>
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">Téléphone</span>
-                    <input
-                      value={leadForm.phone}
-                      onChange={(event) => updateLeadField("phone", event.target.value)}
-                      placeholder="Votre numéro"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
-                    />
+                    <span className="text-xs font-semibold text-black/65">
+                      Numéro de téléphone *
+                    </span>
+
+                    <div className="phone-input-wrapper rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 transition focus-within:border-black/40 focus-within:bg-white">
+                      <PhoneInput
+                        international
+                        defaultCountry="FR"
+                        value={leadForm.phoneFullNumber}
+                        onChange={(value) => updateLeadField("phoneFullNumber", value || "")}
+                        className="phone-input-custom"
+                      />
+                    </div>
                   </label>
-
-                  <label className="grid gap-2">
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                     <label className="grid gap-2">
                     <span className="text-xs font-semibold text-black/65">Entreprise</span>
                     <input
                       value={leadForm.company}
@@ -828,8 +869,6 @@ export default function TarifsPage() {
                       className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
                     />
                   </label>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
                     <label className="grid gap-2">
                       <span className="text-xs font-semibold text-black/65">Ville du business *</span>
                         <input
@@ -840,8 +879,9 @@ export default function TarifsPage() {
                         className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
                         />
                     </label>
-
-                    <label className="grid gap-2">
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                   <label className="grid gap-2">
                       <span className="text-xs font-semibold text-black/65">Type d’activité</span>
                         <input
                         value={leadForm.activity}
@@ -850,18 +890,6 @@ export default function TarifsPage() {
                         className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
                       />
                     </label>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">Type d’activité</span>
-                    <input
-                      value={leadForm.activity}
-                      onChange={(event) => updateLeadField("activity", event.target.value)}
-                      placeholder="Ex : restaurant, BTP, SaaS..."
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
-                    />
-                  </label>
-
                   <label className="grid gap-2">
                     <span className="text-xs font-semibold text-black/65">Objectif principal *</span>
                     <select
