@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 type PricingPack = {
   name: string;
@@ -21,22 +21,28 @@ type OfferRequestForm = {
   email: string;
   phone: string;
   company: string;
+  businessCity: string;
   activity: string;
   objective: string;
   message: string;
+  consentRgpd: boolean;
 };
 
 export default function TarifsPage() {
   const [selectedPack, setSelectedPack] = useState<PricingPack | null>(null);
   const [formSent, setFormSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const [leadForm, setLeadForm] = useState<OfferRequestForm>({
     name: "",
     email: "",
     phone: "",
     company: "",
+    businessCity: "",
     activity: "",
     objective: "",
-    message: ""
+    message: "",
+    consentRgpd: false
   });
 
   function openOfferModal(pack: PricingPack) {
@@ -53,29 +59,57 @@ export default function TarifsPage() {
     setFormSent(false);
   }
 
-  function updateLeadField(field: keyof OfferRequestForm, value: string) {
-    setLeadForm((current) => ({ ...current, [field]: value }));
+  function updateLeadField<K extends keyof OfferRequestForm>(
+  field: K,
+  value: OfferRequestForm[K]
+) {
+  setLeadForm((current) => ({ ...current, [field]: value }));
+}
+  function getClientType(category: string) {
+  if (category === "Commerce local") return "commerce";
+  if (category === "TPE / PME") return "tpe_pme";
+  if (category === "Startup") return "startup";
+
+  return "commerce";
+}
+
+  function getOfferCode(packName: string) {
+    return packName
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+  }
+  async function handleOfferSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+
+  if (!selectedPack) {
+    return;
   }
 
-  function handleOfferSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const payload = {
+    client_type: getClientType(selectedPack.category),
+    offer_code: getOfferCode(selectedPack.name),
 
-    const payload = {
-      selectedOffer: selectedPack
-        ? {
-            name: selectedPack.name,
-            category: selectedPack.category,
-            setupPrice: selectedPack.setupPrice,
-            monthlyPrice: selectedPack.monthlyPrice
-          }
-        : null,
-      lead: leadForm
-    };
+    contact_full_name: leadForm.name,
+    contact_email: leadForm.email,
+    contact_phone: leadForm.phone || null,
 
-    // À connecter plus tard à une API Next.js, Formspree, Resend, Brevo, Make ou n8n.
-    console.log("Nouvelle demande d'offre :", payload);
-    setFormSent(true);
-  }
+    business_name: leadForm.company || null,
+    business_city: leadForm.businessCity,
+    business_sector: leadForm.activity || null,
+
+    primary_objective_code: leadForm.objective,
+    need_description: leadForm.message || null,
+
+    consent_rgpd: leadForm.consentRgpd
+  };
+
+  console.log("Nouvelle demande d'offre :", payload);
+
+  setFormSent(true);
+}
 
   const commercePacks: PricingPack[] = [
     {
@@ -365,11 +399,7 @@ export default function TarifsPage() {
           pack.highlighted ? "border-black bg-black text-white" : "border-black/10 bg-white text-black"
         }`}
       >
-        {pack.highlighted && (
-          <div className="absolute right-5 top-5 rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold text-black">
-            Recommandé
-          </div>
-        )}
+        
 
         <div className="pr-24">
           <p className={`text-xs font-semibold uppercase tracking-[0.22em] ${pack.highlighted ? "text-white/45" : "text-black/40"}`}>
@@ -737,9 +767,9 @@ export default function TarifsPage() {
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-black">
                   ✓
                 </div>
-                <h4 className="text-xl font-semibold">Demande préparée</h4>
+                <h4 className="text-xl font-semibold">Demande  envoyée</h4>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/65">
-                  Le popup fonctionne côté interface. Il faut maintenant connecter ce formulaire à un service d’envoi pour recevoir les demandes par e-mail.
+                  Votre demande a bien été enregistrée. Nous reviendrons vers vous rapidement avec une proposition adaptée. 
                 </p>
                 <button
                   type="button"
@@ -799,7 +829,28 @@ export default function TarifsPage() {
                     />
                   </label>
                 </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="grid gap-2">
+                      <span className="text-xs font-semibold text-black/65">Ville du business *</span>
+                        <input
+                        required
+                        value={leadForm.businessCity}
+                        onChange={(event) => updateLeadField("businessCity", event.target.value)}
+                        placeholder="Ex : Rouen, Paris, Lyon..."
+                        className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                        />
+                    </label>
 
+                    <label className="grid gap-2">
+                      <span className="text-xs font-semibold text-black/65">Type d’activité</span>
+                        <input
+                        value={leadForm.activity}
+                        onChange={(event) => updateLeadField("activity", event.target.value)}
+                        placeholder="Ex : restaurant, BTP, SaaS..."
+                        className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      />
+                    </label>
+                </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
                     <span className="text-xs font-semibold text-black/65">Type d’activité</span>
@@ -820,11 +871,11 @@ export default function TarifsPage() {
                       className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition focus:border-black/40 focus:bg-white"
                     >
                       <option value="">Choisissez un objectif</option>
-                      <option value="Plus d’appels ou de réservations">Plus d’appels ou de réservations</option>
-                      <option value="Plus de devis ou demandes qualifiées">Plus de devis ou demandes qualifiées</option>
-                      <option value="Mieux suivre les prospects">Mieux suivre les prospects</option>
-                      <option value="Lancer ou tester une offre">Lancer ou tester une offre</option>
-                      <option value="Je ne sais pas encore">Je ne sais pas encore</option>
+                      <option value="plus_appels_reservations">Plus d’appels ou de réservations</option>
+                      <option value="plus_devis_qualifies">Plus de devis ou demandes qualifiées</option>
+                      <option value="mieux_suivre_prospects">Mieux suivre les prospects</option>
+                      <option value="lancer_tester_offre">Lancer ou tester une offre</option>
+                      <option value="incertain">Je ne sais pas encore</option>
                     </select>
                   </label>
                 </div>
@@ -839,16 +890,34 @@ export default function TarifsPage() {
                     className="resize-none rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
                   />
                 </label>
-
+                {formError && (
+                  <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-700">
+                    {formError}
+                  </div>
+                )}
                 <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-xs leading-5 text-black/45">
                     Aucun paiement maintenant. Cette demande sert à préparer un devis clair.
                   </p>
+                  <label className="flex items-start gap-3 rounded-2xl border border-black/10 bg-white/60 p-4 text-xs leading-5 text-black/60">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={leadForm.consentRgpd}
+                        onChange={(event) => updateLeadField("consentRgpd", event.target.checked)}
+                        className="mt-1 h-4 w-4 rounded border-black/20"
+                      />
+
+                      <span>
+                        J’accepte que mes informations soient utilisées pour être recontacté concernant ma demande.
+                      </span>
+                    </label>
                   <button
                     type="submit"
-                    className="inline-flex justify-center rounded-full bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-black/85"
+                    disabled={isSubmitting}
+                    className="inline-flex justify-center rounded-full bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    Envoyer ma demande
+                    {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
                   </button>
                 </div>
               </form>
