@@ -21,20 +21,28 @@ export default function CookieConsent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>(defaultPreferences);
 
+  function applyPreferences(nextPreferences: CookiePreferences) {
+    window.dispatchEvent(
+      new CustomEvent("cookie-consent-updated", {
+        detail: nextPreferences,
+      })
+    );
+  }
+
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
 
     if (!saved) {
-      setIsVisible(true);
+      window.setTimeout(() => setIsVisible(true), 0);
       return;
     }
 
     try {
       const parsed = JSON.parse(saved) as CookiePreferences;
-      setPreferences(parsed);
+      window.setTimeout(() => setPreferences(parsed), 0);
       applyPreferences(parsed);
     } catch {
-      setIsVisible(true);
+      window.setTimeout(() => setIsVisible(true), 0);
     }
   }, []);
 
@@ -73,19 +81,6 @@ export default function CookieConsent() {
       chatbot: false,
       marketing: false,
     });
-  }
-
-  function applyPreferences(nextPreferences: CookiePreferences) {
-    window.dispatchEvent(
-      new CustomEvent("cookie-consent-updated", {
-        detail: nextPreferences,
-      })
-    );
-
-    // Exemple d’usage :
-    // - Charger Google Analytics uniquement si nextPreferences.analytics === true
-    // - Charger Chatbase uniquement si nextPreferences.chatbot === true
-    // - Charger Meta Pixel uniquement si nextPreferences.marketing === true
   }
 
   if (!isVisible) {

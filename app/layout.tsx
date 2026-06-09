@@ -5,7 +5,7 @@ import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OptimaalLogic",
+  title: "OptimalLogic",
   description:
     "Nous aidons les professionnels à être mieux trouvés, mieux compris et plus facilement choisis grâce à Google Business, site web, prise de rendez-vous et assistant IA.",
 };

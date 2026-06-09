@@ -1,0 +1,15 @@
+Architecture de notre BDD:
+Tables:Clients,demandes,offres,administrateurs,clients_services,
+services_step,support_ticket,tracking marketing
+Comment les données seront chaque ajoutées dans chaque table:
+Quand un visiteur du site remplit le formulaire de la page tarif ou contact, un client est ajouté dans 
+la table Clients et une demande est enregistrée
+Les offres seront directement ajoutées par les administrateurs()
+L'admin général pourra ajouter des administrateurs
+Apres le paiement d'un client, on l'ajoutera dans la table client_serices et on lui enverra un mail 
+pour qu'il puisse créer son mdp afin d'accéder a son espace 
+la table services_step servira a evaluer les états d'avancement de la mise en place de la formule du client
+la table support_ticket servira a enregistrer les demandes faites par nos clients_services
+la table tracking marketing c'est la table marketing
+
+Gestion des Triggers et indexes 
