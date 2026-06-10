@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
-
+import Link from "next/link";
 import "react-phone-number-input/style.css";
 
 type FormState = {
@@ -29,13 +29,13 @@ type ObjectiveOption = {
 
 const labelClass = "grid gap-2";
 
-const labelTextClass = "text-sm font-semibold text-black/70";
+const labelTextClass = "text-sm font-semibold text-slate-700";
 
 const fieldClass =
-  "h-12 w-full rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white";
+  "h-12 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:bg-white focus:ring-4 focus:ring-slate-100";
 
 const textareaClass =
-  "min-h-[150px] w-full resize-none rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white";
+  "min-h-[150px] w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:bg-white focus:ring-4 focus:ring-slate-100";
 
 const objectiveOptions: ObjectiveOption[] = [
   {
@@ -229,16 +229,18 @@ export default function ContactPage() {
         <button
           type="button"
           onClick={() => setObjectiveMenuOpen((current) => !current)}
-          className={`flex h-12 w-full items-center justify-between rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 text-left text-sm outline-none transition focus:border-black/40 focus:bg-white ${
-            form.objective ? "text-black" : "text-black/35"
+          className={`flex h-12 w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 text-left text-sm outline-none transition focus:border-slate-950 focus:bg-white focus:ring-4 focus:ring-slate-100 ${
+            form.objective ? "text-slate-950" : "text-slate-400"
           }`}
         >
-          <span>{selectedObjectiveLabel}</span>
-          <span className="ml-4 text-xs text-black/40">⌄</span>
+          <span className="truncate pr-3">{selectedObjectiveLabel}</span>
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs text-slate-500 shadow-sm">
+            ⌄
+          </span>
         </button>
 
         {objectiveMenuOpen && (
-          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-black/10 bg-white p-2 shadow-xl shadow-black/10">
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
             {objectiveOptions.map((option) => (
               <button
                 key={option.value}
@@ -247,10 +249,10 @@ export default function ContactPage() {
                   updateField("objective", option.value);
                   setObjectiveMenuOpen(false);
                 }}
-                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+                className={`w-full rounded-xl px-3 py-2.5 text-left text-sm transition ${
                   form.objective === option.value
-                    ? "bg-black text-white"
-                    : "text-black/70 hover:bg-[#f7f4ef] hover:text-black"
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
                 }`}
               >
                 {option.label}
@@ -287,75 +289,104 @@ export default function ContactPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f4ef] text-[#171717]">
+    <main className="min-h-screen bg-white text-slate-950">
       <style jsx global>{`
+        .phone-input-wrapper {
+          height: 3rem;
+          display: flex;
+          align-items: center;
+        }
+
         .phone-input-custom {
           width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+
+        .phone-input-custom .PhoneInputCountry {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          margin-right: 0.75rem;
+          padding-right: 0.75rem;
+          border-right: 1px solid rgb(226 232 240);
+        }
+
+        .phone-input-custom .PhoneInputCountrySelect {
+          cursor: pointer;
+        }
+
+        .phone-input-custom .PhoneInputCountrySelectArrow {
+          opacity: 0.55;
+          color: rgb(100 116 139);
         }
 
         .phone-input-custom .PhoneInputInput {
           width: 100%;
+          min-width: 0;
+          height: 100%;
           border: none;
           background: transparent;
+          color: rgb(15 23 42);
           font-size: 0.875rem;
           outline: none;
         }
 
         .phone-input-custom .PhoneInputInput::placeholder {
-          color: rgb(0 0 0 / 0.35);
+          color: rgb(148 163 184);
         }
 
-        .phone-input-custom .PhoneInputCountry {
-          margin-right: 0.75rem;
-        }
-
-        .phone-input-custom .PhoneInputCountrySelectArrow {
-          opacity: 0.45;
+        .phone-input-custom .PhoneInputCountryIcon {
+          border-radius: 0.25rem;
+          overflow: hidden;
+          box-shadow: none;
         }
       `}</style>
 
-      <section className="relative overflow-hidden px-6 py-24 sm:px-10 lg:px-20">
-        <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-black/5 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-[320px] w-[320px] rounded-full bg-black/5 blur-3xl" />
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-slate-200 bg-[radial-gradient(circle_at_top_left,#e2e8f0,transparent_35%),linear-gradient(to_bottom,#ffffff,#f8fafc)]">
+        <div className="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-slate-200/70 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-[320px] w-[320px] rounded-full bg-slate-200/60 blur-3xl" />
 
-        <div className="relative mx-auto max-w-6xl">
-          <div className="mb-6 inline-flex rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm font-medium text-black/70 shadow-sm backdrop-blur">
-            Contact & diagnostic
-          </div>
-
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div className="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
             <div>
-              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-black sm:text-5xl lg:text-7xl">
+              <div className="mb-6 inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 shadow-sm">
+                Contact & diagnostic
+              </div>
+
+              <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
                 Parlons de votre projet digital.
-                <span className="block text-black/55">
+                <span className="block text-slate-500">
                   On vous aide à choisir le bon système.
                 </span>
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-black/65">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
                 Expliquez-nous votre besoin. Nous vous orientons vers la
                 solution adaptée : visibilité locale, site professionnel, suivi
                 client, prise de rendez-vous ou lancement d’offre.
               </p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link
                   href="/prise-de-rdv"
-                  className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
+                  className="inline-flex items-center justify-center rounded-full bg-slate-950 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
                   Réserver un diagnostic gratuit
-                </a>
+                </Link>
                 <a
                   href="#formulaire"
-                  className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-950 transition hover:border-slate-950 hover:bg-slate-950 hover:text-white"
                 >
                   Envoyer une demande
                 </a>
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-black/10 bg-white/80 p-6 shadow-xl shadow-black/5 backdrop-blur">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-2xl shadow-slate-200/80 backdrop-blur">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
                 Pourquoi nous contacter ?
               </p>
 
@@ -363,92 +394,102 @@ export default function ContactPage() {
                 {reasons.map((reason) => (
                   <div
                     key={reason}
-                    className="flex gap-3 rounded-2xl bg-[#f7f4ef] px-4 py-4"
+                    className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-4"
                   >
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black text-xs text-white">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xs text-white">
                       ✓
                     </span>
-                    <p className="text-sm leading-6 text-black/70">
+                    <p className="text-sm leading-6 text-slate-700">
                       {reason}
                     </p>
                   </div>
                 ))}
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-sm font-semibold text-slate-950">
+                  Objectif de l’échange
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Comprendre votre situation, identifier le bon levier et vous
+                  proposer une orientation claire.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="px-6 pb-16 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-10 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
-              Deux options
-            </p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-              Choisissez le chemin le plus simple
-            </h2>
-            <p className="mt-5 text-base leading-7 text-black/65">
-              Prenez rendez-vous si vous voulez échanger directement. Utilisez
-              le formulaire si vous préférez poser votre besoin par écrit.
-            </p>
-          </div>
+      {/* Options */}
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
+            Deux options
+          </p>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            Choisissez le chemin le plus simple.
+          </h2>
+          <p className="mt-5 text-base leading-7 text-slate-600">
+            Prenez rendez-vous si vous voulez échanger directement. Utilisez le
+            formulaire si vous préférez poser votre besoin par écrit.
+          </p>
+        </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            {contactOptions.map((option) => (
-              <article
-                key={option.title}
-                className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 sm:p-8"
+        <div className="grid gap-6 md:grid-cols-2">
+          {contactOptions.map((option) => (
+            <article
+              key={option.title}
+              className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200 sm:p-8"
+            >
+              <h3 className="text-2xl font-bold tracking-tight text-slate-950">
+                {option.title}
+              </h3>
+              <p className="mt-4 text-base leading-7 text-slate-600">
+                {option.description}
+              </p>
+              <a
+                href={option.href}
+                className="mt-8 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
-                <h3 className="text-2xl font-semibold tracking-tight text-black">
-                  {option.title}
-                </h3>
-                <p className="mt-4 text-base leading-7 text-black/65">
-                  {option.description}
-                </p>
-                <a
-                  href={option.href}
-                  className="mt-8 inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
-                >
-                  {option.action}
-                </a>
-              </article>
-            ))}
-          </div>
+                {option.action}
+              </a>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section id="formulaire" className="px-6 py-16 sm:px-10 lg:px-20">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_0.8fr]">
-          <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
+      {/* Form */}
+      <section id="formulaire" className="bg-slate-50 py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-6 lg:grid-cols-[1fr_0.82fr] lg:px-8">
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
             <div className="mb-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
                 Formulaire
               </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Expliquez-nous votre besoin
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                Expliquez-nous votre besoin.
               </h2>
-              <p className="mt-4 text-base leading-7 text-black/65">
+              <p className="mt-4 text-base leading-7 text-slate-600">
                 Votre demande sera enregistrée dans notre système pour être
                 traitée rapidement.
               </p>
             </div>
 
             {submitted ? (
-              <div className="rounded-[2rem] bg-[#f7f4ef] p-8 text-center">
-                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
+              <div className="rounded-[2rem] bg-slate-50 p-8 text-center">
+                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-slate-950 text-white">
                   ✓
                 </div>
-                <h3 className="text-2xl font-semibold text-black">
+                <h3 className="text-2xl font-bold text-slate-950">
                   Votre demande a bien été envoyée.
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-black/65">
+                <p className="mt-3 text-sm leading-6 text-slate-600">
                   Nous avons bien reçu votre demande. Nous reviendrons vers vous
                   rapidement avec une première orientation.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-6 rounded-full border border-black/15 bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
+                  className="mt-6 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:border-slate-950 hover:bg-slate-950 hover:text-white"
                 >
                   Envoyer une autre demande
                 </button>
@@ -503,7 +544,7 @@ export default function ContactPage() {
                       Numéro de téléphone *
                     </span>
 
-                    <div className="phone-input-wrapper rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 transition focus-within:border-black/40 focus-within:bg-white">
+                    <div className="phone-input-wrapper rounded-2xl border border-slate-200 bg-slate-50 px-4 transition focus-within:border-slate-950 focus-within:bg-white focus-within:ring-4 focus-within:ring-slate-100">
                       <PhoneInput
                         international
                         defaultCountry="FR"
@@ -593,7 +634,6 @@ export default function ContactPage() {
                     onChange={(event) =>
                       updateField("message", event.target.value)
                     }
-                    required
                     rows={6}
                     placeholder="Expliquez votre activité, votre besoin et ce que vous aimeriez améliorer."
                     className={textareaClass}
@@ -606,15 +646,14 @@ export default function ContactPage() {
                   </div>
                 )}
 
-                <label className="flex items-start gap-3 rounded-2xl border border-black/10 bg-white/60 p-4 text-xs leading-5 text-black/60">
+                <label className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-600">
                   <input
                     type="checkbox"
-                    required
                     checked={form.consentRgpd}
                     onChange={(event) =>
                       updateField("consentRgpd", event.target.checked)
                     }
-                    className="mt-1 h-4 w-4 rounded border-black/20"
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-950"
                   />
 
                   <span>
@@ -626,7 +665,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="mt-2 inline-flex justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="mt-2 inline-flex justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
                 </button>
@@ -635,31 +674,31 @@ export default function ContactPage() {
           </div>
 
           <aside className="grid gap-6">
-            <div className="rounded-[2rem] bg-black p-6 text-white shadow-sm sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">
+            <div className="rounded-[2rem] bg-slate-950 p-6 text-white shadow-sm sm:p-8">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">
                 Rendez-vous
               </p>
-              <h3 className="mt-4 text-2xl font-semibold tracking-tight">
+              <h3 className="mt-4 text-2xl font-bold tracking-tight">
                 Vous voulez aller plus vite ?
               </h3>
-              <p className="mt-4 text-sm leading-7 text-white/65">
+              <p className="mt-4 text-sm leading-7 text-slate-300">
                 Réservez directement un diagnostic gratuit pour présenter votre
                 activité, clarifier votre besoin et obtenir une première
                 orientation.
               </p>
-              <a
+              <Link
                 href="/prise-de-rdv"
-                className="mt-6 inline-flex w-full justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
+                className="mt-6 inline-flex w-full justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
               >
                 Prendre rendez-vous
-              </a>
+              </Link>
             </div>
 
-            <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
                 Ce qu’il faut préparer
               </p>
-              <ul className="mt-5 grid gap-3 text-sm leading-6 text-black/65">
+              <ul className="mt-5 grid gap-3 text-sm leading-6 text-slate-600">
                 <li>• Votre type d’activité</li>
                 <li>• Votre objectif principal</li>
                 <li>• Ce qui bloque aujourd’hui</li>
@@ -668,35 +707,56 @@ export default function ContactPage() {
                 <li>• Le résultat que vous voulez obtenir</li>
               </ul>
             </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
+                Après l’envoi
+              </p>
+              <div className="mt-5 grid gap-3">
+                {[
+                  "Analyse rapide de votre demande",
+                  "Orientation vers l’offre adaptée",
+                  "Échange si votre besoin doit être précisé",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
           </aside>
         </div>
       </section>
 
-      <section className="px-6 py-20 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-black p-8 text-center text-white sm:p-12 lg:p-16">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">
+      {/* Final CTA */}
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8">
+        <div className="rounded-[2rem] bg-slate-950 p-8 text-center text-white sm:p-12 lg:p-16">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">
             Notre rôle
           </p>
-          <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
+          <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-5xl">
             Transformer votre présence digitale en demandes concrètes.
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/65">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
             Appels, rendez-vous, devis, inscriptions ou prospects qualifiés :
             nous vous aidons à choisir le bon système.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <a
+            <Link
               href="/prise-de-rdv"
-              className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
+              className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
             >
               Réserver un diagnostic gratuit
-            </a>
-            <a
+            </Link>
+            <Link
               href="/services"
-              className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
+              className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
             >
               Revoir nos services
-            </a>
+            </Link>
           </div>
         </div>
       </section>

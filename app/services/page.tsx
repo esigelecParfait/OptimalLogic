@@ -106,55 +106,55 @@ export default function ServicesPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#f7f4ef] text-[#171717]">
+    <main className="min-h-screen bg-white text-slate-950">
       {/* Hero */}
-      <section className="relative overflow-hidden px-6 py-24 sm:px-10 lg:px-20">
-        <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-black/5 blur-3xl" />
+      <section className="relative overflow-hidden border-b border-slate-200 bg-[radial-gradient(circle_at_top_left,#e2e8f0,transparent_35%),linear-gradient(to_bottom,#ffffff,#f8fafc)] px-6 py-24 sm:px-10 lg:px-20">
+        <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-slate-200/70 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-6 inline-flex rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm font-medium text-black/70 shadow-sm backdrop-blur">
+          <div className="mb-6 inline-flex rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur">
             Services digitaux adaptés à chaque entreprise
           </div>
 
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
-              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-black sm:text-5xl lg:text-7xl">
+              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-7xl">
                 Nous ne créons pas seulement une présence digitale.
-                <span className="block text-black/55">Nous construisons un système pour être choisi.</span>
+                <span className="block text-slate-500">Nous construisons un système pour être choisi.</span>
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-black/65">
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600">
                 Chaque entreprise n’a pas le même besoin. Un commerce doit être trouvé rapidement, une TPE/PME doit générer et suivre ses prospects, une startup doit convaincre et prouver sa traction. Nos services sont pensés pour s’adapter à cette réalité.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <a
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
+                  className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
                   Demander un diagnostic
                 </a>
                 <a
                   href="#offres"
-                  className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-950 hover:text-white"
                 >
                   Voir les services
                 </a>
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-black/10 bg-white/80 p-6 shadow-xl shadow-black/5 backdrop-blur">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/80 backdrop-blur">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
                 Notre logique
               </p>
-              <p className="mt-5 text-2xl font-semibold leading-snug text-black">
+              <p className="mt-5 text-2xl font-semibold leading-snug text-slate-950">
                 Le digital doit servir un objectif simple : transformer l’attention en confiance, puis la confiance en action.
               </p>
               <div className="mt-8 grid gap-3">
                 {benefits.map((benefit) => (
-                  <div key={benefit} className="flex items-center gap-3 rounded-2xl bg-[#f7f4ef] px-4 py-3">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-xs text-white">✓</span>
-                    <span className="text-sm font-medium text-black/75">{benefit}</span>
+                  <div key={benefit} className="flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-950 text-xs text-white">✓</span>
+                    <span className="text-sm font-medium text-slate-700">{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -165,15 +165,15 @@ export default function ServicesPage() {
 
       {/* Positioning */}
       <section className="px-6 pb-10 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-black p-8 text-white sm:p-10 lg:p-12">
+        <div className="mx-auto max-w-6xl rounded-[2rem] bg-slate-950 p-8 text-white sm:p-10 lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">Positionnement</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Positionnement</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
                 Une offre différente selon le type de client
               </h2>
             </div>
-            <p className="text-lg leading-8 text-white/70">
+            <p className="text-lg leading-8 text-slate-300">
               Nous ne vendons pas le même digital à tout le monde. Nous adaptons nos outils au comportement réel des clients : recherche rapide pour un commerce, comparaison et demande de devis pour une TPE/PME, validation du marché pour une startup.
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function ServicesPage() {
       <section id="offres" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">Nos services</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Nos services</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
               Trois types d’entreprises, trois systèmes digitaux adaptés
             </h2>
@@ -194,15 +194,15 @@ export default function ServicesPage() {
             {services.map((service, index) => (
               <article
                 key={service.label}
-                className="group rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 sm:p-8 lg:p-10"
+                className="group rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/80 sm:p-8 lg:p-10"
               >
                 <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
                   <div>
                     <div className="mb-6 flex items-center gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-semibold text-white">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
                         {index + 1}
                       </span>
-                      <span className="rounded-full bg-[#f7f4ef] px-4 py-2 text-sm font-semibold text-black/70">
+                      <span className="rounded-full bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-600">
                         {service.label}
                       </span>
                     </div>
@@ -211,43 +211,43 @@ export default function ServicesPage() {
                       {service.title}
                     </h3>
 
-                    <p className="mt-5 text-base leading-7 text-black/65">
+                    <p className="mt-5 text-base leading-7 text-slate-600">
                       {service.description}
                     </p>
 
-                    <div className="mt-6 rounded-3xl bg-[#f7f4ef] p-5">
-                      <p className="text-sm font-semibold text-black">Exemples de clients</p>
-                      <p className="mt-2 text-sm leading-6 text-black/65">{service.examples}</p>
+                    <div className="mt-6 rounded-3xl bg-slate-50 p-5">
+                      <p className="text-sm font-semibold text-slate-950">Exemples de clients</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{service.examples}</p>
                     </div>
 
-                    <div className="mt-5 rounded-3xl border border-black/10 p-5">
-                      <p className="text-sm font-semibold text-black">Objectif</p>
-                      <p className="mt-2 text-sm leading-6 text-black/65">{service.objective}</p>
+                    <div className="mt-5 rounded-3xl border border-slate-200 p-5">
+                      <p className="text-sm font-semibold text-slate-950">Objectif</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{service.objective}</p>
                     </div>
                   </div>
 
                   <div>
-                    <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-black/40">
+                    <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
                       Ce que nous mettons en place
                     </p>
 
                     <div className="grid gap-3 sm:grid-cols-2">
                       {service.features.map((feature) => (
-                        <div key={feature} className="rounded-2xl bg-[#f7f4ef] p-4">
-                          <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-black text-xs text-white">
+                        <div key={feature} className="rounded-2xl bg-slate-50 p-4">
+                          <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-slate-950 text-xs text-white">
                             ✓
                           </div>
-                          <p className="text-sm leading-6 text-black/75">{feature}</p>
+                          <p className="text-sm leading-6 text-slate-700">{feature}</p>
                         </div>
                       ))}
                     </div>
 
-                    <div className="mt-6 rounded-3xl bg-black p-6 text-white">
-                      <p className="text-sm font-semibold text-white/55">Résultat attendu</p>
-                      <p className="mt-3 text-lg font-medium leading-7 text-white/90">{service.result}</p>
+                    <div className="mt-6 rounded-3xl bg-slate-950 p-6 text-white">
+                      <p className="text-sm font-semibold text-slate-400">Résultat attendu</p>
+                      <p className="mt-3 text-lg font-medium leading-7 text-white">{service.result}</p>
                       <a
                         href="/contact"
-                        className="mt-6 inline-flex rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
+                        className="mt-6 inline-flex rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
                       >
                         {service.cta}
                       </a>
@@ -265,25 +265,25 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">Méthode</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Méthode</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
                 Une méthode pensée pour créer du résultat, pas seulement du design
               </h2>
-              <p className="mt-6 text-base leading-7 text-black/65">
+              <p className="mt-6 text-base leading-7 text-slate-600">
                 Un bon outil digital doit répondre à une question simple : qu’est-ce que le client doit faire après vous avoir trouvé ? Appeler, réserver, demander un devis, s’inscrire, demander une démo ou acheter.
               </p>
             </div>
 
             <div className="grid gap-4">
               {method.map((item) => (
-                <div key={item.step} className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm">
+                <div key={item.step} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
                   <div className="flex gap-5">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-black text-sm font-semibold text-white">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
                       {item.step}
                     </span>
                     <div>
-                      <h3 className="text-xl font-semibold text-black">{item.title}</h3>
-                      <p className="mt-3 text-sm leading-7 text-black/65">{item.description}</p>
+                      <h3 className="text-xl font-semibold text-slate-950">{item.title}</h3>
+                      <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
                     </div>
                   </div>
                 </div>
@@ -295,32 +295,32 @@ export default function ServicesPage() {
 
       {/* Comparison */}
       <section className="px-6 py-16 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
+        <div className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
           <div className="mb-8 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">Résumé</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Résumé</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
               Le bon service dépend du vrai besoin de l’entreprise
             </h2>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border border-black/10">
-            <div className="grid bg-black text-sm font-semibold text-white md:grid-cols-3">
+          <div className="overflow-hidden rounded-3xl border border-slate-200">
+            <div className="grid bg-slate-950 text-sm font-semibold text-white md:grid-cols-3">
               <div className="p-5">Commerces</div>
               <div className="border-white/10 p-5 md:border-l">TPE / PME</div>
               <div className="border-white/10 p-5 md:border-l">Startups</div>
             </div>
 
-            <div className="grid text-sm leading-7 text-black/70 md:grid-cols-3">
+            <div className="grid text-sm leading-7 text-slate-600 md:grid-cols-3">
               <div className="p-5">
-                <p className="font-semibold text-black">Être choisi rapidement</p>
+                <p className="font-semibold text-slate-950">Être choisi rapidement</p>
                 <p className="mt-2">Google Business, avis, photos, réservation, messagerie IA et relance avis.</p>
               </div>
-              <div className="border-black/10 p-5 md:border-l">
-                <p className="font-semibold text-black">Générer et suivre les prospects</p>
+              <div className="border-slate-200 p-5 md:border-l">
+                <p className="font-semibold text-slate-950">Générer et suivre les prospects</p>
                 <p className="mt-2">Site web, chatbot, prise de rendez-vous, tableau de suivi et automatisations.</p>
               </div>
-              <div className="border-black/10 p-5 md:border-l">
-                <p className="font-semibold text-black">Tester et prouver la traction</p>
+              <div className="border-slate-200 p-5 md:border-l">
+                <p className="font-semibold text-slate-950">Tester et prouver la traction</p>
                 <p className="mt-2">Landing page, waitlist, démo, CRM, analytics, A/B testing et dashboard.</p>
               </div>
             </div>
@@ -330,26 +330,26 @@ export default function ServicesPage() {
 
       {/* CTA */}
       <section className="px-6 py-20 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-black p-8 text-white sm:p-12 lg:p-16">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-slate-950 p-8 text-white sm:p-12 lg:p-16">
           <div className="grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">Diagnostic</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Diagnostic</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
                 Vous ne savez pas encore quel système digital correspond à votre activité ?
               </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
                 Nous analysons votre activité, vos clients et vos objectifs pour construire une solution adaptée : visibilité locale, génération de prospects ou lancement digital.
               </p>
             </div>
 
-            <div className="rounded-[1.5rem] bg-white p-6 text-black">
+            <div className="rounded-[1.5rem] bg-white p-6 text-slate-950">
               <p className="text-xl font-semibold">Parlons de votre projet</p>
-              <p className="mt-3 text-sm leading-6 text-black/60">
+              <p className="mt-3 text-sm leading-6 text-slate-600">
                 En quelques questions, nous pouvons identifier ce qui bloque aujourd’hui et les outils les plus utiles à mettre en place.
               </p>
               <a
                 href="/contact"
-                className="mt-6 inline-flex w-full justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
+                className="mt-6 inline-flex w-full justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
                 Demander un diagnostic gratuit
               </a>

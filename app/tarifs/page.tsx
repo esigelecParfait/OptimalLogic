@@ -701,16 +701,16 @@ function openOfferModal(pack: PricingPack) {
         <button
           type="button"
           onClick={() => setObjectiveMenuOpen((current) => !current)}
-          className={`flex w-full items-center justify-between rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-left text-sm outline-none transition focus:border-black/40 focus:bg-white ${
-            leadForm.objective ? "text-black" : "text-black/35"
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
+            leadForm.objective ? "text-slate-950" : "text-slate-400"
           }`}
         >
           <span>{selectedObjectiveLabel}</span>
-          <span className="ml-4 text-xs text-black/40">⌄</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
         </button>
 
         {objectiveMenuOpen && (
-          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-black/10 bg-white p-2 shadow-xl shadow-black/10">
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
             {objectiveOptions.map((option) => (
               <button
                 key={option.value}
@@ -721,8 +721,8 @@ function openOfferModal(pack: PricingPack) {
                 }}
                 className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
                   leadForm.objective === option.value
-                    ? "bg-black text-white"
-                    : "text-black/70 hover:bg-[#f7f4ef] hover:text-black"
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
                 }`}
               >
                 {option.label}
@@ -737,16 +737,16 @@ function openOfferModal(pack: PricingPack) {
   function PricingCard({ pack }: { pack: PricingPack }) {
     return (
       <article
-        className={`relative flex h-full flex-col rounded-[2rem] border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 sm:p-7 ${
+        className={`relative flex h-full flex-col rounded-[2rem] border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200 sm:p-7 ${
           pack.highlighted
-            ? "border-black bg-black text-white"
-            : "border-black/10 bg-white text-black"
+            ? "border-slate-950 bg-slate-950 text-white"
+            : "border-slate-200 bg-white text-slate-950"
         }`}
       >
         <div className="pr-24">
           <p
             className={`text-xs font-semibold uppercase tracking-[0.22em] ${
-              pack.highlighted ? "text-white/45" : "text-black/40"
+              pack.highlighted ? "text-white/45" : "text-slate-400"
             }`}
           >
             {pack.category}
@@ -756,7 +756,7 @@ function openOfferModal(pack: PricingPack) {
           </h3>
           <p
             className={`mt-4 text-sm leading-6 ${
-              pack.highlighted ? "text-white/65" : "text-black/60"
+              pack.highlighted ? "text-white/65" : "text-slate-600"
             }`}
           >
             {pack.subtitle}
@@ -766,19 +766,19 @@ function openOfferModal(pack: PricingPack) {
         {pack.target && (
           <div
             className={`mt-6 rounded-2xl p-4 ${
-              pack.highlighted ? "bg-white/10" : "bg-[#f7f4ef]"
+              pack.highlighted ? "bg-white/10" : "bg-slate-50"
             }`}
           >
             <p
               className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${
-                pack.highlighted ? "text-white/40" : "text-black/40"
+                pack.highlighted ? "text-white/40" : "text-slate-400"
               }`}
             >
               Pour qui ?
             </p>
             <p
               className={`mt-2 text-xs leading-5 ${
-                pack.highlighted ? "text-white/70" : "text-black/65"
+                pack.highlighted ? "text-white/70" : "text-slate-600"
               }`}
             >
               {pack.target}
@@ -789,12 +789,12 @@ function openOfferModal(pack: PricingPack) {
         <div className="mt-7 grid gap-3 sm:grid-cols-2">
           <div
             className={`rounded-2xl p-5 ${
-              pack.highlighted ? "bg-white text-black" : "bg-black text-white"
+              pack.highlighted ? "bg-white text-slate-950" : "bg-slate-950 text-white"
             }`}
           >
             <p
               className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${
-                pack.highlighted ? "text-black/45" : "text-white/45"
+                pack.highlighted ? "text-slate-500" : "text-white/45"
               }`}
             >
               Mise en place
@@ -802,7 +802,7 @@ function openOfferModal(pack: PricingPack) {
             <p className="mt-3 text-2xl font-semibold">{pack.setupPrice}</p>
             <p
               className={`mt-1 text-[11px] ${
-                pack.highlighted ? "text-black/45" : "text-white/45"
+                pack.highlighted ? "text-slate-500" : "text-white/45"
               }`}
             >
               paiement projet
@@ -811,12 +811,12 @@ function openOfferModal(pack: PricingPack) {
 
           <div
             className={`rounded-2xl p-5 ${
-              pack.highlighted ? "bg-white/10" : "bg-[#f7f4ef]"
+              pack.highlighted ? "bg-white/10" : "bg-slate-50"
             }`}
           >
             <p
               className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${
-                pack.highlighted ? "text-white/45" : "text-black/45"
+                pack.highlighted ? "text-white/45" : "text-slate-500"
               }`}
             >
               Abonnement
@@ -826,7 +826,7 @@ function openOfferModal(pack: PricingPack) {
             </p>
             <p
               className={`mt-1 text-[11px] ${
-                pack.highlighted ? "text-white/45" : "text-black/45"
+                pack.highlighted ? "text-white/45" : "text-slate-500"
               }`}
             >
               suivi mensuel
@@ -838,12 +838,12 @@ function openOfferModal(pack: PricingPack) {
           className={`mt-7 rounded-[1.5rem] border p-5 ${
             pack.highlighted
               ? "border-white/10 bg-white/5"
-              : "border-black/10 bg-[#fbfaf7]"
+              : "border-slate-200 bg-white"
           }`}
         >
           <p
             className={`text-xs font-semibold uppercase tracking-[0.2em] ${
-              pack.highlighted ? "text-white/50" : "text-black/45"
+              pack.highlighted ? "text-white/50" : "text-slate-500"
             }`}
           >
             Services de mise en place
@@ -854,14 +854,14 @@ function openOfferModal(pack: PricingPack) {
                 <span
                   className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] ${
                     pack.highlighted
-                      ? "bg-white text-black"
-                      : "bg-black text-white"
+                      ? "bg-white text-slate-950"
+                      : "bg-slate-950 text-white"
                   }`}
                 >
                   ✓
                 </span>
                 <span
-                  className={pack.highlighted ? "text-white/70" : "text-black/65"}
+                  className={pack.highlighted ? "text-white/70" : "text-slate-600"}
                 >
                   {item}
                 </span>
@@ -874,12 +874,12 @@ function openOfferModal(pack: PricingPack) {
           className={`mt-4 rounded-[1.5rem] border p-5 ${
             pack.highlighted
               ? "border-white/10 bg-white/5"
-              : "border-black/10 bg-[#f7f4ef]"
+              : "border-slate-200 bg-slate-50"
           }`}
         >
           <p
             className={`text-xs font-semibold uppercase tracking-[0.2em] ${
-              pack.highlighted ? "text-white/50" : "text-black/45"
+              pack.highlighted ? "text-white/50" : "text-slate-500"
             }`}
           >
             Services mensuels
@@ -890,14 +890,14 @@ function openOfferModal(pack: PricingPack) {
                 <span
                   className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] ${
                     pack.highlighted
-                      ? "bg-white text-black"
-                      : "bg-black text-white"
+                      ? "bg-white text-slate-950"
+                      : "bg-slate-950 text-white"
                   }`}
                 >
                   ✓
                 </span>
                 <span
-                  className={pack.highlighted ? "text-white/70" : "text-black/65"}
+                  className={pack.highlighted ? "text-white/70" : "text-slate-600"}
                 >
                   {item}
                 </span>
@@ -908,7 +908,7 @@ function openOfferModal(pack: PricingPack) {
 
         <div
           className={`mt-4 rounded-[1.5rem] p-5 ${
-            pack.highlighted ? "bg-white/10" : "bg-black text-white"
+            pack.highlighted ? "bg-white/10" : "bg-slate-950 text-white"
           }`}
         >
           <p
@@ -929,8 +929,8 @@ function openOfferModal(pack: PricingPack) {
             onClick={() => openOfferModal(pack)}
             className={`inline-flex justify-center rounded-full px-5 py-2.5 text-xs font-semibold transition ${
               pack.highlighted
-                ? "bg-white text-black hover:bg-white/85"
-                : "bg-black text-white hover:bg-black/85"
+                ? "bg-white text-slate-950 hover:bg-white/85"
+                : "bg-slate-950 text-white hover:bg-slate-800"
             }`}
           >
             {pack.cta || "Demander cette formule"}
@@ -940,8 +940,8 @@ function openOfferModal(pack: PricingPack) {
             href="/prise-de-rdv"
             className={`inline-flex justify-center rounded-full border px-5 py-2.5 text-xs font-semibold transition ${
               pack.highlighted
-                ? "border-white/20 text-white hover:bg-white hover:text-black"
-                : "border-black/15 text-black hover:bg-black hover:text-white"
+                ? "border-white/20 text-white hover:bg-white hover:text-slate-950"
+                : "border-slate-300 text-slate-950 hover:bg-slate-950 hover:text-white"
             }`}
           >
             Prendre rendez-vous
@@ -952,7 +952,7 @@ function openOfferModal(pack: PricingPack) {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f4ef] text-[#171717]">
+    <main className="min-h-screen bg-slate-50 text-slate-950">
       <style jsx global>{`
         .phone-input-custom {
           width: 100%;
@@ -967,7 +967,7 @@ function openOfferModal(pack: PricingPack) {
         }
 
         .phone-input-custom .PhoneInputInput::placeholder {
-          color: rgb(0 0 0 / 0.35);
+          color: rgb(148 163 184 / 1);
         }
 
         .phone-input-custom .PhoneInputCountry {
@@ -980,23 +980,23 @@ function openOfferModal(pack: PricingPack) {
       `}</style>
 
       <section className="relative overflow-hidden px-6 py-24 sm:px-10 lg:px-20">
-        <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-black/5 blur-3xl" />
+        <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-slate-200 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-6 inline-flex rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm font-medium text-black/70 shadow-sm backdrop-blur">
+          <div className="mb-6 inline-flex rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur">
             Tarifs & formules
           </div>
 
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
-              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-black sm:text-5xl lg:text-7xl">
+              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-7xl">
                 Choisissez le système digital adapté à votre activité.
-                <span className="block text-black/55">
+                <span className="block text-slate-500">
                   Formules claires. Mise en place + suivi mensuel.
                 </span>
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-black/65">
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600">
                 Comparez les offres, envoyez une demande ou réservez un diagnostic.
                 On vous aide à transformer votre présence digitale en demandes concrètes.
               </p>
@@ -1004,38 +1004,38 @@ function openOfferModal(pack: PricingPack) {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="#commerce"
-                  className="inline-flex justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
+                  className="inline-flex justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
                   Voir les formules
                 </a>
                 <Link
                   href="/prise-de-rdv"
-                  className="inline-flex justify-center rounded-full border border-black/15 bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
+                  className="inline-flex justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-950 hover:text-white"
                 >
                   Prendre rendez-vous
                 </Link>
               </div>
 
               <div className="mt-10">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-black/40">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                   Accès rapide
                 </p>
                 <div className="flex flex-wrap gap-2.5">
                   <a
                     href="#commerce"
-                    className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 text-xs font-semibold text-white transition hover:bg-black/85"
+                    className="inline-flex items-center justify-center rounded-full bg-slate-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
                   >
                     Commerce
                   </a>
                   <a
                     href="#tpe-pme"
-                    className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-black hover:text-white"
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-950 transition hover:bg-slate-950 hover:text-white"
                   >
                     TPE/PME
                   </a>
                   <a
                     href="#startup"
-                    className="inline-flex items-center justify-center rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-black hover:text-white"
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-950 transition hover:bg-slate-950 hover:text-white"
                   >
                     Startup
                   </a>
@@ -1050,21 +1050,21 @@ function openOfferModal(pack: PricingPack) {
               )}
             </div>
 
-            <div className="rounded-[2rem] border border-black/10 bg-white/80 p-6 shadow-xl shadow-black/5 backdrop-blur">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200 backdrop-blur">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
                 Comment lire les prix ?
               </p>
               <div className="mt-6 grid gap-4">
-                <div className="rounded-2xl bg-[#f7f4ef] p-5">
-                  <p className="text-lg font-semibold text-black">
+                <div className="rounded-2xl bg-slate-50 p-5">
+                  <p className="text-lg font-semibold text-slate-950">
                     Mise en place
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-black/65">
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
                     Création, configuration, intégration des outils et
                     construction du parcours digital.
                   </p>
                 </div>
-                <div className="rounded-2xl bg-black p-5 text-white">
+                <div className="rounded-2xl bg-slate-950 p-5 text-white">
                   <p className="text-lg font-semibold">Abonnement mensuel</p>
                   <p className="mt-2 text-sm leading-6 text-white/65">
                     Suivi, maintenance, amélioration, reporting et
@@ -1080,13 +1080,13 @@ function openOfferModal(pack: PricingPack) {
       <section id="commerce" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
               Commerces locaux
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
               Pour être trouvé, rassurer et être choisi rapidement
             </h2>
-            <p className="mt-5 text-base leading-7 text-black/65">
+            <p className="mt-5 text-base leading-7 text-slate-600">
               Deux formules pensées pour les commerces qui dépendent des
               recherches locales, des avis, des appels, des réservations, des
               devis ou des visites physiques.
@@ -1104,13 +1104,13 @@ function openOfferModal(pack: PricingPack) {
       <section id="tpe-pme" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
               TPE / PME
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
               Pour générer des prospects et mieux suivre les demandes
             </h2>
-            <p className="mt-5 text-base leading-7 text-black/65">
+            <p className="mt-5 text-base leading-7 text-slate-600">
               Ces formules transforment le site web en outil commercial :
               présentation claire, prise de contact, chatbot, suivi
               clients/prospects et automatisations simples.
@@ -1128,13 +1128,13 @@ function openOfferModal(pack: PricingPack) {
       <section id="startup" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
               Startups
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
               Pour lancer, tester et mesurer la traction
             </h2>
-            <p className="mt-5 text-base leading-7 text-black/65">
+            <p className="mt-5 text-base leading-7 text-slate-600">
               Ces formules aident les startups à clarifier leur offre, attirer
               les premiers utilisateurs, générer des demandes de démo et suivre
               les signaux de traction.
@@ -1150,7 +1150,7 @@ function openOfferModal(pack: PricingPack) {
       </section>
 
       <section className="px-6 py-16 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-black p-8 text-white shadow-sm sm:p-10 lg:p-12">
+        <div className="mx-auto max-w-6xl rounded-[2rem] bg-slate-950 p-8 text-white shadow-sm sm:p-10 lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">
@@ -1168,13 +1168,13 @@ function openOfferModal(pack: PricingPack) {
             <div className="flex flex-col gap-3 lg:items-end">
               <Link
                 href="/prise-de-rdv"
-                className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
+                className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/85"
               >
                 Prendre rendez-vous
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
+                className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
               >
                 Envoyer une demande écrite
               </Link>
@@ -1184,15 +1184,15 @@ function openOfferModal(pack: PricingPack) {
       </section>
 
       <section className="px-6 py-16 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] border border-black/10 bg-white p-8 shadow-sm sm:p-10 lg:p-12">
+        <div className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10 lg:p-12">
           <div className="mb-10 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
               Paiement
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
               Un processus clair avant de commencer
             </h2>
-            <p className="mt-5 text-base leading-7 text-black/65">
+            <p className="mt-5 text-base leading-7 text-slate-600">
               Un échange, une proposition claire, puis une mise en place cadrée.
             </p>
           </div>
@@ -1201,15 +1201,15 @@ function openOfferModal(pack: PricingPack) {
             {paymentSteps.map((item) => (
               <div
                 key={item.step}
-                className="rounded-[1.5rem] bg-[#f7f4ef] p-5"
+                className="rounded-[1.5rem] bg-slate-50 p-5"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
                   {item.step}
                 </span>
-                <h3 className="mt-5 text-lg font-semibold text-black">
+                <h3 className="mt-5 text-lg font-semibold text-slate-950">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-xs leading-5 text-black/65">
+                <p className="mt-3 text-xs leading-5 text-slate-600">
                   {item.description}
                 </p>
               </div>
@@ -1219,10 +1219,10 @@ function openOfferModal(pack: PricingPack) {
       </section>
 
       <section className="px-6 py-16 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] border border-black/10 bg-white p-8 shadow-sm sm:p-10 lg:p-12">
+        <div className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10 lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
                 Sur mesure
               </p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -1230,7 +1230,7 @@ function openOfferModal(pack: PricingPack) {
               </h2>
             </div>
             <div>
-              <p className="text-lg leading-8 text-black/65">
+              <p className="text-lg leading-8 text-slate-600">
                 Certaines entreprises ont besoin d’un accompagnement spécifique
                 : outils déjà en place, équipe interne, processus complexe,
                 plusieurs points de contact, automatisations avancées ou besoin
@@ -1239,7 +1239,7 @@ function openOfferModal(pack: PricingPack) {
               </p>
               <Link
                 href="/contact"
-                className="mt-8 inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
+                className="mt-8 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
                 Demander une offre sur mesure
               </Link>
@@ -1251,7 +1251,7 @@ function openOfferModal(pack: PricingPack) {
       <section className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black/45">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
               Questions fréquentes
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
@@ -1263,12 +1263,12 @@ function openOfferModal(pack: PricingPack) {
             {faqs.map((faq) => (
               <div
                 key={faq.question}
-                className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-sm sm:p-8"
+                className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
               >
-                <h3 className="text-xl font-semibold tracking-tight text-black">
+                <h3 className="text-xl font-semibold tracking-tight text-slate-950">
                   {faq.question}
                 </h3>
-                <p className="mt-4 text-sm leading-7 text-black/65">
+                <p className="mt-4 text-sm leading-7 text-slate-600">
                   {faq.answer}
                 </p>
               </div>
@@ -1278,7 +1278,7 @@ function openOfferModal(pack: PricingPack) {
       </section>
 
       <section className="px-6 py-20 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-black p-8 text-center text-white sm:p-12 lg:p-16">
+        <div className="mx-auto max-w-6xl rounded-[2rem] bg-slate-950 p-8 text-center text-white sm:p-12 lg:p-16">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">
             Diagnostic
           </p>
@@ -1293,13 +1293,13 @@ function openOfferModal(pack: PricingPack) {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/prise-de-rdv"
-              className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
+              className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/85"
             >
               Réserver un diagnostic gratuit
             </Link>
             <Link
               href="/services"
-              className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
+              className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
             >
               Revoir nos services
             </Link>
@@ -1313,19 +1313,19 @@ function openOfferModal(pack: PricingPack) {
             type="button"
             aria-label="Fermer la fenêtre"
             onClick={closeOfferModal}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
           />
 
-          <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-2xl shadow-black/30 sm:p-8">
+          <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] bg-white p-6 shadow-2xl shadow-slate-950/20 sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-black/40">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
                   Demande d’offre
                 </p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-black">
+                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">
                   {selectedPack.name}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-black/60">
+                <p className="mt-2 text-sm leading-6 text-slate-600">
                   {selectedPack.category} · Mise en place{" "}
                   {selectedPack.setupPrice} · Abonnement{" "}
                   {selectedPack.monthlyPrice}
@@ -1335,27 +1335,27 @@ function openOfferModal(pack: PricingPack) {
               <button
                 type="button"
                 onClick={closeOfferModal}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/10 text-xl leading-none text-black transition hover:bg-black hover:text-white"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-xl leading-none text-slate-950 transition hover:bg-slate-950 hover:text-white"
               >
                 ×
               </button>
             </div>
 
-            <div className="mt-6 rounded-2xl bg-[#f7f4ef] p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-black/40">
+            <div className="mt-6 rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
                 Offre préremplie
               </p>
-              <p className="mt-2 text-sm font-semibold text-black">
+              <p className="mt-2 text-sm font-semibold text-slate-950">
                 {selectedPack.name}
               </p>
-              <p className="mt-1 text-xs text-black/45">
+              <p className="mt-1 text-xs text-slate-500">
                 Code offre : {selectedPack.code}
               </p>
             </div>
 
             {formSent ? (
-              <div className="mt-6 rounded-[1.5rem] bg-black p-6 text-center text-white">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-black">
+              <div className="mt-6 rounded-[1.5rem] bg-slate-950 p-6 text-center text-white">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950">
                   ✓
                 </div>
                 <h4 className="text-xl font-semibold">Demande envoyée</h4>
@@ -1366,7 +1366,7 @@ function openOfferModal(pack: PricingPack) {
                 <button
                   type="button"
                   onClick={closeOfferModal}
-                  className="mt-6 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-black transition hover:bg-white/85"
+                  className="mt-6 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-slate-950 transition hover:bg-white/85"
                 >
                   Fermer
                 </button>
@@ -1375,59 +1375,59 @@ function openOfferModal(pack: PricingPack) {
               <form onSubmit={handleOfferSubmit} className="mt-6 grid gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Nom de famille *
                     </span>
                     <input
-                      required
+                      
                       value={leadForm.lastname}
                       onChange={(event) =>
                         updateLeadField("lastname", event.target.value)
                       }
                       placeholder="Votre nom"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
 
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Prénom *
                     </span>
                     <input
-                      required
+                      
                       value={leadForm.firstname}
                       onChange={(event) =>
                         updateLeadField("firstname", event.target.value)
                       }
                       placeholder="Votre prénom"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       E-mail *
                     </span>
                     <input
-                      required
+                      
                       type="email"
                       value={leadForm.email}
                       onChange={(event) =>
                         updateLeadField("email", event.target.value)
                       }
                       placeholder="vous@email.com"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
 
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Numéro de téléphone *
                     </span>
 
-                    <div className="phone-input-wrapper rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 transition focus-within:border-black/40 focus-within:bg-white">
+                    <div className="phone-input-wrapper rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition focus-within:border-slate-400 focus-within:bg-white">
                       <PhoneInput
                         international
                         defaultCountry="FR"
@@ -1443,7 +1443,7 @@ function openOfferModal(pack: PricingPack) {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Entreprise
                     </span>
                     <input
@@ -1452,12 +1452,12 @@ function openOfferModal(pack: PricingPack) {
                         updateLeadField("company", event.target.value)
                       }
                       placeholder="Nom de l’entreprise"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
 
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Ville du business
                     </span>
                     <input
@@ -1466,14 +1466,14 @@ function openOfferModal(pack: PricingPack) {
                         updateLeadField("businessCity", event.target.value)
                       }
                       placeholder="Ex : Rouen, Paris, Lyon..."
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Type d’activité
                     </span>
                     <input
@@ -1482,13 +1482,13 @@ function openOfferModal(pack: PricingPack) {
                         updateLeadField("activity", event.target.value)
                       }
                       placeholder="Ex : restaurant, BTP, SaaS..."
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
 
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
-                      Objectif principal *
+                    <span className="text-xs font-semibold text-slate-600">
+                      Objectif principal 
                     </span>
                     <ObjectiveDropdown />
                   </label>
@@ -1496,7 +1496,7 @@ function openOfferModal(pack: PricingPack) {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Site web actuel
                     </span>
                     <input
@@ -1509,12 +1509,12 @@ function openOfferModal(pack: PricingPack) {
                         )
                       }
                       placeholder="https://www.votre-site.com"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
 
                   <label className="grid gap-2">
-                    <span className="text-xs font-semibold text-black/65">
+                    <span className="text-xs font-semibold text-slate-600">
                       Lien Google Business
                     </span>
                     <input
@@ -1527,13 +1527,13 @@ function openOfferModal(pack: PricingPack) {
                         )
                       }
                       placeholder="Lien vers votre fiche Google Business"
-                      className="rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                     />
                   </label>
                 </div>
 
                 <label className="grid gap-2">
-                  <span className="text-xs font-semibold text-black/65">
+                  <span className="text-xs font-semibold text-slate-600">
                     Message
                   </span>
                   <textarea
@@ -1543,7 +1543,7 @@ function openOfferModal(pack: PricingPack) {
                       updateLeadField("message", event.target.value)
                     }
                     placeholder="Décrivez brièvement votre besoin."
-                    className="resize-none rounded-2xl border border-black/10 bg-[#f7f4ef] px-4 py-3 text-sm outline-none transition placeholder:text-black/35 focus:border-black/40 focus:bg-white"
+                    className="resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                   />
                 </label>
 
@@ -1554,20 +1554,20 @@ function openOfferModal(pack: PricingPack) {
                 )}
 
                 <div className="mt-2 grid gap-3">
-                  <p className="text-xs leading-5 text-black/45">
+                  <p className="text-xs leading-5 text-slate-500">
                     Aucun paiement maintenant. Cette demande sert à préparer un
                     devis clair.
                   </p>
 
-                  <label className="flex items-start gap-3 rounded-2xl border border-black/10 bg-white/60 p-4 text-xs leading-5 text-black/60">
+                  <label className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/60 p-4 text-xs leading-5 text-slate-600">
                     <input
                       type="checkbox"
-                      required
+                      
                       checked={leadForm.consentRgpd}
                       onChange={(event) =>
                         updateLeadField("consentRgpd", event.target.checked)
                       }
-                      className="mt-1 h-4 w-4 rounded border-black/20"
+                      className="mt-1 h-4 w-4 rounded border-slate-950/20"
                     />
 
                     <span>
@@ -1580,7 +1580,7 @@ function openOfferModal(pack: PricingPack) {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex justify-center rounded-full bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-black/85 disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex justify-center rounded-full bg-slate-950 px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
                     </button>
