@@ -152,7 +152,7 @@ const baseCommercePacks: PricingPack[] = [
     ],
     result:
       "Une gestion digitale plus organisée pour suivre les demandes, mieux répartir les informations et réduire les clients perdus.",
-    cta: "Choisir le Premium",
+    cta: "Demander cette formule",
   },
 ];
 
@@ -548,27 +548,46 @@ export default function TarifsPage() {
     setLeadForm((current) => ({ ...current, [field]: value }));
   }
 
-  function openOfferModal(pack: PricingPack) {
-    setSelectedPack(pack);
-    setFormSent(false);
-    setFormError(null);
-    setObjectiveMenuOpen(false);
+  function getDefaultOfferMessage(packName: string) {
+  return `Bonjour, je suis intéressé(e) par la formule ${packName}.`;
+}
 
-    setLeadForm((current) => ({
+function isDefaultOfferMessage(message: string) {
+  return /^Bonjour, je suis intéressé\(e\) par la formule .+\.$/.test(
+    message.trim()
+  );
+}
+
+function openOfferModal(pack: PricingPack) {
+  console.log("Clic formule :", pack.name);
+  setSelectedPack(pack);
+  setFormSent(false);
+  setIsSubmitting(false);
+  setFormError(null);
+  setObjectiveMenuOpen(false);
+
+  setLeadForm((current) => {
+    const currentMessage = current.message.trim();
+    const shouldReplaceMessage =
+      currentMessage.length === 0 || isDefaultOfferMessage(currentMessage);
+
+    return {
       ...current,
-      message:
-        current.message ||
-        `Bonjour, je suis intéressé(e) par la formule ${pack.name}.`,
-    }));
-  }
+      message: shouldReplaceMessage
+        ? getDefaultOfferMessage(pack.name)
+        : current.message,
+      consentRgpd: false,
+    };
+  });
+}
 
   function closeOfferModal() {
-    setSelectedPack(null);
-    setFormSent(false);
-    setFormError(null);
-    setObjectiveMenuOpen(false);
-  }
-
+  setSelectedPack(null);
+  setFormSent(false);
+  setIsSubmitting(false);
+  setFormError(null);
+  setObjectiveMenuOpen(false);
+}
   async function handleOfferSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -897,7 +916,7 @@ export default function TarifsPage() {
                 : "bg-black text-white hover:bg-black/85"
             }`}
           >
-            {pack.cta || "Demander cette offre"}
+            {pack.cta || "Demander cette formule"}
           </button>
 
           <a
