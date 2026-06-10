@@ -2,6 +2,7 @@
 //on importe les biblio
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
+import Link from "next/link";
 
 import "react-phone-number-input/style.css";
 // type des elements qui caracterise un pack
@@ -475,7 +476,23 @@ export default function TarifsPage() {
     message: "",
     consentRgpd: false,
   });
+  useEffect(() => {
+  function resetPageAfterBrowserBack(event: PageTransitionEvent) {
+    if (event.persisted) {
+      setSelectedPack(null);
+      setFormSent(false);
+      setIsSubmitting(false);
+      setFormError(null);
+      setObjectiveMenuOpen(false);
+    }
+  }
 
+  window.addEventListener("pageshow", resetPageAfterBrowserBack);
+
+  return () => {
+    window.removeEventListener("pageshow", resetPageAfterBrowserBack);
+  };
+}, []);
   useEffect(() => {
     async function loadOffers() {
       try {
@@ -504,7 +521,7 @@ export default function TarifsPage() {
 
     loadOffers();
   }, []);
-
+  
   function applyDatabaseOffer(pack: PricingPack): PricingPack {
     const matchingOffer = databaseOffers.find(
       (offer) => offer.code === pack.code
@@ -919,7 +936,7 @@ function openOfferModal(pack: PricingPack) {
             {pack.cta || "Demander cette formule"}
           </button>
 
-          <a
+          <Link
             href="/prise-de-rdv"
             className={`inline-flex justify-center rounded-full border px-5 py-2.5 text-xs font-semibold transition ${
               pack.highlighted
@@ -928,7 +945,7 @@ function openOfferModal(pack: PricingPack) {
             }`}
           >
             Prendre rendez-vous
-          </a>
+          </Link>
         </div>
       </article>
     );
@@ -991,12 +1008,12 @@ function openOfferModal(pack: PricingPack) {
                 >
                   Voir les formules
                 </a>
-                <a
+                <Link
                   href="/prise-de-rdv"
                   className="inline-flex justify-center rounded-full border border-black/15 bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-white"
                 >
                   Prendre rendez-vous
-                </a>
+                </Link>
               </div>
 
               <div className="mt-10">
@@ -1149,18 +1166,18 @@ function openOfferModal(pack: PricingPack) {
             </div>
 
             <div className="flex flex-col gap-3 lg:items-end">
-              <a
+              <Link
                 href="/prise-de-rdv"
                 className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
               >
                 Prendre rendez-vous
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
                 className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
               >
                 Envoyer une demande écrite
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -1220,12 +1237,12 @@ function openOfferModal(pack: PricingPack) {
                 stratégique. Dans ce cas, nous construisons une proposition sur
                 mesure.
               </p>
-              <a
+              <Link
                 href="/contact"
                 className="mt-8 inline-flex rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/85"
               >
                 Demander une offre sur mesure
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -1274,18 +1291,18 @@ function openOfferModal(pack: PricingPack) {
             adaptée.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <a
+            <Link
               href="/prise-de-rdv"
               className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
             >
               Réserver un diagnostic gratuit
-            </a>
-            <a
+            </Link>
+            <Link
               href="/services"
               className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-black"
             >
               Revoir nos services
-            </a>
+            </Link>
           </div>
         </div>
       </section>
