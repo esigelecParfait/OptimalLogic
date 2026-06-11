@@ -15,6 +15,9 @@ type ClientPayload = {
   business_sector?: string | null;
   business_website_url?: string | null;
   google_business_url?: string | null;
+
+  type_client?: "commerce" | "tpe_pme" | "startup" | "autre" | null;
+
 };
 
 type DemandePayload = {
@@ -41,7 +44,25 @@ type CreateDemandeBody = {
 function cleanText(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
+function isValidTypeClient(value: string | null) {
+  return (
+    value === null ||
+    value === "commerce" ||
+    value === "tpe_pme" ||
+    value === "startup" ||
+    value === "autre"
+  );
+}
 
+function inferTypeClientFromOfferCode(offerCode: string | null) {
+  if (!offerCode) return null;
+
+  if (offerCode.startsWith("commerce_")) return "commerce";
+  if (offerCode.startsWith("tpe_pme_")) return "tpe_pme";
+  if (offerCode.startsWith("startup_")) return "startup";
+
+  return null;
+}
 function cleanNullableText(value: unknown) {
   const cleaned = cleanText(value);
   return cleaned.length > 0 ? cleaned : null;
@@ -99,17 +120,25 @@ export async function POST(request: Request) {
     const businessSector = cleanNullableText(client.business_sector);
     const businessWebsiteUrl = cleanNullableText(client.business_website_url);
     const googleBusinessUrl = cleanNullableText(client.google_business_url);
-
+    let typeClient = cleanNullableText(client.type_client);
     const requestSource = demande.request_source || "contact";
     const offerCode = cleanNullableText(demande.offer_code);
     const objectiveType = cleanNullableText(demande.objective_type);
     const needDescription = cleanNullableText(demande.need_description);
     const consentRgpd = demande.consent_rgpd === true;
-
+    if (!typeClient && offerCode) {
+       typeClient = inferTypeClientFromOfferCode(offerCode);
+}
     if (!contactFirstName) {
       return jsonError("Le prénom est obligatoire.");
     }
+    if (!isValidTypeClient(typeClient)) {
+  return jsonError("Le type de client est invalide.");
+}
 
+    if (requestSource === "contact" && !typeClient) {
+      return jsonError("Le type de client est obligatoire.");
+    }
     if (!contactLastName) {
       return jsonError("Le nom de famille est obligatoire.");
     }
@@ -170,6 +199,7 @@ export async function POST(request: Request) {
       business_name: businessName,
       business_city: businessCity,
       business_sector: businessSector,
+      type_client: typeClient,
       business_website_url: businessWebsiteUrl,
       google_business_url: googleBusinessUrl,
     };

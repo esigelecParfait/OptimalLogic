@@ -18,7 +18,7 @@ type AppointmentForm = {
   phoneFullNumber: string;
   company: string;
   businessCity: string;
-  activity: string;
+  type_client: string;
   objective: string;
   businessWebsiteUrl: string;
   googleBusinessUrl: string;
@@ -30,7 +30,24 @@ type ObjectiveOption = {
   value: string;
   label: string;
 };
-
+type TypeClientOption={
+  value:string;
+  label:string;
+}
+const typeclientOptions:TypeClientOption[]=[
+  {
+    value: "commerce",
+    label: "Commerce",
+  },
+  {
+    value:"tpe_pme",
+    label: "TPE/PME",
+  },
+  {
+    value:"startup",
+    label: "Startup",
+  }
+]
 const objectiveOptions: ObjectiveOption[] = [
   {
     value: "plus_appels_reservations",
@@ -206,7 +223,7 @@ function getTrackingPayload() {
       utm_content: null,
     };
   }
-
+  
   const params = new URLSearchParams(window.location.search);
 
   return {
@@ -225,7 +242,7 @@ export default function PriseDeRdvPage() {
 
   const [isLoadingSlots, setIsLoadingSlots] = useState(true);
   const [slotsError, setSlotsError] = useState<string | null>(null);
-
+  
   const [form, setForm] = useState<AppointmentForm>({
     lastname: "",
     firstname: "",
@@ -233,7 +250,7 @@ export default function PriseDeRdvPage() {
     phoneFullNumber: "",
     company: "",
     businessCity: "",
-    activity: "",
+    type_client: "",
     objective: "",
     businessWebsiteUrl: "",
     googleBusinessUrl: "",
@@ -244,7 +261,14 @@ export default function PriseDeRdvPage() {
   const [isBooking, setIsBooking] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-
+  const [objectiveMenuOpen, setObjectiveMenuOpen] = useState(false);
+  const [TypeClientMenuOpen, setTypeClientMenuOpen] = useState(false);
+    const selectedObjectiveLabel =
+    objectiveOptions.find((option) => option.value === form.objective)?.label ||
+    "Choisissez un objectif";
+    const selectedTypeClientLabel =
+    typeclientOptions.find((option) => option.value === form.type_client)?.label ||
+    "Choisissez un Type de client";
   useEffect(() => {
     async function loadSlots() {
       try {
@@ -309,9 +333,7 @@ export default function PriseDeRdvPage() {
     return slots[selectedDate] || [];
   }, [slots, selectedDate]);
 
-  const selectedObjectiveLabel =
-    objectiveOptions.find((option) => option.value === form.objective)?.label ||
-    "";
+  
 
   function updateField<K extends keyof AppointmentForm>(
     field: K,
@@ -335,7 +357,82 @@ export default function PriseDeRdvPage() {
       return next;
     });
   }
+      function TypeClientDropdown() {
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setTypeClientMenuOpen((current) => !current)}
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
+            form.type_client ? "text-slate-950" : "text-slate-400"
+          }`}
+        >
+          <span>{selectedTypeClientLabel}</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
+        </button>
 
+        {TypeClientMenuOpen && (
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
+            {typeclientOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  updateField("type_client", option.value);
+                  setTypeClientMenuOpen(false);
+                }}
+                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+                  form.type_client === option.value
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+  function ObjectiveDropdown() {
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setObjectiveMenuOpen((current) => !current)}
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
+            form.objective ? "text-slate-950" : "text-slate-400"
+          }`}
+        >
+          <span>{selectedObjectiveLabel}</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
+        </button>
+
+        {objectiveMenuOpen && (
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
+            {objectiveOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  updateField("objective", option.value);
+                  setObjectiveMenuOpen(false);
+                }}
+                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+                  form.objective === option.value
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
   async function handleBookingSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -386,7 +483,8 @@ export default function PriseDeRdvPage() {
 
         company: cleanOptionalText(form.company),
         businessCity: cleanOptionalText(form.businessCity),
-        activity: cleanOptionalText(form.activity),
+        activity: null,
+        type_client:form.type_client,
         objective: form.objective,
         objectiveLabel: selectedObjectiveLabel,
         businessWebsiteUrl: normalizeOptionalUrl(form.businessWebsiteUrl),
@@ -972,62 +1070,15 @@ export default function PriseDeRdvPage() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <label className={labelClass}>
-                      <span className={labelTextClass}>Type d’activité</span>
-                      <input
-                        value={form.activity}
-                        onChange={(event) =>
-                          updateField("activity", event.target.value)
-                        }
-                        placeholder="Ex : restaurant, BTP, SaaS..."
-                        className={fieldClass}
-                      />
-                    </label>
+                    <span className={labelTextClass}>Type de Client *</span>
+                    <TypeClientDropdown />
+                  </label>
 
-                    <label className={labelClass}>
-                      <span className={labelTextClass}>
-                        Objectif principal
-                      </span>
-                      <div className="relative">
-                        <select
-                          value={form.objective}
-                          onChange={(event) =>
-                            updateField("objective", event.target.value)
-                          }
-                          
-                          className={`${selectClass} ${
-                            form.objective ? "text-slate-950" : "text-slate-400"
-                          }`}
-                        >
-                          <option value="" className="text-slate-400">
-                            Choisissez un objectif
-                          </option>
-                          {objectiveOptions.map((option) => (
-                            <option
-                              key={option.value}
-                              value={option.value}
-                              className="bg-white text-slate-950"
-                            >
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-
-                        <span className="pointer-events-none absolute right-4 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full bg-white text-slate-500 shadow-sm ring-1 ring-slate-200">
-                          <svg
-                            aria-hidden="true"
-                            viewBox="0 0 20 20"
-                            className="h-4 w-4"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                    </label>
+                    
+                     <label className={labelClass}>
+                    <span className={labelTextClass}>Objectif principal</span>
+                    <ObjectiveDropdown />
+                  </label>
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">

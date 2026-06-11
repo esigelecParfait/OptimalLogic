@@ -10,6 +10,8 @@ type TrackingPayload = {
   utm_content?: string | null;
 };
 
+type TypeClient = "commerce" | "tpe_pme" | "startup" | "autre";
+
 type BookingRequestBody = {
   start?: string;
 
@@ -23,7 +25,8 @@ type BookingRequestBody = {
 
   company?: string | null;
   businessCity?: string | null;
-  activity?: string | null;
+  type_client?: TypeClient | null;
+
   objective?: string | null;
   objectiveLabel?: string | null;
   businessWebsiteUrl?: string | null;
@@ -55,6 +58,16 @@ function cleanNullableText(value: unknown) {
 
 function isValidEmail(email: string) {
   return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email);
+}
+
+function isValidTypeClient(value: string | null) {
+  return (
+    value === null ||
+    value === "commerce" ||
+    value === "tpe_pme" ||
+    value === "startup" ||
+    value === "autre"
+  );
 }
 
 function hasTrackingData(tracking?: TrackingPayload) {
@@ -102,7 +115,8 @@ export async function POST(request: Request) {
 
     const company = cleanNullableText(body.company);
     const businessCity = cleanNullableText(body.businessCity);
-    const activity = cleanNullableText(body.activity);
+    const typeClient = cleanNullableText(body.type_client);
+
     const objective = cleanNullableText(body.objective);
     const objectiveLabel = cleanNullableText(body.objectiveLabel);
     const businessWebsiteUrl = cleanNullableText(body.businessWebsiteUrl);
@@ -130,6 +144,14 @@ export async function POST(request: Request) {
 
     if (!phoneCountryCode || !phoneNumber || !phoneFullNumber) {
       return jsonError("Le numéro de téléphone est obligatoire.");
+    }
+
+    if (!isValidTypeClient(typeClient)) {
+      return jsonError("Le type de client est invalide.");
+    }
+
+    if (!typeClient) {
+      return jsonError("Le type de client est obligatoire.");
     }
 
     if (!objective) {
@@ -160,7 +182,7 @@ export async function POST(request: Request) {
       bookingFieldsResponses: {
         entreprise: company || "Non renseigné",
         ville_business: businessCity || "Non renseigné",
-        type_activite: activity || "Non renseigné",
+        type_client: typeClient,
         objectif_principal: objectiveLabel || objective,
         site_web_actuel: businessWebsiteUrl || "Non renseigné",
         lien_google_business: googleBusinessUrl || "Non renseigné",
@@ -172,7 +194,7 @@ export async function POST(request: Request) {
         page: "prise_de_rdv",
         entreprise: company || "",
         ville_business: businessCity || "",
-        type_activite: activity || "",
+        type_client: typeClient,
         objectif: objective || "",
       },
     };
@@ -221,9 +243,11 @@ export async function POST(request: Request) {
 
       business_name: company,
       business_city: businessCity,
-      business_sector: activity,
+      business_sector: null,
       business_website_url: businessWebsiteUrl,
       google_business_url: googleBusinessUrl,
+
+      type_client: typeClient,
     };
 
     const { data: existingClient, error: existingClientError } =
@@ -235,7 +259,11 @@ export async function POST(request: Request) {
 
     if (existingClientError) {
       console.error("Erreur recherche client :", existingClientError);
-      return jsonError("Le rendez-vous est créé, mais le client n’a pas pu être vérifié.", 500);
+
+      return jsonError(
+        "Le rendez-vous est créé, mais le client n’a pas pu être vérifié.",
+        500
+      );
     }
 
     let clientId: string;
@@ -248,14 +276,21 @@ export async function POST(request: Request) {
         contact_last_name: lastname,
         phone_country_code: phoneCountryCode,
         phone_number: phoneNumber,
+        type_client: typeClient,
       };
 
-      if (company !== null) clientUpdateData.business_name = company;
-      if (businessCity !== null) clientUpdateData.business_city = businessCity;
-      if (activity !== null) clientUpdateData.business_sector = activity;
+      if (company !== null) {
+        clientUpdateData.business_name = company;
+      }
+
+      if (businessCity !== null) {
+        clientUpdateData.business_city = businessCity;
+      }
+
       if (businessWebsiteUrl !== null) {
         clientUpdateData.business_website_url = businessWebsiteUrl;
       }
+
       if (googleBusinessUrl !== null) {
         clientUpdateData.google_business_url = googleBusinessUrl;
       }
@@ -267,7 +302,11 @@ export async function POST(request: Request) {
 
       if (updateClientError) {
         console.error("Erreur mise à jour client :", updateClientError);
-        return jsonError("Le rendez-vous est créé, mais le client n’a pas pu être mis à jour.", 500);
+
+        return jsonError(
+          "Le rendez-vous est créé, mais le client n’a pas pu être mis à jour.",
+          500
+        );
       }
     } else {
       const { data: insertedClient, error: insertClientError } =
@@ -279,7 +318,11 @@ export async function POST(request: Request) {
 
       if (insertClientError || !insertedClient) {
         console.error("Erreur création client :", insertClientError);
-        return jsonError("Le rendez-vous est créé, mais le client n’a pas pu être enregistré.", 500);
+
+        return jsonError(
+          "Le rendez-vous est créé, mais le client n’a pas pu être enregistré.",
+          500
+        );
       }
 
       clientId = insertedClient.id_client;
@@ -310,7 +353,11 @@ export async function POST(request: Request) {
 
     if (insertDemandeError || !insertedDemande) {
       console.error("Erreur création demande :", insertDemandeError);
-      return jsonError("Le rendez-vous est créé, mais la demande n’a pas pu être enregistrée.", 500);
+
+      return jsonError(
+        "Le rendez-vous est créé, mais la demande n’a pas pu être enregistrée.",
+        500
+      );
     }
 
     const demandeId = insertedDemande.id as string;

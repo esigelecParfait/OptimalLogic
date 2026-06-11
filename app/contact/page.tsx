@@ -13,7 +13,7 @@ type FormState = {
 
   company: string;
   businessCity: string;
-  activity: string;
+  type_client: string;
   businessWebsiteUrl: string;
   googleBusinessUrl: string;
 
@@ -26,7 +26,10 @@ type ObjectiveOption = {
   value: string;
   label: string;
 };
-
+type TypeClientOption={
+  value:string;
+  label:string;
+}
 const labelClass = "grid gap-2";
 
 const labelTextClass = "text-sm font-semibold text-slate-700";
@@ -37,6 +40,20 @@ const fieldClass =
 const textareaClass =
   "min-h-[150px] w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-950 focus:bg-white focus:ring-4 focus:ring-slate-100";
 
+const typeclientOptions:TypeClientOption[]=[
+  {
+    value: "commerce",
+    label: "Commerce",
+  },
+  {
+    value:"tpe_pme",
+    label: "TPE/PME",
+  },
+  {
+    value:"startup",
+    label: "Startup",
+  }
+]
 const objectiveOptions: ObjectiveOption[] = [
   {
    value: "plus_appels_reservations",
@@ -116,7 +133,7 @@ export default function ContactPage() {
 
     company: "",
     businessCity: "",
-    activity: "",
+    type_client: "",
     businessWebsiteUrl: "",
     googleBusinessUrl: "",
 
@@ -129,10 +146,14 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [objectiveMenuOpen, setObjectiveMenuOpen] = useState(false);
+  const [TypeClientMenuOpen, setTypeClientMenuOpen] = useState(false);
 
   const selectedObjectiveLabel =
     objectiveOptions.find((option) => option.value === form.objective)?.label ||
     "Choisissez un objectif";
+    const selectedTypeClientLabel =
+    typeclientOptions.find((option) => option.value === form.type_client)?.label ||
+    "Choisissez un Type de client";
 
   function updateField<K extends keyof FormState>(
     field: K,
@@ -154,7 +175,11 @@ export default function ContactPage() {
       setIsSubmitting(false);
       return;
     }
-
+    if (!form.type_client) {
+      setFormError("Veuillez sélectionner un type de client.");
+      setIsSubmitting(false);
+      return;
+}
     if (!form.consentRgpd) {
       setFormError(
         "Vous devez accepter l’utilisation de vos informations pour être recontacté."
@@ -171,10 +196,10 @@ export default function ContactPage() {
 
         phone_country_code: `+${parsedPhone.countryCallingCode}`,
         phone_number: parsedPhone.nationalNumber,
-
+        type_client:cleanOptionalText(form.type_client),
         business_name: cleanOptionalText(form.company),
         business_city: cleanOptionalText(form.businessCity),
-        business_sector: cleanOptionalText(form.activity),
+        business_sector: null,
         business_website_url: normalizeOptionalUrl(form.businessWebsiteUrl),
         google_business_url: normalizeOptionalUrl(form.googleBusinessUrl),
       },
@@ -222,7 +247,45 @@ export default function ContactPage() {
       setIsSubmitting(false);
     }
   }
+    function TypeClientDropdown() {
+      
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setTypeClientMenuOpen((current) => !current)}
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
+            form.type_client ? "text-slate-950" : "text-slate-400"
+          }`}
+        >
+          <span>{selectedTypeClientLabel}</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
+        </button>
 
+        {TypeClientMenuOpen && (
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
+            {typeclientOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  updateField("type_client", option.value);
+                  setTypeClientMenuOpen(false);
+                }}
+                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+                  form.type_client === option.value
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
   function ObjectiveDropdown() {
     return (
       <div className="relative">
@@ -556,6 +619,10 @@ export default function ContactPage() {
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label className={labelClass}>
+                    <span className={labelTextClass}>Type de Client *</span>
+                    <TypeClientDropdown />
+                  </label>
+                  <label className={labelClass}>
                     <span className={labelTextClass}>Entreprise</span>
                     <input
                       value={form.company}
@@ -567,7 +634,11 @@ export default function ContactPage() {
                     />
                   </label>
 
-                  <label className={labelClass}>
+                  
+                </div>
+
+                <div className="grid gap-5 sm:grid-cols-2">
+            <label className={labelClass}>
                     <span className={labelTextClass}>Ville du business</span>
                     <input
                       value={form.businessCity}
@@ -578,21 +649,6 @@ export default function ContactPage() {
                       className={fieldClass}
                     />
                   </label>
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className={labelClass}>
-                    <span className={labelTextClass}>Type d’activité</span>
-                    <input
-                      value={form.activity}
-                      onChange={(event) =>
-                        updateField("activity", event.target.value)
-                      }
-                      placeholder="Ex : restaurant, BTP, SaaS..."
-                      className={fieldClass}
-                    />
-                  </label>
-
                   <label className={labelClass}>
                     <span className={labelTextClass}>Objectif principal</span>
                     <ObjectiveDropdown />
