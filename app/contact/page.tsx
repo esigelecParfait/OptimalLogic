@@ -39,24 +39,24 @@ const textareaClass =
 
 const objectiveOptions: ObjectiveOption[] = [
   {
-    value: "plus_appels_reservations",
-    label: "Obtenir plus d’appels ou de réservations",
+   value: "plus_appels_reservations",
+    label: "Plus d’appels ou de réservations",
   },
   {
     value: "plus_devis_qualifies",
-    label: "Recevoir plus de devis qualifiés",
+    label: "Plus de devis ou demandes qualifiées",
   },
   {
     value: "mieux_suivre_prospects",
-    label: "Mieux suivre mes prospects et mes demandes clients",
+    label: "Mieux suivre les prospects",
   },
   {
     value: "ameliorer_image",
-    label: "Améliorer mon image professionnelle en ligne",
+    label: "Améliorer mon image professionnelle",
   },
   {
     value: "lancer_offre",
-    label: "Lancer ou tester une nouvelle offre",
+    label: "Lancer ou tester une offre",
   },
   {
     value: "automatiser_reponses",
@@ -229,14 +229,12 @@ export default function ContactPage() {
         <button
           type="button"
           onClick={() => setObjectiveMenuOpen((current) => !current)}
-          className={`flex h-12 w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 text-left text-sm outline-none transition focus:border-slate-950 focus:bg-white focus:ring-4 focus:ring-slate-100 ${
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
             form.objective ? "text-slate-950" : "text-slate-400"
           }`}
         >
-          <span className="truncate pr-3">{selectedObjectiveLabel}</span>
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs text-slate-500 shadow-sm">
-            ⌄
-          </span>
+          <span>{selectedObjectiveLabel}</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
         </button>
 
         {objectiveMenuOpen && (
@@ -249,10 +247,10 @@ export default function ContactPage() {
                   updateField("objective", option.value);
                   setObjectiveMenuOpen(false);
                 }}
-                className={`w-full rounded-xl px-3 py-2.5 text-left text-sm transition ${
+                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
                   form.objective === option.value
                     ? "bg-slate-950 text-white"
-                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
                 }`}
               >
                 {option.label}
@@ -504,7 +502,7 @@ export default function ContactPage() {
                       onChange={(event) =>
                         updateField("lastname", event.target.value)
                       }
-                      required
+                      
                       placeholder="Votre nom"
                       className={fieldClass}
                     />
@@ -517,7 +515,7 @@ export default function ContactPage() {
                       onChange={(event) =>
                         updateField("firstname", event.target.value)
                       }
-                      required
+                      
                       placeholder="Votre prénom"
                       className={fieldClass}
                     />
@@ -533,7 +531,7 @@ export default function ContactPage() {
                       onChange={(event) =>
                         updateField("email", event.target.value)
                       }
-                      required
+                      
                       placeholder="vous@email.com"
                       className={fieldClass}
                     />

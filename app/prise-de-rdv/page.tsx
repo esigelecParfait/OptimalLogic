@@ -582,12 +582,6 @@ export default function PriseDeRdvPage() {
                 Sélectionnez votre créneau.
               </h2>
             </div>
-
-            <p className="max-w-xl text-sm leading-6 text-slate-600">
-              Les créneaux sont récupérés depuis votre API. Après validation, la
-              réservation est envoyée à votre route de booking et enregistrée
-              dans votre système.
-            </p>
           </div>
 
           <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl shadow-slate-200/80">
@@ -894,7 +888,8 @@ export default function PriseDeRdvPage() {
                         onChange={(event) =>
                           updateField("lastname", event.target.value)
                         }
-                        required
+    
+
                         placeholder="Votre nom"
                         className={fieldClass}
                       />
@@ -907,7 +902,7 @@ export default function PriseDeRdvPage() {
                         onChange={(event) =>
                           updateField("firstname", event.target.value)
                         }
-                        required
+                  
                         placeholder="Votre prénom"
                         className={fieldClass}
                       />
@@ -923,7 +918,7 @@ export default function PriseDeRdvPage() {
                         onChange={(event) =>
                           updateField("email", event.target.value)
                         }
-                        required
+                        
                         placeholder="vous@email.com"
                         className={fieldClass}
                       />
@@ -990,7 +985,7 @@ export default function PriseDeRdvPage() {
 
                     <label className={labelClass}>
                       <span className={labelTextClass}>
-                        Objectif principal *
+                        Objectif principal
                       </span>
                       <div className="relative">
                         <select
@@ -998,7 +993,7 @@ export default function PriseDeRdvPage() {
                           onChange={(event) =>
                             updateField("objective", event.target.value)
                           }
-                          required
+                          
                           className={`${selectClass} ${
                             form.objective ? "text-slate-950" : "text-slate-400"
                           }`}

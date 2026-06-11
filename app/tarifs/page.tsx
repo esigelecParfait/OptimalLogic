@@ -623,11 +623,11 @@ function openOfferModal(pack: PricingPack) {
       return;
     }
 
-    if (!leadForm.objective) {
+    /*if (!leadForm.objective) {
       setFormError("Veuillez sélectionner un objectif principal.");
       setIsSubmitting(false);
       return;
-    }
+    }*/
 
     if (!leadForm.consentRgpd) {
       setFormError(
@@ -1347,9 +1347,6 @@ function openOfferModal(pack: PricingPack) {
               </p>
               <p className="mt-2 text-sm font-semibold text-slate-950">
                 {selectedPack.name}
-              </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Code offre : {selectedPack.code}
               </p>
             </div>
 
