@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { sendBrevoEmail } from "@/lib/brevo";
+import {
+  buildAdminImmediateEmail,
+  buildClientImmediateEmail,
+  type TypeClient,
+} from "@/lib/mail-templates";
 
 export const dynamic = "force-dynamic";
 
@@ -9,8 +15,6 @@ type TrackingPayload = {
   utm_campaign?: string | null;
   utm_content?: string | null;
 };
-
-type TypeClient = "commerce" | "tpe_pme" | "startup" | "autre";
 
 type BookingRequestBody = {
   start?: string;
@@ -98,8 +102,7 @@ export async function POST(request: Request) {
     const teamSlug = getRequiredEnv("CAL_TEAM_SLUG");
 
     const timeZone = process.env.CAL_TIMEZONE || "Europe/Paris";
-    const apiVersion =
-      process.env.CAL_BOOKINGS_API_VERSION || "2026-02-25";
+    const apiVersion = process.env.CAL_BOOKINGS_API_VERSION || "2026-02-25";
 
     const body = (await request.json()) as BookingRequestBody;
 
@@ -382,6 +385,99 @@ export async function POST(request: Request) {
       }
     }
 
+    const adminEmail = process.env.ADMIN_EMAIL || null;
+    const adminName = process.env.ADMIN_NAME || "Admin OptimalLogic";
+
+    const phoneDisplay = `${phoneCountryCode} ${phoneNumber}`.trim();
+
+    const clientMail = buildClientImmediateEmail({
+      firstName: firstname,
+      lastName: lastname,
+      email,
+      phone: phoneDisplay,
+      company,
+      businessCity,
+      typeClient: typeClient as TypeClient,
+      requestSource: "prise_de_rdv",
+      offerName: null,
+      offerCode: null,
+      objective,
+      message,
+      demandeId,
+    });
+
+    const adminMail = buildAdminImmediateEmail({
+      firstName: firstname,
+      lastName: lastname,
+      email,
+      phone: phoneDisplay,
+      company,
+      businessCity,
+      typeClient: typeClient as TypeClient,
+      requestSource: "prise_de_rdv",
+      offerName: null,
+      offerCode: null,
+      objective,
+      message,
+      demandeId,
+    });
+
+    const clientMailResult = await sendBrevoEmail({
+      to: [
+        {
+          email,
+          name: fullName,
+        },
+      ],
+      subject: clientMail.subject,
+      htmlContent: clientMail.html,
+      textContent: clientMail.text,
+    });
+
+    const adminMailResult = adminEmail
+      ? await sendBrevoEmail({
+          to: [
+            {
+              email: adminEmail,
+              name: adminName,
+            },
+          ],
+          subject: adminMail.subject,
+          htmlContent: adminMail.html,
+          textContent: adminMail.text,
+        })
+      : {
+          success: false,
+          messageId: null,
+          error: "ADMIN_EMAIL manquant dans les variables d’environnement.",
+        };
+
+    const { error: updateMailStatusError } = await supabaseAdmin
+      .from("demandes")
+      .update({
+        client_notification_sent: clientMailResult.success,
+        client_notification_error: clientMailResult.error,
+        client_brevo_message_id: clientMailResult.messageId,
+        client_notification_sent_at: clientMailResult.success
+          ? new Date().toISOString()
+          : null,
+
+        admin_notification_sent: adminMailResult.success,
+        admin_notification_error: adminMailResult.error,
+        admin_brevo_message_id: adminMailResult.messageId,
+        admin_notification_sent_at: adminMailResult.success
+          ? new Date().toISOString()
+          : null,
+      })
+      .eq("id", demandeId);
+
+    if (updateMailStatusError) {
+      console.error(
+        "Erreur mise à jour statut emails :",
+        updateMailStatusError
+      );
+    }
+
     return NextResponse.json(
       {
         success: true,
@@ -391,6 +487,10 @@ export async function POST(request: Request) {
           id_client: clientId,
           demande_id: demandeId,
           tracking_saved: trackingSaved,
+          emails: {
+            client_sent: clientMailResult.success,
+            admin_sent: adminMailResult.success,
+          },
         },
       },
       { status: 201 }

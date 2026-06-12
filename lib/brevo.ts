@@ -7,55 +7,85 @@ type SendBrevoEmailParams = {
   to: BrevoRecipient[];
   subject: string;
   htmlContent: string;
-  replyTo?: BrevoRecipient;
+  textContent?: string;
 };
+
+export type BrevoSendResult = {
+  success: boolean;
+  messageId: string | null;
+  error: string | null;
+};
+
+function getRequiredEnv(name: string) {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`${name} est manquant dans les variables d’environnement.`);
+  }
+
+  return value;
+}
 
 export async function sendBrevoEmail({
   to,
   subject,
   htmlContent,
-  replyTo,
-}: SendBrevoEmailParams) {
-  const apiKey = process.env.BREVO_API_KEY;
-  const senderName = process.env.BREVO_SENDER_NAME;
-  const senderEmail = process.env.BREVO_SENDER_EMAIL;
+  textContent,
+}: SendBrevoEmailParams): Promise<BrevoSendResult> {
+  try {
+    const apiKey = getRequiredEnv("BREVO_API_KEY");
+    const senderName = getRequiredEnv("BREVO_SENDER_NAME");
+    const senderEmail = getRequiredEnv("BREVO_SENDER_EMAIL");
 
-  if (!apiKey) {
-    throw new Error("BREVO_API_KEY est manquante.");
-  }
-
-  if (!senderName || !senderEmail) {
-    throw new Error("BREVO_SENDER_NAME ou BREVO_SENDER_EMAIL est manquant.");
-  }
-
-  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
-    method: "POST",
-    headers: {
-      "api-key": apiKey,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      sender: {
-        name: senderName,
-        email: senderEmail,
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": apiKey,
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      to,
-      subject,
-      htmlContent,
-      ...(replyTo ? { replyTo } : {}),
-    }),
-  });
+      body: JSON.stringify({
+        sender: {
+          name: senderName,
+          email: senderEmail,
+        },
+        to,
+        subject,
+        htmlContent,
+        textContent,
+      }),
+    });
 
-  const data = await response.json().catch(() => null);
+    const data = await response.json().catch(() => null);
 
-  if (!response.ok) {
-    throw new Error(
-      data?.message || `Erreur Brevo: ${response.status} ${response.statusText}`
-    );
+    if (!response.ok) {
+      console.error("Erreur Brevo :", data);
+
+      return {
+        success: false,
+        messageId: null,
+        error:
+          data?.message ||
+          data?.error ||
+          "Erreur lors de l’envoi de l’email Brevo.",
+      };
+    }
+
+    return {
+      success: true,
+      messageId: data?.messageId || null,
+      error: null,
+    };
+  } catch (error) {
+    console.error("Erreur sendBrevoEmail :", error);
+
+    return {
+      success: false,
+      messageId: null,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Erreur inconnue lors de l’envoi de l’email.",
+    };
   }
-
-  return data as {
-    messageId?: string;
-  };
 }

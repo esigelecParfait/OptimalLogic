@@ -1,32 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { sendBrevoEmail } from "@/lib/brevo";
 
 export const dynamic = "force-dynamic";
-
-type ClientPayload = {
-  contact_first_name?: string;
-  contact_last_name?: string;
-  contact_email?: string;
-  phone_country_code?: string;
-  phone_number?: string;
-
-  business_name?: string | null;
-  business_city?: string | null;
-  business_sector?: string | null;
-  business_website_url?: string | null;
-  google_business_url?: string | null;
-
-  type_client?: "commerce" | "tpe_pme" | "startup" | "autre" | null;
-
-};
-
-type DemandePayload = {
-  request_source?: "contact" | "tarifs";
-  offer_code?: string | null;
-  objective_type?: string | null;
-  need_description?: string | null;
-  consent_rgpd?: boolean;
-};
 
 type TrackingPayload = {
   utm_source?: string | null;
@@ -35,15 +11,56 @@ type TrackingPayload = {
   utm_content?: string | null;
 };
 
-type CreateDemandeBody = {
-  client?: ClientPayload;
-  demande?: DemandePayload;
+type TypeClient = "commerce" | "tpe_pme" | "startup" | "autre";
+
+type BookingRequestBody = {
+  start?: string;
+
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+
+  phoneFullNumber?: string;
+  phone_country_code?: string;
+  phone_number?: string;
+
+  company?: string | null;
+  businessCity?: string | null;
+  type_client?: TypeClient | null;
+
+  objective?: string | null;
+  objectiveLabel?: string | null;
+  businessWebsiteUrl?: string | null;
+  googleBusinessUrl?: string | null;
+  message?: string | null;
+
+  consentRgpd?: boolean;
   tracking?: TrackingPayload;
 };
+
+function getRequiredEnv(name: string) {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`${name} est manquant dans .env.local`);
+  }
+
+  return value;
+}
 
 function cleanText(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
+
+function cleanNullableText(value: unknown) {
+  const cleaned = cleanText(value);
+  return cleaned.length > 0 ? cleaned : null;
+}
+
+function isValidEmail(email: string) {
+  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email);
+}
+
 function isValidTypeClient(value: string | null) {
   return (
     value === null ||
@@ -52,24 +69,6 @@ function isValidTypeClient(value: string | null) {
     value === "startup" ||
     value === "autre"
   );
-}
-
-function inferTypeClientFromOfferCode(offerCode: string | null) {
-  if (!offerCode) return null;
-
-  if (offerCode.startsWith("commerce_")) return "commerce";
-  if (offerCode.startsWith("tpe_pme_")) return "tpe_pme";
-  if (offerCode.startsWith("startup_")) return "startup";
-
-  return null;
-}
-function cleanNullableText(value: unknown) {
-  const cleaned = cleanText(value);
-  return cleaned.length > 0 ? cleaned : null;
-}
-
-function isValidEmail(email: string) {
-  return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email);
 }
 
 function hasTrackingData(tracking?: TrackingPayload) {
@@ -95,125 +94,177 @@ function jsonError(message: string, status = 400) {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as CreateDemandeBody;
+    const apiKey = getRequiredEnv("CAL_API_KEY");
+    const eventTypeSlug = getRequiredEnv("CAL_EVENT_TYPE_SLUG");
+    const teamSlug = getRequiredEnv("CAL_TEAM_SLUG");
 
-    const client = body.client;
-    const demande = body.demande;
+    const timeZone = process.env.CAL_TIMEZONE || "Europe/Paris";
+    const apiVersion =
+      process.env.CAL_BOOKINGS_API_VERSION || "2026-02-25";
+
+    const body = (await request.json()) as BookingRequestBody;
+
+    const start = cleanText(body.start);
+
+    const firstname = cleanText(body.firstname);
+    const lastname = cleanText(body.lastname);
+    const email = cleanText(body.email).toLowerCase();
+
+    const phoneFullNumber = cleanText(body.phoneFullNumber);
+    const phoneCountryCode = cleanText(body.phone_country_code);
+    const phoneNumber = cleanText(body.phone_number);
+
+    const company = cleanNullableText(body.company);
+    const businessCity = cleanNullableText(body.businessCity);
+    const typeClient = cleanNullableText(body.type_client);
+
+    const objective = cleanNullableText(body.objective);
+    const objectiveLabel = cleanNullableText(body.objectiveLabel);
+    const businessWebsiteUrl = cleanNullableText(body.businessWebsiteUrl);
+    const googleBusinessUrl = cleanNullableText(body.googleBusinessUrl);
+    const message = cleanNullableText(body.message);
+
+    const consentRgpd = body.consentRgpd === true;
     const tracking = body.tracking;
 
-    if (!client) {
-      return jsonError("Les informations du client sont manquantes.");
+    if (!start) {
+      return jsonError("Le créneau est obligatoire.");
     }
 
-    if (!demande) {
-      return jsonError("Les informations de la demande sont manquantes.");
-    }
-
-    const contactFirstName = cleanText(client.contact_first_name);
-    const contactLastName = cleanText(client.contact_last_name);
-    const contactEmail = cleanText(client.contact_email).toLowerCase();
-    const phoneCountryCode = cleanText(client.phone_country_code);
-    const phoneNumber = cleanText(client.phone_number);
-
-    const businessName = cleanNullableText(client.business_name);
-    const businessCity = cleanNullableText(client.business_city);
-    const businessSector = cleanNullableText(client.business_sector);
-    const businessWebsiteUrl = cleanNullableText(client.business_website_url);
-    const googleBusinessUrl = cleanNullableText(client.google_business_url);
-    let typeClient = cleanNullableText(client.type_client);
-    const requestSource = demande.request_source || "contact";
-    const offerCode = cleanNullableText(demande.offer_code);
-    const objectiveType = cleanNullableText(demande.objective_type);
-    const needDescription = cleanNullableText(demande.need_description);
-    const consentRgpd = demande.consent_rgpd === true;
-    if (!typeClient && offerCode) {
-       typeClient = inferTypeClientFromOfferCode(offerCode);
-}
-    if (!contactFirstName) {
+    if (!firstname) {
       return jsonError("Le prénom est obligatoire.");
     }
-    if (!isValidTypeClient(typeClient)) {
-  return jsonError("Le type de client est invalide.");
-}
 
-    if (requestSource === "contact" && !typeClient) {
-      return jsonError("Le type de client est obligatoire.");
-    }
-    if (!contactLastName) {
+    if (!lastname) {
       return jsonError("Le nom de famille est obligatoire.");
     }
 
-    if (!contactEmail) {
-      return jsonError("L’adresse email est obligatoire.");
-    }
-
-    if (!isValidEmail(contactEmail)) {
+    if (!email || !isValidEmail(email)) {
       return jsonError("L’adresse email est invalide.");
     }
 
-    if (!phoneCountryCode || !phoneNumber) {
+    if (!phoneCountryCode || !phoneNumber || !phoneFullNumber) {
       return jsonError("Le numéro de téléphone est obligatoire.");
     }
 
-    if (requestSource !== "contact" && requestSource !== "tarifs") {
-      return jsonError("La provenance de la demande est invalide.");
+    if (!isValidTypeClient(typeClient)) {
+      return jsonError("Le type de client est invalide.");
     }
 
-    if (requestSource === "tarifs" && !offerCode) {
-      return jsonError(
-        "Une demande provenant de la page Tarifs doit contenir une offre."
-      );
+    if (!typeClient) {
+      return jsonError("Le type de client est obligatoire.");
+    }
+
+    if (!objective) {
+      return jsonError("L’objectif principal est obligatoire.");
     }
 
     if (!consentRgpd) {
       return jsonError(
-        "Le consentement RGPD est obligatoire pour enregistrer la demande."
+        "Le consentement RGPD est obligatoire pour confirmer le rendez-vous."
       );
     }
 
-    if (offerCode) {
-      const { data: offer, error: offerError } = await supabaseAdmin
-        .from("offres")
-        .select("code, is_active")
-        .eq("code", offerCode)
-        .eq("is_active", true)
-        .maybeSingle();
+    const fullName = `${firstname} ${lastname}`.trim();
 
-      if (offerError) {
-        console.error("Erreur vérification offre :", offerError);
-        return jsonError("Impossible de vérifier l’offre choisie.", 500);
-      }
+    const calPayload = {
+      start,
+      eventTypeSlug,
+      teamSlug,
 
-      if (!offer) {
-        return jsonError("L’offre choisie est invalide ou inactive.");
-      }
+      attendee: {
+        name: fullName,
+        email,
+        timeZone,
+        language: "fr",
+        phoneNumber: phoneFullNumber,
+      },
+
+      bookingFieldsResponses: {
+        entreprise: company || "Non renseigné",
+        ville_business: businessCity || "Non renseigné",
+        type_client: typeClient,
+        objectif_principal: objectiveLabel || objective,
+        site_web_actuel: businessWebsiteUrl || "Non renseigné",
+        lien_google_business: googleBusinessUrl || "Non renseigné",
+        message: message || "Non renseigné",
+      },
+
+      metadata: {
+        source: "optimal_logic_site",
+        page: "prise_de_rdv",
+        entreprise: company || "",
+        ville_business: businessCity || "",
+        type_client: typeClient,
+        objectif: objective || "",
+      },
+    };
+
+    const calResponse = await fetch("https://api.cal.com/v2/bookings", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "cal-api-version": apiVersion,
+      },
+      body: JSON.stringify(calPayload),
+    });
+
+    const calData = await calResponse.json().catch(() => null);
+
+    if (!calResponse.ok) {
+      console.error("Erreur Cal.com booking :", calData);
+
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            calData?.message ||
+            calData?.error ||
+            "Impossible de créer le rendez-vous.",
+          details: calData,
+        },
+        { status: calResponse.status }
+      );
     }
 
-    const clientInsertData = {
-      contact_first_name: contactFirstName,
-      contact_last_name: contactLastName,
-      contact_email: contactEmail,
+    const calBookingId =
+      calData?.data?.id ||
+      calData?.data?.uid ||
+      calData?.id ||
+      calData?.uid ||
+      null;
+
+    const clientData = {
+      contact_first_name: firstname,
+      contact_last_name: lastname,
+      contact_email: email,
       phone_country_code: phoneCountryCode,
       phone_number: phoneNumber,
 
-      business_name: businessName,
+      business_name: company,
       business_city: businessCity,
-      business_sector: businessSector,
-      type_client: typeClient,
+      business_sector: null,
       business_website_url: businessWebsiteUrl,
       google_business_url: googleBusinessUrl,
+
+      type_client: typeClient,
     };
 
     const { data: existingClient, error: existingClientError } =
       await supabaseAdmin
         .from("clients")
         .select("id_client")
-        .eq("contact_email", contactEmail)
+        .eq("contact_email", email)
         .maybeSingle();
 
     if (existingClientError) {
       console.error("Erreur recherche client :", existingClientError);
-      return jsonError("Impossible de vérifier l’existence du client.", 500);
+
+      return jsonError(
+        "Le rendez-vous est créé, mais le client n’a pas pu être vérifié.",
+        500
+      );
     }
 
     let clientId: string;
@@ -222,22 +273,19 @@ export async function POST(request: Request) {
       clientId = existingClient.id_client;
 
       const clientUpdateData: Record<string, string | null> = {
-        contact_first_name: contactFirstName,
-        contact_last_name: contactLastName,
+        contact_first_name: firstname,
+        contact_last_name: lastname,
         phone_country_code: phoneCountryCode,
         phone_number: phoneNumber,
+        type_client: typeClient,
       };
 
-      if (businessName !== null) {
-        clientUpdateData.business_name = businessName;
+      if (company !== null) {
+        clientUpdateData.business_name = company;
       }
 
       if (businessCity !== null) {
         clientUpdateData.business_city = businessCity;
-      }
-
-      if (businessSector !== null) {
-        clientUpdateData.business_sector = businessSector;
       }
 
       if (businessWebsiteUrl !== null) {
@@ -255,23 +303,35 @@ export async function POST(request: Request) {
 
       if (updateClientError) {
         console.error("Erreur mise à jour client :", updateClientError);
-        return jsonError("Impossible de mettre à jour le client.", 500);
+
+        return jsonError(
+          "Le rendez-vous est créé, mais le client n’a pas pu être mis à jour.",
+          500
+        );
       }
     } else {
       const { data: insertedClient, error: insertClientError } =
         await supabaseAdmin
           .from("clients")
-          .insert(clientInsertData)
+          .insert(clientData)
           .select("id_client")
           .single();
 
       if (insertClientError || !insertedClient) {
         console.error("Erreur création client :", insertClientError);
-        return jsonError("Impossible de créer le client.", 500);
+
+        return jsonError(
+          "Le rendez-vous est créé, mais le client n’a pas pu être enregistré.",
+          500
+        );
       }
 
       clientId = insertedClient.id_client;
     }
+
+    const internalNotes = calBookingId
+      ? `Rendez-vous Cal.com créé. ID Cal.com : ${calBookingId}`
+      : "Rendez-vous Cal.com créé.";
 
     const { data: insertedDemande, error: insertDemandeError } =
       await supabaseAdmin
@@ -279,21 +339,26 @@ export async function POST(request: Request) {
         .insert({
           id_client: clientId,
 
-          request_source: requestSource,
-          offer_code: offerCode,
-          objective_type: objectiveType,
-          need_description: needDescription,
+          request_source: "prise_de_rdv",
+          offer_code: null,
+          objective_type: objective,
+          need_description: message,
           consent_rgpd: consentRgpd,
 
-          request_status: "nouveau",
+          request_status: "rdv_planifie",
           priority: "normale",
+          internal_notes: internalNotes,
         })
         .select("id")
         .single();
 
     if (insertDemandeError || !insertedDemande) {
       console.error("Erreur création demande :", insertDemandeError);
-      return jsonError("Impossible d’enregistrer la demande.", 500);
+
+      return jsonError(
+        "Le rendez-vous est créé, mais la demande n’a pas pu être enregistrée.",
+        500
+      );
     }
 
     const demandeId = insertedDemande.id as string;
@@ -321,7 +386,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: true,
-        message: "Demande enregistrée avec succès.",
+        message: "Rendez-vous créé et demande enregistrée avec succès.",
+        booking: calData?.data || calData,
         data: {
           id_client: clientId,
           demande_id: demandeId,
@@ -331,13 +397,15 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Erreur API /api/demandes :", error);
+    console.error("Erreur API /api/cal/bookings :", error);
 
     return NextResponse.json(
       {
         success: false,
         error:
-          "Une erreur est survenue lors de l’enregistrement de la demande.",
+          error instanceof Error
+            ? error.message
+            : "Erreur serveur lors de la création du rendez-vous.",
       },
       { status: 500 }
     );
