@@ -23,6 +23,18 @@ type EmailTemplate = {
   text: string;
 };
 
+const EMAIL_COLORS = {
+  background: "#f7f4ef",
+  card: "#ffffff",
+  cardSoft: "#fbfaf7",
+  border: "#e7ded2",
+  text: "#171717",
+  title: "#111111",
+  paragraph: "#444444",
+  muted: "#777777",
+  navy: "#020817",
+};
+
 function escapeHtml(value: string | null | undefined) {
   if (!value) return "";
 
@@ -89,32 +101,34 @@ function buildEmailShell({
   const logoUrl = getLogoUrl();
 
   return `
-    <div style="margin:0;padding:0;background:#f7f4ef;font-family:Arial,Helvetica,sans-serif;color:#171717;">
+    <div style="margin:0;padding:0;background:${EMAIL_COLORS.background};font-family:Arial,Helvetica,sans-serif;color:${EMAIL_COLORS.text};">
       <div style="max-width:680px;margin:0 auto;padding:32px 18px;">
-        <div style="background:#ffffff;border:1px solid #e8e2d8;border-radius:24px;padding:32px;">
+        <div style="background:${EMAIL_COLORS.card};border:1px solid ${EMAIL_COLORS.border};border-radius:24px;padding:32px;box-shadow:0 18px 45px rgba(15,23,42,0.06);">
+          
           <img
             src="${logoUrl}"
             alt="OL - OptimalLogic"
-            style="display:block;width:56px;height:auto;margin:0 0 18px 0;"
+            width="56"
+            style="display:block;width:56px;height:auto;margin:0 0 18px 0;border-radius:16px;"
           />
 
-          <p style="margin:0 0 10px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#777;">
+          <p style="margin:0 0 10px;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:${EMAIL_COLORS.muted};font-weight:600;">
             OptimalLogic
           </p>
 
-          <h1 style="margin:0 0 20px;font-size:28px;line-height:1.2;color:#111;">
+          <h1 style="margin:0 0 22px;font-size:28px;line-height:1.25;color:${EMAIL_COLORS.title};font-weight:700;">
             ${escapeHtml(title)}
           </h1>
 
           ${content}
 
-          <p style="margin:28px 0 0;font-size:14px;line-height:1.7;color:#555;">
+          <p style="margin:30px 0 0;font-size:14px;line-height:1.7;color:#555555;">
             À très bientôt,<br />
             L’équipe OptimalLogic
           </p>
         </div>
 
-        <p style="margin:18px 0 0;text-align:center;font-size:12px;color:#777;">
+        <p style="margin:18px 0 0;text-align:center;font-size:12px;line-height:1.6;color:${EMAIL_COLORS.muted};">
           Cet email fait suite à une demande effectuée sur le site OptimalLogic.
         </p>
       </div>
@@ -125,27 +139,27 @@ function buildEmailShell({
 export function buildClientImmediateEmail(
   params: BaseMailParams
 ): EmailTemplate {
-  const firstName = escapeHtml(params.firstName);
+  const firstName = params.firstName.trim();
   const subject = getClientSubject(params.requestSource);
 
   const html = buildEmailShell({
     title: `Bonjour ${firstName},`,
     content: `
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#444;">
+      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:${EMAIL_COLORS.paragraph};">
         Nous avons bien reçu votre demande et nous vous remercions pour votre intérêt envers OptimalLogic.
       </p>
 
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#444;">
+      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:${EMAIL_COLORS.paragraph};">
         Notre équipe va prendre le temps d’analyser les informations transmises afin de mieux comprendre votre besoin et de vous proposer une réponse adaptée.
       </p>
 
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#444;">
+      <p style="margin:0;font-size:16px;line-height:1.7;color:${EMAIL_COLORS.paragraph};">
         Nous reviendrons vers vous prochainement avec les prochaines étapes.
       </p>
     `,
   });
 
-  const text = `Bonjour ${params.firstName},
+  const text = `Bonjour ${firstName},
 
 Nous avons bien reçu votre demande et nous vous remercions pour votre intérêt envers OptimalLogic.
 
@@ -173,49 +187,80 @@ export function buildAdminImmediateEmail(
   const subject = `[OptimalLogic] Nouvelle demande - ${sourceLabel}`;
 
   const html = buildEmailShell({
-    title: `Nouvelle demande reçue`,
+    title: "Nouvelle demande reçue",
     content: `
-      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:#444;">
+      <p style="margin:0 0 18px;font-size:16px;line-height:1.7;color:${EMAIL_COLORS.paragraph};">
         Une nouvelle demande a été enregistrée depuis le site OptimalLogic.
       </p>
 
-      <div style="background:#f7f4ef;border-radius:18px;padding:18px;">
-        <p style="margin:0 0 10px;"><strong>Provenance :</strong> ${escapeHtml(
-          sourceLabel
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Type de client :</strong> ${escapeHtml(
-          typeClientLabel
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Nom :</strong> ${escapeHtml(
-          fullName
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Email :</strong> ${escapeHtml(
-          params.email
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Téléphone :</strong> ${escapeHtml(
-          params.phone
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Entreprise :</strong> ${escapeHtml(
-          params.company
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Ville :</strong> ${escapeHtml(
-          params.businessCity
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Offre demandée :</strong> ${escapeHtml(
-          params.offerName || params.offerCode || "Non renseignée"
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Objectif :</strong> ${escapeHtml(
-          params.objective
-        )}</p>
-        <p style="margin:0 0 10px;"><strong>Message :</strong><br />${escapeHtml(
-          params.message
-        )}</p>
-        <p style="margin:0;"><strong>ID demande :</strong> ${escapeHtml(
-          params.demandeId
-        )}</p>
+      <div style="background:${EMAIL_COLORS.cardSoft};border:1px solid ${EMAIL_COLORS.border};border-radius:18px;padding:18px;">
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Provenance :</strong> ${escapeHtml(
+            sourceLabel
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Type de client :</strong> ${escapeHtml(
+            typeClientLabel
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Nom :</strong> ${escapeHtml(
+            fullName
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Email :</strong> ${escapeHtml(
+            params.email
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Téléphone :</strong> ${escapeHtml(
+            params.phone
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Entreprise :</strong> ${escapeHtml(
+            params.company
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Ville :</strong> ${escapeHtml(
+            params.businessCity
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Offre demandée :</strong> ${escapeHtml(
+            params.offerName || params.offerCode || "Non renseignée"
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Objectif :</strong> ${escapeHtml(
+            params.objective
+          )}
+        </p>
+
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">Message :</strong><br />
+          ${escapeHtml(params.message)}
+        </p>
+
+        <p style="margin:0;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
+          <strong style="color:${EMAIL_COLORS.title};">ID demande :</strong> ${escapeHtml(
+            params.demandeId
+          )}
+        </p>
       </div>
 
-      <p style="margin:18px 0 0;font-size:16px;line-height:1.7;color:#444;">
+      <p style="margin:18px 0 0;font-size:16px;line-height:1.7;color:${EMAIL_COLORS.paragraph};">
         Action recommandée : traiter la demande dans l’espace de suivi et revenir vers le prospect.
       </p>
     `,
