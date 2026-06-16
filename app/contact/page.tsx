@@ -325,23 +325,6 @@ export default function ContactPage() {
     );
   }
 
-  const contactOptions = [
-    {
-      title: "Réserver un diagnostic gratuit",
-      description:
-        "Idéal si vous voulez échanger rapidement sur votre commerce, votre TPE/PME ou votre startup.",
-      action: "Prendre rendez-vous",
-      href: "/prise-de-rdv",
-    },
-    {
-      title: "Envoyer une demande écrite",
-      description:
-        "Parfait si vous préférez expliquer votre besoin par écrit avant un échange.",
-      action: "Remplir le formulaire",
-      href: "#formulaire",
-    },
-  ];
-
   const reasons = [
     "Améliorer votre visibilité Google",
     "Créer un site plus professionnel",
@@ -430,20 +413,6 @@ export default function ContactPage() {
                 client, prise de rendez-vous ou lancement d’offre.
               </p>
 
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/prise-de-rdv"
-                  className="inline-flex items-center justify-center rounded-full bg-slate-950 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Réserver un diagnostic gratuit
-                </Link>
-                <a
-                  href="#formulaire"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-950 transition hover:border-slate-950 hover:bg-slate-950 hover:text-white"
-                >
-                  Envoyer une demande
-                </a>
-              </div>
             </div>
 
             <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-2xl shadow-slate-200/80 backdrop-blur">
@@ -481,43 +450,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Options */}
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8">
-        <div className="mb-10 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-            Deux options
-          </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-            Choisissez le chemin le plus simple.
-          </h2>
-          <p className="mt-5 text-base leading-7 text-slate-600">
-            Prenez rendez-vous si vous voulez échanger directement. Utilisez le
-            formulaire si vous préférez poser votre besoin par écrit.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {contactOptions.map((option) => (
-            <article
-              key={option.title}
-              className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200 sm:p-8"
-            >
-              <h3 className="text-2xl font-bold tracking-tight text-slate-950">
-                {option.title}
-              </h3>
-              <p className="mt-4 text-base leading-7 text-slate-600">
-                {option.description}
-              </p>
-              <a
-                href={option.href}
-                className="mt-8 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-              >
-                {option.action}
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
 
       {/* Form */}
       <section id="formulaire" className="bg-slate-50 py-20">
@@ -799,12 +731,6 @@ export default function ContactPage() {
             nous vous aidons à choisir le bon système.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/prise-de-rdv"
-              className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
-            >
-              Réserver un diagnostic gratuit
-            </Link>
             <Link
               href="/services"
               className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"

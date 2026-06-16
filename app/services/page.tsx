@@ -1,3 +1,5 @@
+import { AnimateIn } from "@/components/AnimateIn";
+
 export default function ServicesPage() {
   const services = [
     {
@@ -112,35 +114,21 @@ export default function ServicesPage() {
         <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-slate-200/70 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-6 inline-flex rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur">
+          <div className="mb-6 inline-flex animate-fade-in rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur">
             Services digitaux adaptés à chaque entreprise
           </div>
 
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
-              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-7xl">
+              <h1 className="animate-fade-in-up max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-7xl">
                 Nous ne créons pas seulement une présence digitale.
                 <span className="block text-slate-500">Nous construisons un système pour être choisi.</span>
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600">
-                Chaque entreprise n’a pas le même besoin. Un commerce doit être trouvé rapidement, une TPE/PME doit générer et suivre ses prospects, une startup doit convaincre et prouver sa traction. Nos services sont pensés pour s’adapter à cette réalité.
+              <p className="animate-fade-in-up mt-8 max-w-2xl text-lg leading-8 text-slate-600" style={{ animationDelay: "120ms" }}>
+                Un commerce doit être trouvé, une PME doit gérer ses prospects, une startup doit prouver sa traction. Nous adaptons chaque solution à cette réalité.
               </p>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Demander un diagnostic
-                </a>
-                <a
-                  href="#offres"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-950 hover:text-white"
-                >
-                  Voir les services
-                </a>
-              </div>
             </div>
 
             <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/80 backdrop-blur">
@@ -163,98 +151,54 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Positioning */}
-      <section className="px-6 pb-10 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-slate-950 p-8 text-white sm:p-10 lg:p-12">
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Positionnement</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Une offre différente selon le type de client
-              </h2>
-            </div>
-            <p className="text-lg leading-8 text-slate-300">
-              Nous ne vendons pas le même digital à tout le monde. Nous adaptons nos outils au comportement réel des clients : recherche rapide pour un commerce, comparaison et demande de devis pour une TPE/PME, validation du marché pour une startup.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Services */}
       <section id="offres" className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-12 max-w-3xl">
+          <AnimateIn className="mb-12 max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Nos services</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-              Trois types d’entreprises, trois systèmes digitaux adaptés
+              Trois types d’entreprises, trois systèmes adaptés
             </h2>
-          </div>
+          </AnimateIn>
 
           <div className="grid gap-6">
             {services.map((service, index) => (
-              <article
-                key={service.label}
-                className="group rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/80 sm:p-8 lg:p-10"
-              >
-                <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-                  <div>
-                    <div className="mb-6 flex items-center gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+              <AnimateIn key={service.label} delay={index * 120}>
+                <article className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm sm:p-9">
+                  <div className="mb-6 flex items-center gap-3">
+                    <span className="inline-flex items-center gap-2.5 rounded-full bg-slate-950 px-4 py-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-bold text-slate-950">
                         {index + 1}
                       </span>
-                      <span className="rounded-full bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-600">
-                        {service.label}
-                      </span>
-                    </div>
+                      <span className="text-sm font-semibold text-white">{service.label}</span>
+                    </span>
+                  </div>
+                  <h3 className="mb-4 text-2xl font-semibold tracking-tight sm:text-3xl">{service.title}</h3>
 
-                    <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                      {service.title}
-                    </h3>
+                  <p className="mb-6 text-base leading-7 text-slate-600">{service.description}</p>
 
-                    <p className="mt-5 text-base leading-7 text-slate-600">
-                      {service.description}
-                    </p>
-
-                    <div className="mt-6 rounded-3xl bg-slate-50 p-5">
-                      <p className="text-sm font-semibold text-slate-950">Exemples de clients</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{service.examples}</p>
-                    </div>
-
-                    <div className="mt-5 rounded-3xl border border-slate-200 p-5">
-                      <p className="text-sm font-semibold text-slate-950">Objectif</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{service.objective}</p>
-                    </div>
+                  <div className="mb-6 grid gap-3 sm:grid-cols-2">
+                    {service.features.slice(0, 4).map((feature) => (
+                      <div key={feature} className="flex gap-3 rounded-2xl bg-slate-50 p-4 transition hover:bg-slate-100">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xs text-white">✓</span>
+                        <p className="text-sm leading-6 text-slate-700">{feature}</p>
+                      </div>
+                    ))}
                   </div>
 
-                  <div>
-                    <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
-                      Ce que nous mettons en place
-                    </p>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      {service.features.map((feature) => (
-                        <div key={feature} className="rounded-2xl bg-slate-50 p-4">
-                          <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-full bg-slate-950 text-xs text-white">
-                            ✓
-                          </div>
-                          <p className="text-sm leading-6 text-slate-700">{feature}</p>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-6 rounded-3xl bg-slate-950 p-6 text-white">
-                      <p className="text-sm font-semibold text-slate-400">Résultat attendu</p>
-                      <p className="mt-3 text-lg font-medium leading-7 text-white">{service.result}</p>
-                      <a
-                        href="/contact"
-                        className="mt-6 inline-flex rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
-                      >
-                        {service.cta}
-                      </a>
-                    </div>
+                  <div className="rounded-[1.5rem] bg-slate-950 p-6 text-white">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/45">Résultat attendu</p>
+                    <p className="mt-3 text-sm leading-6 text-white/80">{service.result}</p>
+                    <a
+                      href="/contact"
+                      className="mt-5 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
+                    >
+                      {service.cta}
+                    </a>
                   </div>
-                </div>
-              </article>
+                </article>
+              </AnimateIn>
             ))}
           </div>
         </div>
@@ -264,29 +208,31 @@ export default function ServicesPage() {
       <section className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
+            <AnimateIn>
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">Méthode</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-                Une méthode pensée pour créer du résultat, pas seulement du design
+                Du résultat, pas seulement du design
               </h2>
               <p className="mt-6 text-base leading-7 text-slate-600">
-                Un bon outil digital doit répondre à une question simple : qu’est-ce que le client doit faire après vous avoir trouvé ? Appeler, réserver, demander un devis, s’inscrire, demander une démo ou acheter.
+                Qu’est-ce que le client doit faire après vous avoir trouvé ? Appeler, réserver, demander un devis, s’inscrire ou acheter. Tout part de là.
               </p>
-            </div>
+            </AnimateIn>
 
             <div className="grid gap-4">
-              {method.map((item) => (
-                <div key={item.step} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-                  <div className="flex gap-5">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h3 className="text-xl font-semibold text-slate-950">{item.title}</h3>
-                      <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
+              {method.map((item, i) => (
+                <AnimateIn key={item.step} delay={i * 90}>
+                  <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-lg">
+                    <div className="flex gap-5">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+                        {item.step}
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-semibold text-slate-950">{item.title}</h3>
+                        <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </AnimateIn>
               ))}
             </div>
           </div>
@@ -330,32 +276,34 @@ export default function ServicesPage() {
 
       {/* CTA */}
       <section className="px-6 py-20 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-slate-950 p-8 text-white sm:p-12 lg:p-16">
-          <div className="grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Diagnostic</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-                Vous ne savez pas encore quel système digital correspond à votre activité ?
-              </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-                Nous analysons votre activité, vos clients et vos objectifs pour construire une solution adaptée : visibilité locale, génération de prospects ou lancement digital.
-              </p>
-            </div>
+        <AnimateIn>
+          <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-slate-950 p-8 text-white sm:p-12 lg:p-16">
+            <div className="grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-center">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">Diagnostic</p>
+                <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
+                  Vous ne savez pas encore quel système correspond à votre activité ?
+                </h2>
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+                  On analyse votre activité et vos objectifs pour vous orienter vers la solution la plus utile.
+                </p>
+              </div>
 
-            <div className="rounded-[1.5rem] bg-white p-6 text-slate-950">
-              <p className="text-xl font-semibold">Parlons de votre projet</p>
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                En quelques questions, nous pouvons identifier ce qui bloque aujourd’hui et les outils les plus utiles à mettre en place.
-              </p>
-              <a
-                href="/contact"
-                className="mt-6 inline-flex w-full justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-              >
-                Demander un diagnostic gratuit
-              </a>
+              <div className="rounded-[1.5rem] bg-white p-6 text-slate-950">
+                <p className="text-xl font-semibold">Parlons de votre projet</p>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  Quelques questions suffisent pour identifier ce qui bloque et les outils à mettre en place.
+                </p>
+                <a
+                  href="/contact"
+                  className="mt-6 inline-flex w-full justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                >
+                  Demander un diagnostic gratuit
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </AnimateIn>
       </section>
     </main>
   );

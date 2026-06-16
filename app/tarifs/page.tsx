@@ -1,6 +1,7 @@
 "use client";
 //on importe les biblio
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { AnimateIn } from "@/components/AnimateIn";
 import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
 import Link from "next/link";
 
@@ -460,7 +461,6 @@ export default function TarifsPage() {
   const [formSent, setFormSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [objectiveMenuOpen, setObjectiveMenuOpen] = useState(false);
 
   const [leadForm, setLeadForm] = useState<OfferRequestForm>({
     lastname: "",
@@ -483,7 +483,6 @@ export default function TarifsPage() {
       setFormSent(false);
       setIsSubmitting(false);
       setFormError(null);
-      setObjectiveMenuOpen(false);
     }
   }
 
@@ -554,10 +553,6 @@ export default function TarifsPage() {
     [databaseOffers]
   );
 
-  const selectedObjectiveLabel =
-    objectiveOptions.find((option) => option.value === leadForm.objective)
-      ?.label || "Choisissez un objectif";
-
   function updateLeadField<K extends keyof OfferRequestForm>(
     field: K,
     value: OfferRequestForm[K]
@@ -581,7 +576,6 @@ function openOfferModal(pack: PricingPack) {
   setFormSent(false);
   setIsSubmitting(false);
   setFormError(null);
-  setObjectiveMenuOpen(false);
 
   setLeadForm((current) => {
     const currentMessage = current.message.trim();
@@ -603,7 +597,6 @@ function openOfferModal(pack: PricingPack) {
   setFormSent(false);
   setIsSubmitting(false);
   setFormError(null);
-  setObjectiveMenuOpen(false);
 }
   async function handleOfferSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -693,45 +686,6 @@ function openOfferModal(pack: PricingPack) {
     } finally {
       setIsSubmitting(false);
     }
-  }
-
-  function ObjectiveDropdown() {
-    return (
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setObjectiveMenuOpen((current) => !current)}
-          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
-            leadForm.objective ? "text-slate-950" : "text-slate-400"
-          }`}
-        >
-          <span>{selectedObjectiveLabel}</span>
-          <span className="ml-4 text-xs text-slate-400">⌄</span>
-        </button>
-
-        {objectiveMenuOpen && (
-          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
-            {objectiveOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => {
-                  updateLeadField("objective", option.value);
-                  setObjectiveMenuOpen(false);
-                }}
-                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
-                  leadForm.objective === option.value
-                    ? "bg-slate-950 text-white"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
   }
 
   function PricingCard({ pack }: { pack: PricingPack }) {
@@ -983,38 +937,23 @@ function openOfferModal(pack: PricingPack) {
         <div className="absolute left-1/2 top-0 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-slate-200 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl">
-          <div className="mb-6 inline-flex rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur">
+          <div className="mb-6 inline-flex animate-fade-in rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur">
             Tarifs & formules
           </div>
 
           <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
-              <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-7xl">
+              <h1 className="animate-fade-in-up max-w-4xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-7xl">
                 Choisissez le système digital adapté à votre activité.
                 <span className="block text-slate-500">
-                  Formules claires. Mise en place + suivi mensuel.
+                  Mise en place + suivi mensuel.
                 </span>
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-600">
-                Comparez les offres, envoyez une demande ou réservez un diagnostic.
-                On vous aide à transformer votre présence digitale en demandes concrètes.
+              <p className="animate-fade-in-up mt-8 max-w-2xl text-lg leading-8 text-slate-600" style={{ animationDelay: "120ms" }}>
+                Comparez les offres et envoyez une demande directement depuis la fiche qui vous correspond.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#commerce"
-                  className="inline-flex justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Voir les formules
-                </a>
-                <Link
-                  href="/prise-de-rdv"
-                  className="inline-flex justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-950 hover:text-white"
-                >
-                  Prendre rendez-vous
-                </Link>
-              </div>
 
               <div className="mt-10">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
@@ -1149,39 +1088,6 @@ function openOfferModal(pack: PricingPack) {
         </div>
       </section>
 
-      <section className="px-6 py-16 sm:px-10 lg:px-20">
-        <div className="mx-auto max-w-6xl rounded-[2rem] bg-slate-950 p-8 text-white shadow-sm sm:p-10 lg:p-12">
-          <div className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-white/45">
-                Vous hésitez ?
-              </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-5xl">
-                Réservez un diagnostic gratuit.
-              </h2>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-white/65">
-                On analyse votre activité, vos objectifs et vos outils actuels,
-                puis on vous oriente vers la formule la plus adaptée.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 lg:items-end">
-              <Link
-                href="/prise-de-rdv"
-                className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/85"
-              >
-                Prendre rendez-vous
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
-              >
-                Envoyer une demande écrite
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className="px-6 py-16 sm:px-10 lg:px-20">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10 lg:p-12">
@@ -1198,21 +1104,20 @@ function openOfferModal(pack: PricingPack) {
           </div>
 
           <div className="grid gap-4 md:grid-cols-4">
-            {paymentSteps.map((item) => (
-              <div
-                key={item.step}
-                className="rounded-[1.5rem] bg-slate-50 p-5"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
-                  {item.step}
-                </span>
-                <h3 className="mt-5 text-lg font-semibold text-slate-950">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-xs leading-5 text-slate-600">
-                  {item.description}
-                </p>
-              </div>
+            {paymentSteps.map((item, i) => (
+              <AnimateIn key={item.step} delay={i * 90}>
+                <div className="rounded-[1.5rem] bg-slate-50 p-5 transition hover:bg-slate-100">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white">
+                    {item.step}
+                  </span>
+                  <h3 className="mt-5 text-lg font-semibold text-slate-950">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-xs leading-5 text-slate-600">
+                    {item.description}
+                  </p>
+                </div>
+              </AnimateIn>
             ))}
           </div>
         </div>
@@ -1260,18 +1165,17 @@ function openOfferModal(pack: PricingPack) {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {faqs.map((faq) => (
-              <div
-                key={faq.question}
-                className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
-              >
-                <h3 className="text-xl font-semibold tracking-tight text-slate-950">
-                  {faq.question}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  {faq.answer}
-                </p>
-              </div>
+            {faqs.map((faq, i) => (
+              <AnimateIn key={faq.question} delay={i * 80}>
+                <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                  <h3 className="text-xl font-semibold tracking-tight text-slate-950">
+                    {faq.question}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">
+                    {faq.answer}
+                  </p>
+                </div>
+              </AnimateIn>
             ))}
           </div>
         </div>
@@ -1290,13 +1194,7 @@ function openOfferModal(pack: PricingPack) {
             outils actuels. Ensuite, nous vous orientons vers la formule la plus
             adaptée.
           </p>
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/prise-de-rdv"
-              className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white/85"
-            >
-              Réserver un diagnostic gratuit
-            </Link>
+          <div className="mt-10 flex justify-center">
             <Link
               href="/services"
               className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
@@ -1487,7 +1385,19 @@ function openOfferModal(pack: PricingPack) {
                     <span className="text-xs font-semibold text-slate-600">
                       Objectif principal 
                     </span>
-                    <ObjectiveDropdown />
+                    <div className="relative">
+                      <select
+                        value={leadForm.objective}
+                        onChange={(e) => updateLeadField("objective", e.target.value)}
+                        className={`w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-400 focus:bg-white ${!leadForm.objective ? "text-slate-400" : "text-slate-950"}`}
+                      >
+                        <option value="" disabled>Choisissez un objectif</option>
+                        {objectiveOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400">⌄</span>
+                    </div>
                   </label>
                 </div>
 

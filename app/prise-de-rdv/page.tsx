@@ -261,14 +261,7 @@ export default function PriseDeRdvPage() {
   const [isBooking, setIsBooking] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [objectiveMenuOpen, setObjectiveMenuOpen] = useState(false);
-  const [TypeClientMenuOpen, setTypeClientMenuOpen] = useState(false);
-    const selectedObjectiveLabel =
-    objectiveOptions.find((option) => option.value === form.objective)?.label ||
-    "Choisissez un objectif";
-    const selectedTypeClientLabel =
-    typeclientOptions.find((option) => option.value === form.type_client)?.label ||
-    "Choisissez un Type de client";
+
   useEffect(() => {
     async function loadSlots() {
       try {
@@ -321,6 +314,46 @@ export default function PriseDeRdvPage() {
     loadSlots();
   }, []);
 
+  useEffect(() => {
+    if (bookingSuccess) return;
+
+    async function refreshSlots() {
+      try {
+        const start = new Date().toISOString();
+        const end = addDays(new Date(), 30).toISOString();
+        const params = new URLSearchParams({ start, end });
+        const response = await fetch(`/api/cal/slots?${params.toString()}`, {
+          method: "GET",
+          cache: "no-store",
+        });
+        if (!response.ok) return;
+        const result = await response.json();
+        setSlots(result.data || {});
+      } catch {
+        // silently ignore background refresh errors
+      }
+    }
+
+    const interval = setInterval(refreshSlots, 60_000);
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === "visible") refreshSlots();
+    }
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [bookingSuccess]);
+
+  useEffect(() => {
+    if (selectedDate && Object.keys(slots).length > 0 && !slots[selectedDate]) {
+      setSelectedDate("");
+      setSelectedSlot("");
+    }
+  }, [slots, selectedDate]);
+
   const availableDateSet = useMemo(() => {
     return new Set(Object.keys(slots));
   }, [slots]);
@@ -356,82 +389,6 @@ export default function PriseDeRdvPage() {
       next.setMonth(current.getMonth() + 1);
       return next;
     });
-  }
-      function TypeClientDropdown() {
-    return (
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setTypeClientMenuOpen((current) => !current)}
-          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
-            form.type_client ? "text-slate-950" : "text-slate-400"
-          }`}
-        >
-          <span>{selectedTypeClientLabel}</span>
-          <span className="ml-4 text-xs text-slate-400">⌄</span>
-        </button>
-
-        {TypeClientMenuOpen && (
-          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
-            {typeclientOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => {
-                  updateField("type_client", option.value);
-                  setTypeClientMenuOpen(false);
-                }}
-                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
-                  form.type_client === option.value
-                    ? "bg-slate-950 text-white"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-  function ObjectiveDropdown() {
-    return (
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setObjectiveMenuOpen((current) => !current)}
-          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
-            form.objective ? "text-slate-950" : "text-slate-400"
-          }`}
-        >
-          <span>{selectedObjectiveLabel}</span>
-          <span className="ml-4 text-xs text-slate-400">⌄</span>
-        </button>
-
-        {objectiveMenuOpen && (
-          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
-            {objectiveOptions.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => {
-                  updateField("objective", option.value);
-                  setObjectiveMenuOpen(false);
-                }}
-                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
-                  form.objective === option.value
-                    ? "bg-slate-950 text-white"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
   }
   async function handleBookingSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -486,7 +443,7 @@ export default function PriseDeRdvPage() {
         activity: null,
         type_client:form.type_client,
         objective: form.objective,
-        objectiveLabel: selectedObjectiveLabel,
+        objectiveLabel: objectiveOptions.find((o) => o.value === form.objective)?.label ?? form.objective,
         businessWebsiteUrl: normalizeOptionalUrl(form.businessWebsiteUrl),
         googleBusinessUrl: normalizeOptionalUrl(form.googleBusinessUrl),
         message: cleanOptionalText(form.message),
@@ -512,6 +469,35 @@ export default function PriseDeRdvPage() {
       }
 
       setBookingSuccess(true);
+
+      // Supprime immédiatement le créneau réservé de l'affichage
+      const bookedSlot = selectedSlot;
+      setSlots((current) => {
+        const dateKey = bookedSlot.slice(0, 10);
+        const filtered = (current[dateKey] ?? []).filter(
+          (s) => s.start !== bookedSlot,
+        );
+        if (filtered.length === 0) {
+          const updated = { ...current };
+          delete updated[dateKey];
+          return updated;
+        }
+        return { ...current, [dateKey]: filtered };
+      });
+
+      // Re-synchronise avec Cal.com pour propager aux autres utilisateurs
+      try {
+        const refreshStart = new Date().toISOString();
+        const refreshEnd = addDays(new Date(), 30).toISOString();
+        const refreshParams = new URLSearchParams({ start: refreshStart, end: refreshEnd });
+        const refreshRes = await fetch(`/api/cal/slots?${refreshParams}`, { cache: "no-store" });
+        if (refreshRes.ok) {
+          const refreshData = await refreshRes.json();
+          setSlots(refreshData.data || {});
+        }
+      } catch {
+        // silently ignore
+      }
     } catch (error) {
       setBookingError(
         error instanceof Error
@@ -1070,15 +1056,38 @@ export default function PriseDeRdvPage() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <label className={labelClass}>
-                    <span className={labelTextClass}>Type de Client *</span>
-                    <TypeClientDropdown />
-                  </label>
+                      <span className={labelTextClass}>Type de Client *</span>
+                      <div className="relative">
+                        <select
+                          value={form.type_client}
+                          onChange={(e) => updateField("type_client", e.target.value)}
+                          className={`${selectClass} ${!form.type_client ? "text-slate-400" : "text-slate-950"}`}
+                        >
+                          <option value="" disabled>Choisissez un type de client</option>
+                          {typeclientOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400">⌄</span>
+                      </div>
+                    </label>
 
-                    
-                     <label className={labelClass}>
-                    <span className={labelTextClass}>Objectif principal</span>
-                    <ObjectiveDropdown />
-                  </label>
+                    <label className={labelClass}>
+                      <span className={labelTextClass}>Objectif principal</span>
+                      <div className="relative">
+                        <select
+                          value={form.objective}
+                          onChange={(e) => updateField("objective", e.target.value)}
+                          className={`${selectClass} ${!form.objective ? "text-slate-400" : "text-slate-950"}`}
+                        >
+                          <option value="" disabled>Choisissez un objectif</option>
+                          {objectiveOptions.map((opt) => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400">⌄</span>
+                      </div>
+                    </label>
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">

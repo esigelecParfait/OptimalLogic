@@ -1,3 +1,5 @@
+import { AnimateIn } from "@/components/AnimateIn";
+
 export default function HomePage() {
   const problems = [
     "Fiche Google Business peu optimisée",
@@ -83,17 +85,16 @@ export default function HomePage() {
             Google Business • Site web • RDV • Assistant IA
           </p>
 
-          <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-slate-950 md:text-7xl">
+          <h1 className="animate-fade-in-up max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-slate-950 md:text-7xl">
             Faites de votre présence en ligne un vrai moteur de clients.
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-700 md:text-xl">
-            Nous créons la solution digitale adaptée à votre activité pour être mieux trouvé,
-            mieux compris et plus facilement choisi : Google Business, site web, prise de
-            rendez-vous, assistant IA et suivi des demandes.
+          <p className="animate-fade-in-up mt-8 max-w-2xl text-lg leading-8 text-slate-700 md:text-xl" style={{ animationDelay: "100ms" }}>
+            Google Business, site web, prise de rendez-vous, assistant IA et suivi des demandes —
+            adaptés à votre activité.
           </p>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <div className="animate-fade-in-up mt-10 flex flex-col gap-4 sm:flex-row" style={{ animationDelay: "200ms" }}>
             <a
               href="/prise-de-rdv"
               className="rounded-full bg-slate-950 px-7 py-4 text-center text-sm font-semibold text-white transition hover:bg-slate-800"
@@ -208,24 +209,25 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-        <div className="max-w-3xl">
+        <AnimateIn className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Le vrai problème</p>
           <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
             Le problème n’est pas toujours l’absence de site. C’est l’absence de clarté.
           </h2>
           <p className="mt-6 text-lg leading-8 text-slate-700">
-            Beaucoup d’activités perdent des clients parce que leur présence en ligne n’est pas assez claire :
-            fiche Google incomplète, photos peu attractives, avis mal exploités, absence de réservation simple
-            ou site qui ne donne pas envie de contacter.
+            Fiche Google incomplète, photos peu attractives, avis mal exploités, pas de réservation simple —
+            voilà ce qui fait perdre des clients.
           </p>
-        </div>
+        </AnimateIn>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {problems.map((problem) => (
-            <div key={problem} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-              <div className="mb-5 h-10 w-10 rounded-full bg-slate-950 text-center text-lg leading-10 text-white">×</div>
-              <p className="font-medium">{problem}</p>
-            </div>
+          {problems.map((problem, i) => (
+            <AnimateIn key={problem} delay={i * 60}>
+              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <div className="mb-5 h-10 w-10 rounded-full bg-slate-950 text-center text-lg leading-10 text-white">×</div>
+                <p className="font-medium">{problem}</p>
+              </div>
+            </AnimateIn>
           ))}
         </div>
       </section>
@@ -263,31 +265,31 @@ export default function HomePage() {
         </div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {solutions.map((solution) => (
-            <div key={solution.title} className="group rounded-[2rem] bg-white p-7 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/80">
-              <p className="mb-8 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                {solution.tag}
-              </p>
-              <h3 className="text-2xl font-semibold tracking-tight">{solution.title}</h3>
-              <p className="mt-4 leading-7 text-slate-600">{solution.text}</p>
-            </div>
+          {solutions.map((solution, i) => (
+            <AnimateIn key={solution.title} delay={i * 70}>
+              <div className="group rounded-[2rem] bg-white p-7 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/80">
+                <p className="mb-8 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  {solution.tag}
+                </p>
+                <h3 className="text-2xl font-semibold tracking-tight">{solution.title}</h3>
+                <p className="mt-4 leading-7 text-slate-600">{solution.text}</p>
+              </div>
+            </AnimateIn>
           ))}
         </div>
       </section>
 
       <section className="border-y border-slate-200 bg-white px-6 py-24 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
+          <AnimateIn>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Notre différence</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
               Vous n’avez pas besoin de tout. Vous avez besoin de ce qui vous correspond.
             </h2>
-          </div>
-          <div>
+          </AnimateIn>
+          <AnimateIn delay={100}>
             <p className="text-lg leading-8 text-slate-700">
-              Certains professionnels ont surtout besoin d’une fiche Google Business plus propre et plus visible.
-              D’autres ont besoin d’un site, d’un système de réservation ou d’un assistant IA. Notre rôle est de
-              vous guider vers la solution la plus utile, sans vous vendre ce qui ne sert pas votre activité.
+              Fiche Google, site web, réservation ou assistant IA — notre rôle est de vous orienter vers ce qui est vraiment utile, sans vous vendre ce qui ne sert pas.
             </p>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
@@ -297,12 +299,12 @@ export default function HomePage() {
                 "Site web seulement quand il apporte une vraie valeur",
                 "Design sobre, moderne et professionnel",
               ].map((item) => (
-                <div key={item} className="rounded-2xl bg-slate-100 p-5 font-medium">
+                <div key={item} className="rounded-2xl bg-slate-100 p-5 font-medium transition hover:bg-slate-200">
                   {item}
                 </div>
               ))}
             </div>
-          </div>
+          </AnimateIn>
         </div>
       </section>
 
@@ -315,11 +317,13 @@ export default function HomePage() {
         </div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {benefits.map((benefit) => (
-            <div key={benefit.title} className="rounded-[2rem] bg-white p-7 shadow-sm ring-1 ring-slate-200">
-              <h3 className="text-xl font-semibold">{benefit.title}</h3>
-              <p className="mt-4 text-sm leading-6 text-slate-600">{benefit.text}</p>
-            </div>
+          {benefits.map((benefit, i) => (
+            <AnimateIn key={benefit.title} delay={i * 80}>
+              <div className="rounded-[2rem] bg-white p-7 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg">
+                <h3 className="text-xl font-semibold">{benefit.title}</h3>
+                <p className="mt-4 text-sm leading-6 text-slate-600">{benefit.text}</p>
+              </div>
+            </AnimateIn>
           ))}
         </div>
       </section>
@@ -348,24 +352,25 @@ export default function HomePage() {
       </section>
 
       <section className="px-6 pb-24 lg:px-8">
-        <div className="mx-auto max-w-5xl rounded-[2.5rem] bg-white p-8 text-center shadow-xl shadow-slate-200/80 ring-1 ring-slate-200 md:p-16">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Première étape</p>
-          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-            Vous ne savez pas par où commencer ? C’est justement notre rôle.
-          </h2>
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-700">
-            Réservez un appel gratuit. Nous analyserons votre présence actuelle : Google Business, site web,
-            parcours client, prise de contact et visibilité. Ensuite, nous vous proposerons la solution la plus adaptée.
-          </p>
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <a href="/prise-de-rdv" className="rounded-full bg-slate-950 px-7 py-4 text-sm font-semibold text-white hover:bg-slate-800">
-              Réserver un appel gratuit
-            </a>
-            <a href="/contact" className="rounded-full border border-slate-300 px-7 py-4 text-sm font-semibold hover:bg-slate-50">
-              Nous contacter
-            </a>
+        <AnimateIn>
+          <div className="mx-auto max-w-5xl rounded-[2.5rem] bg-white p-8 text-center shadow-xl shadow-slate-200/80 ring-1 ring-slate-200 md:p-16">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Première étape</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+              Vous ne savez pas par où commencer ? C’est justement notre rôle.
+            </h2>
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-700">
+              Réservez un appel gratuit. Nous analysons votre présence actuelle et vous proposons la solution la plus adaptée.
+            </p>
+            <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+              <a href="/prise-de-rdv" className="rounded-full bg-slate-950 px-7 py-4 text-sm font-semibold text-white transition hover:bg-slate-800">
+                Réserver un appel gratuit
+              </a>
+              <a href="/tarifs" className="rounded-full border border-slate-300 px-7 py-4 text-sm font-semibold transition hover:bg-slate-50">
+                Nos formules
+              </a>
+            </div>
           </div>
-        </div>
+        </AnimateIn>
       </section>
     </main>
   );
