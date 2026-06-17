@@ -21,6 +21,17 @@ export default function PasswordForm() {
   return (
     <form action={formAction} className="grid gap-5">
       <label className={labelClass}>
+        <span className={labelTextClass}>Mot de passe actuel</span>
+        <input
+          type="password"
+          name="currentPassword"
+          required
+          placeholder="••••••••"
+          className={fieldClass}
+        />
+      </label>
+
+      <label className={labelClass}>
         <span className={labelTextClass}>Nouveau mot de passe</span>
         <input
           type="password"
@@ -33,7 +44,7 @@ export default function PasswordForm() {
       </label>
 
       <label className={labelClass}>
-        <span className={labelTextClass}>Confirmer le mot de passe</span>
+        <span className={labelTextClass}>Confirmer le nouveau mot de passe</span>
         <input
           type="password"
           name="confirmPassword"

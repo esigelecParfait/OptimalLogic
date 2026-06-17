@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatStatus } from "@/lib/format-status";
 
@@ -19,12 +18,6 @@ type ClientService = {
     client_type: string;
   } | null;
 };
-
-const shortcuts = [
-  { href: "/espace-client/suivi", label: "Suivi d'avancement" },
-  { href: "/espace-client/support", label: "Support" },
-  { href: "/espace-client/mon-compte", label: "Mes informations" },
-];
 
 export default async function TableauDeBordPage() {
   const supabase = await createClient();
@@ -116,23 +109,6 @@ export default async function TableauDeBordPage() {
         )}
       </section>
 
-      <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-          Raccourcis
-        </p>
-
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          {shortcuts.map((shortcut) => (
-            <Link
-              key={shortcut.href}
-              href={shortcut.href}
-              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:border-slate-950 hover:bg-white"
-            >
-              {shortcut.label}
-            </Link>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
