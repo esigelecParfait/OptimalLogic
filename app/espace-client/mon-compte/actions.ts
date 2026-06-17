@@ -3,6 +3,57 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
+export type PasswordActionState = {
+  error: string | null;
+  success?: boolean;
+};
+
+export async function updatePasswordFromAccount(
+  _prevState: PasswordActionState,
+  formData: FormData
+): Promise<PasswordActionState> {
+  const currentPassword = formData.get("currentPassword") as string;
+  const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  if (!currentPassword) {
+    return { error: "Veuillez saisir votre mot de passe actuel." };
+  }
+  if (!password || password.length < 8) {
+    return { error: "Le nouveau mot de passe doit contenir au moins 8 caractères." };
+  }
+  if (password !== confirmPassword) {
+    return { error: "Les mots de passe ne correspondent pas." };
+  }
+  if (password === currentPassword) {
+    return { error: "Le nouveau mot de passe doit être différent de l'ancien." };
+  }
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user?.email) {
+    return { error: "Vous devez être connecté." };
+  }
+
+  const { error: verifyError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (verifyError) {
+    return { error: "Mot de passe actuel incorrect." };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    return { error: "Impossible de mettre à jour le mot de passe. Veuillez réessayer." };
+  }
+
+  return { error: null, success: true };
+}
+
 export type AccountActionState = {
   error: string | null;
   success?: boolean;
