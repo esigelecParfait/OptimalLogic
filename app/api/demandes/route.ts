@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
 import { sendBrevoEmail } from "@/lib/brevo";
 import {
   buildAdminImmediateEmail,
@@ -101,6 +102,10 @@ function jsonError(message: string, status = 400) {
 }
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const rl = rateLimit(`demandes:${ip}`, 5, 60 * 60 * 1000);
+  if (!rl.allowed) return rateLimitResponse(rl.resetAt);
+
   try {
     const body = (await request.json()) as CreateDemandeBody;
 

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guide Chatbots — OptimalLogic</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #1a1a2e;
+      background: #fff;
+      padding: 48px 56px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .doc-header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 20px;
+      margin-bottom: 36px;
+    }
+    .doc-header .logo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+    .doc-header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #0f172a;
+    }
+    .doc-header .subtitle {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* Section titles */
+    h2 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      color: #0f172a;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    /* Chatbot cards */
+    .chatbot-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .chatbot-card .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #0f172a;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .badge-public { background: #1e40af; }
+    .card-title { font-size: 15px; font-weight: 700; color: #0f172a; }
+    .card-loc { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+    /* Two columns */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 4px;
+    }
+    .col-box {
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .col-box.green { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .col-box.red   { background: #fef2f2; border: 1px solid #fecaca; }
+    .col-box .col-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 10px;
+    }
+    .col-box.green .col-title { color: #15803d; }
+    .col-box.red   .col-title { color: #b91c1c; }
+    ul { list-style: none; padding: 0; }
+    ul li { padding: 3px 0; padding-left: 16px; position: relative; font-size: 12px; }
+    ul li::before { content: "—"; position: absolute; left: 0; color: #94a3b8; }
+    .col-box.green ul li::before { color: #4ade80; }
+    .col-box.red   ul li::before { color: #f87171; }
+
+    /* Section spacing */
+    section { margin-bottom: 40px; }
+
+    /* Steps */
+    .steps { counter-reset: step; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #0f172a;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body { padding-top: 4px; }
+    .step-body strong { display: block; font-size: 13px; color: #0f172a; margin-bottom: 3px; }
+    .step-body p, .step-body code { font-size: 12px; color: #475569; }
+    code {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 11px;
+      color: #0f172a;
+    }
+    .code-block {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 6px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 11px;
+      line-height: 1.8;
+      color: #334155;
+      white-space: pre;
+    }
+
+    /* Info box */
+    .info-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 12px;
+      color: #1e40af;
+      margin-top: 16px;
+    }
+    .info-box strong { color: #1e3a8a; }
+
+    /* Footer */
+    .doc-footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @media print {
+      body { padding: 24px 32px; }
+      .chatbot-card { break-inside: avoid; }
+      section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="doc-header">
+    <div class="logo">OptimalLogic — Documentation interne</div>
+    <h1>Guide des Assistants IA</h1>
+    <p class="subtitle">Périmètre de réponse de chaque chatbot &amp; guide de mise en place pour les collaborateurs</p>
+  </div>
+
+  <!-- ─── CHATBOT 1 ─── -->
+  <section>
+    <h2>1. Périmètre des chatbots</h2>
+
+    <div class="chatbot-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Assistant Espace Client</div>
+          <div class="card-loc">Accessible sur : /espace-client/support</div>
+        </div>
+        <span class="badge" style="margin-left:auto">Clients connectés</span>
+      </div>
+
+      <div class="two-col">
+        <div class="col-box green">
+          <div class="col-title">Peut répondre</div>
+          <ul>
+            <li>Informations sur l'offre souscrite et son contenu</li>
+            <li>Statut du service (actif, en attente, etc.)</li>
+            <li>Statut du paiement</li>
+            <li>Date de début et tarifs de l'abonnement</li>
+            <li>Conseils d'utilisation Google Business</li>
+            <li>Conseils sur le site web livré</li>
+            <li>Conseils sur le chatbot livré</li>
+            <li>Questions générales sur les services OptimalLogic</li>
+            <li>Orienter vers l'équipe si la question dépasse son périmètre</li>
+          </ul>
+        </div>
+        <div class="col-box red">
+          <div class="col-title">Ne peut pas répondre</div>
+          <ul>
+            <li>Avancement détaillé du projet (étapes)</li>
+            <li>Modifier une facture ou un statut</li>
+            <li>Données d'autres clients</li>
+            <li>Code source ou infrastructure du site</li>
+            <li>Clés API ou données techniques internes</li>
+            <li>Toute demande pouvant compromettre la sécurité</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="chatbot-card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Assistant Public (widget flottant)</div>
+          <div class="card-loc">Visible sur toutes les pages publiques du site</div>
+        </div>
+        <span class="badge badge-public" style="margin-left:auto">Visiteurs</span>
+      </div>
+
+      <div class="two-col">
+        <div class="col-box green">
+          <div class="col-title">Peut répondre</div>
+          <ul>
+            <li>Quelle formule correspond à mon activité</li>
+            <li>Tarifs et détail des inclusions (Commerce, TPE, Startup)</li>
+            <li>Explication du processus (diagnostic → livraison)</li>
+            <li>Différences entre les formules</li>
+            <li>Orienter vers /tarifs, /services, /prise-de-rdv</li>
+            <li>Questions sur Google Business, site web, chatbot, CRM</li>
+            <li>Aide à la prise de décision commerciale</li>
+          </ul>
+        </div>
+        <div class="col-box red">
+          <div class="col-title">Ne peut pas répondre</div>
+          <ul>
+            <li>Données ou informations sur les clients existants</li>
+            <li>Code source ou infrastructure du site</li>
+            <li>Clés API ou données techniques internes</li>
+            <li>Promesses non confirmées par le site</li>
+            <li>Toute demande pouvant compromettre la sécurité</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── MISE EN PLACE ─── -->
+  <section>
+    <h2>2. Étapes de mise en place du chatbot</h2>
+
+    <h3>Ce qui a été réalisé pour implémenter les chatbots</h3>
+    <p style="font-size:12px; color:#475569; margin-bottom:16px;">
+      Voici les 6 étapes concrètes qui ont permis de mettre en place les deux assistants IA sur le site OptimalLogic.
+    </p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Installation du SDK Anthropic</strong>
+          <div class="code-block">npm install @anthropic-ai/sdk</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Ajout de la clé API</strong>
+          <p>Dans le fichier <code>.env.local</code> à la racine du projet :</p>
+          <div class="code-block">ANTHROPIC_API_KEY=sk-ant-...</div>
+          <p style="margin-top:6px;">La clé ne doit jamais être commitée sur Git. Redémarrer le serveur après modification.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Création des routes API (le cerveau)</strong>
+          <div class="code-block">app/api/chat/client/route.ts  → reçoit les messages, charge les données
+                                     client depuis Supabase, appelle Claude
+app/api/chat/public/route.ts  → même principe, connaît les offres
+                                     et tarifs du site</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Création des interfaces UI</strong>
+          <div class="code-block">app/espace-client/support/ChatInterface.tsx  → composant de chat espace client
+components/ChatWidget.tsx                    → widget flottant site public</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Intégration dans le site</strong>
+          <p>La page <code>/espace-client/support</code> affiche la <code>ChatInterface</code>.<br />
+          Le <code>ChatWidget</code> est ajouté dans <code>app/layout.tsx</code> — visible sur toutes les pages publiques, masqué automatiquement sur <code>/espace-client</code>.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <strong>Redémarrage du serveur</strong>
+          <div class="code-block">npm run dev</div>
+          <p style="margin-top:6px;">Aucune base de données supplémentaire, aucun service tiers. Tout passe par l'API Anthropic directement depuis Next.js.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <h2 style="margin-top:40px">3. Comment fonctionne le chatbot (pour le collaborateur)</h2>
+
+    <h3>Architecture en 3 parties</h3>
+    <p style="font-size:12px; color:#475569; margin-bottom:16px;">
+      Chaque chatbot est composé d'une <strong>route API</strong> côté serveur, d'un <strong>composant React</strong> côté client, et d'un <strong>system prompt</strong> qui définit le comportement de l'IA.
+    </p>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>La clé API Anthropic</strong>
+          <p>Elle est stockée dans le fichier <code>.env.local</code> à la racine du projet, sous la variable <code>ANTHROPIC_API_KEY</code>. Elle ne doit jamais être commitée sur Git ni partagée. Le serveur doit être redémarré après toute modification de ce fichier.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Les routes API (backend)</strong>
+          <p>Deux fichiers gèrent les appels à Claude :</p>
+          <div class="code-block">app/api/chat/client/route.ts   → chatbot espace client
+app/api/chat/public/route.ts   → chatbot site public</div>
+          <p style="margin-top:8px;">Ces routes reçoivent les messages du client, construisent le <em>system prompt</em> avec les données Supabase (pour le chatbot client), puis appellent l'API Anthropic en mode streaming. Elles retournent la réponse token par token (Server-Sent Events).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Le system prompt — comment modifier le comportement</strong>
+          <p>Le comportement de l'IA est entièrement défini par le texte du <em>system prompt</em> dans chaque route. Pour modifier ce que le chatbot dit ou ne dit pas :</p>
+          <ul style="margin-top:8px; margin-left:16px;">
+            <li>Ouvrir le fichier de route correspondant</li>
+            <li>Localiser la fonction <code>buildSystemPrompt()</code> (chatbot client) ou la constante <code>SYSTEM_PROMPT</code> (chatbot public)</li>
+            <li>Modifier le texte en français directement — pas de code à toucher</li>
+            <li>Sauvegarder ; Next.js recharge automatiquement en mode dev</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Les composants UI (frontend)</strong>
+          <p>L'interface de chat est dans deux fichiers :</p>
+          <div class="code-block">app/espace-client/support/ChatInterface.tsx  → espace client
+components/ChatWidget.tsx                    → widget public</div>
+          <p style="margin-top:8px;">Ces composants gèrent l'affichage, la saisie, le streaming et le rendu des boutons de choix. Pour changer le design, modifier les classes Tailwind dans ces fichiers.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Modèle IA utilisé</strong>
+          <p>Les deux chatbots utilisent <strong>Claude Haiku 4.5</strong> (<code>claude-haiku-4-5-20251001</code>), le modèle le plus rapide et économique d'Anthropic. Pour changer de modèle, remplacer cette valeur dans le fichier de route. Coût estimé : moins de 5 €/mois pour un usage normal.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <strong>Règles de sécurité intégrées</strong>
+          <p>Les règles de sécurité sont inscrites directement dans le system prompt (section "RÈGLES ABSOLUES"). Elles interdisent à l'IA de révéler des informations sensibles, du code source, des données clients, ou de répondre à des questions d'exploitation. Ces règles ne peuvent pas être contournées par l'utilisateur via le chat.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-box">
+      <strong>Pour tester :</strong> lancer le serveur avec <code>npm run dev</code>, ouvrir <code>http://localhost:3000</code> pour le widget public, ou se connecter à l'espace client pour tester le chatbot de support.
+    </div>
+  </section>
+
+  <div class="doc-footer">
+    <span>OptimalLogic — Confidentiel</span>
+    <span>Généré le 18 juin 2026</span>
+  </div>
+
+</body>
+</html>
