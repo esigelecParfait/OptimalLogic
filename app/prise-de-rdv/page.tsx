@@ -261,7 +261,14 @@ export default function PriseDeRdvPage() {
   const [isBooking, setIsBooking] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-
+  const [TypeClientMenuOpen, setTypeClientMenuOpen] = useState(false);
+  const [objectiveMenuOpen, setObjectiveMenuOpen] = useState(false);
+  const selectedObjectiveLabel =
+    objectiveOptions.find((option) => option.value === form.objective)?.label ||
+    "Choisissez un objectif";
+  const selectedTypeClientLabel =
+    typeclientOptions.find((option) => option.value === form.type_client)?.label ||
+    "Choisissez un Type de client";
   useEffect(() => {
     async function loadSlots() {
       try {
@@ -508,7 +515,83 @@ export default function PriseDeRdvPage() {
       setIsBooking(false);
     }
   }
+  function ObjectiveDropdown() {
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setObjectiveMenuOpen((current) => !current)}
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
+            form.objective ? "text-slate-950" : "text-slate-400"
+          }`}
+        >
+          <span>{selectedObjectiveLabel}</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
+        </button>
 
+        {objectiveMenuOpen && (
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
+            {objectiveOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  updateField("objective", option.value);
+                  setObjectiveMenuOpen(false);
+                }}
+                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+                  form.objective === option.value
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+  function TypeClientDropdown() {
+      
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setTypeClientMenuOpen((current) => !current)}
+          className={`flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm outline-none transition focus:border-slate-400 focus:bg-white ${
+            form.type_client ? "text-slate-950" : "text-slate-400"
+          }`}
+        >
+          <span>{selectedTypeClientLabel}</span>
+          <span className="ml-4 text-xs text-slate-400">⌄</span>
+        </button>
+
+        {TypeClientMenuOpen && (
+          <div className="absolute z-30 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/80">
+            {typeclientOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  updateField("type_client", option.value);
+                  setTypeClientMenuOpen(false);
+                }}
+                className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
+                  form.type_client === option.value
+                    ? "bg-slate-950 text-white"
+                    : "text-slate-700 hover:bg-slate-50 hover:text-slate-950"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
   return (
     <main className="min-h-screen bg-white text-slate-950">
       <style jsx global>{`
@@ -1056,38 +1139,14 @@ export default function PriseDeRdvPage() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <label className={labelClass}>
-                      <span className={labelTextClass}>Type de Client *</span>
-                      <div className="relative">
-                        <select
-                          value={form.type_client}
-                          onChange={(e) => updateField("type_client", e.target.value)}
-                          className={`${selectClass} ${!form.type_client ? "text-slate-400" : "text-slate-950"}`}
-                        >
-                          <option value="" disabled>Choisissez un type de client</option>
-                          {typeclientOptions.map((opt) => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                          ))}
-                        </select>
-                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400">⌄</span>
-                      </div>
-                    </label>
+                    <span className={labelTextClass}>Type de Client *</span>
+                    <TypeClientDropdown />
+                  </label>
 
-                    <label className={labelClass}>
-                      <span className={labelTextClass}>Objectif principal</span>
-                      <div className="relative">
-                        <select
-                          value={form.objective}
-                          onChange={(e) => updateField("objective", e.target.value)}
-                          className={`${selectClass} ${!form.objective ? "text-slate-400" : "text-slate-950"}`}
-                        >
-                          <option value="" disabled>Choisissez un objectif</option>
-                          {objectiveOptions.map((opt) => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                          ))}
-                        </select>
-                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400">⌄</span>
-                      </div>
-                    </label>
+                     <label className={labelClass}>
+                    <span className={labelTextClass}>Objectif principal</span>
+                    <ObjectiveDropdown />
+                  </label>
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">
