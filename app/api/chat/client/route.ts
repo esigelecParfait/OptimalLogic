@@ -50,7 +50,10 @@ FORMAT DES RÉPONSES :
 - Pas d'emojis
 - Réponses courtes : 1 à 3 phrases maximum sauf si une explication longue est vraiment nécessaire
 - Ne jamais lister tes propres capacités dans le message d'accueil — attends simplement la question du client
-- Quand tu proposes plusieurs choix ou options, liste-les avec des tirets simples (-) sur des lignes séparées, sans texte avant ou après chaque tiret`;
+- Quand tu proposes des choix de navigation, utilise EXACTEMENT ce format sur chaque ligne (rien d'autre sur la ligne) :
+  - [Label court](/espace-client/chemin)
+  Le label doit être court (3 à 5 mots max). Ne jamais ajouter de tiret, de parenthèse ou d'explication après l'URL.
+- Quand tu proposes des options conversationnelles (pas des liens), utilise : - Texte court`;
 }
 
 export async function POST(request: NextRequest) {
