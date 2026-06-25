@@ -891,7 +891,7 @@ function openOfferModal(pack: PricingPack) {
           </button>
 
           <Link
-            href="/prise-de-rdv"
+            href="/preview/modele-1/prise-de-rdv"
             className={`inline-flex justify-center rounded-full border px-5 py-2.5 text-xs font-semibold transition ${
               pack.highlighted
                 ? "border-white/20 text-white hover:bg-white hover:text-slate-950"
@@ -1143,7 +1143,7 @@ function openOfferModal(pack: PricingPack) {
                 mesure.
               </p>
               <Link
-                href="/contact"
+                href="/preview/modele-1/contact"
                 className="mt-8 inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
               >
                 Demander une offre sur mesure
@@ -1196,7 +1196,7 @@ function openOfferModal(pack: PricingPack) {
           </p>
           <div className="mt-10 flex justify-center">
             <Link
-              href="/services"
+              href="/preview/modele-1/services"
               className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
             >
               Revoir nos services

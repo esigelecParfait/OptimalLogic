@@ -191,7 +191,7 @@ export default function ServicesPage() {
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/45">Résultat attendu</p>
                     <p className="mt-3 text-sm leading-6 text-white/80">{service.result}</p>
                     <a
-                      href="/contact"
+                      href="/preview/modele-1/contact"
                       className="mt-5 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-slate-100"
                     >
                       {service.cta}
@@ -295,7 +295,7 @@ export default function ServicesPage() {
                   Quelques questions suffisent pour identifier ce qui bloque et les outils à mettre en place.
                 </p>
                 <a
-                  href="/contact"
+                  href="/preview/modele-1/contact"
                   className="mt-6 inline-flex w-full justify-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
                   Demander un diagnostic gratuit

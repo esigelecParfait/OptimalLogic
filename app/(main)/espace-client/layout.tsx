@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { logout } from "@/app/connexion/actions";
+import { logout } from "@/app/(main)/connexion/actions";
 
 export const dynamic = "force-dynamic";
 

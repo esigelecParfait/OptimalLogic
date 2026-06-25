@@ -673,7 +673,7 @@ export default function ContactPage() {
                 orientation.
               </p>
               <Link
-                href="/prise-de-rdv"
+                href="/preview/modele-1/prise-de-rdv"
                 className="mt-6 inline-flex w-full justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-200"
               >
                 Prendre rendez-vous
@@ -732,7 +732,7 @@ export default function ContactPage() {
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              href="/services"
+              href="/preview/modele-1/services"
               className="inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-slate-950"
             >
               Revoir nos services

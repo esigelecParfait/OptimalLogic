@@ -102,7 +102,7 @@ export default function HomePage() {
               Réserver un appel gratuit
             </a>
             <a
-              href="/services"
+              href="/preview/modele-1/services"
               className="rounded-full border border-slate-300 bg-white px-7 py-4 text-center text-sm font-semibold text-slate-950 transition hover:bg-white"
             >
               Améliorer ma visibilité
@@ -259,7 +259,7 @@ export default function HomePage() {
               Une présence digitale sur mesure, selon vos vrais besoins.
             </h2>
           </div>
-          <a href="/services" className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold hover:bg-slate-50">
+          <a href="/preview/modele-1/services" className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold hover:bg-slate-50">
             Voir les services
           </a>
         </div>
@@ -365,7 +365,7 @@ export default function HomePage() {
               <a href="/prise-de-rdv" className="rounded-full bg-slate-950 px-7 py-4 text-sm font-semibold text-white transition hover:bg-slate-800">
                 Réserver un appel gratuit
               </a>
-              <a href="/tarifs" className="rounded-full border border-slate-300 px-7 py-4 text-sm font-semibold transition hover:bg-slate-50">
+              <a href="/preview/modele-1/tarifs" className="rounded-full border border-slate-300 px-7 py-4 text-sm font-semibold transition hover:bg-slate-50">
                 Nos formules
               </a>
             </div>
