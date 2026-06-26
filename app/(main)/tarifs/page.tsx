@@ -308,49 +308,17 @@ const baseStartupPacks: PricingPack[] = [
 ];
 
 const paymentSteps = [
-  {
-    step: "01",
-    title: "Diagnostic gratuit",
-    description: "On échange pour comprendre votre activité, vos objectifs et vos outils actuels.",
-  },
-  {
-    step: "02",
-    title: "Proposition claire",
-    description: "Vous recevez une formule recommandée avec le détail de la mise en place et de l'abonnement.",
-  },
-  {
-    step: "03",
-    title: "Devis & acompte",
-    description: "Le projet démarre après validation du devis et paiement d'un acompte de lancement.",
-  },
-  {
-    step: "04",
-    title: "Livraison & suivi mensuel",
-    description: "Après la mise en place, l'abonnement permet de maintenir, suivre et améliorer le système.",
-  },
+  { step: "01", title: "Diagnostic gratuit", description: "On échange pour comprendre votre activité, vos objectifs et vos outils actuels." },
+  { step: "02", title: "Proposition claire", description: "Vous recevez une formule recommandée avec le détail de la mise en place et de l'abonnement." },
+  { step: "03", title: "Devis & acompte", description: "Le projet démarre après validation du devis et paiement d'un acompte de lancement." },
+  { step: "04", title: "Livraison & suivi mensuel", description: "Après la mise en place, l'abonnement permet de maintenir, suivre et améliorer le système." },
 ];
 
 const faqs = [
-  {
-    question: "Pourquoi une mise en place et un abonnement mensuel ?",
-    answer:
-      "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou tableau de suivi. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps.",
-  },
-  {
-    question: "Les tarifs sont-ils définitifs ?",
-    answer:
-      "Ce sont des tarifs de départ avec un périmètre clair. Une proposition sur mesure est réalisée uniquement si le projet demande des fonctionnalités spécifiques, des intégrations complexes ou un accompagnement particulier.",
-  },
-  {
-    question: "Quelle formule choisir si je ne sais pas encore ?",
-    answer:
-      "Le plus simple est de réserver un diagnostic. Nous analysons votre activité et nous vous orientons vers la formule la plus adaptée.",
-  },
-  {
-    question: "Puis-je commencer avec une formule simple et évoluer ensuite ?",
-    answer:
-      "Oui. L'objectif est de commencer avec une base utile, puis d'ajouter progressivement des fonctionnalités selon les résultats et les besoins.",
-  },
+  { question: "Pourquoi une mise en place et un abonnement mensuel ?", answer: "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou tableau de suivi. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps." },
+  { question: "Les tarifs sont-ils définitifs ?", answer: "Ce sont des tarifs de départ avec un périmètre clair. Une proposition sur mesure est réalisée uniquement si le projet demande des fonctionnalités spécifiques, des intégrations complexes ou un accompagnement particulier." },
+  { question: "Quelle formule choisir si je ne sais pas encore ?", answer: "Le plus simple est de réserver un diagnostic. Nous analysons votre activité et nous vous orientons vers la formule la plus adaptée." },
+  { question: "Puis-je commencer avec une formule simple et évoluer ensuite ?", answer: "Oui. L'objectif est de commencer avec une base utile, puis d'ajouter progressivement des fonctionnalités selon les résultats et les besoins." },
 ];
 
 function formatSetupPrice(value: number | string | null) {
@@ -389,6 +357,10 @@ function getTrackingPayload() {
     utm_content: params.get("utm_content"),
   };
 }
+
+const modalFieldClass =
+  "rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+const modalLabelClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 
 export default function TarifsPage() {
   const [databaseOffers, setDatabaseOffers] = useState<DatabaseOffer[]>([]);
@@ -550,193 +522,122 @@ export default function TarifsPage() {
   }
 
   function PricingCard({ pack }: { pack: PricingPack }) {
+    const featured = pack.highlighted;
     return (
       <article
-        className={`relative flex h-full flex-col rounded-3xl p-6 shadow-sm sm:p-7 ${
-          pack.highlighted
-            ? "bg-gray-900 text-white ring-2 ring-gray-900"
-            : "bg-white ring-1 ring-gray-100"
+        className={`relative flex h-full flex-col overflow-hidden rounded-[24px] p-6 transition-all hover:-translate-y-1 sm:p-7 ${
+          featured ? "border border-indigo/60" : "surface-card"
         }`}
+        style={featured ? { background: "linear-gradient(170deg, rgba(124,92,255,0.16), rgba(8,10,22,0.95))", boxShadow: "0 40px 90px -40px rgba(124,92,255,0.6)" } : undefined}
       >
-        {pack.highlighted && (
-          <div className="absolute -top-3 left-6 rounded-full bg-emerald-500 px-4 py-1 text-xs font-semibold text-white">
-            ★ Populaire
-          </div>
+        {featured && (
+          <div className="absolute right-6 top-6 rounded-full px-3 py-1 text-[11px] font-bold text-white" style={{ background: "var(--grad)" }}>★ Populaire</div>
         )}
 
         <div>
-          <p className={`text-xs font-semibold uppercase tracking-wider ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>
-            {pack.category}
-          </p>
-          <h3 className="mt-2 text-2xl font-black tracking-tight">{pack.name}</h3>
-          <p className={`mt-3 text-sm leading-6 ${pack.highlighted ? "text-gray-300" : "text-gray-500"}`}>{pack.subtitle}</p>
+          <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">{pack.category}</p>
+          <h3 className="mt-2 font-display text-2xl font-semibold">{pack.name}</h3>
+          <p className="mt-3 text-sm leading-6 text-mut">{pack.subtitle}</p>
         </div>
 
         {pack.target && (
-          <div className={`mt-5 rounded-2xl p-4 ${pack.highlighted ? "bg-white/10" : "bg-gray-50"}`}>
-            <p className={`text-[10px] font-semibold uppercase tracking-wider ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>
-              Pour qui ?
-            </p>
-            <p className={`mt-2 text-xs leading-5 ${pack.highlighted ? "text-gray-300" : "text-gray-500"}`}>{pack.target}</p>
+          <div className="mt-5 rounded-2xl border border-white/[0.06] p-4" style={{ background: "rgba(16,20,42,0.5)" }}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Pour qui ?</p>
+            <p className="mt-2 text-xs leading-5 text-mut">{pack.target}</p>
           </div>
         )}
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <div className={`rounded-2xl p-5 ${pack.highlighted ? "bg-white text-gray-900" : "bg-gray-900 text-white"}`}>
-            <p className={`text-[10px] font-semibold uppercase tracking-wider ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>
-              Mise en place
-            </p>
-            <p className="mt-3 text-2xl font-black">{pack.setupPrice}</p>
-            <p className={`mt-1 text-[10px] ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>paiement projet</p>
+          <div className="rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Mise en place</p>
+            <p className="mt-3 font-display text-2xl font-semibold">{pack.setupPrice}</p>
+            <p className="mt-1 text-[10px] text-mut-2">paiement projet</p>
           </div>
-          <div className={`rounded-2xl p-5 ${pack.highlighted ? "bg-white/10" : "bg-gray-50"}`}>
-            <p className={`text-[10px] font-semibold uppercase tracking-wider ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>
-              Abonnement
-            </p>
-            <p className="mt-3 text-2xl font-black">{pack.monthlyPrice}</p>
-            <p className={`mt-1 text-[10px] ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>suivi mensuel</p>
+          <div className="rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(16,20,42,0.6)" }}>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Abonnement</p>
+            <p className="mt-3 font-display text-2xl font-semibold">{pack.monthlyPrice}</p>
+            <p className="mt-1 text-[10px] text-mut-2">suivi mensuel</p>
           </div>
         </div>
 
-        <div className={`mt-6 rounded-2xl p-5 ${pack.highlighted ? "bg-white/10" : "bg-gray-50"}`}>
-          <p className={`text-[10px] font-semibold uppercase tracking-wider ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>
-            Services de mise en place
-          </p>
+        <div className="mt-6 rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Services de mise en place</p>
           <ul className="mt-3 grid gap-2">
             {pack.setupIncludes.map((item) => (
               <li key={item} className="flex gap-2.5 text-xs">
-                <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-[9px] font-bold text-white">
-                  ✓
-                </span>
-                <span className={pack.highlighted ? "text-gray-300" : "text-gray-600"}>{item}</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="mt-0.5 shrink-0 text-emerald"><path d="M20 6L9 17l-5-5" /></svg>
+                <span className="text-mut">{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className={`mt-4 rounded-2xl p-5 ${pack.highlighted ? "bg-white/10" : "bg-white ring-1 ring-gray-100"}`}>
-          <p className={`text-[10px] font-semibold uppercase tracking-wider ${pack.highlighted ? "text-gray-400" : "text-gray-400"}`}>
-            Services mensuels
-          </p>
+        <div className="mt-4 rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Services mensuels</p>
           <ul className="mt-3 grid gap-2">
             {pack.monthlyIncludes.map((item) => (
               <li key={item} className="flex gap-2.5 text-xs">
-                <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${pack.highlighted ? "bg-white text-gray-900" : "bg-gray-900 text-white"}`}>
-                  ✓
-                </span>
-                <span className={pack.highlighted ? "text-gray-300" : "text-gray-600"}>{item}</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="mt-0.5 shrink-0 text-cyan"><path d="M20 6L9 17l-5-5" /></svg>
+                <span className="text-mut">{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className={`mt-4 rounded-2xl p-5 ${pack.highlighted ? "bg-gray-800" : "bg-gray-900 text-white"}`}>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Résultat attendu</p>
-          <p className="mt-3 text-xs leading-5 text-gray-300">{pack.result}</p>
+        <div className="mt-4 rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(8,10,22,0.6)" }}>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Résultat attendu</p>
+          <p className="mt-3 text-xs leading-5 text-mut">{pack.result}</p>
         </div>
 
         <div className="mt-6 grid gap-3">
-          <button
-            type="button"
-            onClick={() => openOfferModal(pack)}
-            className={`btn-hover inline-flex justify-center rounded-full px-5 py-3 text-sm font-semibold ${
-              pack.highlighted ? "bg-white text-gray-900" : "bg-gray-900 text-white"
-            }`}
-          >
+          <button type="button" onClick={() => openOfferModal(pack)} className={`inline-flex justify-center rounded-full px-5 py-3 text-sm font-semibold ${featured ? "btn-grad" : "btn-ghost"}`}>
             {pack.cta || "Demander cette formule"}
           </button>
-          <Link
-            href="/prise-de-rdv"
-            className={`btn-hover inline-flex justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors ${
-              pack.highlighted
-                ? "border border-white/30 text-white hover:bg-white/10"
-                : "border border-gray-200 text-gray-700 hover:border-gray-900"
-            }`}
-          >
-            Prendre rendez-vous
-          </Link>
+          <Link href="/prise-de-rdv" className="btn-ghost inline-flex justify-center rounded-full px-5 py-3 text-sm font-semibold">Prendre rendez-vous</Link>
         </div>
       </article>
     );
   }
 
   return (
-    <main className="min-h-screen bg-white">
-      <style jsx global>{`
-        .phone-input-custom { width: 100%; }
-        .phone-input-custom .PhoneInputInput {
-          width: 100%;
-          border: none;
-          background: transparent;
-          font-size: 0.875rem;
-          outline: none;
-        }
-        .phone-input-custom .PhoneInputInput::placeholder { color: rgb(0 0 0 / 0.4); }
-        .phone-input-custom .PhoneInputCountry { margin-right: 0.75rem; }
-        .phone-input-custom .PhoneInputCountrySelectArrow { opacity: 0.45; }
-      `}</style>
-
+    <main className="relative">
       {/* HERO */}
-      <section className="border-b border-gray-100 px-6 py-24 lg:px-8">
-        <div className="mx-auto max-w-6xl">
-          <span className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-4 py-1.5 text-xs font-semibold text-white">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            Tarifs & formules
+      <section className="px-7 pb-16 pt-44 lg:pt-52">
+        <div className="mx-auto max-w-[1240px]">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink" style={{ background: "var(--grad-soft)" }}>
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Tarifs &amp; formules
           </span>
-
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
-              <h1 className="animate-fade-in-up max-w-4xl text-4xl font-black leading-[1.05] tracking-tight text-black sm:text-5xl lg:text-7xl">
+              <h1 className="max-w-4xl text-[clamp(38px,5.4vw,68px)] font-semibold">
                 Choisissez le système digital adapté à votre activité.
-                <span className="block text-black/60">Mise en place + suivi mensuel.</span>
+                <span className="grad-text"> Mise en place + suivi mensuel.</span>
               </h1>
-
-              <p
-                className="animate-fade-in-up mt-8 max-w-2xl text-lg font-semibold text-black/80"
-                style={{ animationDelay: "120ms" }}
-              >
-                Comparez les offres et envoyez une demande directement depuis la fiche qui vous correspond.
-              </p>
-
+              <p className="mt-8 max-w-2xl text-lg text-mut">Comparez les offres et envoyez une demande directement depuis la fiche qui vous correspond.</p>
               <div className="mt-10">
-                <p className="mb-3 text-xs font-black uppercase tracking-wider text-black/40">Accès rapide</p>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-mut-2">Accès rapide</p>
                 <div className="flex flex-wrap gap-2.5">
-                  <a
-                    href="#commerce"
-                    className="btn-hover rounded-full bg-gray-900 px-4 py-2 text-xs font-semibold text-white"
-                  >
-                    Commerce
-                  </a>
-                  <a href="#tpe-pme" className="btn-hover rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 transition-colors hover:border-gray-900">
-                    TPE/PME
-                  </a>
-                  <a href="#startup" className="btn-hover rounded-full border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 transition-colors hover:border-gray-900">
-                    Startup
-                  </a>
+                  <a href="#commerce" className="btn-grad rounded-full px-4 py-2 text-xs font-semibold">Commerce</a>
+                  <a href="#tpe-pme" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">TPE/PME</a>
+                  <a href="#startup" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">Startup</a>
                 </div>
               </div>
-
               {offersError && (
-                <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 px-5 py-3 text-xs font-medium text-amber-700">
-                  Les prix affichés utilisent les valeurs par défaut, car les offres n'ont pas pu être chargées.
+                <div className="mt-6 rounded-xl border border-amber-300/30 px-5 py-3 text-xs font-medium text-amber-200" style={{ background: "rgba(251,191,36,0.08)" }}>
+                  Les prix affichés utilisent les valeurs par défaut, car les offres n&apos;ont pas pu être chargées.
                 </div>
               )}
             </div>
-
-            <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Comment lire les prix ?</p>
+            <div className="surface-card rounded-[24px] p-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Comment lire les prix ?</p>
               <div className="mt-6 grid gap-4">
-                <div className="rounded-2xl bg-gray-50 p-5">
-                  <p className="text-lg font-black text-gray-900">Mise en place</p>
-                  <p className="mt-2 text-sm leading-6 text-gray-500">
-                    Création, configuration, intégration des outils et construction du parcours digital.
-                  </p>
+                <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
+                  <p className="font-display text-lg font-semibold">Mise en place</p>
+                  <p className="mt-2 text-sm leading-6 text-mut">Création, configuration, intégration des outils et construction du parcours digital.</p>
                 </div>
-                <div className="rounded-2xl bg-gray-900 p-5 text-white">
-                  <p className="text-lg font-black">Abonnement mensuel</p>
-                  <p className="mt-2 text-sm leading-6 text-gray-300">
-                    Suivi, maintenance, amélioration, reporting et accompagnement dans le temps.
-                  </p>
+                <div className="rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
+                  <p className="font-display text-lg font-semibold">Abonnement mensuel</p>
+                  <p className="mt-2 text-sm leading-6 text-mut">Suivi, maintenance, amélioration, reporting et accompagnement dans le temps.</p>
                 </div>
               </div>
             </div>
@@ -745,97 +646,62 @@ export default function TarifsPage() {
       </section>
 
       {/* Commerce */}
-      <section id="commerce" className="border-b border-gray-100 px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+      <section id="commerce" className="px-7 py-16">
+        <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-gray-600">
-              Commerces locaux
-            </span>
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-              Pour être trouvé, rassurer et être choisi rapidement
-            </h2>
-            <p className="mt-5 text-base font-medium leading-7 text-black/70">
-              Deux formules pensées pour les commerces qui dépendent des recherches locales, des avis, des appels,
-              des réservations, des devis ou des visites physiques.
-            </p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Commerces locaux</span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour être trouvé, rassurer et être choisi rapidement</h2>
+            <p className="mt-5 text-base leading-7 text-mut">Deux formules pensées pour les commerces qui dépendent des recherches locales, des avis, des appels, des réservations, des devis ou des visites physiques.</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
-            {commercePacks.map((pack) => (
-              <PricingCard key={pack.code} pack={pack} />
-            ))}
+            {commercePacks.map((pack) => <PricingCard key={pack.code} pack={pack} />)}
           </div>
         </div>
       </section>
 
       {/* TPE/PME */}
-      <section id="tpe-pme" className="border-b border-gray-100 px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+      <section id="tpe-pme" className="px-7 py-16">
+        <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-gray-600">
-              TPE / PME
-            </span>
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-              Pour générer des prospects et mieux suivre les demandes
-            </h2>
-            <p className="mt-5 text-base font-medium leading-7 text-black/70">
-              Ces formules transforment le site web en outil commercial : présentation claire, prise de contact,
-              chatbot, suivi clients/prospects et automatisations simples.
-            </p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">TPE / PME</span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour générer des prospects et mieux suivre les demandes</h2>
+            <p className="mt-5 text-base leading-7 text-mut">Ces formules transforment le site web en outil commercial : présentation claire, prise de contact, chatbot, suivi clients/prospects et automatisations simples.</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
-            {tpePmePacks.map((pack) => (
-              <PricingCard key={pack.code} pack={pack} />
-            ))}
+            {tpePmePacks.map((pack) => <PricingCard key={pack.code} pack={pack} />)}
           </div>
         </div>
       </section>
 
       {/* Startups */}
-      <section id="startup" className="border-b border-gray-100 px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+      <section id="startup" className="px-7 py-16">
+        <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-gray-600">
-              Startups
-            </span>
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-              Pour lancer, tester et mesurer la traction
-            </h2>
-            <p className="mt-5 text-base font-medium leading-7 text-black/70">
-              Ces formules aident les startups à clarifier leur offre, attirer les premiers utilisateurs,
-              générer des demandes de démo et suivre les signaux de traction.
-            </p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Startups</span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour lancer, tester et mesurer la traction</h2>
+            <p className="mt-5 text-base leading-7 text-mut">Ces formules aident les startups à clarifier leur offre, attirer les premiers utilisateurs, générer des demandes de démo et suivre les signaux de traction.</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
-            {startupPacks.map((pack) => (
-              <PricingCard key={pack.code} pack={pack} />
-            ))}
+            {startupPacks.map((pack) => <PricingCard key={pack.code} pack={pack} />)}
           </div>
         </div>
       </section>
 
       {/* Processus */}
-      <section className="border-b border-gray-100 px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-100 sm:p-10 lg:p-12">
+      <section className="px-7 py-16">
+        <div className="surface-card mx-auto max-w-[1240px] rounded-[28px] p-8 sm:p-10 lg:p-12">
           <div className="mb-10 max-w-3xl">
-            <span className="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-gray-600">
-              Paiement
-            </span>
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-              Un processus clair avant de commencer
-            </h2>
-            <p className="mt-5 text-base font-medium leading-7 text-black/70">
-              Un échange, une proposition claire, puis une mise en place cadrée.
-            </p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Paiement</span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Un processus clair avant de commencer</h2>
+            <p className="mt-5 text-base leading-7 text-mut">Un échange, une proposition claire, puis une mise en place cadrée.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-4">
             {paymentSteps.map((item, i) => (
               <AnimateIn key={item.step} delay={i * 90}>
-                <div className="btn-hover rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-900 text-xs font-black text-white">
-                    {item.step}
-                  </span>
-                  <h3 className="mt-5 text-lg font-black">{item.title}</h3>
-                  <p className="mt-3 text-xs font-medium leading-5 text-black/70">{item.description}</p>
+                <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
+                  <span className="grid h-10 w-10 place-items-center rounded-full font-display text-xs font-bold text-white" style={{ background: "var(--grad)" }}>{item.step}</span>
+                  <h3 className="mt-5 font-display text-lg font-semibold">{item.title}</h3>
+                  <p className="mt-3 text-xs leading-5 text-mut">{item.description}</p>
                 </div>
               </AnimateIn>
             ))}
@@ -844,49 +710,34 @@ export default function TarifsPage() {
       </section>
 
       {/* Sur mesure */}
-      <section className="border-b border-gray-100 px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl rounded-3xl bg-white p-8 shadow-sm ring-1 ring-gray-100 sm:p-10 lg:p-12">
+      <section className="px-7 py-16">
+        <div className="surface-card mx-auto max-w-[1240px] rounded-[28px] p-8 sm:p-10 lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
-              <span className="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-gray-600">
-                Sur mesure
-              </span>
-              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
-                Votre besoin ne rentre pas dans une formule ?
-              </h2>
+              <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Sur mesure</span>
+              <h2 className="mt-3 text-[clamp(28px,3.6vw,40px)] font-semibold">Votre besoin ne rentre pas dans une formule ?</h2>
             </div>
             <div>
-              <p className="text-lg font-medium leading-8 text-black/70">
-                Certaines entreprises ont besoin d'un accompagnement spécifique : outils déjà en place, équipe interne,
-                processus complexe, plusieurs points de contact, automatisations avancées ou besoin stratégique.
-                Dans ce cas, nous construisons une proposition sur mesure.
-              </p>
-              <Link
-                href="/contact"
-                className="btn-hover mt-8 inline-flex rounded-full bg-gray-900 px-6 py-3.5 text-sm font-semibold text-white"
-              >
-                Demander une offre sur mesure
-              </Link>
+              <p className="text-lg leading-8 text-mut">Certaines entreprises ont besoin d&apos;un accompagnement spécifique : outils déjà en place, équipe interne, processus complexe, plusieurs points de contact, automatisations avancées ou besoin stratégique. Dans ce cas, nous construisons une proposition sur mesure.</p>
+              <Link href="/contact" className="btn-grad mt-8 inline-flex rounded-full px-6 py-3.5 text-sm font-semibold">Demander une offre sur mesure</Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="border-b border-gray-100 px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+      <section className="px-7 py-16">
+        <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="rounded-full bg-gray-100 px-4 py-1.5 text-xs font-semibold text-gray-600">
-              Questions fréquentes
-            </span>
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">Comprendre nos formules</h2>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Questions fréquentes</span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Comprendre nos formules</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {faqs.map((faq, i) => (
               <AnimateIn key={faq.question} delay={i * 80}>
-                <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
-                  <h3 className="text-xl font-black tracking-tight">{faq.question}</h3>
-                  <p className="mt-4 text-sm font-medium leading-7 text-black/70">{faq.answer}</p>
+                <div className="surface-card rounded-[24px] p-6 sm:p-8">
+                  <h3 className="font-display text-xl font-semibold">{faq.question}</h3>
+                  <p className="mt-4 text-sm leading-7 text-mut">{faq.answer}</p>
                 </div>
               </AnimateIn>
             ))}
@@ -895,237 +746,98 @@ export default function TarifsPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 py-20 lg:px-8">
-        <div className="mx-auto max-w-6xl rounded-3xl bg-gray-900 p-8 text-center text-white sm:p-12 lg:p-16">
-          <span className="rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold text-white/70">
-            Diagnostic
-          </span>
-          <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-black tracking-tight sm:text-5xl">
-            Le bon tarif dépend du bon système.
-          </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-white/70">
-            Nous commençons par comprendre votre activité, vos objectifs et vos outils actuels.
-            Ensuite, nous vous orientons vers la formule la plus adaptée.
-          </p>
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/services"
-              className="btn-hover inline-flex justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
-              Revoir nos services
-            </Link>
+      <section className="px-7 py-20">
+        <div className="relative mx-auto max-w-[1240px] overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16" style={{ background: "linear-gradient(135deg, rgba(124,92,255,0.2), rgba(31,213,240,0.1))" }}>
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink" style={{ background: "var(--grad-soft)" }}>Diagnostic</span>
+          <h2 className="mx-auto mt-5 max-w-3xl text-[clamp(28px,4.4vw,48px)] font-semibold">Le bon tarif dépend du bon système.</h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-mut">Nous commençons par comprendre votre activité, vos objectifs et vos outils actuels. Ensuite, nous vous orientons vers la formule la plus adaptée.</p>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <Link href="/services" className="btn-ghost inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold">Revoir nos services</Link>
+            <Link href="/prise-de-rdv" className="btn-grad inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold">Réserver un diagnostic</Link>
           </div>
         </div>
       </section>
 
       {/* MODAL */}
       {selectedPack && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6">
-          <button
-            type="button"
-            aria-label="Fermer la fenêtre"
-            onClick={closeOfferModal}
-            className="absolute inset-0 bg-black/70"
-          />
-
-          <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl shadow-gray-900/20 sm:p-8">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 py-6">
+          <button type="button" aria-label="Fermer la fenêtre" onClick={closeOfferModal} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          <div className="surface-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[28px] p-6 shadow-2xl sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-wider text-black/50">Demande d'offre</p>
-                <h3 className="mt-2 text-2xl font-black tracking-tight">{selectedPack.name}</h3>
-                <p className="mt-1 text-sm font-medium text-black/60">
-                  {selectedPack.category} · Mise en place {selectedPack.setupPrice} · Abonnement {selectedPack.monthlyPrice}
-                </p>
+                <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">Demande d&apos;offre</p>
+                <h3 className="mt-2 font-display text-2xl font-semibold">{selectedPack.name}</h3>
+                <p className="mt-1 text-sm font-medium text-mut">{selectedPack.category} · Mise en place {selectedPack.setupPrice} · Abonnement {selectedPack.monthlyPrice}</p>
               </div>
-              <button
-                type="button"
-                onClick={closeOfferModal}
-                className="btn-hover flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 text-xl font-medium text-gray-500 transition-colors hover:bg-gray-100"
-              >
-                ×
+              <button type="button" onClick={closeOfferModal} aria-label="Fermer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
               </button>
             </div>
 
-            <div className="mt-6 rounded-2xl bg-gray-50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Offre préremplie</p>
-              <p className="mt-1 text-sm font-black text-gray-900">{selectedPack.name}</p>
+            <div className="mt-6 rounded-2xl border border-white/[0.13] p-4" style={{ background: "var(--grad-soft)" }}>
+              <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Offre préremplie</p>
+              <p className="mt-1 font-display text-base font-semibold">{selectedPack.name}</p>
             </div>
 
             {formSent ? (
-              <div className="mt-6 rounded-2xl bg-gray-900 p-6 text-center text-white">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-xl text-white">
-                  ✓
+              <div className="mt-6 rounded-[24px] border border-white/[0.13] p-6 text-center" style={{ background: "var(--grad-soft)" }}>
+                <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full text-white" style={{ background: "var(--grad)" }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
                 </div>
-                <h4 className="text-xl font-black">Demande envoyée</h4>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-gray-300">
-                  Votre demande a bien été enregistrée. Nous reviendrons vers vous rapidement avec une proposition adaptée.
-                </p>
-                <button
-                  type="button"
-                  onClick={closeOfferModal}
-                  className="btn-hover mt-6 rounded-full border border-white/20 px-5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/10"
-                >
-                  Fermer
-                </button>
+                <h4 className="font-display text-xl font-semibold">Demande envoyée</h4>
+                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">Votre demande a bien été enregistrée. Nous reviendrons vers vous rapidement avec une proposition adaptée.</p>
+                <button type="button" onClick={closeOfferModal} className="btn-ghost mt-6 rounded-full px-5 py-2.5 text-xs font-semibold">Fermer</button>
               </div>
             ) : (
               <form onSubmit={handleOfferSubmit} className="mt-6 grid gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Nom de famille *</span>
-                    <input
-                      value={leadForm.lastname}
-                      onChange={(e) => updateLeadField("lastname", e.target.value)}
-                      placeholder="Votre nom"
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Prénom *</span>
-                    <input
-                      value={leadForm.firstname}
-                      onChange={(e) => updateLeadField("firstname", e.target.value)}
-                      placeholder="Votre prénom"
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Nom de famille *</span><input value={leadForm.lastname} onChange={(e) => updateLeadField("lastname", e.target.value)} placeholder="Votre nom" className={modalFieldClass} /></label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Prénom *</span><input value={leadForm.firstname} onChange={(e) => updateLeadField("firstname", e.target.value)} placeholder="Votre prénom" className={modalFieldClass} /></label>
                 </div>
-
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2"><span className={modalLabelClass}>E-mail *</span><input type="email" value={leadForm.email} onChange={(e) => updateLeadField("email", e.target.value)} placeholder="vous@email.com" className={modalFieldClass} /></label>
                   <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">E-mail *</span>
-                    <input
-                      type="email"
-                      value={leadForm.email}
-                      onChange={(e) => updateLeadField("email", e.target.value)}
-                      placeholder="vous@email.com"
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Téléphone *</span>
-                    <div className="rounded-xl border border-gray-200 bg-white px-4 py-3 transition-all focus-within:border-gray-900 focus-within:ring-2 focus-within:ring-gray-900/10">
-                      <PhoneInput
-                        international
-                        defaultCountry="FR"
-                        value={leadForm.phoneFullNumber}
-                        onChange={(value) => updateLeadField("phoneFullNumber", value || "")}
-                        className="phone-input-custom"
-                      />
+                    <span className={modalLabelClass}>Téléphone *</span>
+                    <div className="flex items-center rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 transition-all focus-within:border-indigo">
+                      <PhoneInput international defaultCountry="FR" value={leadForm.phoneFullNumber} onChange={(value) => updateLeadField("phoneFullNumber", value || "")} className="phone-input-custom" />
                     </div>
                   </label>
                 </div>
-
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Entreprise</span>
-                    <input
-                      value={leadForm.company}
-                      onChange={(e) => updateLeadField("company", e.target.value)}
-                      placeholder="Nom de l'entreprise"
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Ville</span>
-                    <input
-                      value={leadForm.businessCity}
-                      onChange={(e) => updateLeadField("businessCity", e.target.value)}
-                      placeholder="Ex : Rouen, Paris, Lyon..."
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Entreprise</span><input value={leadForm.company} onChange={(e) => updateLeadField("company", e.target.value)} placeholder="Nom de l'entreprise" className={modalFieldClass} /></label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Ville</span><input value={leadForm.businessCity} onChange={(e) => updateLeadField("businessCity", e.target.value)} placeholder="Ex : Rouen, Paris, Lyon..." className={modalFieldClass} /></label>
                 </div>
-
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="grid gap-2"><span className={modalLabelClass}>Type d&apos;activité</span><input value={leadForm.activity} onChange={(e) => updateLeadField("activity", e.target.value)} placeholder="Ex : restaurant, BTP, SaaS..." className={modalFieldClass} /></label>
                   <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Type d'activité</span>
-                    <input
-                      value={leadForm.activity}
-                      onChange={(e) => updateLeadField("activity", e.target.value)}
-                      placeholder="Ex : restaurant, BTP, SaaS..."
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Objectif principal</span>
+                    <span className={modalLabelClass}>Objectif principal</span>
                     <div className="relative">
-                      <select
-                        value={leadForm.objective}
-                        onChange={(e) => updateLeadField("objective", e.target.value)}
-                        className={`w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10 ${!leadForm.objective ? "text-black/40" : ""}`}
-                      >
-                        <option value="" disabled>Choisissez un objectif</option>
-                        {objectiveOptions.map((opt) => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
+                      <select value={leadForm.objective} onChange={(e) => updateLeadField("objective", e.target.value)} className={`w-full appearance-none rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 pr-10 text-sm outline-none transition-all focus:border-indigo ${!leadForm.objective ? "text-mut-2" : "text-ink"}`}>
+                        <option value="" disabled className="bg-surface text-ink">Choisissez un objectif</option>
+                        {objectiveOptions.map((opt) => (<option key={opt.value} value={opt.value} className="bg-surface text-ink">{opt.label}</option>))}
                       </select>
-                      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black">⌄</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-mut"><path d="M6 9l6 6 6-6" /></svg>
                     </div>
                   </label>
                 </div>
-
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Site web actuel</span>
-                    <input
-                      type="text"
-                      value={leadForm.businessWebsiteUrl}
-                      onChange={(e) => updateLeadField("businessWebsiteUrl", e.target.value)}
-                      placeholder="https://www.votre-site.com"
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-xs font-black uppercase tracking-wider">Lien Google Business</span>
-                    <input
-                      type="text"
-                      value={leadForm.googleBusinessUrl}
-                      onChange={(e) => updateLeadField("googleBusinessUrl", e.target.value)}
-                      placeholder="Lien vers votre fiche Google Business"
-                      className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                    />
-                  </label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Site web actuel</span><input type="text" value={leadForm.businessWebsiteUrl} onChange={(e) => updateLeadField("businessWebsiteUrl", e.target.value)} placeholder="https://www.votre-site.com" className={modalFieldClass} /></label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Lien Google Business</span><input type="text" value={leadForm.googleBusinessUrl} onChange={(e) => updateLeadField("googleBusinessUrl", e.target.value)} placeholder="Lien vers votre fiche Google Business" className={modalFieldClass} /></label>
                 </div>
-
-                <label className="grid gap-2">
-                  <span className="text-xs font-black uppercase tracking-wider">Message</span>
-                  <textarea
-                    rows={4}
-                    value={leadForm.message}
-                    onChange={(e) => updateLeadField("message", e.target.value)}
-                    placeholder="Décrivez brièvement votre besoin."
-                    className="resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-900 focus:ring-2 focus:ring-gray-900/10"
-                  />
-                </label>
+                <label className="grid gap-2"><span className={modalLabelClass}>Message</span><textarea rows={4} value={leadForm.message} onChange={(e) => updateLeadField("message", e.target.value)} placeholder="Décrivez brièvement votre besoin." className={`resize-none ${modalFieldClass}`} /></label>
 
                 {formError && (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-600">
-                    {formError}
-                  </div>
+                  <div className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-xs font-medium text-[#ff9db1]" style={{ background: "rgba(255,77,109,0.1)" }}>{formError}</div>
                 )}
 
                 <div className="mt-2 grid gap-3">
-                  <p className="text-xs font-medium text-black/60">
-                    Aucun paiement maintenant. Cette demande sert à préparer un devis clair.
-                  </p>
-                  <label className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-xs leading-5 text-gray-600">
-                    <input
-                      type="checkbox"
-                      checked={leadForm.consentRgpd}
-                      onChange={(e) => updateLeadField("consentRgpd", e.target.checked)}
-                      className="mt-1 h-4 w-4"
-                    />
-                    <span>
-                      J'accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande et me recontacter.
-                    </span>
+                  <p className="text-xs font-medium text-mut">Aucun paiement maintenant. Cette demande sert à préparer un devis clair.</p>
+                  <label className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-xs leading-5 text-mut" style={{ background: "rgba(16,20,42,0.45)" }}>
+                    <input type="checkbox" checked={leadForm.consentRgpd} onChange={(e) => updateLeadField("consentRgpd", e.target.checked)} className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-[#7c5cff]" />
+                    <span>J&apos;accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande et me recontacter.</span>
                   </label>
                   <div className="flex justify-end">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="btn-hover rounded-full bg-gray-900 px-5 py-2.5 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
-                    >
+                    <button type="submit" disabled={isSubmitting} className="btn-grad rounded-full px-5 py-2.5 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-60">
                       {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
                     </button>
                   </div>

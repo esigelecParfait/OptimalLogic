@@ -32,7 +32,7 @@ function getValue(m: Metrics, key: MetricKey): number | null {
 function formatValue(key: MetricKey, value: number | null): string {
   if (value == null) return "—";
   if (key === "note_google") return `${value}/5`;
-  if (key === "nb_vues_google" || key === "nb_clics_google") return value.toLocaleString("fr-FR");
+  if (key === "nb_vues_google") return value.toLocaleString("fr-FR");
   return `${value}`;
 }
 
@@ -50,12 +50,10 @@ function absDiff(curr: number | null, prev: number | null): string | null {
 
 function StatCard({ label, value, sub, subPositive }: { label: string; value: string; sub?: string | null; subPositive?: boolean }) {
   return (
-    <div className="rounded-2xl bg-slate-800 p-6">
-      <p className="text-sm text-slate-400">{label}</p>
-      <p className="mt-3 text-4xl font-bold tracking-tight text-white">{value}</p>
-      {sub && (
-        <p className={`mt-2 text-sm font-semibold ${subPositive ? "text-emerald-400" : "text-red-400"}`}>{sub}</p>
-      )}
+    <div className="rounded-2xl border border-white/[0.07] p-6" style={{ background: "rgba(16,20,42,0.6)" }}>
+      <p className="text-sm text-mut">{label}</p>
+      <p className="mt-3 font-display text-4xl font-semibold text-ink">{value}</p>
+      {sub && <p className={`mt-2 text-sm font-semibold ${subPositive ? "text-emerald" : "text-[#ff6b6b]"}`}>{sub}</p>}
     </div>
   );
 }
@@ -105,10 +103,9 @@ export default async function TableauDeBordPage() {
   const paymentPending = service?.payment_status === "en_attente" || service?.payment_status === "impaye";
   const monthLabel = now.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
 
-  // Actions dynamiques
   const actions: { label: string; badge: string; color: string; href: string }[] = [];
   if (paymentPending) {
-    actions.push({ label: "Régulariser votre paiement", badge: "Urgent", color: "text-red-500", href: "/espace-client/mon-compte" });
+    actions.push({ label: "Régulariser votre paiement", badge: "Urgent", color: "text-[#ff6b6b]", href: "/espace-client/mon-compte" });
   }
   if (hasData && current) {
     const rdv = getValue(current, "nb_rdv");
@@ -118,40 +115,36 @@ export default async function TableauDeBordPage() {
     const demandes = getValue(current, "nb_demandes") ?? 0;
 
     if (rdv !== null && prevRdv !== null && rdv < prevRdv) {
-      actions.push({ label: "Les RDV sont en baisse — revoir la visibilité Google", badge: "Attention", color: "text-red-500", href: "/espace-client/support" });
+      actions.push({ label: "Les RDV sont en baisse — revoir la visibilité Google", badge: "Attention", color: "text-[#ff6b6b]", href: "/espace-client/support" });
     }
     if (avis === 0 && config.cards.some(c => c.key === "nb_avis_google")) {
-      actions.push({ label: "Aucun avis Google ce mois — relancer vos clients récents", badge: "Impact local", color: "text-amber-500", href: "/espace-client/support" });
+      actions.push({ label: "Aucun avis Google ce mois — relancer vos clients récents", badge: "Impact local", color: "text-amber-400", href: "/espace-client/support" });
     }
     if (chatbot > 10 && demandes < 3 && config.cards.some(c => c.key === "nb_sessions_chatbot")) {
-      actions.push({ label: "Fort trafic chatbot mais peu de demandes — optimiser la conversion", badge: "Conversion", color: "text-amber-500", href: "/espace-client/support" });
+      actions.push({ label: "Fort trafic chatbot mais peu de demandes — optimiser la conversion", badge: "Conversion", color: "text-amber-400", href: "/espace-client/support" });
     }
   }
   if (actions.length === 0 && hasData) {
-    actions.push({ label: "Tout va bien — continuez sur cette lancée !", badge: "Excellent", color: "text-emerald-600", href: "/espace-client/suivi" });
+    actions.push({ label: "Tout va bien — continuez sur cette lancée !", badge: "Excellent", color: "text-emerald", href: "/espace-client/suivi" });
   }
   if (!hasData) {
-    actions.push({ label: "Vos données apparaîtront ici dès la fin du mois", badge: "Bientôt", color: "text-slate-400", href: "/espace-client/support" });
+    actions.push({ label: "Vos données apparaîtront ici dès la fin du mois", badge: "Bientôt", color: "text-mut-2", href: "/espace-client/support" });
   }
 
   return (
     <div className="grid gap-6">
       {/* Header */}
-      <div className="rounded-[2rem] bg-slate-950 p-7 sm:p-9">
-        <p className="text-sm text-slate-500 tracking-wide">Tableau de bord</p>
+      <div className="surface-card rounded-[28px] p-7 sm:p-9">
+        <p className="text-sm tracking-wide text-mut-2">Tableau de bord</p>
         <div className="mt-1 flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white">{config.dashboardTitle}</h1>
-            {service?.offres?.nom_offre && (
-              <p className="mt-1 text-sm text-slate-500">Offre : {service.offres.nom_offre}</p>
-            )}
+            <h1 className="font-display text-3xl font-semibold text-ink">{config.dashboardTitle}</h1>
+            {service?.offres?.nom_offre && <p className="mt-1 text-sm text-mut-2">Offre : {service.offres.nom_offre}</p>}
           </div>
-          <span className="mt-1 flex-shrink-0 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-400 capitalize">
-            {monthLabel}
-          </span>
+          <span className="mt-1 flex-shrink-0 rounded-full border border-emerald/40 px-3 py-1 text-xs font-bold capitalize text-emerald" style={{ background: "rgba(46,230,168,0.1)" }}>{monthLabel}</span>
         </div>
 
-        <div className="mt-5 h-px bg-slate-800" />
+        <div className="mt-5 h-px bg-white/[0.07]" />
 
         {hasData && current ? (
           <div className={`mt-6 grid gap-4 ${config.cards.length <= 4 ? "grid-cols-2" : "grid-cols-2 sm:grid-cols-3"}`}>
@@ -161,44 +154,27 @@ export default async function TableauDeBordPage() {
               const isNote = card.key === "note_google";
               const sub = isNote ? null : (pctDiff(curr, prv) ?? absDiff(curr, prv));
               const positive = curr != null && prv != null ? curr >= prv : true;
-              return (
-                <StatCard
-                  key={card.key}
-                  label={card.altLabel ?? card.label}
-                  value={formatValue(card.key, curr)}
-                  sub={sub}
-                  subPositive={positive}
-                />
-              );
+              return <StatCard key={card.key} label={card.altLabel ?? card.label} value={formatValue(card.key, curr)} sub={sub} subPositive={positive} />;
             })}
           </div>
         ) : (
-          <div className="mt-8 rounded-2xl bg-slate-800/60 p-6 text-center">
-            <p className="text-sm text-slate-400 leading-7">
-              Vos indicateurs de performance apparaîtront ici chaque mois.<br />
-              OptimalLogic met à jour ces données après chaque rapport mensuel.
-            </p>
-            <Link href="/espace-client/support"
-              className="mt-4 inline-block rounded-full border border-slate-600 px-4 py-2 text-xs font-semibold text-slate-300 hover:border-white hover:text-white transition">
-              Contacter mon conseiller
-            </Link>
+          <div className="mt-8 rounded-2xl border border-white/[0.07] p-6 text-center" style={{ background: "rgba(16,20,42,0.5)" }}>
+            <p className="text-sm leading-7 text-mut">Vos indicateurs de performance apparaîtront ici chaque mois.<br />OptimalLogic met à jour ces données après chaque rapport mensuel.</p>
+            <Link href="/espace-client/support" className="mt-4 inline-block rounded-full border border-white/[0.13] px-4 py-2 text-xs font-semibold text-mut transition hover:border-indigo hover:text-ink">Contacter mon conseiller</Link>
           </div>
         )}
       </div>
 
       {/* Actions */}
-      <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <div className="flex items-center justify-between mb-5">
-          <p className="text-base font-bold text-slate-950">Actions recommandées</p>
-          <p className="text-xs text-slate-400">
-            {now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
-          </p>
+      <div className="surface-card rounded-[28px] p-6 sm:p-8">
+        <div className="mb-5 flex items-center justify-between">
+          <p className="text-base font-bold text-ink">Actions recommandées</p>
+          <p className="text-xs text-mut-2">{now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}</p>
         </div>
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y divide-white/[0.06]">
           {actions.map((action, i) => (
-            <Link key={i} href={action.href}
-              className="flex items-center justify-between py-4 text-sm text-slate-700 transition hover:text-slate-950 group">
-              <span className="group-hover:underline underline-offset-2">{action.label}</span>
+            <Link key={i} href={action.href} className="group flex items-center justify-between py-4 text-sm text-mut transition hover:text-ink">
+              <span className="underline-offset-2 group-hover:underline">{action.label}</span>
               <span className={`ml-4 flex-shrink-0 text-xs font-bold ${action.color}`}>{action.badge}</span>
             </Link>
           ))}
@@ -207,8 +183,8 @@ export default async function TableauDeBordPage() {
 
       {/* Comparaison */}
       {hasData && prev && current && (
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <p className="text-base font-bold text-slate-950 mb-5">Comparaison mois précédent</p>
+        <div className="surface-card rounded-[28px] p-6 sm:p-8">
+          <p className="mb-5 text-base font-bold text-ink">Comparaison mois précédent</p>
           <div className="space-y-5">
             {config.comparisonKeys.map((key) => {
               const card = config.cards.find(c => c.key === key);
@@ -219,21 +195,19 @@ export default async function TableauDeBordPage() {
               const up = currVal >= prvVal;
               return (
                 <div key={key}>
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm text-slate-600">{label}</p>
+                  <div className="mb-2 flex items-center justify-between">
+                    <p className="text-sm text-mut">{label}</p>
                     <div className="flex items-center gap-3 text-xs">
-                      <span className="text-slate-400">{formatValue(key, getValue(prev, key))} le mois dernier</span>
-                      <span className={`font-bold ${up ? "text-emerald-600" : "text-red-500"}`}>
-                        {formatValue(key, getValue(current, key))} ce mois
-                      </span>
+                      <span className="text-mut-2">{formatValue(key, getValue(prev, key))} le mois dernier</span>
+                      <span className={`font-bold ${up ? "text-emerald" : "text-[#ff6b6b]"}`}>{formatValue(key, getValue(current, key))} ce mois</span>
                     </div>
                   </div>
-                  <div className="flex gap-1.5 h-2">
-                    <div className="flex-1 rounded-full bg-slate-100 overflow-hidden">
-                      <div className="h-full rounded-full bg-slate-300" style={{ width: `${Math.round((prvVal / max) * 100)}%` }} />
+                  <div className="flex h-2 gap-1.5">
+                    <div className="flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+                      <div className="h-full rounded-full bg-white/20" style={{ width: `${Math.round((prvVal / max) * 100)}%` }} />
                     </div>
-                    <div className="flex-1 rounded-full bg-slate-100 overflow-hidden">
-                      <div className={`h-full rounded-full ${up ? "bg-emerald-500" : "bg-red-400"}`} style={{ width: `${Math.round((currVal / max) * 100)}%` }} />
+                    <div className="flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+                      <div className="h-full rounded-full" style={{ width: `${Math.round((currVal / max) * 100)}%`, background: up ? "var(--grad)" : "#ff6b6b" }} />
                     </div>
                   </div>
                 </div>
