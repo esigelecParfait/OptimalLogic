@@ -3,26 +3,19 @@ import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const appsScriptSecret = process.env.APPS_SCRIPT_SYNC_SECRET;
-
-if (!supabaseUrl) {
-  throw new Error("NEXT_PUBLIC_SUPABASE_URL est manquant.");
-}
-
-if (!serviceRoleKey) {
-  throw new Error("SUPABASE_SERVICE_ROLE_KEY est manquant.");
-}
-
-if (!appsScriptSecret) {
-  throw new Error("APPS_SCRIPT_SYNC_SECRET est manquant.");
-}
-
-const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
-
 export async function GET(request: NextRequest) {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const appsScriptSecret = process.env.APPS_SCRIPT_SYNC_SECRET;
+
+    if (!supabaseUrl || !serviceRoleKey || !appsScriptSecret) {
+      console.error("prospects-sync: variables d'environnement manquantes.");
+      return NextResponse.json({ error: "Configuration serveur incomplète." }, { status: 500 });
+    }
+
+    const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
+
     const authorization = request.headers.get("authorization");
     const expectedAuthorization = `Bearer ${appsScriptSecret}`;
 

@@ -1,10 +1,24 @@
 import type { Metadata } from "next";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "OptimalLogic",
+  title: "OptimalLogic — Digital, IA & acquisition client",
   description:
-    "Nous aidons les professionnels à être mieux trouvés, mieux compris et plus facilement choisis grâce à Google Business, site web, prise de rendez-vous et assistant IA.",
+    "OptimalLogic transforme votre présence en ligne en moteur d'acquisition client : Google Business, site web, prise de rendez-vous, assistant IA et suivi des demandes.",
 };
 
 export default function RootLayout({
@@ -13,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${inter.variable} ${display.variable}`}>
       <body>{children}</body>
     </html>
   );

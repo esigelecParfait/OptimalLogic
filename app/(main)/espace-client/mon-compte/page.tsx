@@ -25,37 +25,22 @@ export default async function MonComptePage() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-          Mes informations
-        </p>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
-          Mon profil
-        </h2>
-
+      <section className="surface-card rounded-[28px] p-6 sm:p-8">
+        <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Mes informations</p>
+        <h2 className="mt-2 font-display text-2xl font-semibold">Mon profil</h2>
         {client ? (
           <div className="mt-6">
             <AccountForm client={client} />
           </div>
         ) : (
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            Impossible de récupérer vos informations pour le moment.
-          </p>
+          <p className="mt-4 text-sm leading-6 text-mut">Impossible de récupérer vos informations pour le moment.</p>
         )}
       </section>
 
-      <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-          Sécurité
-        </p>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
-          Mot de passe
-        </h2>
-        <p className="mt-3 text-sm leading-6 text-slate-600">
-          Choisissez un nouveau mot de passe pour votre compte (8 caractères
-          minimum).
-        </p>
-
+      <section className="surface-card rounded-[28px] p-6 sm:p-8">
+        <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Sécurité</p>
+        <h2 className="mt-2 font-display text-2xl font-semibold">Mot de passe</h2>
+        <p className="mt-3 text-sm leading-6 text-mut">Choisissez un nouveau mot de passe pour votre compte (8 caractères minimum).</p>
         <div className="mt-6">
           <PasswordForm />
         </div>

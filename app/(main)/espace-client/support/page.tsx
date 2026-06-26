@@ -22,15 +22,9 @@ export default async function SupportPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-          Support
-        </p>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
-          Assistant OptimalLogic
-        </h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Posez vos questions sur votre offre, votre compte ou nos services.
-        </p>
+        <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Support</p>
+        <h2 className="mt-2 font-display text-2xl font-semibold">Assistant OptimalLogic</h2>
+        <p className="mt-1 text-sm text-mut">Posez vos questions sur votre offre, votre compte ou nos services.</p>
       </div>
       <ChatInterface firstName={firstName} />
     </div>

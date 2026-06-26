@@ -2,49 +2,58 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * Curseur personnalisé premium : un point net + un anneau qui suit avec
+ * inertie, en `mix-blend-mode: difference` (s'inverse sur les fonds clairs).
+ * Désactivé sur les pointeurs grossiers (tactile).
+ */
 export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
-    let raf: number;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    setEnabled(true);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    let raf = 0;
     let hovering = false;
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (!visible) setVisible(true);
-
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${mouseX - 3}px, ${mouseY - 3}px)`;
+        dotRef.current.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       }
     };
 
     const animate = () => {
-      ringX += (mouseX - ringX) * 0.1;
-      ringY += (mouseY - ringY) * 0.1;
-
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
       if (ringRef.current) {
-        const size = hovering ? 60 : 40;
-        const offset = size / 2;
-        ringRef.current.style.transform = `translate(${ringX - offset}px, ${ringY - offset}px)`;
-        ringRef.current.style.width = `${size}px`;
-        ringRef.current.style.height = `${size}px`;
+        ringRef.current.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
       }
-
       raf = requestAnimationFrame(animate);
     };
 
-    const onEnter = () => { hovering = true; };
-    const onLeave = () => { hovering = false; };
+    const onEnter = () => {
+      hovering = true;
+      ringRef.current?.classList.add("cc-hover");
+    };
+    const onLeave = () => {
+      hovering = false;
+      ringRef.current?.classList.remove("cc-hover");
+    };
+    void hovering;
 
     const attachHovers = () => {
-      document.querySelectorAll("a, button, [role='button']").forEach((el) => {
+      document.querySelectorAll("a, button, [role='button'], input, select, textarea").forEach((el) => {
+        el.removeEventListener("mouseenter", onEnter);
+        el.removeEventListener("mouseleave", onLeave);
         el.addEventListener("mouseenter", onEnter);
         el.addEventListener("mouseleave", onLeave);
       });
@@ -54,10 +63,8 @@ export default function CustomCursor() {
     raf = requestAnimationFrame(animate);
     attachHovers();
 
-    // Re-attach when DOM changes (navigation)
     const observer = new MutationObserver(attachHovers);
     observer.observe(document.body, { childList: true, subtree: true });
-
     document.documentElement.style.cursor = "none";
 
     return () => {
@@ -68,22 +75,21 @@ export default function CustomCursor() {
     };
   }, []);
 
-  if (!visible) return null;
+  if (!enabled) return null;
 
   return (
     <>
-      {/* Anneau qui suit avec lag */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full border-2 border-gray-900 transition-[width,height] duration-200 ease-out"
-        style={{ willChange: "transform" }}
+        className="cc-ring pointer-events-none fixed left-0 top-0 z-[9999] h-[38px] w-[38px] rounded-full border-[1.5px] border-white transition-[width,height,background] duration-200 ease-out"
+        style={{ mixBlendMode: "difference", willChange: "transform" }}
       />
-      {/* Point qui suit exactement */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] h-1.5 w-1.5 rounded-full bg-gray-900"
-        style={{ willChange: "transform" }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] h-[7px] w-[7px] rounded-full bg-white"
+        style={{ mixBlendMode: "difference", willChange: "transform" }}
       />
+      <style>{`.cc-ring.cc-hover{width:64px;height:64px;background:rgba(255,255,255,0.12);border-color:transparent;}`}</style>
     </>
   );
 }

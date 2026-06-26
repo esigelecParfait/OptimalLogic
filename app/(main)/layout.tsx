@@ -2,6 +2,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import ChatWidget from "@/components/ChatWidget";
+import CustomCursor from "@/components/CustomCursor";
+import Aurora from "@/components/fx/Aurora";
+import Grain from "@/components/fx/Grain";
 
 export default function MainLayout({
   children,
@@ -10,8 +13,11 @@ export default function MainLayout({
 }) {
   return (
     <>
+      <Aurora />
+      <Grain />
+      <CustomCursor />
       <Header />
-      {children}
+      <div className="relative z-[2]">{children}</div>
       <CookieConsent />
       <Footer />
       <ChatWidget />
