@@ -14,26 +14,10 @@ const models = [
   {
     id: 2,
     label: "Modèle 2",
-    description: "Neofolio — Blanc, pill buttons, curseur",
+    description: "Custom OptimalLogic — Dark, neural canvas, aurora, grad",
     url: "/preview/modele-2",
-    color: "bg-gray-900 text-white",
-    dot: "bg-emerald-400",
-  },
-  {
-    id: 3,
-    label: "Modèle 3",
-    description: "Saazai — Violet, gradient, Inter Display",
-    url: "/preview/modele-3",
-    color: "bg-purple-100 text-purple-900",
-    dot: "bg-purple-500",
-  },
-  {
-    id: 4,
-    label: "Modèle 4",
-    description: "Arrow — Dark space, lime green, starfield",
-    url: "/preview/modele-4",
-    color: "bg-lime-400 text-black",
-    dot: "bg-lime-400",
+    color: "bg-violet-950 text-violet-200",
+    dot: "bg-violet-400",
   },
 ];
 
@@ -97,11 +81,7 @@ export default function ComparerPage() {
           visibleModels.length === 1 ? "" : "grid"
         }`}
         style={{
-          gridTemplateColumns: visibleModels.length === 4
-            ? "repeat(4, 1fr)"
-            : visibleModels.length === 3
-            ? "repeat(3, 1fr)"
-            : visibleModels.length === 2
+          gridTemplateColumns: visibleModels.length === 2
             ? "repeat(2, 1fr)"
             : "1fr",
         }}
