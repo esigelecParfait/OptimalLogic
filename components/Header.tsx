@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { label: "Accueil", href: "/" },
+
   { label: "Services", href: "/services" },
   { label: "Tarifs", href: "/tarifs" },
-  { label: "Prise de RDV", href: "/prise-de-rdv" },
+
   { label: "Contact", href: "/contact" },
 ];
 
@@ -18,7 +18,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 25);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,7 +30,11 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[100]">
+    <header
+      className={`fixed inset-x-0 top-0 z-[100] transition-transform duration-300 ${
+        scrolled ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       <nav
         className={`mx-4 mt-4 flex flex-wrap items-center justify-between rounded-[100px] border px-7 py-3 transition-all duration-300 ${
           scrolled

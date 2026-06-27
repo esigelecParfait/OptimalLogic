@@ -5,12 +5,26 @@ import { createClient } from "@supabase/supabase-js";
 //   1. Automatiquement par Vercel Cron (GET, le 1er du mois à 6h)
 //   2. Manuellement par OptimalLogic (POST avec x-admin-secret)
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+export const dynamic = "force-dynamic";
+
+function createSupabaseAdmin() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Configuration Supabase admin incomplete.");
+  }
+
+  return createClient(supabaseUrl, serviceRoleKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+}
 
 async function aggregate(month: string | null) {
+  const supabaseAdmin = createSupabaseAdmin();
   const { error } = await supabaseAdmin.rpc("refresh_client_metrics", {
     p_month: month ?? null,
   });

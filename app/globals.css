@@ -215,10 +215,64 @@ h1, h2, h3, h4, .font-display {
 }
 .phone-input-custom .PhoneInputInput::placeholder { color: var(--mut-2); font-weight: 400; }
 
+.premium-control {
+  position: relative;
+}
+
+.premium-control::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.2), rgba(31, 213, 240, 0.08), transparent 58%);
+  opacity: 0.72;
+}
+
+.premium-control > * {
+  position: relative;
+  z-index: 1;
+}
+
+.premium-phone-field .PhoneInputCountry {
+  min-width: 5.4rem;
+  margin-right: 0.95rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.premium-phone-field .PhoneInputCountryIcon {
+  width: 1.85rem;
+  height: 1.25rem;
+  border-radius: 0.35rem;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.premium-phone-field .PhoneInputInput {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.premium-select-field {
+  background-image:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(16, 20, 42, 0.82)),
+    linear-gradient(135deg, rgba(124, 92, 255, 0.2), rgba(31, 213, 240, 0.08));
+  background-origin: border-box;
+}
+
 @media (max-width: 640px) {
   .phone-input-custom .PhoneInputCountry {
     min-width: 4.25rem;
     margin-right: 0.6rem;
     padding-right: 0.6rem;
+  }
+
+  .premium-phone-field .PhoneInputCountry {
+    min-width: 4.8rem;
+    margin-right: 0.65rem;
+    padding-right: 0.65rem;
   }
 }
