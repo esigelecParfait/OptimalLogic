@@ -3,11 +3,10 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { parsePhoneNumber } from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 import NeuralBackground from "@/components/fx/NeuralBackground";
 import {
-  ObjectiveSelectControl,
-  PremiumPhoneControl,
+  ObjectiveSelectField,
+  PremiumPhoneField,
   PremiumSelectControl,
 } from "@/components/forms/PremiumFormFields";
 import type { LucideIcon } from "lucide-react";
@@ -420,13 +419,13 @@ export default function ContactPage() {
                         autoComplete="email"
                       />
                     </label>
-                    <label className={labelClass}>
-                      <span className={labelTextClass}>Téléphone *</span>
-                      <PremiumPhoneControl
-                        value={form.phone}
-                        onChange={(value) => updateField("phone", value)}
-                      />
-                    </label>
+                    <PremiumPhoneField
+                      required
+                      value={form.phone}
+                      onChange={(value) => updateField("phone", value)}
+                      labelClassName={labelClass}
+                      labelTextClassName={labelTextClass}
+                    />
                   </div>
                 </div>
 
@@ -469,14 +468,13 @@ export default function ContactPage() {
                         className={fieldClass}
                       />
                     </label>
-                    <label className={labelClass}>
-                      <span className={labelTextClass}>Objectif principal</span>
-                      <ObjectiveSelectControl
-                        value={form.objective}
-                        onChange={(value) => updateField("objective", value)}
-                        options={objectiveOptions}
-                      />
-                    </label>
+                    <ObjectiveSelectField
+                      value={form.objective}
+                      onChange={(value) => updateField("objective", value)}
+                      options={objectiveOptions}
+                      labelClassName={labelClass}
+                      labelTextClassName={labelTextClass}
+                    />
                   </div>
                 </div>
 

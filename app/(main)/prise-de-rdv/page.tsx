@@ -24,12 +24,10 @@ import {
 
 import NeuralBackground from "@/components/fx/NeuralBackground";
 import {
-  ObjectiveSelectControl,
-  PremiumPhoneControl,
+  ObjectiveSelectField,
+  PremiumPhoneField,
   PremiumSelectControl,
 } from "@/components/forms/PremiumFormFields";
-
-import "react-phone-number-input/style.css";
 
 type Slot = {
   start: string;
@@ -859,13 +857,13 @@ export default function PriseDeRdvPage() {
                           className={fieldClass}
                         />
                       </label>
-                      <label className={labelClass}>
-                        <span className={labelTextClass}>Numéro de téléphone *</span>
-                        <PremiumPhoneControl
-                          value={form.phoneFullNumber}
-                          onChange={(value) => updateField("phoneFullNumber", value)}
-                        />
-                      </label>
+                      <PremiumPhoneField
+                        required
+                        value={form.phoneFullNumber}
+                        onChange={(value) => updateField("phoneFullNumber", value)}
+                        labelClassName={labelClass}
+                        labelTextClassName={labelTextClass}
+                      />
                     </div>
                   </div>
 
@@ -907,15 +905,14 @@ export default function PriseDeRdvPage() {
                           options={typeClientOptions}
                         />
                       </label>
-                      <label className={labelClass}>
-                        <span className={labelTextClass}>Objectif principal *</span>
-                        <ObjectiveSelectControl
-                          required
-                          value={form.objective}
-                          onChange={(value) => updateField("objective", value)}
-                          options={objectiveOptions}
-                        />
-                      </label>
+                      <ObjectiveSelectField
+                        required
+                        value={form.objective}
+                        onChange={(value) => updateField("objective", value)}
+                        options={objectiveOptions}
+                        labelClassName={labelClass}
+                        labelTextClassName={labelTextClass}
+                      />
                     </div>
                   </div>
 

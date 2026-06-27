@@ -24,7 +24,7 @@ export default function Footer() {
               <span className="font-display text-[19px] font-semibold text-ink">Optimal<span className="text-cyan">Logic</span></span>
             </Link>
             <p className="mt-[18px] max-w-[300px] text-[14.5px] text-mut">
-              Digital, IA &amp; acquisition client. On transforme votre présence en ligne en moteur d&apos;acquisition — sans complexité inutile.
+              Digital, IA &amp; acquisition client.
             </p>
           </div>
 

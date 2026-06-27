@@ -15,11 +15,9 @@ import {
   X,
 } from "lucide-react";
 import {
-  ObjectiveSelectControl,
-  PremiumPhoneControl,
+  ObjectiveSelectField,
+  PremiumPhoneField,
 } from "@/components/forms/PremiumFormFields";
-
-import "react-phone-number-input/style.css";
 
 type PricingPack = {
   code: string;
@@ -982,13 +980,13 @@ export default function TarifsPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>E-mail *</span><input required type="email" value={leadForm.email} onChange={(e) => updateLeadField("email", e.target.value)} placeholder="vous@email.com" className={modalFieldClass} /></label>
-                  <label className="grid gap-2">
-                    <span className={modalLabelClass}>Téléphone *</span>
-                    <PremiumPhoneControl
-                      value={leadForm.phoneFullNumber}
-                      onChange={(value) => updateLeadField("phoneFullNumber", value)}
-                    />
-                  </label>
+                  <PremiumPhoneField
+                    required
+                    value={leadForm.phoneFullNumber}
+                    onChange={(value) => updateLeadField("phoneFullNumber", value)}
+                    labelClassName="grid gap-2"
+                    labelTextClassName={modalLabelClass}
+                  />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>Entreprise</span><input value={leadForm.company} onChange={(e) => updateLeadField("company", e.target.value)} placeholder="Nom de l'entreprise" className={modalFieldClass} /></label>
@@ -996,15 +994,14 @@ export default function TarifsPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>Type d&apos;activité</span><input value={leadForm.activity} onChange={(e) => updateLeadField("activity", e.target.value)} placeholder="Ex : restaurant, BTP, SaaS..." className={modalFieldClass} /></label>
-                  <label className="grid gap-2">
-                    <span className={modalLabelClass}>Objectif principal</span>
-                    <ObjectiveSelectControl
-                      required
-                      value={leadForm.objective}
-                      onChange={(value) => updateLeadField("objective", value)}
-                      options={objectiveOptions}
-                    />
-                  </label>
+                  <ObjectiveSelectField
+                    required
+                    value={leadForm.objective}
+                    onChange={(value) => updateLeadField("objective", value)}
+                    options={objectiveOptions}
+                    labelClassName="grid gap-2"
+                    labelTextClassName={modalLabelClass}
+                  />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>Site web actuel</span><input type="text" value={leadForm.businessWebsiteUrl} onChange={(e) => updateLeadField("businessWebsiteUrl", e.target.value)} placeholder="https://www.votre-site.com" className={modalFieldClass} /></label>
