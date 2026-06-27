@@ -32,12 +32,11 @@ export default function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-[100]">
       <nav
-        className={`mx-auto mt-4 flex max-w-[1240px] flex-wrap items-center justify-between rounded-[100px] border px-4 py-3 pl-6 transition-all duration-300 lg:px-4 ${
+        className={`mx-4 mt-4 flex flex-wrap items-center justify-between rounded-[100px] border px-7 py-3 transition-all duration-300 ${
           scrolled
             ? "border-white/15 bg-[#06081299] shadow-[0_24px_70px_-28px_rgba(0,0,0,0.9)]"
             : "border-white/[0.07] bg-[#0a0f1e8c]"
         } backdrop-blur-[20px]`}
-        style={{ marginLeft: "1rem", marginRight: "1rem" }}
       >
         {/* Logo */}
         <Link
