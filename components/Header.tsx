@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { label: "Accueil", href: "/" },
+
   { label: "Services", href: "/services" },
   { label: "Tarifs", href: "/tarifs" },
-  { label: "Prise de RDV", href: "/prise-de-rdv" },
+
   { label: "Contact", href: "/contact" },
 ];
 
@@ -18,7 +18,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 25);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,13 +30,13 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[100]">
+    <header
+      className={`fixed inset-x-0 top-0 z-[100] transition-transform duration-300 ${
+        scrolled ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       <nav
-        className={`mx-auto mt-4 flex max-w-[1240px] flex-wrap items-center justify-between rounded-[100px] border px-4 py-3 pl-6 transition-all duration-300 lg:px-4 ${
-          scrolled
-            ? "border-white/15 bg-[#06081299] shadow-[0_24px_70px_-28px_rgba(0,0,0,0.9)]"
-            : "border-white/[0.07] bg-[#0a0f1e8c]"
-        } backdrop-blur-[20px]`}
+        className="mx-auto mt-4 flex max-w-[1240px] flex-wrap items-center justify-between px-4 py-3 pl-6 transition-all duration-300 lg:px-4"
         style={{ marginLeft: "1rem", marginRight: "1rem" }}
       >
         {/* Logo */}

@@ -1,9 +1,23 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { AnimateIn } from "@/components/AnimateIn";
-import PhoneInput, { parsePhoneNumber } from "react-phone-number-input";
+import NeuralBackground from "@/components/fx/NeuralBackground";
+import { parsePhoneNumber } from "react-phone-number-input";
 import Link from "next/link";
+import {
+  BadgeCheck,
+  Check,
+  CreditCard,
+  FileText,
+  RefreshCw,
+  Target,
+  X,
+} from "lucide-react";
+import {
+  ObjectiveSelectControl,
+  PremiumPhoneControl,
+} from "@/components/forms/PremiumFormFields";
 
 import "react-phone-number-input/style.css";
 
@@ -362,6 +376,22 @@ const modalFieldClass =
   "rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
 const modalLabelClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 
+function PremiumCheck({ item, tone = "emerald" }: { item: string; tone?: "emerald" | "cyan" }) {
+  return (
+    <li className="flex gap-2.5 text-[13px] leading-5">
+      <span
+        className={`mt-0.5 grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full ${
+          tone === "emerald" ? "text-emerald" : "text-cyan"
+        }`}
+        style={{ background: tone === "emerald" ? "rgba(46,230,168,0.1)" : "rgba(31,213,240,0.1)" }}
+      >
+        <Check size={12} strokeWidth={3} />
+      </span>
+      <span className="text-mut">{item}</span>
+    </li>
+  );
+}
+
 export default function TarifsPage() {
   const [databaseOffers, setDatabaseOffers] = useState<DatabaseOffer[]>([]);
   const [offersError, setOffersError] = useState<string | null>(null);
@@ -414,7 +444,7 @@ export default function TarifsPage() {
     loadOffers();
   }, []);
 
-  function applyDatabaseOffer(pack: PricingPack): PricingPack {
+  const applyDatabaseOffer = useCallback((pack: PricingPack): PricingPack => {
     const matchingOffer = databaseOffers.find((offer) => offer.code === pack.code);
     if (!matchingOffer) return pack;
     return {
@@ -423,11 +453,11 @@ export default function TarifsPage() {
       setupPrice: formatSetupPrice(matchingOffer.prix),
       monthlyPrice: formatMonthlyPrice(matchingOffer.prix_abonnement),
     };
-  }
+  }, [databaseOffers]);
 
-  const commercePacks = useMemo(() => baseCommercePacks.map(applyDatabaseOffer), [databaseOffers]);
-  const tpePmePacks = useMemo(() => baseTpePmePacks.map(applyDatabaseOffer), [databaseOffers]);
-  const startupPacks = useMemo(() => baseStartupPacks.map(applyDatabaseOffer), [databaseOffers]);
+  const commercePacks = useMemo(() => baseCommercePacks.map(applyDatabaseOffer), [applyDatabaseOffer]);
+  const tpePmePacks = useMemo(() => baseTpePmePacks.map(applyDatabaseOffer), [applyDatabaseOffer]);
+  const startupPacks = useMemo(() => baseStartupPacks.map(applyDatabaseOffer), [applyDatabaseOffer]);
 
   function updateLeadField<K extends keyof OfferRequestForm>(field: K, value: OfferRequestForm[K]) {
     setLeadForm((current) => ({ ...current, [field]: value }));
@@ -473,6 +503,11 @@ export default function TarifsPage() {
     const parsedPhone = parsePhoneNumber(leadForm.phoneFullNumber);
     if (!parsedPhone || !parsedPhone.isValid()) {
       setFormError("Le numéro de téléphone est invalide.");
+      setIsSubmitting(false);
+      return;
+    }
+    if (!leadForm.objective) {
+      setFormError("Veuillez sélectionner un objectif principal.");
       setIsSubmitting(false);
       return;
     }
@@ -523,77 +558,142 @@ export default function TarifsPage() {
 
   function PricingCard({ pack }: { pack: PricingPack }) {
     const featured = pack.highlighted;
+    const visibleSetupIncludes = pack.setupIncludes.slice(0, 4);
+    const visibleMonthlyIncludes = pack.monthlyIncludes.slice(0, 3);
+
     return (
       <article
-        className={`relative flex h-full flex-col overflow-hidden rounded-[24px] p-6 transition-all hover:-translate-y-1 sm:p-7 ${
+        className={`relative flex h-full flex-col overflow-hidden rounded-[28px] p-6 transition-all duration-300 hover:-translate-y-1 sm:p-7 ${
           featured ? "border border-indigo/60" : "surface-card"
         }`}
-        style={featured ? { background: "linear-gradient(170deg, rgba(124,92,255,0.16), rgba(8,10,22,0.95))", boxShadow: "0 40px 90px -40px rgba(124,92,255,0.6)" } : undefined}
+        style={
+          featured
+            ? {
+                background:
+                  "linear-gradient(170deg, rgba(124,92,255,0.18), rgba(8,10,22,0.96))",
+                boxShadow: "0 42px 95px -42px rgba(124,92,255,0.65)",
+              }
+            : undefined
+        }
       >
-        {featured && (
-          <div className="absolute right-6 top-6 rounded-full px-3 py-1 text-[11px] font-bold text-white" style={{ background: "var(--grad)" }}>★ Populaire</div>
-        )}
+        <div
+          className="pointer-events-none absolute -right-20 -top-24 h-[260px] w-[260px] rounded-full opacity-40 blur-[80px]"
+          style={{ background: featured ? "var(--violet)" : "var(--indigo)" }}
+        />
 
-        <div>
-          <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">{pack.category}</p>
-          <h3 className="mt-2 font-display text-2xl font-semibold">{pack.name}</h3>
+       
+
+        <div className="relative z-[1] pr-24">
+          <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">
+            {pack.category}
+          </p>
+          <h3 className="mt-2 font-display text-[26px] font-semibold leading-tight">
+            {pack.name}
+          </h3>
           <p className="mt-3 text-sm leading-6 text-mut">{pack.subtitle}</p>
         </div>
 
         {pack.target && (
-          <div className="mt-5 rounded-2xl border border-white/[0.06] p-4" style={{ background: "rgba(16,20,42,0.5)" }}>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Pour qui ?</p>
-            <p className="mt-2 text-xs leading-5 text-mut">{pack.target}</p>
+          <div
+            className="relative z-[1] mt-5 rounded-2xl border border-white/[0.08] p-4"
+            style={{ background: "rgba(16,20,42,0.48)" }}
+          >
+            <div className="mb-2 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-mut-2">
+              <Target size={13} strokeWidth={2} />
+              Pour qui ?
+            </div>
+            <p className="text-xs leading-5 text-mut">{pack.target}</p>
           </div>
         )}
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Mise en place</p>
-            <p className="mt-3 font-display text-2xl font-semibold">{pack.setupPrice}</p>
-            <p className="mt-1 text-[10px] text-mut-2">paiement projet</p>
+        <div className="relative z-[1] mt-6 grid gap-3 sm:grid-cols-2">
+          <div
+            className="rounded-2xl border border-white/[0.13] p-5"
+            style={{ background: "var(--grad-soft)" }}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
+              Mise en place
+            </p>
+            <p className="mt-3 font-display text-[28px] font-semibold leading-none">
+              {pack.setupPrice}
+            </p>
+            <p className="mt-2 text-[10px] text-mut-2">paiement projet</p>
           </div>
-          <div className="rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(16,20,42,0.6)" }}>
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Abonnement</p>
-            <p className="mt-3 font-display text-2xl font-semibold">{pack.monthlyPrice}</p>
-            <p className="mt-1 text-[10px] text-mut-2">suivi mensuel</p>
+          <div
+            className="rounded-2xl border border-white/[0.08] p-5"
+            style={{ background: "rgba(16,20,42,0.62)" }}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
+              Suivi mensuel
+            </p>
+            <p className="mt-3 font-display text-[28px] font-semibold leading-none">
+              {pack.monthlyPrice}
+            </p>
+            <p className="mt-2 text-[10px] text-mut-2">maintenance & amélioration</p>
           </div>
         </div>
 
-        <div className="mt-6 rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Services de mise en place</p>
-          <ul className="mt-3 grid gap-2">
-            {pack.setupIncludes.map((item) => (
-              <li key={item} className="flex gap-2.5 text-xs">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="mt-0.5 shrink-0 text-emerald"><path d="M20 6L9 17l-5-5" /></svg>
-                <span className="text-mut">{item}</span>
-              </li>
+        <div
+          className="relative z-[1] mt-6 rounded-2xl border border-white/[0.08] p-5"
+          style={{ background: "rgba(16,20,42,0.48)" }}
+        >
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
+              Mise en place
+            </p>
+            <span className="rounded-full border border-white/[0.1] px-2.5 py-1 text-[10px] text-mut-2">
+              points clés
+            </span>
+          </div>
+          <ul className="grid gap-2.5">
+            {visibleSetupIncludes.map((item) => (
+              <PremiumCheck key={item} item={item} tone="emerald" />
             ))}
           </ul>
         </div>
 
-        <div className="mt-4 rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Services mensuels</p>
-          <ul className="mt-3 grid gap-2">
-            {pack.monthlyIncludes.map((item) => (
-              <li key={item} className="flex gap-2.5 text-xs">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="mt-0.5 shrink-0 text-cyan"><path d="M20 6L9 17l-5-5" /></svg>
-                <span className="text-mut">{item}</span>
-              </li>
+        <div
+          className="relative z-[1] mt-4 rounded-2xl border border-white/[0.08] p-5"
+          style={{ background: "rgba(16,20,42,0.42)" }}
+        >
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
+              Suivi mensuel
+            </p>
+            <span className="rounded-full border border-white/[0.1] px-2.5 py-1 text-[10px] text-mut-2">
+              continuité
+            </span>
+          </div>
+          <ul className="grid gap-2.5">
+            {visibleMonthlyIncludes.map((item) => (
+              <PremiumCheck key={item} item={item} tone="cyan" />
             ))}
           </ul>
         </div>
 
-        <div className="mt-4 rounded-2xl border border-white/[0.06] p-5" style={{ background: "rgba(8,10,22,0.6)" }}>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">Résultat attendu</p>
-          <p className="mt-3 text-xs leading-5 text-mut">{pack.result}</p>
+        <div
+          className="relative z-[1] mt-4 rounded-2xl border border-white/[0.08] p-5"
+          style={{ background: "rgba(8,10,22,0.62)" }}
+        >
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
+            Résultat attendu
+          </p>
+          <p className="mt-3 text-sm leading-6 text-mut">{pack.result}</p>
         </div>
 
-        <div className="mt-6 grid gap-3">
-          <button type="button" onClick={() => openOfferModal(pack)} className={`inline-flex justify-center rounded-full px-5 py-3 text-sm font-semibold ${featured ? "btn-grad" : "btn-ghost"}`}>
+        <div className="relative z-[1] mt-auto pt-6">
+          <button
+            type="button"
+            onClick={() => openOfferModal(pack)}
+            className={`inline-flex w-full justify-center rounded-full px-5 py-3 text-sm font-semibold ${
+              featured ? "btn-grad" : "btn-ghost"
+            }`}
+          >
             {pack.cta || "Demander cette formule"}
           </button>
-          <Link href="/prise-de-rdv" className="btn-ghost inline-flex justify-center rounded-full px-5 py-3 text-sm font-semibold">Prendre rendez-vous</Link>
+          <p className="mt-3 text-center text-[11px] leading-5 text-mut-2">
+            Aucun paiement maintenant. La demande sert à préparer un devis clair.
+          </p>
         </div>
       </article>
     );
@@ -602,47 +702,133 @@ export default function TarifsPage() {
   return (
     <main className="relative">
       {/* HERO */}
-      <section className="px-7 pb-16 pt-44 lg:pt-52">
-        <div className="mx-auto max-w-[1240px]">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink" style={{ background: "var(--grad-soft)" }}>
+      <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
+        <NeuralBackground />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 18% 18%, rgba(124,92,255,0.18), transparent 35%), radial-gradient(circle at 86% 18%, rgba(31,213,240,0.12), transparent 30%)",
+          }}
+        />
+
+        <AnimateIn className="relative z-[2] mx-auto max-w-[1240px]">
+          <span
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
+            style={{ background: "var(--grad-soft)" }}
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Tarifs &amp; formules
           </span>
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+
+          <div className="mt-8 grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-end">
             <div>
-              <h1 className="max-w-4xl text-[clamp(38px,5.4vw,68px)] font-semibold">
-                Choisissez le système digital adapté à votre activité.
-                <span className="grad-text"> Mise en place + suivi mensuel.</span>
+              <h1 className="max-w-4xl text-[clamp(38px,5.4vw,68px)] font-semibold leading-[1.03]">
+                Des formules claires pour transformer votre présence digitale
+                <span className="grad-text"> en demandes concrètes.</span>
               </h1>
-              <p className="mt-8 max-w-2xl text-lg text-mut">Comparez les offres et envoyez une demande directement depuis la fiche qui vous correspond.</p>
-              <div className="mt-10">
-                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-mut-2">Accès rapide</p>
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-mut">
+                Chaque offre combine mise en place, outils adaptés et suivi mensuel pour aider votre activité à être trouvée, comprise, choisie et mieux suivie.
+              </p>
+
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link
+                  href="/prise-de-rdv"
+                  className="btn-grad inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold"
+                >
+                  Réserver un diagnostic
+                </Link>
+                <a
+                  href="#commerce"
+                  className="btn-ghost inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold"
+                >
+                  Comparer les formules
+                </a>
+              </div>
+
+              <div className="mt-8">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-mut-2">
+                  Accès rapide
+                </p>
                 <div className="flex flex-wrap gap-2.5">
-                  <a href="#commerce" className="btn-grad rounded-full px-4 py-2 text-xs font-semibold">Commerce</a>
-                  <a href="#tpe-pme" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">TPE/PME</a>
-                  <a href="#startup" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">Startup</a>
+                  <a href="#commerce" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">
+                    Commerce
+                  </a>
+                  <a href="#tpe-pme" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">
+                    TPE/PME
+                  </a>
+                  <a href="#startup" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">
+                    Startup
+                  </a>
                 </div>
               </div>
+
               {offersError && (
-                <div className="mt-6 rounded-xl border border-amber-300/30 px-5 py-3 text-xs font-medium text-amber-200" style={{ background: "rgba(251,191,36,0.08)" }}>
+                <div
+                  className="mt-6 rounded-xl border border-amber-300/30 px-5 py-3 text-xs font-medium text-amber-200"
+                  style={{ background: "rgba(251,191,36,0.08)" }}
+                >
                   Les prix affichés utilisent les valeurs par défaut, car les offres n&apos;ont pas pu être chargées.
                 </div>
               )}
             </div>
-            <div className="surface-card rounded-[24px] p-6">
-              <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Comment lire les prix ?</p>
-              <div className="mt-6 grid gap-4">
-                <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
-                  <p className="font-display text-lg font-semibold">Mise en place</p>
-                  <p className="mt-2 text-sm leading-6 text-mut">Création, configuration, intégration des outils et construction du parcours digital.</p>
+
+            <div className="surface-card rounded-[28px] p-6 sm:p-7">
+              <div className="flex items-center gap-3">
+                <div
+                  className="grid h-12 w-12 place-items-center rounded-2xl border border-white/[0.13] text-cyan"
+                  style={{ background: "rgba(124,92,255,0.14)" }}
+                >
+                  <BadgeCheck size={23} strokeWidth={1.8} />
                 </div>
-                <div className="rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
-                  <p className="font-display text-lg font-semibold">Abonnement mensuel</p>
-                  <p className="mt-2 text-sm leading-6 text-mut">Suivi, maintenance, amélioration, reporting et accompagnement dans le temps.</p>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
+                    Comment lire les prix ?
+                  </p>
+                  <p className="mt-1 font-display text-xl font-semibold">Un projet + un suivi</p>
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-4">
+                <div
+                  className="rounded-2xl border border-white/[0.07] p-5"
+                  style={{ background: "rgba(16,20,42,0.5)" }}
+                >
+                  <div className="mb-3 flex items-center gap-2 text-cyan">
+                    <FileText size={18} strokeWidth={1.8} />
+                    <p className="font-display text-lg font-semibold text-ink">Diagnostic</p>
+                  </div>
+                  <p className="text-sm leading-6 text-mut">
+                    Avant de choisir, nous validons la formule réellement adaptée à votre activité.
+                  </p>
+                </div>
+                <div
+                  className="rounded-2xl border border-white/[0.07] p-5"
+                  style={{ background: "rgba(16,20,42,0.5)" }}
+                >
+                  <div className="mb-3 flex items-center gap-2 text-emerald">
+                    <CreditCard size={18} strokeWidth={1.8} />
+                    <p className="font-display text-lg font-semibold text-ink">Mise en place</p>
+                  </div>
+                  <p className="text-sm leading-6 text-mut">
+                    Création, configuration, intégration des outils et construction du parcours digital.
+                  </p>
+                </div>
+                <div
+                  className="rounded-2xl border border-white/[0.13] p-5"
+                  style={{ background: "var(--grad-soft)" }}
+                >
+                  <div className="mb-3 flex items-center gap-2 text-cyan">
+                    <RefreshCw size={18} strokeWidth={1.8} />
+                    <p className="font-display text-lg font-semibold text-ink">Suivi mensuel</p>
+                  </div>
+                  <p className="text-sm leading-6 text-mut">
+                    Maintenance, amélioration, reporting et accompagnement dans le temps.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </AnimateIn>
       </section>
 
       {/* Commerce */}
@@ -691,9 +877,9 @@ export default function TarifsPage() {
       <section className="px-7 py-16">
         <div className="surface-card mx-auto max-w-[1240px] rounded-[28px] p-8 sm:p-10 lg:p-12">
           <div className="mb-10 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Paiement</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Un processus clair avant de commencer</h2>
-            <p className="mt-5 text-base leading-7 text-mut">Un échange, une proposition claire, puis une mise en place cadrée.</p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Démarrage</span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Comment se passe le lancement ?</h2>
+            <p className="mt-5 text-base leading-7 text-mut">Un parcours simple : comprendre votre besoin, choisir le bon périmètre, puis lancer un système clair et suivi.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-4">
             {paymentSteps.map((item, i) => (
@@ -770,7 +956,7 @@ export default function TarifsPage() {
                 <p className="mt-1 text-sm font-medium text-mut">{selectedPack.category} · Mise en place {selectedPack.setupPrice} · Abonnement {selectedPack.monthlyPrice}</p>
               </div>
               <button type="button" onClick={closeOfferModal} aria-label="Fermer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
+                <X size={18} strokeWidth={2} />
               </button>
             </div>
 
@@ -782,7 +968,7 @@ export default function TarifsPage() {
             {formSent ? (
               <div className="mt-6 rounded-[24px] border border-white/[0.13] p-6 text-center" style={{ background: "var(--grad-soft)" }}>
                 <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full text-white" style={{ background: "var(--grad)" }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5" /></svg>
+                  <Check size={24} strokeWidth={3} />
                 </div>
                 <h4 className="font-display text-xl font-semibold">Demande envoyée</h4>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">Votre demande a bien été enregistrée. Nous reviendrons vers vous rapidement avec une proposition adaptée.</p>
@@ -791,16 +977,17 @@ export default function TarifsPage() {
             ) : (
               <form onSubmit={handleOfferSubmit} className="mt-6 grid gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>Nom de famille *</span><input value={leadForm.lastname} onChange={(e) => updateLeadField("lastname", e.target.value)} placeholder="Votre nom" className={modalFieldClass} /></label>
-                  <label className="grid gap-2"><span className={modalLabelClass}>Prénom *</span><input value={leadForm.firstname} onChange={(e) => updateLeadField("firstname", e.target.value)} placeholder="Votre prénom" className={modalFieldClass} /></label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Nom de famille *</span><input required value={leadForm.lastname} onChange={(e) => updateLeadField("lastname", e.target.value)} placeholder="Votre nom" className={modalFieldClass} /></label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>Prénom *</span><input required value={leadForm.firstname} onChange={(e) => updateLeadField("firstname", e.target.value)} placeholder="Votre prénom" className={modalFieldClass} /></label>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>E-mail *</span><input type="email" value={leadForm.email} onChange={(e) => updateLeadField("email", e.target.value)} placeholder="vous@email.com" className={modalFieldClass} /></label>
+                  <label className="grid gap-2"><span className={modalLabelClass}>E-mail *</span><input required type="email" value={leadForm.email} onChange={(e) => updateLeadField("email", e.target.value)} placeholder="vous@email.com" className={modalFieldClass} /></label>
                   <label className="grid gap-2">
                     <span className={modalLabelClass}>Téléphone *</span>
-                    <div className="flex items-center rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 transition-all focus-within:border-indigo">
-                      <PhoneInput international defaultCountry="FR" value={leadForm.phoneFullNumber} onChange={(value) => updateLeadField("phoneFullNumber", value || "")} className="phone-input-custom" />
-                    </div>
+                    <PremiumPhoneControl
+                      value={leadForm.phoneFullNumber}
+                      onChange={(value) => updateLeadField("phoneFullNumber", value)}
+                    />
                   </label>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -811,13 +998,12 @@ export default function TarifsPage() {
                   <label className="grid gap-2"><span className={modalLabelClass}>Type d&apos;activité</span><input value={leadForm.activity} onChange={(e) => updateLeadField("activity", e.target.value)} placeholder="Ex : restaurant, BTP, SaaS..." className={modalFieldClass} /></label>
                   <label className="grid gap-2">
                     <span className={modalLabelClass}>Objectif principal</span>
-                    <div className="relative">
-                      <select value={leadForm.objective} onChange={(e) => updateLeadField("objective", e.target.value)} className={`w-full appearance-none rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 pr-10 text-sm outline-none transition-all focus:border-indigo ${!leadForm.objective ? "text-mut-2" : "text-ink"}`}>
-                        <option value="" disabled className="bg-surface text-ink">Choisissez un objectif</option>
-                        {objectiveOptions.map((opt) => (<option key={opt.value} value={opt.value} className="bg-surface text-ink">{opt.label}</option>))}
-                      </select>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-mut"><path d="M6 9l6 6 6-6" /></svg>
-                    </div>
+                    <ObjectiveSelectControl
+                      required
+                      value={leadForm.objective}
+                      onChange={(value) => updateLeadField("objective", value)}
+                      options={objectiveOptions}
+                    />
                   </label>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
