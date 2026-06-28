@@ -3,847 +3,458 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Guide Connexion Google Business · OptimalLogic</title>
+<title>Guide Google Business · OptimalLogic</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:#1a1a1a;background:#fff;line-height:1.6}
+  @page{margin:16mm;size:A4}
+  @media print{.page{padding:0;max-width:100%}.nb{page-break-inside:avoid}}
+  .page{max-width:740px;margin:0 auto;padding:44px 48px}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+  /* Cover */
+  .cover{background:linear-gradient(135deg,#0a0a14,#1a0a36,#0a1a30);border-radius:14px;padding:32px 36px;color:#fff;margin-bottom:36px;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(124,92,255,.45),transparent 70%);border-radius:50%}
+  .cover::after{content:'';position:absolute;bottom:-60px;left:10px;width:200px;height:200px;background:radial-gradient(circle,rgba(31,213,240,.25),transparent 70%);border-radius:50%}
+  .logo{display:flex;align-items:center;gap:10px;margin-bottom:20px;position:relative;z-index:1}
+  .lm{width:32px;height:32px;border-radius:8px;background:linear-gradient(110deg,#7c5cff,#b14dff 50%,#1fd5f0);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff}
+  .lt{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.3px}
+  .cover h1{font-size:22px;font-weight:800;letter-spacing:-.4px;color:#fff;line-height:1.2;margin-bottom:8px;position:relative;z-index:1}
+  .cover p{font-size:12.5px;color:rgba(255,255,255,.65);max-width:480px;position:relative;z-index:1}
+  .badges{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
+  .badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.8)}
 
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 14px;
-    color: #1a1a1a;
-    background: #fff;
-    line-height: 1.65;
-  }
+  /* Steps timeline */
+  .steps{margin:8px 0 0}
+  .step{display:flex;gap:0;position:relative;margin-bottom:2px}
+  .sl{display:flex;flex-direction:column;align-items:center;margin-right:16px;flex-shrink:0}
+  .sc{width:30px;height:30px;border-radius:50%;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;z-index:1}
+  .sc.done{background:#7c5cff}
+  .sline{width:2px;flex:1;background:#ebebeb;margin:3px 0;min-height:14px}
+  .step:last-child .sline{display:none}
+  .sb{flex:1;padding-bottom:22px;padding-top:3px}
+  .sb h3{font-size:13.5px;font-weight:700;color:#0a0a0a;margin-bottom:5px}
+  .sb p{font-size:12.5px;color:#555;margin-bottom:6px}
+  .sb p:last-child{margin-bottom:0}
 
-  @page { margin: 18mm 16mm; size: A4; }
-  @media print {
-    .page { padding: 0; max-width: 100%; }
-    .avoid-break { page-break-inside: avoid; }
-  }
+  /* Section headers */
+  .sec{margin-top:32px;border-top:2px solid #0a0a0a;padding-top:16px;margin-bottom:16px}
+  .sec-head{display:flex;align-items:center;gap:12px}
+  .sec-num{width:40px;height:40px;border-radius:10px;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex-shrink:0}
+  .sec-title h2{font-size:17px;font-weight:800;color:#0a0a0a;letter-spacing:-.2px}
+  .sec-title p{font-size:11.5px;color:#888;margin-top:1px}
+  .sec-time{margin-left:auto;background:#f0edff;color:#7c5cff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;white-space:nowrap}
 
-  .page { max-width: 760px; margin: 0 auto; padding: 48px 52px; }
+  /* Boxes */
+  .box{border-radius:8px;padding:11px 14px;font-size:12px;margin:9px 0;display:flex;gap:9px;align-items:flex-start}
+  .bi{font-size:16px;flex-shrink:0}
+  .ok  {background:#f0fdf4;border:1px solid #86efac;color:#14532d}
+  .tip {background:#f0f9ff;border:1px solid #bae6fd;color:#0c4a6e}
+  .warn{background:#fffbeb;border:1px solid #fde68a;color:#78350f}
+  .stop{background:#fff1f2;border:1px solid #fda4af;color:#881337}
 
-  /* ── COUVERTURE ── */
-  .cover {
-    min-height: 180px;
-    background: linear-gradient(135deg, #0a0a12 0%, #1a0a36 50%, #0a1a30 100%);
-    border-radius: 16px;
-    padding: 36px 40px;
-    color: #fff;
-    margin-bottom: 40px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cover::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 240px; height: 240px;
-    background: radial-gradient(circle, rgba(124,92,255,0.4), transparent 70%);
-    border-radius: 50%;
-  }
-  .cover::after {
-    content: '';
-    position: absolute;
-    bottom: -40px; left: 20px;
-    width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(31,213,240,0.25), transparent 70%);
-    border-radius: 50%;
-  }
-  .cover-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
-    position: relative; z-index: 1;
-  }
-  .cover-logo-mark {
-    width: 34px; height: 34px;
-    border-radius: 8px;
-    background: linear-gradient(110deg, #7c5cff, #b14dff 50%, #1fd5f0);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 13px; color: #fff;
-  }
-  .cover-logo-text { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
-  .cover h1 {
-    font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
-    color: #fff; line-height: 1.2; margin-bottom: 10px;
-    position: relative; z-index: 1;
-  }
-  .cover p { font-size: 13px; color: rgba(255,255,255,0.65); max-width: 500px; position: relative; z-index: 1; }
-  .cover-meta {
-    margin-top: 20px;
-    display: flex; gap: 16px; flex-wrap: wrap;
-    position: relative; z-index: 1;
-  }
-  .cover-badge {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 100px;
-    padding: 5px 14px;
-    font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.8);
-    display: flex; align-items: center; gap: 6px;
-  }
+  /* Code / URL */
+  .url{background:#f0edff;border:1px solid #d4ceff;border-radius:7px;padding:8px 12px;font-family:'Courier New',monospace;font-size:11.5px;color:#5a3fd8;word-break:break-all;margin:7px 0;display:flex;gap:8px;align-items:center}
+  .url .ui{font-size:13px;flex-shrink:0}
+  code{background:#f0edff;color:#7c5cff;padding:1px 5px;border-radius:4px;font-size:11px;font-family:monospace}
+  .cmd{background:#0f0f14;border-radius:7px;padding:10px 14px;font-family:'Courier New',monospace;font-size:11.5px;color:#e0e0e0;margin:7px 0;line-height:1.8}
+  .cmd .k{color:#7c5cff}
+  .cmd .v{color:#2ee6a8}
+  .cmd .c{color:#555;font-style:italic}
 
-  /* ── TOC ── */
-  .toc {
-    background: #f8f8fd;
-    border: 1px solid #e5e3f5;
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 36px;
-  }
-  .toc h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #7c5cff; margin-bottom: 12px; }
-  .toc ol { padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
-  .toc li { font-size: 13px; color: #333; }
-  .toc li strong { color: #0a0a0a; }
-  .toc li .time { color: #999; font-size: 11.5px; margin-left: 4px; }
+  /* Table */
+  table{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}
+  th{background:#0a0a0a;color:#fff;padding:7px 10px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+  th:first-child{border-radius:5px 0 0 0}th:last-child{border-radius:0 5px 0 0}
+  td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;color:#333}
+  tr:nth-child(even) td{background:#fafafa}
+  td code{font-size:11px}
 
-  /* ── CHAPITRES ── */
-  .chapter {
-    margin-top: 44px;
-    border-top: 2px solid #0a0a0a;
-    padding-top: 20px;
-  }
-  .chapter-header {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 20px;
-  }
-  .chapter-num {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    background: #0a0a0a;
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 800;
-    flex-shrink: 0;
-  }
-  .chapter-title h2 { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; color: #0a0a0a; }
-  .chapter-title p { font-size: 12.5px; color: #666; margin-top: 2px; }
-  .chapter-time {
-    margin-left: auto;
-    background: #f0edff;
-    color: #7c5cff;
-    font-size: 11.5px; font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 100px;
-    white-space: nowrap;
-  }
+  /* Click */
+  .click{display:inline-flex;align-items:center;gap:4px;background:#0a0a0a;color:#fff;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:5px}
+  .click::before{content:'▶';font-size:7px}
 
-  /* ── ÉTAPES ── */
-  .step-list { display: flex; flex-direction: column; gap: 0; }
-  .step {
-    display: flex; gap: 0;
-    position: relative;
-  }
-  .step-left {
-    display: flex; flex-direction: column; align-items: center;
-    margin-right: 18px;
-  }
-  .step-circle {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    border: 2px solid #7c5cff;
-    background: #fff;
-    color: #7c5cff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700;
-    flex-shrink: 0;
-    z-index: 1;
-  }
-  .step-line {
-    width: 2px;
-    flex: 1;
-    background: #e5e3f5;
-    margin: 4px 0;
-    min-height: 16px;
-  }
-  .step:last-child .step-line { display: none; }
-  .step-body {
-    padding-bottom: 24px;
-    flex: 1;
-    padding-top: 4px;
-  }
-  .step-body h3 {
-    font-size: 14px; font-weight: 700; color: #0a0a0a;
-    margin-bottom: 6px;
-  }
-  .step-body p { font-size: 13px; color: #444; margin-bottom: 8px; }
-  .step-body p:last-child { margin-bottom: 0; }
+  /* Link */
+  a.step-link{color:#7c5cff;font-size:12px;font-weight:500;text-decoration:none;border-bottom:1px dashed #b4a8f5;padding-bottom:1px}
 
-  /* ── CE QUE VOUS VOYEZ ── */
-  .screen-hint {
-    background: #f5f5f5;
-    border-left: 3px solid #ccc;
-    border-radius: 0 6px 6px 0;
-    padding: 10px 14px;
-    font-size: 12.5px;
-    color: #555;
-    margin: 8px 0;
-    display: flex; gap: 8px; align-items: flex-start;
-  }
-  .screen-hint .icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  /* Checklist */
+  .cl{list-style:none;display:flex;flex-direction:column;gap:7px;margin:6px 0}
+  .cl li{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:#fafafa;border:1px solid #ebebeb;border-radius:7px;font-size:12.5px;color:#333}
+  .cl li::before{content:'☐';font-size:15px;color:#7c5cff;flex-shrink:0;line-height:1.2}
 
-  /* ── CLICK INDICATOR ── */
-  .click {
-    display: inline-flex; align-items: center; gap: 5px;
-    background: #0a0a0a;
-    color: #fff;
-    font-size: 12px; font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 5px;
-    white-space: nowrap;
-  }
-  .click::before { content: '▶'; font-size: 8px; }
+  /* Highlight card */
+  .hcard{border-radius:10px;padding:16px 18px;border:1px solid #e0d9ff;background:#f9f8ff;margin:10px 0}
+  .hcard .htitle{font-size:13px;font-weight:700;color:#0a0a0a;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .hcard p{font-size:12.5px;color:#555}
 
-  /* ── URL BOX ── */
-  .url-box {
-    background: #f0edff;
-    border: 1px solid #d4ceff;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: #5a3fd8;
-    word-break: break-all;
-    margin: 8px 0;
-    display: flex; gap: 10px; align-items: center;
-  }
-  .url-box .url-icon { font-size: 14px; flex-shrink: 0; }
+  /* Big step */
+  .big-step{display:flex;align-items:flex-start;gap:16px;padding:14px 16px;background:#fafafa;border:1px solid #ebebeb;border-radius:10px;margin-bottom:10px}
+  .big-num{width:36px;height:36px;border-radius:9px;background:#7c5cff;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;margin-top:1px}
+  .big-content h3{font-size:13.5px;font-weight:700;color:#0a0a0a;margin-bottom:4px}
+  .big-content p{font-size:12.5px;color:#555}
 
-  /* ── FORMAT BOX ── */
-  .format-box {
-    background: #0f0f14;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: #e0e0e0;
-    margin: 8px 0;
-    line-height: 1.8;
-  }
-  .format-box .label { color: #7c5cff; }
-  .format-box .value { color: #2ee6a8; }
-  .format-box .comment { color: #555; font-style: italic; }
+  /* Footer */
+  .foot{margin-top:40px;padding-top:12px;border-top:1px solid #ebebeb;display:flex;justify-content:space-between;font-size:11px;color:#ccc}
 
-  /* ── BOXES ── */
-  .box {
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 12.5px;
-    margin: 10px 0;
-    display: flex; gap: 10px; align-items: flex-start;
-  }
-  .box .bi { font-size: 18px; flex-shrink: 0; }
-  .box-tip  { background: #f0f9ff; border: 1px solid #bae6fd; color: #0c4a6e; }
-  .box-warn { background: #fffbeb; border: 1px solid #fde68a; color: #78350f; }
-  .box-ok   { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
-  .box-stop { background: #fff1f2; border: 1px solid #fda4af; color: #881337; }
-
-  /* ── TABLE ── */
-  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12.5px; }
-  th {
-    background: #0a0a0a; color: #fff;
-    padding: 8px 12px; text-align: left;
-    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
-  }
-  th:first-child { border-radius: 6px 0 0 0; }
-  th:last-child  { border-radius: 0 6px 0 0; }
-  td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-  tr:nth-child(even) td { background: #fafafa; }
-  td code { background: #f0edff; color: #7c5cff; padding: 2px 6px; border-radius: 4px; font-size: 11.5px; font-family: monospace; }
-
-  /* ── RÉSUMÉ VARIABLES ── */
-  .var-table td:first-child { font-weight: 600; font-family: monospace; font-size: 12px; color: #5a3fd8; }
-  .var-table td:nth-child(2) { color: #555; }
-  .var-table td:nth-child(3) { color: #888; font-size: 12px; }
-
-  /* ── CHECKLIST FINALE ── */
-  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-  .checklist li {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 14px;
-    background: #fafafa;
-    border: 1px solid #ebebeb;
-    border-radius: 8px;
-    font-size: 13px; color: #333;
-  }
-  .checklist li::before {
-    content: '☐';
-    font-size: 17px; color: #7c5cff;
-    flex-shrink: 0; line-height: 1.2;
-  }
-  .checklist li .sub { display: block; font-size: 11.5px; color: #999; margin-top: 2px; }
-
-  /* ── PROBLÈMES FRÉQUENTS ── */
-  .problem { margin-bottom: 14px; }
-  .problem h4 { font-size: 13px; font-weight: 700; color: #0a0a0a; margin-bottom: 4px; }
-  .problem p { font-size: 12.5px; color: #555; }
-
-  /* ── FOOTER ── */
-  .doc-footer {
-    margin-top: 48px;
-    padding-top: 14px;
-    border-top: 1px solid #ebebeb;
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 11px; color: #bbb;
-  }
+  /* New: time pill in heading */
+  .time-pill{font-size:11px;font-weight:600;background:#f0edff;color:#7c5cff;padding:3px 9px;border-radius:100px;vertical-align:middle;margin-left:8px}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- ══════════ COUVERTURE ══════════ -->
-  <div class="cover">
-    <div class="cover-logo">
-      <div class="cover-logo-mark">OL</div>
-      <div class="cover-logo-text">OptimalLogic</div>
+<!-- COVER -->
+<div class="cover">
+  <div class="logo">
+    <div class="lm">OL</div>
+    <div class="lt">OptimalLogic</div>
+  </div>
+  <h1>Connexion Google Business Profile — Guide automatisé</h1>
+  <p>Configuration complète en 15 minutes. La page admin détecte automatiquement vos fiches et les lie à vos clients en un clic.</p>
+  <div class="badges">
+    <span class="badge">⏱ 15 min au total</span>
+    <span class="badge">🤖 Auto-matching activé</span>
+    <span class="badge">🔄 Mise à jour chaque lundi</span>
+    <span class="badge">🔧 À faire une seule fois</span>
+  </div>
+</div>
+
+<!-- VUE D'ENSEMBLE -->
+<div class="hcard nb">
+  <div class="htitle">💡 Comment ça marche en 4 actions</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+    <div class="big-step" style="margin-bottom:0">
+      <div class="big-num">1</div>
+      <div class="big-content"><h3>Créer les clés Google</h3><p>Google Cloud Console · 10 min · une seule fois</p></div>
     </div>
-    <h1>Connecter Google Business<br/>à l'espace client — Pas à pas</h1>
-    <p>Ce guide vous explique comment relier les fiches Google Business de vos clients à leur tableau de bord, pour que les métriques (vues, avis, note) se mettent à jour automatiquement chaque semaine.</p>
-    <div class="cover-meta">
-      <span class="cover-badge">⏱ 45 minutes au total</span>
-      <span class="cover-badge">🔧 À faire une seule fois</span>
-      <span class="cover-badge">📅 Mise à jour : chaque lundi</span>
+    <div class="big-step" style="margin-bottom:0">
+      <div class="big-num">2</div>
+      <div class="big-content"><h3>3 variables dans Vercel</h3><p>Copier-coller · 2 min</p></div>
+    </div>
+    <div class="big-step" style="margin-bottom:0">
+      <div class="big-num">3</div>
+      <div class="big-content"><h3>Autoriser en 1 clic</h3><p>Ouvrir une URL · confirmer · 1 min</p></div>
+    </div>
+    <div class="big-step" style="margin-bottom:0">
+      <div class="big-num">4</div>
+      <div class="big-content"><h3>Lier tout automatiquement</h3><p>Page admin · bouton "Lier tout" · 2 min</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     ÉTAPE 1 — GOOGLE CLOUD
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num">1</div>
+    <div class="sec-title">
+      <h2>Créer les clés Google Cloud <span class="time-pill">⏱ 10 min</span></h2>
+      <p>Cliquez sur chaque lien — ils ouvrent directement la bonne page.</p>
+    </div>
+  </div>
+</div>
+
+<div class="steps">
+
+  <div class="step nb">
+    <div class="sl"><div class="sc">1</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Ouvrir Google Cloud Console</h3>
+      <div class="url"><span class="ui">🌐</span><a href="https://console.cloud.google.com/projectcreate" class="step-link">console.cloud.google.com/projectcreate</a></div>
+      <p>Connectez-vous avec le compte Google qui gère les fiches Business de vos clients.<br/>
+      <strong>Nom du projet :</strong> tapez <em>OptimalLogic</em> → <span class="click">Créer</span></p>
     </div>
   </div>
 
-  <!-- ══════════ SOMMAIRE ══════════ -->
-  <div class="toc">
-    <h3>Sommaire</h3>
-    <ol>
-      <li><strong>Préparer votre compte Google</strong> <span class="time">— 2 min</span></li>
-      <li><strong>Créer le projet Google Cloud</strong> <span class="time">— 10 min</span></li>
-      <li><strong>Créer les identifiants de connexion</strong> <span class="time">— 10 min</span></li>
-      <li><strong>Ajouter les clés dans Vercel</strong> <span class="time">— 5 min</span></li>
-      <li><strong>Autoriser l'application (une seule fois)</strong> <span class="time">— 5 min</span></li>
-      <li><strong>Lier chaque client à sa fiche Google</strong> <span class="time">— 5 min par client</span></li>
-      <li><strong>Tester et vérifier</strong> <span class="time">— 5 min</span></li>
-      <li><strong>Problèmes fréquents &amp; solutions</strong></li>
-    </ol>
+  <div class="step nb">
+    <div class="sl"><div class="sc">2</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Activer les 2 APIs (lien direct)</h3>
+      <p>Cliquez les 2 liens ci-dessous (s'ouvrent dans de nouveaux onglets) → bouton <span class="click">Activer</span> sur chacun :</p>
+      <div class="url"><span class="ui">🔗</span><a href="https://console.cloud.google.com/apis/library/businessprofileperformance.googleapis.com" class="step-link">API Business Profile Performance</a></div>
+      <div class="url"><span class="ui">🔗</span><a href="https://console.cloud.google.com/apis/library/mybusinessaccountmanagement.googleapis.com" class="step-link">API My Business Account Management</a></div>
+    </div>
   </div>
 
-  <div class="box box-tip avoid-break">
-    <span class="bi">💡</span>
-    <div><strong>Comment utiliser ce guide :</strong> Suivez les étapes dans l'ordre. Chaque étape décrit exactement ce que vous allez voir à l'écran et ce sur quoi cliquer. Ne sautez aucune étape — elles dépendent les unes des autres.</div>
+  <div class="step nb">
+    <div class="sl"><div class="sc">3</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Configurer l'écran de consentement OAuth</h3>
+      <div class="url"><span class="ui">🔗</span><a href="https://console.cloud.google.com/apis/credentials/consent" class="step-link">console.cloud.google.com/apis/credentials/consent</a></div>
+      <p>Choisir <strong>Externe</strong> → <span class="click">Créer</span><br/>
+      Remplir uniquement : <strong>Nom de l'application</strong> = <em>OptimalLogic</em> + votre email.<br/>
+      Cliquer <span class="click">Enregistrer et continuer</span> sur les 3 écrans suivants sans rien changer.</p>
+    </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 1 — PRÉPARER LE COMPTE GOOGLE
-  ══════════════════════════════════════════════ -->
-  <div class="chapter avoid-break">
-    <div class="chapter-header">
-      <div class="chapter-num">1</div>
-      <div class="chapter-title">
-        <h2>Préparer votre compte Google</h2>
-        <p>Vérifier que vous avez le bon compte avant de commencer</p>
-      </div>
-      <div class="chapter-time">⏱ 2 min</div>
-    </div>
-
-    <div class="box box-stop avoid-break">
-      <span class="bi">🔑</span>
-      <div><strong>Important :</strong> Vous devez vous connecter avec le compte Google qui gère les fiches Business de vos clients — pas votre compte Gmail personnel. Si vous utilisez un compte d'agence, utilisez celui-là.</div>
-    </div>
-
-    <div class="step-list">
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Vérifiez que vous gérez bien les fiches clients</h3>
-          <p>Allez sur <strong>business.google.com</strong> et connectez-vous. Vous devez voir la liste des fiches de vos clients dans le tableau de bord.</p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Vous devriez voir quelque chose comme : <em>"Restaurant Chez Paul", "Garage Dupont", "Cabinet Dr. Martin"</em>... Si vous ne voyez rien, vous n'êtes pas sur le bon compte Google.</span></div>
-        </div>
-      </div>
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Notez le compte utilisé</h3>
-          <p>Cliquez sur votre photo en haut à droite. Notez l'adresse email affichée — c'est celle que vous utiliserez tout au long de ce guide.</p>
-          <div class="screen-hint"><span class="icon">📝</span> <span>Exemple : <em>agence@optimal-logic.com</em> ou <em>gestion@votreagence.fr</em></span></div>
-        </div>
+  <div class="step nb">
+    <div class="sl"><div class="sc">4</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Créer les identifiants OAuth 2.0</h3>
+      <div class="url"><span class="ui">🔗</span><a href="https://console.cloud.google.com/apis/credentials/oauthclient" class="step-link">console.cloud.google.com/apis/credentials/oauthclient</a></div>
+      <table>
+        <tr><th>Champ</th><th>Valeur à saisir</th></tr>
+        <tr><td>Type d'application</td><td><strong>Application Web</strong></td></tr>
+        <tr><td>Nom</td><td><em>OptimalLogic Server</em></td></tr>
+        <tr><td>URI de redirection autorisé</td><td><code>https://VOTRE-SITE.vercel.app/api/admin/google-auth/callback</code></td></tr>
+      </table>
+      <p style="margin-top:6px">Cliquer <span class="click">Créer</span> → <strong>Copier et noter</strong> le Client ID et le Client Secret.</p>
+      <div class="box stop">
+        <span class="bi">⚠️</span>
+        <span>Copiez ces deux valeurs maintenant dans un fichier texte — vous en aurez besoin à l'étape suivante.</span>
       </div>
     </div>
   </div>
 
+</div>
 
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 2 — GOOGLE CLOUD
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">2</div>
-      <div class="chapter-title">
-        <h2>Créer le projet Google Cloud</h2>
-        <p>C'est la "boîte" qui va contenir votre connexion. À faire une seule fois.</p>
-      </div>
-      <div class="chapter-time">⏱ 10 min</div>
-    </div>
 
-    <div class="box box-tip avoid-break">
-      <span class="bi">ℹ️</span>
-      <span>Google Cloud Console est la plateforme technique de Google. Ne vous laissez pas impressionner — vous n'aurez besoin que de quelques clics. Restez connecté avec <strong>le même compte Google</strong> que celui de l'étape 1.</span>
-    </div>
-
-    <div class="step-list">
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Ouvrir Google Cloud Console</h3>
-          <p>Ouvrez un nouvel onglet et allez à cette adresse :</p>
-          <div class="url-box"><span class="url-icon">🌐</span> https://console.cloud.google.com</div>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Vous arrivez sur une page avec une barre de navigation sombre en haut et un tableau de bord. Si Google vous demande de vous connecter, utilisez le même compte qu'à l'étape 1.</span></div>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Créer un nouveau projet</h3>
-          <p>En haut à gauche, vous voyez le nom d'un projet (ou "Sélectionner un projet"). Cliquez dessus.</p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Une fenêtre s'ouvre avec la liste de vos projets existants et un bouton <strong>"Nouveau projet"</strong> en haut à droite.</span></div>
-          <p>Cliquez sur <span class="click">Nouveau projet</span></p>
-          <p style="margin-top:8px">Remplissez les champs :</p>
-          <ul style="padding-left:18px;margin-top:4px;font-size:13px;color:#444;display:flex;flex-direction:column;gap:4px">
-            <li><strong>Nom du projet :</strong> tapez <em>OptimalLogic</em></li>
-            <li><strong>Organisation :</strong> laissez par défaut</li>
-          </ul>
-          <p style="margin-top:8px">Cliquez sur <span class="click">Créer</span></p>
-          <div class="screen-hint"><span class="icon">⏳</span> <span>Attendez 10-15 secondes. Une notification "Création du projet OptimalLogic..." apparaît en bas à droite, puis disparaît quand c'est terminé.</span></div>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Activer les APIs Google Business</h3>
-          <p>Assurez-vous que votre projet <em>OptimalLogic</em> est bien sélectionné en haut, puis dans le menu de gauche cliquez sur <span class="click">APIs et services</span> → <span class="click">Bibliothèque</span></p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Vous voyez une barre de recherche et une grille d'APIs disponibles.</span></div>
-
-          <p style="margin-top:10px"><strong>Recherche 1 :</strong> Tapez <em>Business Profile Performance</em> dans la barre de recherche</p>
-          <p>Cliquez sur le résultat <em>Business Profile Performance API</em> → <span class="click">Activer</span></p>
-          <div class="screen-hint"><span class="icon">⏳</span> <span>Attendez que la page se recharge — vous voyez alors "API activée" ou le bouton change en "Gérer".</span></div>
-
-          <p style="margin-top:10px"><strong>Recherche 2 :</strong> Cliquez sur <em>← Bibliothèque</em> pour revenir, puis cherchez <em>My Business Account Management</em></p>
-          <p>Cliquez sur le résultat → <span class="click">Activer</span></p>
-        </div>
-      </div>
-
+<!-- ════════════════════════════════════════
+     ÉTAPE 2 — VERCEL
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num">2</div>
+    <div class="sec-title">
+      <h2>Ajouter les variables dans Vercel <span class="time-pill">⏱ 2 min</span></h2>
+      <p>Settings → Environment Variables → ajouter ces 3 lignes</p>
     </div>
   </div>
+</div>
+
+<table class="nb">
+  <tr>
+    <th>Variable</th>
+    <th>Valeur</th>
+    <th>Source</th>
+  </tr>
+  <tr>
+    <td><code>GOOGLE_CLIENT_ID</code></td>
+    <td>Le Client ID copié à l'étape 1.4</td>
+    <td>Google Cloud Console</td>
+  </tr>
+  <tr>
+    <td><code>GOOGLE_CLIENT_SECRET</code></td>
+    <td>Le Client Secret copié à l'étape 1.4</td>
+    <td>Google Cloud Console</td>
+  </tr>
+  <tr>
+    <td><code>NEXT_PUBLIC_APP_URL</code></td>
+    <td><code>https://votre-site.vercel.app</code></td>
+    <td>URL de votre déploiement</td>
+  </tr>
+</table>
+
+<div class="box warn nb">
+  <span class="bi">⚠️</span>
+  <span>Cochez <strong>"All Environments"</strong> pour chaque variable. Puis dans l'onglet <strong>Deployments</strong> → bouton <strong>Redeploy</strong> → attendez le point vert.</span>
+</div>
+
+<p style="margin-top:8px;font-size:12px;color:#888"><strong>Alternative CLI (plus rapide) :</strong></p>
+<div class="cmd nb">
+vercel <span class="k">env</span> add GOOGLE_CLIENT_ID<br/>
+vercel <span class="k">env</span> add GOOGLE_CLIENT_SECRET<br/>
+vercel <span class="k">env</span> add NEXT_PUBLIC_APP_URL<br/>
+vercel <span class="k">--prod</span> <span class="c"># redéploiement</span>
+</div>
 
 
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 3 — IDENTIFIANTS OAuth
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">3</div>
-      <div class="chapter-title">
-        <h2>Créer les identifiants de connexion</h2>
-        <p>Obtenir les "clés" qui permettent à OptimalLogic de parler à Google</p>
-      </div>
-      <div class="chapter-time">⏱ 10 min</div>
-    </div>
-
-    <div class="step-list">
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Configurer l'écran de consentement</h3>
-          <p>Dans le menu gauche : <span class="click">APIs et services</span> → <span class="click">Écran de consentement OAuth</span></p>
-          <p style="margin-top:6px">Choisissez <span class="click">Externe</span> puis cliquez <span class="click">Créer</span></p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Un formulaire s'affiche. Remplissez uniquement les champs obligatoires (marqués d'un *).</span></div>
-          <ul style="padding-left:18px;margin-top:6px;font-size:13px;color:#444;display:flex;flex-direction:column;gap:4px">
-            <li><strong>Nom de l'application :</strong> <em>OptimalLogic</em></li>
-            <li><strong>Email d'assistance utilisateur :</strong> votre adresse email</li>
-            <li><strong>Coordonnées du développeur :</strong> votre adresse email</li>
-          </ul>
-          <p style="margin-top:8px">Cliquez <span class="click">Enregistrer et continuer</span> sur chaque écran suivant (Champs d'application, Utilisateurs tests, Récapitulatif) sans rien changer.</p>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Créer les identifiants OAuth 2.0</h3>
-          <p>Dans le menu gauche : <span class="click">APIs et services</span> → <span class="click">Identifiants</span></p>
-          <p style="margin-top:6px">En haut de la page, cliquez <span class="click">+ Créer des identifiants</span> → choisissez <span class="click">ID client OAuth 2.0</span></p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Un formulaire s'affiche avec un menu déroulant "Type d'application".</span></div>
-          <ul style="padding-left:18px;margin-top:6px;font-size:13px;color:#444;display:flex;flex-direction:column;gap:6px">
-            <li><strong>Type d'application :</strong> choisissez <em>Application Web</em></li>
-            <li><strong>Nom :</strong> tapez <em>OptimalLogic Server</em></li>
-            <li><strong>URI de redirection autorisés :</strong> cliquez <em>"+ Ajouter un URI"</em> et collez :<br/>
-              <div class="url-box" style="margin-top:6px"><span class="url-icon">🔗</span> https://VOTRE-SITE.vercel.app/api/admin/google-auth/callback</div>
-              <p style="font-size:12px;color:#888;margin-top:4px">⚠️ Remplacez VOTRE-SITE par votre vrai domaine Vercel (ex: optimal-logic.vercel.app)</p>
-            </li>
-          </ul>
-          <p style="margin-top:8px">Cliquez <span class="click">Créer</span></p>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Copier vos clés — étape CRITIQUE</h3>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Une fenêtre pop-up s'affiche avec votre <strong>ID client</strong> et votre <strong>Secret client</strong>.</span></div>
-          <div class="box box-stop" style="margin-top:6px">
-            <span class="bi">⚠️</span>
-            <span>Copiez ces deux valeurs <strong>maintenant</strong> et collez-les dans un fichier texte sur votre bureau. Vous en aurez besoin à l'étape suivante. Si vous fermez cette fenêtre sans les copier, vous pouvez les retrouver en cliquant sur le nom de l'identifiant dans la liste.</span>
-          </div>
-          <table style="margin-top:8px">
-            <tr><th>Ce que vous voyez</th><th>Ce que c'est</th></tr>
-            <tr><td><strong>ID client</strong><br/><em style="font-size:11px;color:#888">Ressemble à : 123456789-abc123.apps.googleusercontent.com</em></td><td>Notez-le → <code>GOOGLE_CLIENT_ID</code></td></tr>
-            <tr><td><strong>Secret client</strong><br/><em style="font-size:11px;color:#888">Ressemble à : GOCSPX-aBcDeFgHiJkLm...</em></td><td>Notez-le → <code>GOOGLE_CLIENT_SECRET</code></td></tr>
-          </table>
-        </div>
-      </div>
-
+<!-- ════════════════════════════════════════
+     ÉTAPE 3 — AUTORISATION
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num">3</div>
+    <div class="sec-title">
+      <h2>Autoriser en 1 clic <span class="time-pill">⏱ 1 min</span></h2>
+      <p>Une seule fois — donne accès permanent à vos fiches Google</p>
     </div>
   </div>
+</div>
 
-
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 4 — VERCEL
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">4</div>
-      <div class="chapter-title">
-        <h2>Ajouter les clés dans Vercel</h2>
-        <p>Dire à votre site quelles clés utiliser pour parler à Google</p>
+<div class="steps">
+  <div class="step nb">
+    <div class="sl"><div class="sc">1</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Ouvrir ce lien dans votre navigateur</h3>
+      <div class="url"><span class="ui">🔗</span> https://VOTRE-SITE.vercel.app/api/admin/google-auth?secret=VOTRE_ADMIN_SECRET</div>
+      <p>→ Sélectionnez le compte Google qui gère les fiches Business → <span class="click">Autoriser</span></p>
+      <div class="box tip" style="margin-top:6px">
+        <span class="bi">ℹ️</span>
+        <span>Si Google affiche "application non vérifiée" → cliquez <em>Paramètres avancés</em> → <em>Accéder à OptimalLogic</em>. C'est normal pour une application privée.</span>
       </div>
-      <div class="chapter-time">⏱ 5 min</div>
-    </div>
-
-    <div class="step-list">
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Aller dans les paramètres de votre projet Vercel</h3>
-          <div class="url-box"><span class="url-icon">🌐</span> https://vercel.com → votre projet OptimalLogic → onglet <strong>Settings</strong></div>
-          <p>Dans le menu gauche, cliquez sur <span class="click">Environment Variables</span></p>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Ajouter les variables une par une</h3>
-          <p>Pour chaque ligne du tableau ci-dessous, cliquez <span class="click">+ Add New</span> et remplissez les champs.</p>
-          <table class="var-table" style="margin-top:8px">
-            <tr><th>Nom (Key)</th><th>Valeur (Value)</th><th>Disponibilité</th></tr>
-            <tr><td>GOOGLE_CLIENT_ID</td><td>Votre ID client (copié à l'étape 3)</td><td>All Environments</td></tr>
-            <tr><td>GOOGLE_CLIENT_SECRET</td><td>Votre Secret client (copié à l'étape 3)</td><td>All Environments</td></tr>
-            <tr><td>NEXT_PUBLIC_APP_URL</td><td>https://votre-site.vercel.app</td><td>All Environments</td></tr>
-            <tr><td>GOOGLE_REFRESH_TOKEN</td><td style="color:#999;font-style:italic">À obtenir à l'étape 5</td><td>All Environments</td></tr>
-          </table>
-          <div class="box box-warn" style="margin-top:8px">
-            <span class="bi">⚠️</span>
-            <span>Pour chaque variable, cochez bien <strong>"All Environments"</strong> (Production + Preview + Development) avant de sauvegarder.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Redéployer l'application</h3>
-          <p>Dans Vercel, allez dans l'onglet <span class="click">Deployments</span> → cliquez sur les <strong>3 points</strong> à droite du dernier déploiement → <span class="click">Redeploy</span></p>
-          <div class="screen-hint"><span class="icon">⏳</span> <span>Le redéploiement prend 1-2 minutes. Attendez que le statut passe de "Building" à <strong>"Ready"</strong> (point vert) avant de continuer.</span></div>
-        </div>
-      </div>
-
     </div>
   </div>
-
-
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 5 — AUTORISATION GOOGLE
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">5</div>
-      <div class="chapter-title">
-        <h2>Autoriser l'application</h2>
-        <p>Donner l'accès à OptimalLogic pour lire vos fiches Google Business</p>
+  <div class="step nb">
+    <div class="sl"><div class="sc">2</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Copier le Refresh Token et le coller dans Vercel</h3>
+      <p>La page affiche un code violet — copiez-le et ajoutez-le dans Vercel :</p>
+      <table style="margin-top:4px">
+        <tr><th>Variable</th><th>Valeur</th></tr>
+        <tr><td><code>GOOGLE_REFRESH_TOKEN</code></td><td>Le code affiché sur la page</td></tr>
+      </table>
+      <p style="margin-top:6px">→ Redéployez à nouveau (Vercel → Deployments → Redeploy)</p>
+      <div class="box stop" style="margin-top:6px">
+        <span class="bi">🔒</span>
+        <span>Ne partagez jamais ce token. Il donne accès à toutes vos fiches Google Business.</span>
       </div>
-      <div class="chapter-time">⏱ 5 min</div>
-    </div>
-
-    <div class="box box-ok avoid-break">
-      <span class="bi">✅</span>
-      <span>Cette étape se fait <strong>une seule fois</strong>. Une fois autorisé, OptimalLogic peut lire les données Google de tous vos clients automatiquement, sans que vous ayez à refaire cette manipulation.</span>
-    </div>
-
-    <div class="step-list">
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Ouvrir le lien d'autorisation</h3>
-          <p>Dans votre navigateur, allez à cette URL (remplacez les parties en majuscules) :</p>
-          <div class="url-box"><span class="url-icon">🔗</span> https://VOTRE-SITE.vercel.app/api/admin/google-auth?secret=VOTRE_ADMIN_SECRET</div>
-          <p style="font-size:12.5px;color:#666;margin-top:6px">Où trouver VOTRE_ADMIN_SECRET ? C'est la variable <code>ADMIN_SECRET</code> dans vos variables Vercel.</p>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Choisir votre compte Google et autoriser</h3>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Google vous montre une page de connexion ou de sélection de compte.</span></div>
-          <p>Sélectionnez le <strong>même compte Google</strong> que celui utilisé depuis le début (le compte qui gère les fiches Business).</p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Vous voyez peut-être un avertissement "Cette application n'est pas vérifiée" — c'est normal car c'est votre propre application. Cliquez sur <em>"Paramètres avancés"</em> puis <em>"Accéder à OptimalLogic (non sécurisé)"</em>.</span></div>
-          <p style="margin-top:6px">Cochez toutes les cases demandées → <span class="click">Continuer</span></p>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Copier le Refresh Token</h3>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Vous êtes redirigé vers une page OptimalLogic qui affiche votre <strong>refresh_token</strong> sur fond sombre, en violet.</span></div>
-          <div class="box box-stop">
-            <span class="bi">🔑</span>
-            <span><strong>Copiez immédiatement ce token</strong> (clic sur le texte + Ctrl+A + Ctrl+C) et collez-le dans Vercel comme valeur de <code>GOOGLE_REFRESH_TOKEN</code>. Puis redéployez à nouveau comme à l'étape 4.3.</span>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
+</div>
 
 
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 6 — LIER LES CLIENTS
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">6</div>
-      <div class="chapter-title">
-        <h2>Lier chaque client à sa fiche Google</h2>
-        <p>Dire au système quelle fiche Google correspond à quel client</p>
-      </div>
-      <div class="chapter-time">⏱ 5 min par client</div>
-    </div>
-
-    <div class="step-list">
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Trouver l'Account ID de votre compte Google Business</h3>
-          <p>Allez sur <strong>business.google.com</strong>, connectez-vous, et regardez l'URL dans la barre d'adresse :</p>
-          <div class="format-box">
-https://business.google.com/dashboard/a/<span class="value">123456789</span>/locations
-                                          <span class="comment">         ↑ notez ce numéro = Account ID</span>
-          </div>
-          <p style="font-size:12.5px;color:#666">Si vous ne voyez pas ce format, cliquez sur une fiche puis revenez au tableau de bord.</p>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Trouver le Location ID de la fiche du client</h3>
-          <p>Sur <strong>business.google.com</strong>, cliquez sur la fiche d'un client. Regardez l'URL :</p>
-          <div class="format-box">
-https://business.google.com/dashboard/l/<span class="value">9876543210123456789</span>/about
-                                          <span class="comment">          ↑ notez ce numéro = Location ID</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Construire les deux identifiants</h3>
-          <p>Avec les numéros notés, construisez les valeurs à saisir :</p>
-          <table style="margin-top:6px">
-            <tr><th>Colonne Supabase</th><th>Format</th><th>Exemple avec vos numéros</th></tr>
-            <tr>
-              <td><code>google_location_name</code></td>
-              <td>locations/<em>[Location ID]</em></td>
-              <td style="font-family:monospace;font-size:11.5px">locations/9876543210123456789</td>
-            </tr>
-            <tr>
-              <td><code>google_account_location_name</code></td>
-              <td>accounts/<em>[Account ID]</em>/locations/<em>[Location ID]</em></td>
-              <td style="font-family:monospace;font-size:11.5px">accounts/123456789/locations/9876543210123456789</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">4</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Saisir dans Supabase</h3>
-          <p>Allez sur <strong>supabase.com</strong> → votre projet → <span class="click">Table Editor</span> → table <strong>clients</strong></p>
-          <p style="margin-top:6px">Trouvez la ligne du client, cliquez dessus pour la modifier, et remplissez les deux colonnes avec les valeurs construites à l'étape précédente.</p>
-          <p style="margin-top:6px">Cliquez <span class="click">Save</span> pour enregistrer.</p>
-          <p style="margin-top:8px;font-size:12.5px;color:#666">Répétez cette étape pour chaque client que vous voulez connecter à Google Business.</p>
-        </div>
-      </div>
-
+<!-- ════════════════════════════════════════
+     ÉTAPE 4 — AUTO-SETUP
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num">4</div>
+    <div class="sec-title">
+      <h2>Lier tout automatiquement <span class="time-pill">⏱ 2 min</span></h2>
+      <p>La page détecte les correspondances et lie tout en un clic</p>
     </div>
   </div>
+</div>
 
-
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 7 — TESTER
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">7</div>
-      <div class="chapter-title">
-        <h2>Tester que tout fonctionne</h2>
-        <p>Vérifier que les données Google remontent bien dans le tableau de bord</p>
-      </div>
-      <div class="chapter-time">⏱ 5 min</div>
-    </div>
-
-    <div class="step-list">
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">1</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Déclencher une mise à jour manuelle</h3>
-          <p>Ouvrez un terminal (ou utilisez un outil comme Insomnia / Postman) et envoyez cette requête :</p>
-          <div class="format-box">
-<span class="label">POST</span> https://VOTRE-SITE.vercel.app/api/admin/metrics/google
-<span class="label">Header:</span> x-admin-secret: <span class="value">VOTRE_ADMIN_SECRET</span>
-          </div>
-          <p style="margin-top:6px;font-size:12.5px;color:#666">Ou plus simplement, vous pouvez utiliser <strong>curl</strong> dans un terminal :</p>
-          <div class="format-box">
-curl -X POST https://VOTRE-SITE.vercel.app/api/admin/metrics/google \
-  -H "x-admin-secret: VOTRE_ADMIN_SECRET"
-          </div>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">2</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Vérifier la réponse</h3>
-          <div class="box box-ok">
-            <span class="bi">✅</span>
-            <div><strong>Si tout va bien, vous recevez :</strong><br/>
-            <div class="format-box" style="margin-top:6px">{ <span class="label">"success"</span>: <span class="value">true</span>, <span class="label">"updated"</span>: <span class="value">3</span>, <span class="label">"errors"</span>: <span class="value">[]</span> }</div></div>
-          </div>
-          <div class="box box-warn" style="margin-top:6px">
-            <span class="bi">⚠️</span>
-            <div><strong>Si vous voyez des erreurs :</strong> lisez l'étape 8 (problèmes fréquents) ci-dessous.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step avoid-break">
-        <div class="step-left"><div class="step-circle">3</div><div class="step-line"></div></div>
-        <div class="step-body">
-          <h3>Vérifier dans l'espace client</h3>
-          <p>Connectez-vous en tant que client → tableau de bord. Les métriques Google (vues, clics, avis, note) doivent maintenant s'afficher.</p>
-          <div class="screen-hint"><span class="icon">👀</span> <span>Si les chiffres sont à "—", attendez une heure et relancez le test. Si le problème persiste, vérifiez que le <code>google_location_name</code> est bien rempli dans Supabase pour ce client.</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="box box-ok avoid-break" style="margin-top:4px">
-      <span class="bi">🎉</span>
-      <span><strong>Configuration terminée !</strong> Les métriques Google Business se mettront à jour automatiquement <strong>chaque lundi à 8h30</strong>, sans aucune action de votre part.</span>
+<div class="steps">
+  <div class="step nb">
+    <div class="sl"><div class="sc">1</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Ouvrir la page d'administration</h3>
+      <div class="url"><span class="ui">🔗</span> https://VOTRE-SITE.vercel.app/admin/google-setup?secret=VOTRE_ADMIN_SECRET</div>
+      <p>La page se charge et récupère automatiquement <strong>toutes vos fiches Google Business</strong>.</p>
     </div>
   </div>
-
-
-  <!-- ══════════════════════════════════════════════
-       CHAPITRE 8 — PROBLÈMES FRÉQUENTS
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">8</div>
-      <div class="chapter-title">
-        <h2>Problèmes fréquents &amp; solutions</h2>
-        <p>Les erreurs les plus courantes et comment les résoudre</p>
+  <div class="step nb">
+    <div class="sl"><div class="sc">2</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>L'algorithme détecte les correspondances</h3>
+      <p>Les menus déroulants se pré-remplissent automatiquement en comparant les noms des fiches Google avec les noms des clients dans Supabase.</p>
+      <p>Les correspondances fiables sont marquées <strong style="color:#14532d">Auto ✓</strong>. Vérifiez les autres et corrigez si nécessaire.</p>
+    </div>
+  </div>
+  <div class="step nb">
+    <div class="sl"><div class="sc">3</div><div class="sline"></div></div>
+    <div class="sb">
+      <h3>Cliquer "⚡ Lier tout en un clic"</h3>
+      <p>Toutes les liaisons détectées sont enregistrées dans Supabase en quelques secondes. Pas besoin de copier des identifiants ou de toucher à Supabase manuellement.</p>
+      <div class="box ok" style="margin-top:6px">
+        <span class="bi">✅</span>
+        <span>C'est terminé. Les métriques Google (vues, clics, avis, note) se mettront à jour automatiquement <strong>chaque lundi à 8h30</strong>.</span>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="problem avoid-break">
-      <h4>❌ "No refresh_token in response" lors de l'autorisation</h4>
-      <p>Google ne renvoie le refresh_token qu'à la première autorisation. Si vous avez déjà autorisé l'application auparavant, allez sur <strong>myaccount.google.com/permissions</strong>, trouvez "OptimalLogic" et cliquez <em>Supprimer l'accès</em>. Puis relancez l'étape 5.</p>
-    </div>
 
-    <div class="problem avoid-break">
-      <h4>❌ Erreur 403 "Request had insufficient authentication scopes"</h4>
-      <p>Les APIs Google Business ne sont pas activées dans votre projet. Retournez au chapitre 2, étape 3, et vérifiez que les deux APIs sont bien activées (le bouton doit afficher "Gérer" et non "Activer").</p>
-    </div>
-
-    <div class="problem avoid-break">
-      <h4>❌ "updated: 0" dans la réponse (aucun client mis à jour)</h4>
-      <p>Aucun client n'a de <code>google_location_name</code> rempli dans Supabase. Refaites le chapitre 6 pour au moins un client.</p>
-    </div>
-
-    <div class="problem avoid-break">
-      <h4>❌ "Non autorisé" sur /api/admin/google-auth</h4>
-      <p>Le paramètre <code>?secret=</code> dans l'URL ne correspond pas à votre variable <code>ADMIN_SECRET</code> dans Vercel. Vérifiez la valeur exacte (attention aux espaces).</p>
-    </div>
-
-    <div class="problem avoid-break">
-      <h4>❌ Les métriques restent à zéro malgré le succès</h4>
-      <p>Google Business Profile API ne remonte les données que sur les 7 derniers jours. Si votre client n'a eu aucune vue ou aucun clic la semaine passée, les valeurs seront bien 0. C'est normal.</p>
-    </div>
-
-    <div class="problem avoid-break">
-      <h4>❌ Erreur "redirect_uri_mismatch"</h4>
-      <p>L'URL de redirection ajoutée dans Google Cloud (chapitre 3, étape 2) ne correspond pas exactement à votre vrai domaine. Vérifiez qu'il n'y a pas de <em>www</em> en trop, de <em>/</em> final, ou une faute de frappe.</p>
+<!-- ════════════════════════════════════════
+     URLS DE RÉFÉRENCE
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num" style="font-size:14px">🔗</div>
+    <div class="sec-title">
+      <h2>URLs à retenir</h2>
     </div>
   </div>
+</div>
+
+<table class="nb">
+  <tr><th>Page</th><th>URL</th><th>Usage</th></tr>
+  <tr>
+    <td>Autorisation Google</td>
+    <td><code>/api/admin/google-auth?secret=…</code></td>
+    <td>Une seule fois</td>
+  </tr>
+  <tr>
+    <td>Page de liaison</td>
+    <td><code>/admin/google-setup?secret=…</code></td>
+    <td>Ajouter un nouveau client</td>
+  </tr>
+  <tr>
+    <td>Forcer une mise à jour</td>
+    <td><code>POST /api/admin/metrics/google</code></td>
+    <td>Tester ou forcer le refresh</td>
+  </tr>
+  <tr>
+    <td>Métriques internes (RDV, demandes)</td>
+    <td><code>POST /api/admin/metrics/refresh</code></td>
+    <td>Lundi 8h00 automatique</td>
+  </tr>
+</table>
 
 
-  <!-- ══════════════════════════════════════════════
-       CHECKLIST FINALE
-  ══════════════════════════════════════════════ -->
-  <div class="chapter">
-    <div class="chapter-header">
-      <div class="chapter-num">✓</div>
-      <div class="chapter-title">
-        <h2>Checklist de validation</h2>
-        <p>Cochez chaque point une fois terminé</p>
-      </div>
+<!-- ════════════════════════════════════════
+     PROBLÈMES COURANTS
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num" style="font-size:14px">⚡</div>
+    <div class="sec-title">
+      <h2>Problèmes fréquents</h2>
     </div>
-
-    <ul class="checklist">
-      <li>Projet Google Cloud <em>OptimalLogic</em> créé <span class="sub">console.cloud.google.com → Nouveau projet</span></li>
-      <li>API <em>Business Profile Performance</em> activée <span class="sub">APIs et services → Bibliothèque</span></li>
-      <li>API <em>My Business Account Management</em> activée <span class="sub">APIs et services → Bibliothèque</span></li>
-      <li>Écran de consentement OAuth configuré <span class="sub">APIs et services → Écran de consentement OAuth</span></li>
-      <li>Identifiants OAuth 2.0 créés <span class="sub">Type : Application Web · URI de redirection correcte</span></li>
-      <li><code>GOOGLE_CLIENT_ID</code> ajouté dans Vercel <span class="sub">Settings → Environment Variables</span></li>
-      <li><code>GOOGLE_CLIENT_SECRET</code> ajouté dans Vercel</li>
-      <li><code>NEXT_PUBLIC_APP_URL</code> ajouté dans Vercel</li>
-      <li>Application redéployée une première fois</li>
-      <li>Flow OAuth lancé via <code>/api/admin/google-auth?secret=...</code> <span class="sub">Connecté avec le bon compte Google</span></li>
-      <li><code>GOOGLE_REFRESH_TOKEN</code> copié et ajouté dans Vercel</li>
-      <li>Application redéployée une deuxième fois</li>
-      <li><code>google_location_name</code> rempli pour chaque client dans Supabase</li>
-      <li><code>google_account_location_name</code> rempli pour chaque client dans Supabase</li>
-      <li>Test manuel effectué → réponse <code>"success": true</code></li>
-      <li>Métriques visibles dans l'espace client ✅</li>
-    </ul>
   </div>
+</div>
 
-  <!-- ── FOOTER ── -->
-  <div class="doc-footer">
-    <span>© 2026 OptimalLogic — Document interne confidentiel · Ne pas diffuser</span>
-    <span>Guide v2.0 — Connexion Google Business Profile API</span>
+<table class="nb">
+  <tr><th>Symptôme</th><th>Cause</th><th>Solution rapide</th></tr>
+  <tr>
+    <td>"No refresh_token"</td>
+    <td>Application déjà autorisée</td>
+    <td>myaccount.google.com/permissions → supprimer OptimalLogic → relancer étape 3</td>
+  </tr>
+  <tr>
+    <td>Erreur 403 sur l'API</td>
+    <td>APIs non activées</td>
+    <td>Vérifier que les 2 APIs sont bien activées (bouton "Gérer" visible)</td>
+  </tr>
+  <tr>
+    <td>Page admin : aucune fiche</td>
+    <td>Mauvais compte Google</td>
+    <td>Relancer étape 3 avec le compte qui gère les fiches Business</td>
+  </tr>
+  <tr>
+    <td>Métriques à zéro</td>
+    <td>Semaine sans activité</td>
+    <td>Normal — Google remonte 0 si pas de vues/clics la semaine passée</td>
+  </tr>
+  <tr>
+    <td>"Non autorisé" sur /api/admin</td>
+    <td>Mauvais ADMIN_SECRET</td>
+    <td>Vérifier la variable ADMIN_SECRET dans Vercel (copier exactement)</td>
+  </tr>
+</table>
+
+
+<!-- CHECKLIST -->
+<div class="sec nb">
+  <div class="sec-head">
+    <div class="sec-num" style="font-size:14px">✓</div>
+    <div class="sec-title"><h2>Checklist</h2></div>
   </div>
+</div>
+
+<ul class="cl nb">
+  <li>Projet Google Cloud <em>OptimalLogic</em> créé</li>
+  <li>API Business Profile Performance activée</li>
+  <li>API My Business Account Management activée</li>
+  <li>Écran de consentement OAuth configuré (type Externe)</li>
+  <li>Identifiants OAuth créés — URI de redirection correcte</li>
+  <li><code>GOOGLE_CLIENT_ID</code> ajouté dans Vercel</li>
+  <li><code>GOOGLE_CLIENT_SECRET</code> ajouté dans Vercel</li>
+  <li><code>NEXT_PUBLIC_APP_URL</code> ajouté dans Vercel · Redéploiement fait</li>
+  <li>Autorisation Google effectuée via <code>/api/admin/google-auth?secret=…</code></li>
+  <li><code>GOOGLE_REFRESH_TOKEN</code> ajouté dans Vercel · Redéploiement fait</li>
+  <li>Page <code>/admin/google-setup</code> ouverte — fiches chargées</li>
+  <li>Bouton "⚡ Lier tout en un clic" cliqué — liaisons enregistrées ✅</li>
+</ul>
+
+<div class="foot">
+  <span>© 2026 OptimalLogic — Document interne · Ne pas diffuser</span>
+  <span>Guide v3.0 — Automatisé · 15 min</span>
+</div>
 
 </div>
 </body>
