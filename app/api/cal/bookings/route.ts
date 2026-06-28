@@ -10,6 +10,9 @@ import {
 
 export const dynamic = "force-dynamic";
 
+const BOOKING_RATE_LIMIT = process.env.NODE_ENV === "production" ? 3 : 30;
+const BOOKING_RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+
 type TrackingPayload = {
   utm_source?: string | null;
   utm_medium?: string | null;
@@ -114,7 +117,11 @@ function jsonError(message: string, status = 400) {
 
 export async function POST(request: Request) {
   const ip = getClientIp(request);
-  const rl = rateLimit(`cal-bookings:${ip}`, 3, 60 * 60 * 1000);
+  const rl = rateLimit(
+    `cal-bookings:${ip}`,
+    BOOKING_RATE_LIMIT,
+    BOOKING_RATE_LIMIT_WINDOW_MS,
+  );
   if (!rl.allowed) return rateLimitResponse(rl.resetAt);
 
   try {
