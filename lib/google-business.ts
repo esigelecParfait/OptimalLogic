@@ -117,6 +117,78 @@ export async function fetchLocationReviews(
   };
 }
 
+// ── Lister les comptes et fiches gérés ───────────────────────────────────────
+
+export type GBPAccount = {
+  name: string;        // "accounts/123456789"
+  accountName: string; // Nom affiché
+  type: string;
+};
+
+export type GBPLocation = {
+  name: string;           // "accounts/123/locations/456"
+  locationName: string;   // Nom de l'établissement
+  primaryPhone?: string;
+  websiteUri?: string;
+  primaryCategory?: string;
+  locationId: string;     // Juste le numéro final
+  accountId: string;      // Juste le numéro du compte
+  // Format pour l'API Performance
+  performanceName: string; // "locations/456"
+};
+
+export async function fetchManagedAccounts(token: string): Promise<GBPAccount[]> {
+  const res = await fetch(`${MYBUSINESS_API}/accounts`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error(`Erreur accounts: ${res.status} ${await res.text()}`);
+  const data = await res.json();
+  return (data.accounts ?? []) as GBPAccount[];
+}
+
+export async function fetchLocationsForAccount(
+  accountName: string, // "accounts/123456789"
+  token: string
+): Promise<GBPLocation[]> {
+  const res = await fetch(
+    `${MYBUSINESS_API}/${accountName}/locations?readMask=name,title,phoneNumbers,websiteUri,categories`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  if (!res.ok) return [];
+  const data = await res.json();
+
+  return ((data.locations ?? []) as Record<string, unknown>[]).map((loc) => {
+    const name = loc.name as string; // "accounts/123/locations/456"
+    const parts = name.split("/");
+    const locationId = parts[parts.length - 1];
+    const accountId  = parts[1];
+    return {
+      name,
+      locationName:    (loc.title as string) ?? name,
+      primaryPhone:    (loc as Record<string, unknown>)?.phoneNumbers ? String((loc as Record<string, Record<string, unknown>>).phoneNumbers?.primaryPhone ?? "") : undefined,
+      websiteUri:      loc.websiteUri as string | undefined,
+      primaryCategory: (loc as Record<string, Record<string, unknown>>)?.categories?.primaryCategory
+        ? String(((loc as Record<string, Record<string, unknown>>).categories.primaryCategory as Record<string, unknown>).displayName ?? "")
+        : undefined,
+      locationId,
+      accountId,
+      performanceName: `locations/${locationId}`,
+    };
+  });
+}
+
+export async function fetchAllManagedLocations(): Promise<{ account: GBPAccount; locations: GBPLocation[] }[]> {
+  const token    = await getGoogleAccessToken();
+  const accounts = await fetchManagedAccounts(token);
+  const results  = await Promise.all(
+    accounts.map(async (account) => ({
+      account,
+      locations: await fetchLocationsForAccount(account.name, token),
+    }))
+  );
+  return results.filter(r => r.locations.length > 0);
+}
+
 // ── Fonction principale : toutes les métriques d'une semaine ──────────────────
 
 export async function fetchWeeklyGBPMetrics(
