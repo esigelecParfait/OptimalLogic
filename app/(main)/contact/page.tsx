@@ -55,9 +55,9 @@ type Reason = {
 const labelClass = "grid gap-2";
 const labelTextClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 const fieldClass =
-  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
 const textareaClass =
-  "min-h-[150px] w-full resize-none rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "min-h-[150px] w-full resize-none rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
 const typeclientOptions: TypeClientOption[] = [
   { value: "commerce", label: "Commerce" },
   { value: "tpe_pme", label: "TPE/PME" },

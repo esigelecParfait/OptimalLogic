@@ -118,7 +118,7 @@ type ObjectiveSelectControlProps = {
 type PremiumSelectControlProps = ObjectiveSelectControlProps;
 
 const premiumControlClass =
-  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] text-sm text-ink outline-none transition-all focus-within:border-indigo focus-within:ring-2 focus-within:ring-[rgba(124,92,255,0.18)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] text-sm text-ink outline-none transition-all focus-within:border-indigo focus-within:ring-2 focus-within:ring-[rgba(124,92,255,0.18)]";
 
 const priorityCountries: Country[] = [
   "FR",
@@ -281,7 +281,7 @@ function PremiumCountrySelect({
       </button>
 
       {isOpen ? (
-        <div className="absolute left-0 top-[calc(100%+12px)] z-50 w-[340px] max-w-[calc(100vw-48px)] overflow-hidden rounded-2xl border border-white/[0.14] bg-[#080b18]/95 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+        <div className="absolute left-0 top-[calc(100%+12px)] z-50 w-[340px] max-w-[calc(100vw-48px)] overflow-hidden rounded-2xl border border-white/[0.14] bg-[#121214]/95 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl">
           <div className="mb-2 flex h-11 items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.06] px-3">
             <Search size={15} strokeWidth={2} className="shrink-0 text-mut" />
             <input
@@ -507,7 +507,7 @@ export function PremiumSelectControl({
       {isOpen ? (
         <div
           role="listbox"
-          className="absolute left-0 right-0 top-[calc(100%+12px)] z-50 overflow-hidden rounded-2xl border border-white/[0.14] bg-[#080b18]/95 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+          className="absolute left-0 right-0 top-[calc(100%+12px)] z-50 overflow-hidden rounded-2xl border border-white/[0.14] bg-[#121214]/95 p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl"
         >
           <div className="max-h-[340px] overflow-y-auto pr-1">
             {options.map((option) => {
