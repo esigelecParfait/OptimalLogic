@@ -2,7 +2,11 @@
   "crons": [
     {
       "path": "/api/admin/metrics/refresh",
-      "schedule": "0 6 1 * *"
+      "schedule": "0 8 * * 1"
+    },
+    {
+      "path": "/api/admin/metrics/google",
+      "schedule": "30 8 * * 1"
     }
   ]
 }
