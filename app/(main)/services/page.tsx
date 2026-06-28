@@ -51,7 +51,7 @@ const services: Service[] = [
     description:
       "Pour un commerce, le digital doit aider le client à vous trouver au bon moment, comprendre ce que vous proposez et passer à l’action sans hésiter.",
     icon: Store,
-    glow: "var(--cyan)",
+    glow: "var(--ink)",
     objective: "Transformer la recherche locale en appel, réservation ou visite.",
     levers: [
       "Google Business optimisé",
@@ -70,7 +70,7 @@ const services: Service[] = [
     description:
       "Pour une TPE ou une PME, la présence digitale doit renforcer la crédibilité, présenter les services et éviter que les demandes intéressantes se perdent.",
     icon: Building2,
-    glow: "var(--indigo)",
+    glow: "var(--ink)",
     objective: "Transformer votre site et vos formulaires en vrai système commercial.",
     levers: [
       "Site web professionnel",
@@ -187,8 +187,8 @@ function IconFrame({
 }) {
   const styles = {
     default: {
-      color: "var(--cyan)",
-      background: "rgba(124,92,255,0.14)",
+      color: "var(--ink)",
+      background: "rgba(255,255,255,0.1)",
       borderColor: "rgba(255,255,255,0.13)",
     },
     soft: {
@@ -231,12 +231,12 @@ export default function ServicesPage() {
     <main className="relative overflow-hidden">
       {/* HERO */}
       <section className="relative isolate overflow-hidden px-7 pb-20 pt-44 lg:pt-52">
-        <div className="pointer-events-none absolute inset-0 z-0 opacity-80">
+        <div className="pointer-events-none absolute inset-0 z-0 min-h-full opacity-60 sm:opacity-75 lg:opacity-80">
           <NeuralBackground />
         </div>
 
         <div
-          className="pointer-events-none absolute left-1/2 top-28 z-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full opacity-30 blur-[120px]"
+          className="pointer-events-none absolute left-1/2 top-24 z-0 h-[min(72vw,520px)] w-[min(72vw,520px)] -translate-x-1/2 rounded-full opacity-25 blur-[90px] sm:top-28 sm:opacity-30 sm:blur-[120px]"
           style={{ background: "var(--grad)" }}
         />
 
@@ -276,7 +276,7 @@ export default function ServicesPage() {
               <div className="surface-card relative overflow-hidden rounded-[28px] p-7 sm:p-8">
                 <div
                   className="absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-40 blur-[90px]"
-                  style={{ background: "var(--cyan)" }}
+                  style={{ background: "var(--ink)" }}
                 />
 
                 <div className="relative">
@@ -297,11 +297,11 @@ export default function ServicesPage() {
                       <div
                         key={label}
                         className="group flex items-start gap-4 rounded-2xl border border-white/[0.07] p-4 transition-all hover:border-white/[0.13]"
-                        style={{ background: "rgba(16,20,42,0.52)" }}
+                        style={{ background: "rgba(26,26,29,0.52)" }}
                       >
                         <div
                           className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/[0.1]"
-                          style={{ background: "rgba(124,92,255,0.12)", color: "var(--cyan)" }}
+                          style={{ background: "rgba(255,255,255,0.1)", color: "var(--ink)" }}
                         >
                           <Icon size={20} strokeWidth={1.8} />
                         </div>
@@ -372,7 +372,7 @@ export default function ServicesPage() {
                     <div className="grid gap-4">
                       <div
                         className="rounded-3xl border border-white/[0.08] p-6"
-                        style={{ background: "rgba(16,20,42,0.52)" }}
+                        style={{ background: "rgba(26,26,29,0.52)" }}
                       >
                         <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
                           Objectif
@@ -384,7 +384,7 @@ export default function ServicesPage() {
 
                       <div
                         className="rounded-3xl border border-white/[0.08] p-6"
-                        style={{ background: "rgba(16,20,42,0.42)" }}
+                        style={{ background: "rgba(26,26,29,0.42)" }}
                       >
                         <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
                           Leviers principaux
@@ -436,7 +436,7 @@ export default function ServicesPage() {
               <AnimateIn key={item.step} delay={i * 80}>
                 <div
                   className="group flex gap-5 rounded-3xl border border-white/[0.07] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.13]"
-                  style={{ background: "rgba(11,14,29,0.62)" }}
+                  style={{ background: "rgba(18,18,20,0.62)" }}
                 >
                   <div className="flex shrink-0 flex-col items-center gap-3">
                     <span
@@ -482,7 +482,7 @@ export default function ServicesPage() {
                 <div
                   key={t}
                   className="group rounded-3xl border border-white/[0.07] p-6 transition-all hover:-translate-y-1 hover:border-white/[0.13]"
-                  style={{ background: "rgba(16,20,42,0.5)" }}
+                  style={{ background: "rgba(26,26,29,0.5)" }}
                 >
                   <IconFrame icon={Icon} />
                   <span className="mt-5 block grad-text font-display text-sm font-semibold uppercase tracking-wider">
@@ -504,12 +504,12 @@ export default function ServicesPage() {
             className="relative overflow-hidden rounded-[32px] border border-white/[0.13] p-8 sm:p-12"
             style={{
               background:
-                "linear-gradient(135deg, rgba(124,92,255,0.2), rgba(31,213,240,0.1))",
+                "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))",
             }}
           >
             <div
               className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-35 blur-[100px]"
-              style={{ background: "var(--cyan)" }}
+              style={{ background: "var(--ink)" }}
             />
 
             <div className="relative grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-center">

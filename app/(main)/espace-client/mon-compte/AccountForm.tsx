@@ -6,9 +6,9 @@ import { updateClientInfo, type AccountActionState } from "./actions";
 const labelClass = "grid gap-2";
 const labelTextClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 const fieldClass =
-  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-[rgba(255,255,255,0.12)]";
 const readOnlyFieldClass =
-  "h-12 w-full rounded-xl border border-white/[0.07] bg-[rgba(8,10,22,0.6)] px-4 text-sm text-mut-2";
+  "h-12 w-full rounded-xl border border-white/[0.07] bg-[rgba(5,5,5,0.6)] px-4 text-sm text-mut-2";
 
 const initialState: AccountActionState = { error: null };
 

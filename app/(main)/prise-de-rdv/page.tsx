@@ -111,9 +111,9 @@ const formPreparationItems: IconItem[] = [
 const labelClass = "grid gap-2";
 const labelTextClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 const fieldClass =
-  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-white/[0.12]";
 const textareaClass =
-  "min-h-[132px] w-full resize-none rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "min-h-[132px] w-full resize-none rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-white/[0.12]";
 function addDays(date: Date, days: number) {
   const copy = new Date(date);
   copy.setDate(copy.getDate() + days);
@@ -203,8 +203,8 @@ function getTrackingPayload() {
 function IconFrame({ icon: Icon, compact = false }: { icon: LucideIcon; compact?: boolean }) {
   return (
     <div
-      className={`${compact ? "h-9 w-9 rounded-xl" : "h-12 w-12 rounded-2xl"} grid shrink-0 place-items-center border border-white/[0.13] text-cyan`}
-      style={{ background: "rgba(124,92,255,0.14)" }}
+      className={`${compact ? "h-9 w-9 rounded-xl" : "h-12 w-12 rounded-2xl"} grid shrink-0 place-items-center border border-white/[0.13] text-white`}
+      style={{ background: "rgba(255,255,255,0.1)" }}
     >
       <Icon size={compact ? 18 : 22} strokeWidth={1.8} />
     </div>
@@ -502,14 +502,14 @@ export default function PriseDeRdvPage() {
             </div>
           </div>
 
-          <div className="surface-card rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(124,92,255,0.85)]">
+          <div className="surface-card rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(255,255,255,0.42)]">
             <div
               className="relative overflow-hidden rounded-[24px] border border-white/[0.07] p-6"
-              style={{ background: "linear-gradient(165deg, rgba(16,20,42,0.9), rgba(8,10,22,0.88))" }}
+              style={{ background: "linear-gradient(165deg, rgba(18,18,20,0.9), rgba(5,5,5,0.88))" }}
             >
               <div
                 className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full blur-[80px]"
-                style={{ background: "rgba(124,92,255,0.35)" }}
+                style={{ background: "rgba(255,255,255,0.18)" }}
               />
               <div className="relative z-[1]">
                 <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Objectif du RDV</p>
@@ -522,7 +522,7 @@ export default function PriseDeRdvPage() {
                     <div
                       key={item.label}
                       className="flex items-center gap-4 rounded-2xl border border-white/[0.07] p-4"
-                      style={{ background: "rgba(16,20,42,0.52)" }}
+                      style={{ background: "rgba(26,26,29,0.52)" }}
                     >
                       <span
                         className="grid h-8 w-8 shrink-0 place-items-center rounded-full font-display text-sm font-bold text-white"
@@ -561,12 +561,12 @@ export default function PriseDeRdvPage() {
             </p>
           </div>
 
-          <div className="surface-card overflow-hidden rounded-[32px] shadow-[0_35px_120px_-90px_rgba(31,213,240,0.75)]">
+          <div className="surface-card overflow-hidden rounded-[32px] shadow-[0_35px_120px_-90px_rgba(255,255,255,0.34)]">
             <div className="grid lg:grid-cols-[0.76fr_1.08fr_0.82fr]">
               {/* Left panel */}
               <aside
                 className="border-b border-white/[0.07] p-6 sm:p-8 lg:border-b-0 lg:border-r"
-                style={{ background: "linear-gradient(165deg, rgba(16,20,42,0.66), rgba(8,10,22,0.7))" }}
+                style={{ background: "linear-gradient(165deg, rgba(26,26,29,0.66), rgba(5,5,5,0.7))" }}
               >
                 <div className="grid h-12 w-12 place-items-center rounded-2xl font-display text-sm font-bold text-white" style={{ background: "var(--grad)" }}>
                   OL
@@ -583,7 +583,7 @@ export default function PriseDeRdvPage() {
                     <div
                       key={detail.label}
                       className="rounded-2xl border border-white/[0.07] p-4"
-                      style={{ background: "rgba(16,20,42,0.5)" }}
+                      style={{ background: "rgba(26,26,29,0.5)" }}
                     >
                       <div className="flex items-start gap-3">
                         <IconFrame icon={detail.icon} compact />
@@ -605,7 +605,7 @@ export default function PriseDeRdvPage() {
                 ) : (
                   <div
                     className="mt-8 rounded-2xl border border-white/[0.07] p-5 text-sm leading-6 text-mut"
-                    style={{ background: "rgba(16,20,42,0.5)" }}
+                    style={{ background: "rgba(26,26,29,0.5)" }}
                   >
                     Choisissez une date disponible, puis un horaire pour débloquer la confirmation du rendez-vous.
                   </div>
@@ -641,7 +641,7 @@ export default function PriseDeRdvPage() {
                 </div>
 
                 {isLoadingSlots && (
-                  <div className="mt-8 rounded-2xl border border-white/[0.07] p-6" style={{ background: "rgba(16,20,42,0.5)" }}>
+                  <div className="mt-8 rounded-2xl border border-white/[0.07] p-6" style={{ background: "rgba(26,26,29,0.5)" }}>
                     <div className="flex items-center gap-3 text-sm font-semibold text-mut">
                       <RefreshCw size={16} className="animate-spin" /> Chargement des créneaux disponibles
                     </div>
@@ -690,9 +690,9 @@ export default function PriseDeRdvPage() {
                             }}
                             className={`relative flex aspect-square items-center justify-center rounded-xl text-sm font-semibold transition ${
                               isSelected
-                                ? "text-white shadow-[0_10px_24px_-10px_rgba(124,92,255,0.9)]"
+                                ? "text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
                                 : isAvailable
-                                  ? "border border-white/[0.13] bg-white/[0.03] text-ink hover:border-indigo hover:bg-[rgba(124,92,255,0.12)]"
+                                  ? "border border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
                                   : day.isCurrentMonth
                                     ? "cursor-not-allowed text-mut-2/60"
                                     : "cursor-not-allowed text-mut-2/30"
@@ -725,7 +725,7 @@ export default function PriseDeRdvPage() {
               </section>
 
               {/* Slots */}
-              <section className="p-6 sm:p-8" style={{ background: "rgba(8,10,22,0.42)" }}>
+              <section className="p-6 sm:p-8" style={{ background: "rgba(5,5,5,0.42)" }}>
                 <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Créneaux</p>
                 <h3 className="mt-2 font-display text-2xl font-semibold capitalize">
                   {selectedDate ? formatShortDateLabel(selectedDate) : "Choisissez une date"}
@@ -736,7 +736,7 @@ export default function PriseDeRdvPage() {
                 {selectedDate && selectedDateSlots.length === 0 && (
                   <p
                     className="mt-6 rounded-2xl border border-white/[0.07] p-4 text-sm leading-6 text-mut"
-                    style={{ background: "rgba(16,20,42,0.5)" }}
+                    style={{ background: "rgba(26,26,29,0.5)" }}
                   >
                     Aucun créneau disponible pour cette date.
                   </p>
@@ -750,8 +750,8 @@ export default function PriseDeRdvPage() {
                       onClick={() => setSelectedSlot(slot.start)}
                       className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
                         selectedSlot === slot.start
-                          ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(124,92,255,0.9)]"
-                          : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-indigo hover:bg-[rgba(124,92,255,0.12)]"
+                          ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
+                          : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
                       }`}
                       style={selectedSlot === slot.start ? { background: "var(--grad)" } : undefined}
                     >
@@ -760,7 +760,7 @@ export default function PriseDeRdvPage() {
                   ))}
                 </div>
 
-                <div className="mt-8 rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
+                <div className="mt-8 rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.5)" }}>
                   <div className="flex items-start gap-3">
                     <IconFrame icon={ShieldCheck} compact />
                     <div>
@@ -789,7 +789,7 @@ export default function PriseDeRdvPage() {
                   <div
                     key={item.label}
                     className="flex items-center gap-3 rounded-2xl border border-white/[0.07] px-4 py-3 text-sm font-semibold text-mut"
-                    style={{ background: "rgba(16,20,42,0.5)" }}
+                    style={{ background: "rgba(26,26,29,0.5)" }}
                   >
                     <IconFrame icon={item.icon} compact />
                     {item.label}
@@ -819,7 +819,7 @@ export default function PriseDeRdvPage() {
                 </div>
               ) : (
                 <form onSubmit={handleBookingSubmit} className="grid gap-7">
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.38)" }}>
+                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={UsersRound} compact />
                       <h3 className="font-display text-lg font-semibold">Vos coordonnées</h3>
@@ -867,7 +867,7 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.38)" }}>
+                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={FileText} compact />
                       <h3 className="font-display text-lg font-semibold">Votre activité</h3>
@@ -916,7 +916,7 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.38)" }}>
+                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={MousePointer2} compact />
                       <h3 className="font-display text-lg font-semibold">Présence digitale actuelle</h3>
@@ -944,7 +944,7 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.38)" }}>
+                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <label className={labelClass}>
                       <span className={labelTextClass}>Votre message</span>
                       <textarea
@@ -977,14 +977,14 @@ export default function PriseDeRdvPage() {
 
                   <label
                     className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-[13px] leading-5 text-mut"
-                    style={{ background: "rgba(16,20,42,0.45)" }}
+                    style={{ background: "rgba(26,26,29,0.45)" }}
                   >
                     <input
                       type="checkbox"
                       required
                       checked={form.consentRgpd}
                       onChange={(e) => updateField("consentRgpd", e.target.checked)}
-                      className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-[#7c5cff]"
+                      className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"
                     />
                     <span>
                       J’accepte que mes informations soient utilisées par OptimalLogic pour préparer le rendez-vous, traiter ma demande et me recontacter.

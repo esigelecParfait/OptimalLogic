@@ -371,7 +371,7 @@ function getTrackingPayload() {
 }
 
 const modalFieldClass =
-  "rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-white/[0.12]";
 const modalLabelClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 
 function PremiumCheck({ item, tone = "emerald" }: { item: string; tone?: "emerald" | "cyan" }) {
@@ -379,9 +379,9 @@ function PremiumCheck({ item, tone = "emerald" }: { item: string; tone?: "emeral
     <li className="flex gap-2.5 text-[13px] leading-5">
       <span
         className={`mt-0.5 grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full ${
-          tone === "emerald" ? "text-emerald" : "text-cyan"
+          tone === "emerald" ? "text-emerald" : "text-white"
         }`}
-        style={{ background: tone === "emerald" ? "rgba(46,230,168,0.1)" : "rgba(31,213,240,0.1)" }}
+        style={{ background: tone === "emerald" ? "rgba(46,230,168,0.1)" : "rgba(255,255,255,0.08)" }}
       >
         <Check size={12} strokeWidth={3} />
       </span>
@@ -562,21 +562,21 @@ export default function TarifsPage() {
     return (
       <article
         className={`relative flex h-full flex-col overflow-hidden rounded-[28px] p-6 transition-all duration-300 hover:-translate-y-1 sm:p-7 ${
-          featured ? "border border-indigo/60" : "surface-card"
+          featured ? "border border-white/40" : "surface-card"
         }`}
         style={
           featured
             ? {
                 background:
-                  "linear-gradient(170deg, rgba(124,92,255,0.18), rgba(8,10,22,0.96))",
-                boxShadow: "0 42px 95px -42px rgba(124,92,255,0.65)",
+                  "linear-gradient(170deg, rgba(255,255,255,0.12), rgba(5,5,5,0.96))",
+                boxShadow: "0 42px 95px -42px rgba(255,255,255,0.34)",
               }
             : undefined
         }
       >
         <div
           className="pointer-events-none absolute -right-20 -top-24 h-[260px] w-[260px] rounded-full opacity-40 blur-[80px]"
-          style={{ background: featured ? "var(--violet)" : "var(--indigo)" }}
+          style={{ background: featured ? "var(--ink)" : "var(--ink)" }}
         />
 
        
@@ -594,7 +594,7 @@ export default function TarifsPage() {
         {pack.target && (
           <div
             className="relative z-[1] mt-5 rounded-2xl border border-white/[0.08] p-4"
-            style={{ background: "rgba(16,20,42,0.48)" }}
+            style={{ background: "rgba(26,26,29,0.48)" }}
           >
             <div className="mb-2 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-mut-2">
               <Target size={13} strokeWidth={2} />
@@ -619,7 +619,7 @@ export default function TarifsPage() {
           </div>
           <div
             className="rounded-2xl border border-white/[0.08] p-5"
-            style={{ background: "rgba(16,20,42,0.62)" }}
+            style={{ background: "rgba(26,26,29,0.62)" }}
           >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
               Suivi mensuel
@@ -633,7 +633,7 @@ export default function TarifsPage() {
 
         <div
           className="relative z-[1] mt-6 rounded-2xl border border-white/[0.08] p-5"
-          style={{ background: "rgba(16,20,42,0.48)" }}
+          style={{ background: "rgba(26,26,29,0.48)" }}
         >
           <div className="mb-4 flex items-center justify-between gap-3">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
@@ -652,7 +652,7 @@ export default function TarifsPage() {
 
         <div
           className="relative z-[1] mt-4 rounded-2xl border border-white/[0.08] p-5"
-          style={{ background: "rgba(16,20,42,0.42)" }}
+          style={{ background: "rgba(26,26,29,0.42)" }}
         >
           <div className="mb-4 flex items-center justify-between gap-3">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
@@ -671,7 +671,7 @@ export default function TarifsPage() {
 
         <div
           className="relative z-[1] mt-4 rounded-2xl border border-white/[0.08] p-5"
-          style={{ background: "rgba(8,10,22,0.62)" }}
+          style={{ background: "rgba(5,5,5,0.62)" }}
         >
           <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
             Résultat attendu
@@ -706,7 +706,7 @@ export default function TarifsPage() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 18% 18%, rgba(124,92,255,0.18), transparent 35%), radial-gradient(circle at 86% 18%, rgba(31,213,240,0.12), transparent 30%)",
+              "radial-gradient(circle at 18% 18%, rgba(255,255,255,0.12), transparent 35%), radial-gradient(circle at 86% 18%, rgba(255,255,255,0.08), transparent 30%)",
           }}
         />
 
@@ -773,8 +773,8 @@ export default function TarifsPage() {
             <div className="surface-card rounded-[28px] p-6 sm:p-7">
               <div className="flex items-center gap-3">
                 <div
-                  className="grid h-12 w-12 place-items-center rounded-2xl border border-white/[0.13] text-cyan"
-                  style={{ background: "rgba(124,92,255,0.14)" }}
+                  className="grid h-12 w-12 place-items-center rounded-2xl border border-white/[0.13] text-white"
+                  style={{ background: "rgba(255,255,255,0.1)" }}
                 >
                   <BadgeCheck size={23} strokeWidth={1.8} />
                 </div>
@@ -789,9 +789,9 @@ export default function TarifsPage() {
               <div className="mt-6 grid gap-4">
                 <div
                   className="rounded-2xl border border-white/[0.07] p-5"
-                  style={{ background: "rgba(16,20,42,0.5)" }}
+                  style={{ background: "rgba(26,26,29,0.5)" }}
                 >
-                  <div className="mb-3 flex items-center gap-2 text-cyan">
+                  <div className="mb-3 flex items-center gap-2 text-white">
                     <FileText size={18} strokeWidth={1.8} />
                     <p className="font-display text-lg font-semibold text-ink">Diagnostic</p>
                   </div>
@@ -801,7 +801,7 @@ export default function TarifsPage() {
                 </div>
                 <div
                   className="rounded-2xl border border-white/[0.07] p-5"
-                  style={{ background: "rgba(16,20,42,0.5)" }}
+                  style={{ background: "rgba(26,26,29,0.5)" }}
                 >
                   <div className="mb-3 flex items-center gap-2 text-emerald">
                     <CreditCard size={18} strokeWidth={1.8} />
@@ -815,7 +815,7 @@ export default function TarifsPage() {
                   className="rounded-2xl border border-white/[0.13] p-5"
                   style={{ background: "var(--grad-soft)" }}
                 >
-                  <div className="mb-3 flex items-center gap-2 text-cyan">
+                  <div className="mb-3 flex items-center gap-2 text-white">
                     <RefreshCw size={18} strokeWidth={1.8} />
                     <p className="font-display text-lg font-semibold text-ink">Suivi mensuel</p>
                   </div>
@@ -882,7 +882,7 @@ export default function TarifsPage() {
           <div className="grid gap-4 md:grid-cols-4">
             {paymentSteps.map((item, i) => (
               <AnimateIn key={item.step} delay={i * 90}>
-                <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(16,20,42,0.5)" }}>
+                <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.5)" }}>
                   <span className="grid h-10 w-10 place-items-center rounded-full font-display text-xs font-bold text-white" style={{ background: "var(--grad)" }}>{item.step}</span>
                   <h3 className="mt-5 font-display text-lg font-semibold">{item.title}</h3>
                   <p className="mt-3 text-xs leading-5 text-mut">{item.description}</p>
@@ -917,7 +917,7 @@ export default function TarifsPage() {
 
       {/* CTA */}
       <section className="px-7 py-20">
-        <div className="relative mx-auto max-w-[1240px] overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16" style={{ background: "linear-gradient(135deg, rgba(124,92,255,0.2), rgba(31,213,240,0.1))" }}>
+        <div className="relative mx-auto max-w-[1240px] overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))" }}>
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink" style={{ background: "var(--grad-soft)" }}>Diagnostic</span>
           <h2 className="mx-auto mt-5 max-w-3xl text-[clamp(28px,4.4vw,48px)] font-semibold">Le bon tarif dépend du bon système.</h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-mut">Nous commençons par comprendre votre activité, vos objectifs et vos outils actuels. Ensuite, nous vous orientons vers la formule la plus adaptée.</p>
@@ -1001,8 +1001,8 @@ export default function TarifsPage() {
 
                 <div className="mt-2 grid gap-3">
                   <p className="text-xs font-medium text-mut">Aucun paiement maintenant. Cette demande sert à préparer un devis clair.</p>
-                  <label className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-xs leading-5 text-mut" style={{ background: "rgba(16,20,42,0.45)" }}>
-                    <input type="checkbox" checked={leadForm.consentRgpd} onChange={(e) => updateLeadField("consentRgpd", e.target.checked)} className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-[#7c5cff]" />
+                  <label className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-xs leading-5 text-mut" style={{ background: "rgba(26,26,29,0.45)" }}>
+                    <input type="checkbox" checked={leadForm.consentRgpd} onChange={(e) => updateLeadField("consentRgpd", e.target.checked)} className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white" />
                     <span>J&apos;accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande et me recontacter.</span>
                   </label>
                   <div className="flex justify-end">

@@ -28,12 +28,15 @@ export default function NeuralBackground({ className = "" }: { className?: strin
     let nodes: { x: number; y: number; vx: number; vy: number }[] = [];
     const mouse = { x: -9999, y: -9999 };
     let raf = 0;
-    const DIST = 140;
+    let connectionDistance = 140;
+    let mouseDistance = 120;
 
     function size() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = parent!.offsetWidth;
       h = parent!.offsetHeight;
+      connectionDistance = Math.max(72, Math.min(140, w * 0.18));
+      mouseDistance = Math.max(72, Math.min(120, w * 0.2));
       canvas!.width = w * dpr;
       canvas!.height = h * dpr;
       canvas!.style.width = `${w}px`;
@@ -42,12 +45,14 @@ export default function NeuralBackground({ className = "" }: { className?: strin
     }
 
     function build() {
-      const count = Math.min(Math.floor(w / 16), 90);
+      const area = w * h;
+      const count = Math.max(18, Math.min(Math.floor(area / 11500), 90));
+      const speed = w < 640 ? 0.24 : 0.4;
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: (Math.random() - 0.5) * speed,
+        vy: (Math.random() - 0.5) * speed,
       }));
     }
 
@@ -56,6 +61,7 @@ export default function NeuralBackground({ className = "" }: { className?: strin
       mouse.x = e.clientX - r.left;
       mouse.y = e.clientY - r.top;
     }
+
     function onLeave() {
       mouse.x = -9999;
       mouse.y = -9999;
@@ -72,7 +78,7 @@ export default function NeuralBackground({ className = "" }: { className?: strin
         const dxm = n.x - mouse.x;
         const dym = n.y - mouse.y;
         const dm = Math.hypot(dxm, dym);
-        if (dm < 120) {
+        if (dm > 0 && dm < mouseDistance) {
           n.x += (dxm / dm) * 1.2;
           n.y += (dym / dm) * 1.2;
         }
@@ -83,9 +89,9 @@ export default function NeuralBackground({ className = "" }: { className?: strin
           const a = nodes[i];
           const b = nodes[j];
           const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < DIST) {
-            const o = (1 - d / DIST) * 0.5;
-            ctx!.strokeStyle = `rgba(124,92,255,${o})`;
+          if (d < connectionDistance) {
+            const o = (1 - d / connectionDistance) * 0.34;
+            ctx!.strokeStyle = `rgba(255,255,255,${o})`;
             ctx!.lineWidth = 0.7;
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
@@ -97,10 +103,10 @@ export default function NeuralBackground({ className = "" }: { className?: strin
 
       for (const n of nodes) {
         const dm = Math.hypot(n.x - mouse.x, n.y - mouse.y);
-        const near = dm < 120;
-        ctx!.fillStyle = near ? "rgba(31,213,240,0.95)" : "rgba(177,123,255,0.7)";
+        const near = dm < mouseDistance;
+        ctx!.fillStyle = near ? "rgba(255,255,255,0.86)" : "rgba(220,220,220,0.52)";
         ctx!.beginPath();
-        ctx!.arc(n.x, n.y, near ? 2.6 : 1.6, 0, Math.PI * 2);
+        ctx!.arc(n.x, n.y, near ? 2.4 : w < 640 ? 1.25 : 1.6, 0, Math.PI * 2);
         ctx!.fill();
       }
 
@@ -115,15 +121,19 @@ export default function NeuralBackground({ className = "" }: { className?: strin
       size();
       build();
     };
+    const resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(parent);
+
     window.addEventListener("resize", onResize);
-    parent.addEventListener("mousemove", onMove);
-    parent.addEventListener("mouseleave", onLeave);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("blur", onLeave);
 
     return () => {
       cancelAnimationFrame(raf);
+      resizeObserver.disconnect();
       window.removeEventListener("resize", onResize);
-      parent.removeEventListener("mousemove", onMove);
-      parent.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("blur", onLeave);
     };
   }, []);
 

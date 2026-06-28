@@ -32,11 +32,11 @@ export default function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-[100] transition-transform duration-300 ${
-        scrolled ? "-translate-y-full" : "translate-y-0"
+        scrolled && !isMenuOpen ? "-translate-y-full" : "translate-y-0"
       }`}
     >
       <nav
-        className="mx-4 mt-4 flex flex-wrap items-center justify-between px-7 py-3 transition-all duration-300"
+        className="relative mx-4 mt-4 flex items-center justify-between px-4 py-3 transition-all duration-300 sm:px-7"
       >
         {/* Logo */}
         <Link
@@ -44,11 +44,11 @@ export default function Header() {
           onClick={() => setIsMenuOpen(false)}
           className="flex items-center gap-3"
         >
-          <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-xl font-display text-base font-bold text-white shadow-[0_10px_28px_-8px_rgba(124,92,255,0.85)]" style={{ background: "var(--grad)" }}>
+          <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-xl font-display text-base font-bold text-black shadow-[0_10px_28px_-12px_rgba(255,255,255,0.45)]" style={{ background: "var(--grad)" }}>
             OL
           </span>
           <span className="font-display text-[19px] font-semibold text-ink">
-            Optimal<span className="text-cyan">Logic</span>
+            Optimal<span className="text-white">Logic</span>
           </span>
         </Link>
 
@@ -106,7 +106,7 @@ export default function Header() {
 
         {/* Menu mobile */}
         {isMenuOpen && (
-          <div className="mt-3 w-full border-t border-white/[0.07] pt-3 lg:hidden">
+          <div className="absolute left-0 right-0 top-[calc(100%+10px)] max-h-[calc(100vh-104px)] overflow-y-auto rounded-2xl border border-white/[0.12] bg-[#121214]/95 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl lg:hidden">
             <nav className="flex flex-col gap-0.5">
               {navLinks.map((link) => {
                 const active = isActiveLink(link.href);

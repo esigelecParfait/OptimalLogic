@@ -24,7 +24,7 @@ export default function CookiesPage() {
       </section>
 
       <section className="px-7 py-10">
-        <div className="mx-auto max-w-[1240px] rounded-[28px] border border-white/[0.13] p-8 sm:p-10 lg:p-12" style={{ background: "linear-gradient(135deg, rgba(124,92,255,0.18), rgba(31,213,240,0.08))" }}>
+        <div className="mx-auto max-w-[1240px] rounded-[28px] border border-white/[0.13] p-8 sm:p-10 lg:p-12" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))" }}>
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
             <div>
               <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Principe</p>
@@ -46,7 +46,7 @@ export default function CookiesPage() {
               <div key={type.title} className="surface-card rounded-[24px] p-6 sm:p-8">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <h3 className="font-display text-xl font-semibold">{type.title}</h3>
-                  <span className="shrink-0 rounded-full border border-white/[0.1] px-3 py-1.5 text-xs font-semibold text-mut" style={{ background: "rgba(16,20,42,0.6)" }}>{type.status}</span>
+                  <span className="shrink-0 rounded-full border border-white/[0.1] px-3 py-1.5 text-xs font-semibold text-mut" style={{ background: "rgba(26,26,29,0.6)" }}>{type.status}</span>
                 </div>
                 <p className="mt-5 text-sm leading-7 text-mut">{type.description}</p>
               </div>

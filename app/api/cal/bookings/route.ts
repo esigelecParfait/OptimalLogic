@@ -75,14 +75,30 @@ function isValidTypeClient(value: string | null) {
   );
 }
 
+function normalizeDateTime(value: unknown) {
+  const rawValue = cleanText(value);
+
+  if (!rawValue) {
+    return null;
+  }
+
+  const date = new Date(rawValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date.toISOString();
+}
+
 function hasTrackingData(tracking?: TrackingPayload) {
   if (!tracking) return false;
 
   return Boolean(
     cleanNullableText(tracking.utm_source) ||
-      cleanNullableText(tracking.utm_medium) ||
-      cleanNullableText(tracking.utm_campaign) ||
-      cleanNullableText(tracking.utm_content)
+    cleanNullableText(tracking.utm_medium) ||
+    cleanNullableText(tracking.utm_campaign) ||
+    cleanNullableText(tracking.utm_content),
   );
 }
 
@@ -92,7 +108,7 @@ function jsonError(message: string, status = 400) {
       success: false,
       error: message,
     },
-    { status }
+    { status },
   );
 }
 
@@ -112,6 +128,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as BookingRequestBody;
 
     const start = cleanText(body.start);
+    const appointmentStartAtIso = normalizeDateTime(start);
 
     const firstname = cleanText(body.firstname);
     const lastname = cleanText(body.lastname);
@@ -136,6 +153,10 @@ export async function POST(request: Request) {
 
     if (!start) {
       return jsonError("Le créneau est obligatoire.");
+    }
+
+    if (!appointmentStartAtIso) {
+      return jsonError("La date du rendez-vous est invalide.");
     }
 
     if (!firstname) {
@@ -168,14 +189,14 @@ export async function POST(request: Request) {
 
     if (!consentRgpd) {
       return jsonError(
-        "Le consentement RGPD est obligatoire pour confirmer le rendez-vous."
+        "Le consentement RGPD est obligatoire pour confirmer le rendez-vous.",
       );
     }
 
     const fullName = `${firstname} ${lastname}`.trim();
 
     const calPayload = {
-      start,
+      start: appointmentStartAtIso,
       eventTypeSlug,
       teamSlug,
 
@@ -231,7 +252,7 @@ export async function POST(request: Request) {
             "Impossible de créer le rendez-vous.",
           details: calData,
         },
-        { status: calResponse.status }
+        { status: calResponse.status },
       );
     }
 
@@ -241,6 +262,13 @@ export async function POST(request: Request) {
       calData?.id ||
       calData?.uid ||
       null;
+
+    const appointmentStartAt =
+      normalizeDateTime(calData?.data?.startTime) ||
+      normalizeDateTime(calData?.data?.start) ||
+      normalizeDateTime(calData?.startTime) ||
+      normalizeDateTime(calData?.start) ||
+      appointmentStartAtIso;
 
     const clientData = {
       contact_first_name: firstname,
@@ -270,7 +298,7 @@ export async function POST(request: Request) {
 
       return jsonError(
         "Le rendez-vous est créé, mais le client n’a pas pu être vérifié.",
-        500
+        500,
       );
     }
 
@@ -313,7 +341,7 @@ export async function POST(request: Request) {
 
         return jsonError(
           "Le rendez-vous est créé, mais le client n’a pas pu être mis à jour.",
-          500
+          500,
         );
       }
     } else {
@@ -329,7 +357,7 @@ export async function POST(request: Request) {
 
         return jsonError(
           "Le rendez-vous est créé, mais le client n’a pas pu être enregistré.",
-          500
+          500,
         );
       }
 
@@ -337,8 +365,8 @@ export async function POST(request: Request) {
     }
 
     const internalNotes = calBookingId
-      ? `Rendez-vous Cal.com créé. ID Cal.com : ${calBookingId}`
-      : "Rendez-vous Cal.com créé.";
+      ? `Rendez-vous Cal.com créé. ID Cal.com : ${calBookingId}. Début : ${appointmentStartAt}. Fuseau : ${timeZone}`
+      : `Rendez-vous Cal.com créé. Début : ${appointmentStartAt}. Fuseau : ${timeZone}`;
 
     const { data: insertedDemande, error: insertDemandeError } =
       await supabaseAdmin
@@ -352,6 +380,9 @@ export async function POST(request: Request) {
           need_description: message,
           consent_rgpd: consentRgpd,
 
+          appointment_start_at: appointmentStartAt,
+          appointment_timezone: timeZone,
+
           request_status: "rdv_planifie",
           priority: "normale",
           internal_notes: internalNotes,
@@ -364,7 +395,7 @@ export async function POST(request: Request) {
 
       return jsonError(
         "Le rendez-vous est créé, mais la demande n’a pas pu être enregistrée.",
-        500
+        500,
       );
     }
 
@@ -479,7 +510,7 @@ export async function POST(request: Request) {
     if (updateMailStatusError) {
       console.error(
         "Erreur mise à jour statut emails :",
-        updateMailStatusError
+        updateMailStatusError,
       );
     }
 
@@ -491,6 +522,8 @@ export async function POST(request: Request) {
         data: {
           id_client: clientId,
           demande_id: demandeId,
+          appointment_start_at: appointmentStartAt,
+          appointment_timezone: timeZone,
           tracking_saved: trackingSaved,
           emails: {
             client_sent: clientMailResult.success,
@@ -498,7 +531,7 @@ export async function POST(request: Request) {
           },
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Erreur API /api/cal/bookings :", error);
@@ -511,7 +544,7 @@ export async function POST(request: Request) {
             ? error.message
             : "Erreur serveur lors de la création du rendez-vous.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -80,14 +80,14 @@ const solutionCards = [
   {
     t: "Site web professionnel",
     d: "Un site clair, moderne et pensé pour convertir.",
-    c: "var(--indigo)",
+    c: "var(--ink)",
     span: "md:col-span-2",
     icon: MonitorSmartphone,
   },
   {
     t: "Prise de RDV",
     d: "Des réservations simples, sans friction.",
-    c: "var(--cyan)",
+    c: "var(--ink)",
     span: "md:col-span-1",
     icon: CalendarCheck,
   },
@@ -101,7 +101,7 @@ const solutionCards = [
   {
     t: "Suivi prospects",
     d: "Des demandes centralisées et mieux relancées.",
-    c: "var(--violet)",
+    c: "var(--ink)",
     span: "md:col-span-2",
     icon: ClipboardList,
   },
@@ -198,14 +198,14 @@ function IconFrame({
 }) {
   const styles = {
     default: {
-      color: "var(--cyan)",
-      background: "rgba(124,92,255,0.14)",
+      color: "var(--ink)",
+      background: "rgba(255,255,255,0.1)",
       borderColor: "rgba(255,255,255,0.13)",
     },
     danger: {
       color: "#ff7a90",
-      background: "rgba(255,77,157,0.12)",
-      borderColor: "rgba(255,77,157,0.24)",
+      background: "rgba(255,255,255,0.08)",
+      borderColor: "rgba(255,255,255,0.16)",
     },
     success: {
       color: "var(--emerald)",
@@ -301,7 +301,7 @@ export default function HomePage() {
               className="relative rounded-[26px] border border-white/[0.13] p-[22px] shadow-[0_50px_110px_-40px_rgba(0,0,0,0.95)]"
               style={{
                 background:
-                  "linear-gradient(165deg, rgba(16,20,42,0.95), rgba(8,10,22,0.95))",
+                  "linear-gradient(165deg, rgba(18,18,20,0.95), rgba(5,5,5,0.95))",
               }}
             >
               <div className="mb-[18px] flex items-center justify-between">
@@ -333,7 +333,7 @@ export default function HomePage() {
                   <div
                     key={stat.l}
                     className="rounded-[15px] border border-white/[0.07] p-4"
-                    style={{ background: "rgba(16,20,42,0.8)" }}
+                    style={{ background: "rgba(26,26,29,0.8)" }}
                   >
                     <p className="text-xs text-mut-2">{stat.l}</p>
                     <p className="mt-2 font-display text-[27px] font-semibold">
@@ -348,7 +348,7 @@ export default function HomePage() {
 
               <div
                 className="rounded-[15px] border border-white/[0.07] p-4"
-                style={{ background: "rgba(16,20,42,0.8)" }}
+                style={{ background: "rgba(26,26,29,0.8)" }}
               >
                 <div className="mb-[14px] flex items-center justify-between text-[12.5px] text-mut">
                   <span>Actions recommandées</span>
@@ -383,7 +383,7 @@ export default function HomePage() {
       {/* ===== MARQUEE ===== */}
       <div
         className="relative z-[2] overflow-hidden border-y border-white/[0.07] py-[26px]"
-        style={{ background: "rgba(8,10,22,0.5)" }}
+        style={{ background: "rgba(5,5,5,0.5)" }}
       >
         <div className="flex w-max animate-marquee gap-14">
           {[...marquee, ...marquee].map((item, index) => (
@@ -391,7 +391,7 @@ export default function HomePage() {
               key={`${item}-${index}`}
               className="flex items-center gap-[14px] whitespace-nowrap font-display text-[22px] font-medium text-mut"
             >
-              <span className="text-indigo">✦</span> {item}
+              <span className="text-white">✦</span> {item}
             </span>
           ))}
         </div>
@@ -516,7 +516,7 @@ export default function HomePage() {
               <div className="surface-card relative flex h-full flex-col justify-end overflow-hidden rounded-[24px] p-[30px] transition-all hover:-translate-y-1 hover:border-white/[0.13]">
                 <span
                   className="absolute right-[26px] top-[26px] z-[2] rounded-full px-3 py-[5px] text-[11px] font-bold text-[#d8a9ff]"
-                  style={{ background: "rgba(177,77,255,0.16)" }}
+                  style={{ background: "rgba(255,255,255,0.1)" }}
                 >
                   Gain de temps · 24/7
                 </span>
@@ -524,7 +524,7 @@ export default function HomePage() {
                   className="absolute right-7 top-7 h-[86px] w-[86px] animate-orb rounded-full blur-[2px]"
                   style={{
                     background: "var(--grad)",
-                    boxShadow: "0 0 60px rgba(124,92,255,0.7)",
+                    boxShadow: "0 0 60px rgba(255,255,255,0.34)",
                   }}
                 />
                 <div className="relative z-[1] mb-auto">
@@ -540,7 +540,7 @@ export default function HomePage() {
                 <div className="relative z-[1] mt-5 flex max-w-[330px] flex-col gap-2">
                   <span
                     className="w-fit self-end rounded-[14px] rounded-br-[4px] border border-white/[0.13] px-4 py-2 text-[13px]"
-                    style={{ background: "rgba(124,92,255,0.18)" }}
+                    style={{ background: "rgba(255,255,255,0.12)" }}
                   >
                     Vous êtes ouverts aujourd’hui ?
                   </span>
@@ -642,7 +642,7 @@ export default function HomePage() {
               <AnimateIn key={result.n} delay={index * 80}>
                 <div
                   className="group flex gap-[22px] rounded-[22px] border border-white/[0.07] p-7 transition-all hover:-translate-y-1 hover:border-white/[0.13]"
-                  style={{ background: "rgba(11,14,29,0.6)" }}
+                  style={{ background: "rgba(18,18,20,0.6)" }}
                 >
                   <div className="shrink-0">
                     <IconFrame icon={result.icon} tone="success" />
@@ -683,9 +683,9 @@ export default function HomePage() {
             {audiences.map(({ label, icon: Icon }) => (
               <span
                 key={label}
-                className="surface-card inline-flex items-center gap-3 rounded-full px-[24px] py-[14px] text-[15px] font-medium text-mut transition-colors hover:border-indigo hover:text-ink"
+                className="surface-card inline-flex items-center gap-3 rounded-full px-[24px] py-[14px] text-[15px] font-medium text-mut transition-colors hover:border-white/30 hover:text-ink"
               >
-                <Icon size={18} strokeWidth={1.8} className="text-cyan" />
+                <Icon size={18} strokeWidth={1.8} className="text-white" />
                 {label}
               </span>
             ))}
@@ -700,14 +700,14 @@ export default function HomePage() {
             className="relative overflow-hidden rounded-[36px] border border-white/[0.13] px-[50px] py-[82px] text-center"
             style={{
               background:
-                "linear-gradient(135deg, rgba(124,92,255,0.22), rgba(31,213,240,0.12))",
+                "linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08))",
             }}
           >
             <div
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(circle at 50% 0%, rgba(177,77,255,0.4), transparent 60%)",
+                  "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)",
               }}
             />
             <div className="relative">

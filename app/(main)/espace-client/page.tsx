@@ -50,7 +50,7 @@ function absDiff(curr: number | null, prev: number | null): string | null {
 
 function StatCard({ label, value, sub, subPositive }: { label: string; value: string; sub?: string | null; subPositive?: boolean }) {
   return (
-    <div className="rounded-2xl border border-white/[0.07] p-6" style={{ background: "rgba(16,20,42,0.6)" }}>
+    <div className="rounded-2xl border border-white/[0.07] p-6" style={{ background: "rgba(26,26,29,0.6)" }}>
       <p className="text-sm text-mut">{label}</p>
       <p className="mt-3 font-display text-4xl font-semibold text-ink">{value}</p>
       {sub && <p className={`mt-2 text-sm font-semibold ${subPositive ? "text-emerald" : "text-[#ff6b6b]"}`}>{sub}</p>}
@@ -158,9 +158,9 @@ export default async function TableauDeBordPage() {
             })}
           </div>
         ) : (
-          <div className="mt-8 rounded-2xl border border-white/[0.07] p-6 text-center" style={{ background: "rgba(16,20,42,0.5)" }}>
+          <div className="mt-8 rounded-2xl border border-white/[0.07] p-6 text-center" style={{ background: "rgba(26,26,29,0.5)" }}>
             <p className="text-sm leading-7 text-mut">Vos indicateurs de performance apparaîtront ici chaque mois.<br />OptimalLogic met à jour ces données après chaque rapport mensuel.</p>
-            <Link href="/espace-client/support" className="mt-4 inline-block rounded-full border border-white/[0.13] px-4 py-2 text-xs font-semibold text-mut transition hover:border-indigo hover:text-ink">Contacter mon conseiller</Link>
+            <Link href="/espace-client/support" className="mt-4 inline-block rounded-full border border-white/[0.13] px-4 py-2 text-xs font-semibold text-mut transition hover:border-white/30 hover:text-ink">Contacter mon conseiller</Link>
           </div>
         )}
       </div>

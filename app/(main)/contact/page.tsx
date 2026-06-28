@@ -55,9 +55,9 @@ type Reason = {
 const labelClass = "grid gap-2";
 const labelTextClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 const fieldClass =
-  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-white/[0.12]";
 const textareaClass =
-  "min-h-[150px] w-full resize-none rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-indigo focus:ring-2 focus:ring-[rgba(124,92,255,0.18)]";
+  "min-h-[150px] w-full resize-none rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-white/[0.12]";
 const typeclientOptions: TypeClientOption[] = [
   { value: "commerce", label: "Commerce" },
   { value: "tpe_pme", label: "TPE/PME" },
@@ -141,8 +141,8 @@ function getTrackingPayload() {
 function IconFrame({ icon: Icon }: { icon: LucideIcon }) {
   return (
     <div
-      className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/[0.12] text-cyan"
-      style={{ background: "rgba(124,92,255,0.13)" }}
+      className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/[0.12] text-white"
+      style={{ background: "rgba(255,255,255,0.1)" }}
     >
       <Icon size={20} strokeWidth={1.8} />
     </div>
@@ -311,7 +311,7 @@ export default function ContactPage() {
             <div className="surface-card relative overflow-hidden rounded-[28px] p-6 sm:p-7">
               <div
                 className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full opacity-60 blur-[70px]"
-                style={{ background: "var(--violet)" }}
+                style={{ background: "var(--ink)" }}
               />
               <div className="relative">
                 <div className="flex items-center justify-between gap-4">
@@ -327,7 +327,7 @@ export default function ContactPage() {
                     <div
                       key={title}
                       className="flex gap-4 rounded-2xl border border-white/[0.07] p-4"
-                      style={{ background: "rgba(16,20,42,0.48)" }}
+                      style={{ background: "rgba(26,26,29,0.48)" }}
                     >
                       <IconFrame icon={Icon} />
                       <div>
@@ -378,7 +378,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-8">
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(16,20,42,0.34)" }}>
+                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={UserRound} />
                     <div>
@@ -429,7 +429,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(16,20,42,0.34)" }}>
+                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={ClipboardList} />
                     <div>
@@ -478,7 +478,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(16,20,42,0.34)" }}>
+                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Globe2} />
                     <div>
@@ -511,7 +511,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(16,20,42,0.34)" }}>
+                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Mail} />
                     <div>
@@ -543,13 +543,13 @@ export default function ContactPage() {
 
                 <label
                   className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-[13.5px] leading-5 text-mut"
-                  style={{ background: "rgba(16,20,42,0.45)" }}
+                  style={{ background: "rgba(26,26,29,0.45)" }}
                 >
                   <input
                     type="checkbox"
                     checked={form.consentRgpd}
                     onChange={(event) => updateField("consentRgpd", event.target.checked)}
-                    className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-[#7c5cff]"
+                    className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"
                   />
                   <span>
                     J&apos;accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande
@@ -576,12 +576,12 @@ export default function ContactPage() {
             >
               <div
                 className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full opacity-50 blur-[75px]"
-                style={{ background: "var(--cyan)" }}
+                style={{ background: "var(--ink)" }}
               />
               <div className="relative">
                 <span
                   className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-                  style={{ background: "rgba(8,10,22,0.5)" }}
+                  style={{ background: "rgba(5,5,5,0.5)" }}
                 >
                   <CalendarCheck size={14} /> Diagnostic gratuit
                 </span>
@@ -635,7 +635,7 @@ export default function ContactPage() {
                   <div
                     key={item}
                     className="flex items-center gap-3 rounded-xl border border-white/[0.07] px-4 py-3"
-                    style={{ background: "rgba(16,20,42,0.45)" }}
+                    style={{ background: "rgba(26,26,29,0.45)" }}
                   >
                     <span
                       className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-white"
@@ -656,11 +656,11 @@ export default function ContactPage() {
       <section className="relative z-[2] mx-auto max-w-[1240px] px-7 py-16">
         <div
           className="relative overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16"
-          style={{ background: "linear-gradient(135deg, rgba(124,92,255,0.2), rgba(31,213,240,0.1))" }}
+          style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))" }}
         >
           <div
             className="pointer-events-none absolute inset-0 opacity-70"
-            style={{ background: "radial-gradient(circle at 50% 0%, rgba(177,77,255,0.36), transparent 60%)" }}
+            style={{ background: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)" }}
           />
           <div className="relative">
             <span

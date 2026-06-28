@@ -20,8 +20,8 @@ export default function Footer() {
         <div className="mb-12 flex flex-col gap-11 md:flex-row md:items-start md:justify-between">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-xl font-display text-base font-bold text-white" style={{ background: "var(--grad)" }}>OL</span>
-              <span className="font-display text-[19px] font-semibold text-ink">Optimal<span className="text-cyan">Logic</span></span>
+              <span className="grid h-10 w-10 place-items-center rounded-xl font-display text-base font-bold text-black" style={{ background: "var(--grad)" }}>OL</span>
+              <span className="font-display text-[19px] font-semibold text-ink">Optimal<span className="text-white">Logic</span></span>
             </Link>
             <p className="mt-[18px] max-w-[300px] text-[14.5px] text-mut">
               Digital, IA &amp; acquisition client.

@@ -118,7 +118,7 @@ type ObjectiveSelectControlProps = {
 type PremiumSelectControlProps = ObjectiveSelectControlProps;
 
 const premiumControlClass =
-  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] text-sm text-ink outline-none transition-all focus-within:border-indigo focus-within:ring-2 focus-within:ring-[rgba(124,92,255,0.18)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] text-sm text-ink outline-none transition-all focus-within:border-white/35 focus-within:ring-2 focus-within:ring-white/[0.12]";
 
 const priorityCountries: Country[] = [
   "FR",
@@ -308,7 +308,7 @@ function PremiumCountrySelect({
                     }}
                     className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition ${
                       isSelected
-                        ? "bg-[rgba(124,92,255,0.2)] text-ink"
+                        ? "bg-white/[0.14] text-ink"
                         : "text-mut hover:bg-white/[0.06] hover:text-ink"
                     }`}
                   >
@@ -328,7 +328,7 @@ function PremiumCountrySelect({
                     </span>
 
                     {isSelected ? (
-                      <Check size={16} strokeWidth={2.2} className="text-cyan" />
+                      <Check size={16} strokeWidth={2.2} className="text-white" />
                     ) : null}
                   </button>
                 );
@@ -525,7 +525,7 @@ export function PremiumSelectControl({
                   }}
                   className={`flex w-full items-start gap-3 rounded-xl px-3 py-3 text-left transition ${
                     isSelected
-                      ? "bg-[rgba(124,92,255,0.2)] text-ink"
+                      ? "bg-white/[0.14] text-ink"
                       : "text-mut hover:bg-white/[0.06] hover:text-ink"
                   }`}
                 >
@@ -542,7 +542,7 @@ export function PremiumSelectControl({
                   </span>
 
                   {isSelected ? (
-                    <Check size={17} strokeWidth={2.2} className="mt-2 text-cyan" />
+                    <Check size={17} strokeWidth={2.2} className="mt-2 text-white" />
                   ) : null}
                 </button>
               );

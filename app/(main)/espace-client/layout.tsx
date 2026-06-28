@@ -45,7 +45,7 @@ export default async function EspaceClientLayout({
         </div>
         <nav className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-5 pb-4 sm:px-6 lg:px-8">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="whitespace-nowrap rounded-full border border-white/[0.13] px-4 py-2 text-sm font-semibold text-mut transition hover:border-indigo hover:text-ink">
+            <Link key={item.href} href={item.href} className="whitespace-nowrap rounded-full border border-white/[0.13] px-4 py-2 text-sm font-semibold text-mut transition hover:border-white/30 hover:text-ink">
               {item.label}
             </Link>
           ))}
