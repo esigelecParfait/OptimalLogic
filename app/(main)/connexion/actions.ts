@@ -56,7 +56,7 @@ export async function requestPasswordReset(
   const baseUrl = await getBaseUrl();
 
   await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${baseUrl}/auth/confirm?type=recovery&next=/connexion/nouveau-mot-de-passe`,
+    redirectTo: `${baseUrl}/auth/confirm?type=recovery`,
   });
 
   // Toujours renvoyer un succès générique, pour ne pas révéler si l'email existe
@@ -116,4 +116,38 @@ export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/connexion");
+}
+
+/**
+ * Définit le mot de passe lors d'une activation de compte (invitation)
+ * ou d'une réinitialisation (recovery). L'utilisateur est déjà authentifié
+ * via le token Supabase — pas besoin du mot de passe actuel.
+ */
+export async function setPassword(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const password        = formData.get("password")        as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
+  if (!password || password.length < 8) {
+    return { error: "Le mot de passe doit contenir au moins 8 caractères." };
+  }
+  if (password !== confirmPassword) {
+    return { error: "Les deux mots de passe ne correspondent pas." };
+  }
+
+  const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "Lien expiré ou invalide. Veuillez demander un nouveau lien." };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    return { error: "Impossible de définir le mot de passe. Réessayez ou contactez le support." };
+  }
+
+  return { error: null, success: true };
 }

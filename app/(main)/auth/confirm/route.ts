@@ -17,8 +17,14 @@ export async function GET(request: NextRequest) {
     });
 
     if (!error) {
+      // "recovery" = mot de passe oublié  |  "invite" = nouveau client
+      // Les deux atterrissent sur la même page unifiée
       const redirectTo =
-        type === "recovery" ? "/connexion/nouveau-mot-de-passe" : next;
+        type === "recovery"
+          ? "/connexion/activer?mode=reset"
+          : type === "invite"
+            ? "/connexion/activer"
+            : next;
 
       return NextResponse.redirect(new URL(redirectTo, request.url));
     }
