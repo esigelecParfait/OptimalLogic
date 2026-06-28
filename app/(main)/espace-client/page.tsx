@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getMetricsConfig, type MetricKey } from "@/lib/metrics-config";
-import ActionButton from "@/components/espace-client/ActionButton";
 
 export const dynamic = "force-dynamic";
 
@@ -522,13 +521,6 @@ export default async function TableauDeBordPage() {
                 <span className="flex-1 min-w-0">
                   <span className="block text-sm font-semibold text-ink">{action.label}</span>
                   <span className="block text-xs text-mut leading-relaxed mt-0.5">{action.tip}</span>
-                  {action.cta && (
-                    <ActionButton
-                      type={action.cta.type}
-                      label={action.cta.label}
-                      value={action.cta.value}
-                    />
-                  )}
                 </span>
                 <span className={`flex-shrink-0 mt-0.5 text-[11px] font-bold ${action.color}`}>{action.badge}</span>
               </div>
