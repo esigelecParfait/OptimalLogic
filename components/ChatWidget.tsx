@@ -84,21 +84,27 @@ export default function ChatWidget() {
 }
 
 function ChatWidgetContent() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [isOpen, setIsOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return sessionStorage.getItem("ol_chat_open") === "true";
+    } catch {
+      return false;
+    }
+  });
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const savedMessages = sessionStorage.getItem("ol_chat_messages");
+      return savedMessages ? JSON.parse(savedMessages) : [];
+    } catch {
+      return [];
+    }
+  });
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    try {
-      const savedMessages = sessionStorage.getItem("ol_chat_messages");
-      if (savedMessages) setMessages(JSON.parse(savedMessages));
-      const savedOpen = sessionStorage.getItem("ol_chat_open");
-      if (savedOpen === "true") setIsOpen(true);
-    } catch { /* sessionStorage indisponible */ }
-  }, []);
 
   useEffect(() => {
     try { sessionStorage.setItem("ol_chat_messages", JSON.stringify(messages)); } catch { /* ignore */ }
@@ -184,8 +190,8 @@ function ChatWidgetContent() {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-20 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm">
-          <div className="surface-card glass flex h-[520px] flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.13] shadow-[0_30px_70px_-20px_rgba(0,0,0,0.9)]">
+        <div className="fixed bottom-20 right-4 top-28 z-[90] flex w-[calc(100vw-2rem)] max-w-sm items-end sm:top-24">
+          <div className="surface-card glass flex h-full max-h-[520px] min-h-[360px] w-full flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.13] shadow-[0_30px_70px_-20px_rgba(0,0,0,0.9)]">
             {/* Header */}
             <div className="flex flex-shrink-0 items-center gap-3 px-5 py-4" style={{ background: "var(--grad)" }}>
               <div className="grid h-8 w-8 place-items-center rounded-full bg-white/20">

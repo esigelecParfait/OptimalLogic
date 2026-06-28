@@ -36,11 +36,7 @@ export default function Header() {
       }`}
     >
       <nav
-        className={`mx-4 mt-4 flex flex-wrap items-center justify-between rounded-[100px] border px-7 py-3 transition-all duration-300 ${
-          scrolled
-            ? "border-white/15 bg-[#06081299] shadow-[0_24px_70px_-28px_rgba(0,0,0,0.9)]"
-            : "border-white/[0.07] bg-[#0a0f1e8c]"
-        } backdrop-blur-[20px]`}
+        className="mx-4 mt-4 flex flex-wrap items-center justify-between px-7 py-3 transition-all duration-300"
       >
         {/* Logo */}
         <Link

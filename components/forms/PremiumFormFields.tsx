@@ -25,8 +25,6 @@ import {
   PhoneCall,
   Rocket,
   Search,
-  Sparkles,
-  Target,
   UsersRound,
 } from "lucide-react";
 
@@ -120,7 +118,7 @@ type ObjectiveSelectControlProps = {
 type PremiumSelectControlProps = ObjectiveSelectControlProps;
 
 const premiumControlClass =
-  "min-h-14 w-full rounded-2xl border border-white/[0.16] bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(16,20,42,0.82))] text-sm text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_45px_rgba(0,0,0,0.18)] outline-none transition-all focus-within:border-indigo focus-within:ring-2 focus-within:ring-[rgba(124,92,255,0.24)]";
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(16,20,42,0.7)] text-sm text-ink outline-none transition-all focus-within:border-indigo focus-within:ring-2 focus-within:ring-[rgba(124,92,255,0.18)]";
 
 const priorityCountries: Country[] = [
   "FR",
@@ -269,7 +267,7 @@ function PremiumCountrySelect({
         aria-label="Choisir le pays"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
-        className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.06] px-3 text-sm font-semibold text-ink transition hover:border-white/[0.2] hover:bg-white/[0.09] disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex h-10 items-center gap-2 rounded-none bg-transparent px-3 text-sm font-semibold text-ink transition hover:bg-white/[0.05] disabled:cursor-not-allowed disabled:opacity-60"
       >
         <CountryFlag country={selected.value} />
         <span className="tabular-nums">+{selected.callingCode}</span>
@@ -379,7 +377,7 @@ export function PremiumPhoneControl({
 }: PremiumPhoneControlProps) {
   return (
     <div
-      className={`premium-phone-field premium-control relative flex items-center px-3 py-2 ${premiumControlClass}`}
+      className={`premium-phone-field relative flex items-center px-4 ${premiumControlClass}`}
     >
       <PhoneInput
         defaultCountry="FR"
@@ -450,7 +448,6 @@ export function PremiumSelectControl({
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const selectedOption = options.find((option) => option.value === value);
-  const SelectedIcon = selectedOption?.icon || Sparkles;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -485,38 +482,17 @@ export function PremiumSelectControl({
         aria-expanded={isOpen}
         data-required={required ? "true" : "false"}
         onClick={() => setIsOpen((current) => !current)}
-        className={`premium-select-field premium-control flex items-center justify-between gap-4 px-4 py-3 text-left ${premiumControlClass}`}
+        className={`flex items-center justify-between gap-4 px-4 text-left ${premiumControlClass}`}
       >
-        <span className="flex min-w-0 items-center gap-3">
+        <span className="min-w-0">
           <span
-            className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border ${
-              selectedOption
-                ? "border-cyan/25 bg-cyan/10 text-cyan"
-                : "border-white/[0.12] bg-white/[0.06] text-mut"
+            className={`block truncate text-sm font-semibold ${
+              selectedOption ? "text-ink" : "text-mut-2"
             }`}
           >
-            {selectedOption ? (
-              <SelectedIcon size={18} strokeWidth={1.9} />
-            ) : (
-              <Target size={18} strokeWidth={1.9} />
-            )}
+            {selectedOption?.label || placeholder}
           </span>
 
-          <span className="min-w-0">
-            <span
-              className={`block truncate text-sm font-semibold ${
-                selectedOption ? "text-ink" : "text-mut-2"
-              }`}
-            >
-              {selectedOption?.label || placeholder}
-            </span>
-
-            {selectedOption?.description ? (
-              <span className="mt-0.5 hidden truncate text-xs text-mut-2 sm:block">
-                {selectedOption.description}
-              </span>
-            ) : null}
-          </span>
         </span>
 
         <ChevronDown
@@ -535,7 +511,6 @@ export function PremiumSelectControl({
         >
           <div className="max-h-[340px] overflow-y-auto pr-1">
             {options.map((option) => {
-              const Icon = option.icon || Target;
               const isSelected = option.value === value;
 
               return (
@@ -554,16 +529,6 @@ export function PremiumSelectControl({
                       : "text-mut hover:bg-white/[0.06] hover:text-ink"
                   }`}
                 >
-                  <span
-                    className={`mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl border ${
-                      isSelected
-                        ? "border-cyan/25 bg-cyan/10 text-cyan"
-                        : "border-white/[0.1] bg-white/[0.05] text-mut"
-                    }`}
-                  >
-                    <Icon size={18} strokeWidth={1.9} />
-                  </span>
-
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold">
                       {option.label}

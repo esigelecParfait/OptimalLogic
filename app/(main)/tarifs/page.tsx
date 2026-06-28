@@ -834,7 +834,7 @@ export default function TarifsPage() {
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
             <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Commerces locaux</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour être trouvé, rassurer et être choisi rapidement</h2>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour être trouvé, rassuré et être choisi rapidement</h2>
             <p className="mt-5 text-base leading-7 text-mut">Deux formules pensées pour les commerces qui dépendent des recherches locales, des avis, des appels, des réservations, des devis ou des visites physiques.</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -894,20 +894,6 @@ export default function TarifsPage() {
       </section>
 
       {/* Sur mesure */}
-      <section className="px-7 py-16">
-        <div className="surface-card mx-auto max-w-[1240px] rounded-[28px] p-8 sm:p-10 lg:p-12">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div>
-              <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Sur mesure</span>
-              <h2 className="mt-3 text-[clamp(28px,3.6vw,40px)] font-semibold">Votre besoin ne rentre pas dans une formule ?</h2>
-            </div>
-            <div>
-              <p className="text-lg leading-8 text-mut">Certaines entreprises ont besoin d&apos;un accompagnement spécifique : outils déjà en place, équipe interne, processus complexe, plusieurs points de contact, automatisations avancées ou besoin stratégique. Dans ce cas, nous construisons une proposition sur mesure.</p>
-              <Link href="/contact" className="btn-grad mt-8 inline-flex rounded-full px-6 py-3.5 text-sm font-semibold">Demander une offre sur mesure</Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* FAQ */}
       <section className="px-7 py-16">
