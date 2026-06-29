@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Tarifs", href: "/tarifs" },
 
   { label: "Contact", href: "/contact" },
-];
+]; // rhrhrhrhrhrhr
 //jrhrhrhrhhrhrhhr
 export default function Header() {
   const pathname = usePathname();
