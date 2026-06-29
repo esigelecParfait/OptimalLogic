@@ -4,9 +4,9 @@ import { createClient } from "@supabase/supabase-js";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  const { email, password } = await request.json();
+  const { token, password } = await request.json();
 
-  if (!email || !password || password.length < 8) {
+  if (!token || !password || password.length < 8) {
     return Response.json({ error: "Données invalides." }, { status: 400 });
   }
 
@@ -16,13 +16,28 @@ export async function POST(request: NextRequest) {
     { auth: { persistSession: false } }
   );
 
-  // Chercher l'utilisateur par email
-  const { data: { users }, error: listErr } = await db.auth.admin.listUsers();
-  if (listErr) return Response.json({ error: "Erreur serveur." }, { status: 500 });
+  // Vérifier le token
+  const { data: row, error: fetchErr } = await db
+    .from("activation_tokens")
+    .select("email, expires_at, used_at")
+    .eq("token", token)
+    .maybeSingle();
 
-  const user = users.find(u => u.email?.toLowerCase() === email.toLowerCase());
+  if (fetchErr || !row) {
+    return Response.json({ error: "Lien invalide." }, { status: 400 });
+  }
+  if (row.used_at) {
+    return Response.json({ error: "Ce lien a déjà été utilisé." }, { status: 400 });
+  }
+  if (new Date(row.expires_at) < new Date()) {
+    return Response.json({ error: "Ce lien a expiré. Demandez un nouveau lien." }, { status: 400 });
+  }
+
+  // Trouver l'utilisateur par email
+  const { data: { users } } = await db.auth.admin.listUsers();
+  const user = users.find(u => u.email?.toLowerCase() === row.email.toLowerCase());
   if (!user) {
-    return Response.json({ error: "Aucun compte associé à cette adresse e-mail." }, { status: 404 });
+    return Response.json({ error: "Aucun compte associé à ce lien." }, { status: 404 });
   }
 
   // Mettre à jour le mot de passe
@@ -30,6 +45,11 @@ export async function POST(request: NextRequest) {
   if (updateErr) {
     return Response.json({ error: "Impossible de mettre à jour le mot de passe." }, { status: 500 });
   }
+
+  // Invalider le token (usage unique)
+  await db.from("activation_tokens")
+    .update({ used_at: new Date().toISOString() })
+    .eq("token", token);
 
   return Response.json({ success: true });
 }

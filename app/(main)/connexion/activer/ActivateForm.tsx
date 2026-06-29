@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function EyeIcon({ open }: { open: boolean }) {
   return open ? (
@@ -43,23 +43,43 @@ function StrengthBar({ password }: { password: string }) {
 }
 
 export default function ActivateForm() {
-  const router = useRouter();
-  const [email, setEmail]           = useState("");
-  const [password, setPassword]     = useState("");
-  const [confirm, setConfirm]       = useState("");
-  const [showPwd, setShowPwd]       = useState(false);
-  const [showCfm, setShowCfm]       = useState(false);
-  const [error, setError]           = useState<string | null>(null);
-  const [loading, setLoading]       = useState(false);
-  const [done, setDone]             = useState(false);
+  const router       = useRouter();
+  const searchParams = useSearchParams();
+  const token        = searchParams.get("token");
+
+  const [email, setEmail]       = useState("");
+  const [tokenEmail, setTokenEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm]   = useState("");
+  const [showPwd, setShowPwd]   = useState(false);
+  const [showCfm, setShowCfm]   = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+  const [loading, setLoading]   = useState(false);
+  const [validating, setValidating] = useState(false);
+  const [done, setDone]         = useState(false);
 
   const field = "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 pr-12 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
+
+  // Si token dans l'URL → valider et récupérer l'email
+  useEffect(() => {
+    if (!token) return;
+    setValidating(true);
+    fetch(`/api/auth/validate-token?token=${token}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.email) setTokenEmail(data.email);
+        else setError(data.error ?? "Lien invalide ou expiré.");
+      })
+      .catch(() => setError("Impossible de valider le lien."))
+      .finally(() => setValidating(false));
+  }, [token]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if (!email.trim()) return setError("Veuillez saisir votre adresse e-mail.");
+    const finalEmail = tokenEmail ?? email.trim().toLowerCase();
+    if (!finalEmail) return setError("Veuillez saisir votre adresse e-mail.");
     if (password.length < 8) return setError("Le mot de passe doit contenir au moins 8 caractères.");
     if (password !== confirm) return setError("Les deux mots de passe ne correspondent pas.");
 
@@ -68,10 +88,11 @@ export default function ActivateForm() {
       const res = await fetch("/api/auth/set-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
+        body: JSON.stringify({ token: token ?? null, email: finalEmail, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Erreur inconnue");
+      setDone(true);
       router.push("/connexion");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
@@ -80,22 +101,32 @@ export default function ActivateForm() {
     }
   }
 
-  // ── Succès ─────────────────────────────────────────────────────────────────
-  if (done) {
+  // ── Chargement validation token ────────────────────────────────────────────
+  if (validating) {
     return (
       <div className="mx-auto w-full max-w-[420px] text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(46,230,168,0.15), transparent)", border: "1.5px solid rgba(46,230,168,0.35)" }}>
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2ee6a8" strokeWidth="2.5">
-            <path d="M20 6L9 17l-5-5"/>
+        <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
+        <p className="mt-4 text-sm text-mut">Vérification du lien…</p>
+      </div>
+    );
+  }
+
+  // ── Lien invalide ──────────────────────────────────────────────────────────
+  if (token && error && !tokenEmail) {
+    return (
+      <div className="mx-auto w-full max-w-[420px] text-center">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full"
+          style={{ background: "rgba(255,77,109,0.1)", border: "1.5px solid rgba(255,77,109,0.3)" }}>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" strokeWidth="2.5">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
         </div>
-        <h1 className="font-display text-2xl font-semibold text-ink">Mot de passe enregistré !</h1>
-        <p className="mt-2 text-sm text-mut">Vous allez être redirigé vers la connexion…</p>
-        <div className="mx-auto mt-4 h-0.5 w-32 overflow-hidden rounded-full bg-white/[0.06]">
-          <div className="h-full rounded-full bg-emerald" style={{ animation: "progress 2.5s linear forwards" }}/>
-        </div>
-        <style>{`@keyframes progress{from{width:0%}to{width:100%}}`}</style>
+        <h1 className="font-display text-xl font-semibold text-ink">Lien expiré ou invalide</h1>
+        <p className="mt-2 text-sm text-mut">{error}</p>
+        <p className="mt-4 text-xs text-mut-2">Contactez OptimalLogic pour recevoir un nouveau lien.</p>
+        <a href="/contact" className="mt-5 inline-block text-sm text-mut underline underline-offset-2 hover:text-ink">
+          Contacter le support
+        </a>
       </div>
     );
   }
@@ -103,14 +134,15 @@ export default function ActivateForm() {
   // ── Formulaire ─────────────────────────────────────────────────────────────
   return (
     <div className="mx-auto w-full max-w-[420px]">
-      {/* Logo */}
       <div className="mb-8 text-center">
         <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl font-display text-lg font-bold text-white"
           style={{ background: "linear-gradient(135deg,#7c5cff,#b14dff 50%,#1fd5f0)", boxShadow: "0 0 40px rgba(124,92,255,0.4)" }}>
           OL
         </div>
         <h1 className="font-display text-2xl font-semibold text-ink">Configurer votre accès</h1>
-        <p className="mt-2 text-sm text-mut">Entrez votre email et choisissez un mot de passe.</p>
+        <p className="mt-2 text-sm text-mut">
+          {tokenEmail ? "Choisissez un mot de passe pour accéder à votre espace client." : "Entrez votre email et choisissez un mot de passe."}
+        </p>
       </div>
 
       <div className="surface-card rounded-2xl p-7">
@@ -121,34 +153,40 @@ export default function ActivateForm() {
             <label className="block text-[11px] font-semibold uppercase tracking-widest text-mut-2">
               Adresse e-mail
             </label>
-            <input
-              type="email"
-              required
-              autoFocus
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="vous@email.com"
-              className={field.replace("pr-12", "pr-4")}
-            />
+            {tokenEmail ? (
+              /* Email pré-rempli depuis le token — lecture seule */
+              <div className="flex h-12 items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.03] px-4">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="flex-shrink-0 text-mut-2">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/>
+                </svg>
+                <span className="text-sm text-mut">{tokenEmail}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="ml-auto text-mut-2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+            ) : (
+              /* Email libre si pas de token */
+              <input
+                type="email"
+                required
+                autoFocus
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="vous@email.com"
+                className={field.replace("pr-12", "pr-4")}
+              />
+            )}
           </div>
 
           <div className="border-t border-white/[0.06]"/>
 
           {/* Mot de passe */}
           <div className="space-y-1.5">
-            <label className="block text-[11px] font-semibold uppercase tracking-widest text-mut-2">
-              Mot de passe
-            </label>
+            <label className="block text-[11px] font-semibold uppercase tracking-widest text-mut-2">Mot de passe</label>
             <div className="relative">
-              <input
-                type={showPwd ? "text" : "password"}
-                required
-                minLength={8}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="Minimum 8 caractères"
-                className={field}
-              />
+              <input type={showPwd ? "text" : "password"} required minLength={8}
+                value={password} onChange={e => setPassword(e.target.value)}
+                placeholder="Minimum 8 caractères" className={field} autoFocus={!!tokenEmail} />
               <button type="button" onClick={() => setShowPwd(v => !v)}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-mut-2 hover:text-ink" tabIndex={-1}>
                 <EyeIcon open={showPwd}/>
@@ -159,19 +197,11 @@ export default function ActivateForm() {
 
           {/* Confirmation */}
           <div className="space-y-1.5">
-            <label className="block text-[11px] font-semibold uppercase tracking-widest text-mut-2">
-              Confirmer le mot de passe
-            </label>
+            <label className="block text-[11px] font-semibold uppercase tracking-widest text-mut-2">Confirmer le mot de passe</label>
             <div className="relative">
-              <input
-                type={showCfm ? "text" : "password"}
-                required
-                minLength={8}
-                value={confirm}
-                onChange={e => setConfirm(e.target.value)}
-                placeholder="Retapez votre mot de passe"
-                className={field}
-              />
+              <input type={showCfm ? "text" : "password"} required minLength={8}
+                value={confirm} onChange={e => setConfirm(e.target.value)}
+                placeholder="Retapez votre mot de passe" className={field} />
               <button type="button" onClick={() => setShowCfm(v => !v)}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-mut-2 hover:text-ink" tabIndex={-1}>
                 <EyeIcon open={showCfm}/>
@@ -191,7 +221,7 @@ export default function ActivateForm() {
           )}
 
           {/* Submit */}
-          <button type="submit" disabled={loading}
+          <button type="submit" disabled={loading || done}
             className="btn-grad w-full rounded-xl py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50">
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -200,6 +230,11 @@ export default function ActivateForm() {
               </span>
             ) : "Enregistrer mon mot de passe →"}
           </button>
+
+          {/* Expiration info si token */}
+          {tokenEmail && (
+            <p className="text-center text-[11px] text-mut-2">🔒 Ce lien est valable 2 heures et à usage unique.</p>
+          )}
 
         </form>
       </div>
