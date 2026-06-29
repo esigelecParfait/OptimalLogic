@@ -138,7 +138,7 @@ export type GBPLocation = {
 };
 
 export async function fetchManagedAccounts(token: string): Promise<GBPAccount[]> {
-  const res = await fetch(`${MYBUSINESS_API}/accounts`, {
+  const res = await fetch(`${REVIEW_API}/accounts`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error(`Erreur accounts: ${res.status} ${await res.text()}`);
@@ -151,7 +151,7 @@ export async function fetchLocationsForAccount(
   token: string
 ): Promise<GBPLocation[]> {
   const res = await fetch(
-    `${MYBUSINESS_API}/${accountName}/locations?readMask=name,title,phoneNumbers,websiteUri,categories`,
+    `${REVIEW_API}/${accountName}/locations?readMask=name,title,phoneNumbers,websiteUri,categories`,
     { headers: { Authorization: `Bearer ${token}` } }
   );
   if (!res.ok) return [];

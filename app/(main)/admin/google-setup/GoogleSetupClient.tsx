@@ -30,11 +30,9 @@ type GBPGroup = {
 type LinkState = "idle" | "saving" | "saved" | "error";
 
 function clientLabel(c: DbClient) {
-  return (
-    c.business_name ??
-    `${c.contact_first_name ?? ""} ${c.contact_last_name ?? ""}`.trim() ||
-    c.id_client.slice(0, 8)
-  );
+  if (c.business_name) return c.business_name;
+  const name = `${c.contact_first_name ?? ""} ${c.contact_last_name ?? ""}`.trim();
+  return name || c.id_client.slice(0, 8);
 }
 
 // ── Auto-matching : compare les noms de fiches avec les noms de clients ──────

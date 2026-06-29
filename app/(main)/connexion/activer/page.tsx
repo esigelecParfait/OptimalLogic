@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ActivateForm from "./ActivateForm";
 
 export default function ActiverPage() {
@@ -10,7 +11,9 @@ export default function ActiverPage() {
         />
       </div>
       <div className="relative z-10 w-full">
-        <ActivateForm />
+        <Suspense fallback={<div className="flex justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white/80" /></div>}>
+          <ActivateForm />
+        </Suspense>
       </div>
     </main>
   );

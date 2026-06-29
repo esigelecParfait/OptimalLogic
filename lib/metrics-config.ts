@@ -5,6 +5,7 @@ export type MetricKey =
   | "nb_avis_google"
   | "note_google"
   | "nb_vues_google"
+  | "nb_clics_google"
   | "nb_sessions_chatbot";
 
 export type MetricCard = {

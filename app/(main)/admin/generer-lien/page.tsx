@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function GenererLienPage() {
+function GenererLienContent() {
   const searchParams = useSearchParams();
   const secret = searchParams.get("secret") ?? "";
 
@@ -122,5 +122,13 @@ export default function GenererLienPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function GenererLienPage() {
+  return (
+    <Suspense fallback={<main className="flex min-h-screen items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white/80" /></main>}>
+      <GenererLienContent />
+    </Suspense>
   );
 }
