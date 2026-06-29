@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Guide — Boutons & Emails · OptimalLogic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;line-height:1.6}
+  @page{margin:14mm;size:A4}
+  @media print{.page{padding:0;max-width:100%}.nb{page-break-inside:avoid}}
+  .page{max-width:780px;margin:0 auto;padding:40px 44px}
+
+  /* Cover */
+  .cover{background:linear-gradient(135deg,#0a0a14,#1a0a36,#0a1430);border-radius:12px;padding:28px 32px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;background:radial-gradient(circle,rgba(124,92,255,.4),transparent 70%);border-radius:50%}
+  .logo{display:flex;align-items:center;gap:9px;margin-bottom:16px;position:relative;z-index:1}
+  .lm{width:30px;height:30px;border-radius:7px;background:linear-gradient(110deg,#7c5cff,#b14dff 50%,#1fd5f0);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff}
+  .lt{font-size:14px;font-weight:700;color:#fff}
+  .cover h1{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.3px;margin-bottom:6px;position:relative;z-index:1}
+  .cover p{font-size:12px;color:rgba(255,255,255,.65);position:relative;z-index:1}
+  .badges{margin-top:12px;display:flex;gap:7px;flex-wrap:wrap;position:relative;z-index:1}
+  .badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:3px 9px;font-size:10.5px;color:rgba(255,255,255,.8)}
+
+  /* Section */
+  .sec{margin-top:28px}
+  .sec-title{display:flex;align-items:center;gap:9px;padding-bottom:7px;border-bottom:2px solid #0a0a0a;margin-bottom:12px}
+  .sec-title .icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .sec-title h2{font-size:14.5px;font-weight:800;color:#0a0a0a}
+  .sec-title p{font-size:11px;color:#888;margin-top:1px}
+
+  /* Button cards */
+  .btn-grid{display:flex;flex-direction:column;gap:8px}
+  .btn-card{border-radius:10px;border:1px solid #e5e5e5;overflow:hidden}
+  .btn-card-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid #f0f0f0}
+  .btn-card-top > div{padding:9px 12px;font-size:12px}
+  .btn-card-top > div:not(:last-child){border-right:1px solid #f0f0f0}
+  .cell-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#aaa;margin-bottom:3px}
+  .btn-name{font-weight:700;color:#0a0a0a;font-size:12.5px}
+  .btn-location{color:#555}
+  .btn-card-bottom{padding:9px 12px;background:#fafafa;font-size:12px;color:#444;display:flex;align-items:flex-start;gap:8px}
+  .btn-card-bottom .arrow{color:#7c5cff;font-weight:700;flex-shrink:0;margin-top:1px}
+
+  /* Email pill */
+  .email-pill{display:inline-flex;align-items:center;gap:5px;background:#ede9fe;color:#6b21a8;border-radius:100px;padding:2px 8px;font-size:10.5px;font-weight:600;white-space:nowrap}
+  .email-pill::before{content:'✉';font-size:10px}
+  .no-email{display:inline-flex;align-items:center;gap:4px;background:#f5f5f5;color:#999;border-radius:100px;padding:2px 8px;font-size:10.5px;font-weight:500}
+
+  /* Auto cards */
+  .auto-card{display:flex;gap:10px;padding:9px 12px;border:1px solid #e5e5e5;border-radius:10px;margin-bottom:7px;background:#fafafa;align-items:flex-start}
+  .auto-icon{width:28px;height:28px;border-radius:7px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px}
+  .auto-title{font-size:12.5px;font-weight:700;color:#0a0a0a;margin-bottom:3px}
+  .auto-desc{font-size:11.5px;color:#555}
+
+  /* Summary table */
+  table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:10px}
+  th{background:#0a0a0a;color:#fff;padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+  th:first-child{border-radius:5px 0 0 0}th:last-child{border-radius:0 5px 0 0}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;color:#333}
+  tr:nth-child(even) td{background:#fafafa}
+  code{background:#ede9fe;color:#7c5cff;padding:1px 5px;border-radius:4px;font-family:monospace;font-size:10.5px}
+
+  .foot{margin-top:36px;padding-top:10px;border-top:1px solid #ebebeb;display:flex;justify-content:space-between;font-size:10.5px;color:#ccc}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="logo"><div class="lm">OL</div><div class="lt">OptimalLogic</div></div>
+  <h1>Guide complet — Boutons & Emails</h1>
+  <p>Inventaire de tous les boutons du système, leur emplacement et les emails qu'ils déclenchent.</p>
+  <div class="badges">
+    <span class="badge">Site web</span>
+    <span class="badge">Espace client</span>
+    <span class="badge">CRM Google Sheets</span>
+    <span class="badge">Pages admin</span>
+    <span class="badge">Automatiques</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     1. SITE WEB — FORMULAIRES
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#ede9fe">🌐</div>
+    <div><h2>Site web — Formulaires clients</h2><p>Boutons sur les pages publiques du site</p></div>
+  </div>
+
+  <div class="btn-grid">
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Envoyer ma demande"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/contact</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="email-pill">valeur_contact_commerce</span><br/><span class="email-pill" style="margin-top:3px;display:inline-flex">valeur_contact_tpe_pme</span><br/><span class="email-pill" style="margin-top:3px;display:inline-flex">valeur_contact_startup</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Crée le prospect dans Supabase. Le script Apps Script détecte le nouveau prospect et envoie le mail de valeur correspondant au type de client dans les 5 minutes. <strong>Destinataire : le client.</strong></div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Envoyer ma demande"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/tarifs (Demander cette formule)</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="email-pill">valeur_tarif_commerce</span><br/><span class="email-pill" style="margin-top:3px;display:inline-flex">valeur_tarif_tpe_pme</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Même logique que le formulaire contact. Apps Script envoie le mail de valeur selon le type de client. <strong>Destinataire : le client.</strong></div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Confirmer le RDV"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/prise-de-rdv</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="email-pill">valeur_rdv</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Réservation Cal.com créée + prospect dans Supabase. Apps Script envoie le mail de valeur RDV. <strong>Destinataire : le client.</strong></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     2. CONNEXION
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#fef9c3">🔐</div>
+    <div><h2>Connexion & Mot de passe</h2><p>Pages /connexion et /connexion/activer</p></div>
+  </div>
+
+  <div class="btn-grid">
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Se connecter"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/connexion</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Authentifie le client avec email + mot de passe. Redirige vers l'espace client si succès.</div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Mot de passe oublié"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/connexion</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="email-pill">reset_mot_de_passe</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Le client entre son email. Le site génère un lien sécurisé (valable 2h) et Apps Script envoie le mail de réinitialisation. <strong>Destinataire : le client.</strong></div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Enregistrer mon mot de passe"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/connexion/activer</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Enregistre le mot de passe du client (nouveau client ou réinitialisation). Redirige vers /connexion.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     3. ESPACE CLIENT
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#dcfce7">👤</div>
+    <div><h2>Espace client</h2><p>Pages /espace-client/*</p></div>
+  </div>
+
+  <div class="btn-grid">
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Se déconnecter"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">Toutes les pages espace client</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Déconnecte le client et redirige vers /connexion.</div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Enregistrer les modifications"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/espace-client/mon-compte</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Met à jour les informations du compte client dans Supabase (nom, téléphone, site web, etc.).</div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Changer le mot de passe"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/espace-client/mon-compte</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Permet au client connecté de modifier son mot de passe depuis son espace.</div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Envoyer" (support)</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/espace-client/support</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email auto</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Envoie un message au support OptimalLogic depuis l'espace client.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     4. CRM GOOGLE SHEETS
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#fef9c3">📊</div>
+    <div><h2>CRM Google Sheets — Colonnes à cocher</h2><p>Déclenchent des emails automatiques quand cochées à "oui"</p></div>
+  </div>
+
+  <div class="btn-grid">
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Colonne</div><div class="btn-name">is_finished_call = oui</div></div>
+        <div><div class="cell-label">Emplacement</div><div class="btn-location">Onglet Prospects du CRM</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="email-pill">remerciement_id</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Apps Script détecte la case cochée et envoie un email de remerciement après l'appel. <strong>Destinataire : le client.</strong></div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Colonne</div><div class="btn-name">is_envoie_devis = oui</div></div>
+        <div><div class="cell-label">Emplacement</div><div class="btn-location">Onglet Prospects du CRM</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="email-pill">envoi_devis_id</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Apps Script envoie le devis au client. <strong>Destinataire : le client.</strong></div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Colonne</div><div class="btn-name">is_paiement_recu = oui</div></div>
+        <div><div class="cell-label">Emplacement</div><div class="btn-location">Onglet Prospects du CRM</div></div>
+        <div><div class="cell-label">Emails déclenchés</div><div style="margin-top:3px"><span class="email-pill">paiement_recu_id</span><br/><span class="email-pill" style="margin-top:3px;display:inline-flex">envoi_identifiant_id</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Apps Script envoie 2 emails : confirmation de paiement + lien d'activation de l'espace client (valable 2h). <strong>Destinataire : le client.</strong></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     5. PAGES ADMIN
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#fee2e2">⚙️</div>
+    <div><h2>Pages admin (usage interne)</h2><p>Accessibles uniquement avec le secret admin dans l'URL</p></div>
+  </div>
+
+  <div class="btn-grid">
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Générer le lien →"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/admin/generer-lien?secret=...</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email auto</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Génère un lien d'activation sécurisé (2h) pour l'email saisi. Vous copiez le lien et l'envoyez manuellement au client.</div>
+    </div>
+
+    <div class="btn-card nb">
+      <div class="btn-card-top">
+        <div><div class="cell-label">Bouton</div><div class="btn-name">"Lier" / "⚡ Lier tout"</div></div>
+        <div><div class="cell-label">Page</div><div class="btn-location">/admin/google-setup?secret=...</div></div>
+        <div><div class="cell-label">Email déclenché</div><div style="margin-top:3px"><span class="no-email">Aucun email</span></div></div>
+      </div>
+      <div class="btn-card-bottom"><span class="arrow">→</span> Associe une fiche Google Business à un client dans Supabase pour activer la mise à jour automatique des métriques (vues, avis, note).</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     6. AUTOMATIQUES
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#e0f2fe">🤖</div>
+    <div><h2>Déclencheurs automatiques</h2><p>Aucun bouton — le système agit seul</p></div>
+  </div>
+
+  <div class="auto-card nb">
+    <div class="auto-icon">📨</div>
+    <div style="flex:1">
+      <div class="auto-title">Nouveau prospect détecté (sans mail de valeur)</div>
+      <div class="auto-desc">Apps Script tourne toutes les 5 min. Si un prospect n'a pas encore reçu son mail de valeur, il l'envoie selon la source et le type de client.</div>
+      <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">
+        <span class="email-pill">valeur_contact_commerce</span>
+        <span class="email-pill">valeur_contact_tpe_pme</span>
+        <span class="email-pill">valeur_contact_startup</span>
+        <span class="email-pill">valeur_tarif_commerce</span>
+        <span class="email-pill">valeur_tarif_tpe_pme</span>
+        <span class="email-pill">valeur_rdv</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="auto-card nb">
+    <div class="auto-icon">⏰</div>
+    <div style="flex:1">
+      <div class="auto-title">1 heure avant le RDV</div>
+      <div class="auto-desc">Envoie automatiquement un rappel au client 55 à 65 minutes avant l'heure du rendez-vous.</div>
+      <div style="margin-top:6px"><span class="email-pill">rappel_rdv</span></div>
+    </div>
+  </div>
+
+  <div class="auto-card nb">
+    <div class="auto-icon">📋</div>
+    <div style="flex:1">
+      <div class="auto-title">3 jours après l'envoi du devis sans paiement</div>
+      <div class="auto-desc">Si le devis a été envoyé depuis 3 jours et qu'aucun paiement n'a été reçu, envoie une relance automatiquement.</div>
+      <div style="margin-top:6px"><span class="email-pill">relance_devis</span></div>
+    </div>
+  </div>
+
+  <div class="auto-card nb">
+    <div class="auto-icon">📊</div>
+    <div style="flex:1">
+      <div class="auto-title">Chaque lundi à 8h00</div>
+      <div class="auto-desc">Mise à jour automatique des métriques internes de chaque client (RDV, demandes, sessions chatbot) depuis Supabase.</div>
+      <div style="margin-top:6px"><span class="no-email">Aucun email</span></div>
+    </div>
+  </div>
+
+  <div class="auto-card nb">
+    <div class="auto-icon">🌐</div>
+    <div style="flex:1">
+      <div class="auto-title">Chaque lundi à 8h30</div>
+      <div class="auto-desc">Mise à jour automatique des métriques Google Business (vues, clics, avis, note) via l'API Google pour chaque client connecté.</div>
+      <div style="margin-top:6px"><span class="no-email">Aucun email</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     RÉCAP TEMPLATES
+════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title">
+    <div class="icon" style="background:#f3f4f6">📝</div>
+    <div><h2>Récapitulatif — 13 templates email</h2><p>Tous dans l'onglet Templates du Google Sheets</p></div>
+  </div>
+  <table>
+    <tr>
+      <th>Template ID</th>
+      <th>Objet</th>
+      <th>Destinataire</th>
+      <th>Déclencheur</th>
+    </tr>
+    <tr><td><code>valeur_contact_commerce</code></td><td>Mail de valeur</td><td>Client</td><td>Formulaire contact · Commerce</td></tr>
+    <tr><td><code>valeur_contact_tpe_pme</code></td><td>Mail de valeur</td><td>Client</td><td>Formulaire contact · TPE/PME</td></tr>
+    <tr><td><code>valeur_contact_startup</code></td><td>Mail de valeur</td><td>Client</td><td>Formulaire contact · Startup</td></tr>
+    <tr><td><code>valeur_tarif_commerce</code></td><td>Mail de valeur</td><td>Client</td><td>Formulaire tarifs · Commerce</td></tr>
+    <tr><td><code>valeur_tarif_tpe_pme</code></td><td>Mail de valeur</td><td>Client</td><td>Formulaire tarifs · TPE/PME</td></tr>
+    <tr><td><code>valeur_rdv</code></td><td>Mail de valeur RDV</td><td>Client</td><td>Réservation Cal.com</td></tr>
+    <tr><td><code>rappel_rdv</code></td><td>Rappel rendez-vous</td><td>Client</td><td>Automatique 1h avant RDV</td></tr>
+    <tr><td><code>remerciement_id</code></td><td>Remerciement appel</td><td>Client</td><td>is_finished_call = oui</td></tr>
+    <tr><td><code>envoi_devis_id</code></td><td>Envoi du devis</td><td>Client</td><td>is_envoie_devis = oui</td></tr>
+    <tr><td><code>relance_devis</code></td><td>Relance devis</td><td>Client</td><td>Automatique 3j après devis</td></tr>
+    <tr><td><code>paiement_recu_id</code></td><td>Confirmation paiement</td><td>Client</td><td>is_paiement_recu = oui</td></tr>
+    <tr><td><code>envoi_identifiant_id</code></td><td>Lien accès espace client</td><td>Client</td><td>is_paiement_recu = oui</td></tr>
+    <tr><td><code>reset_mot_de_passe</code></td><td>Réinitialisation mot de passe</td><td>Client</td><td>Mot de passe oublié</td></tr>
+  </table>
+</div>
+
+<div class="foot">
+  <span>© 2026 OptimalLogic — Document interne confidentiel</span>
+  <span>Guide Boutons & Emails v1.0</span>
+</div>
+
+</div>
+</body>
+</html>
