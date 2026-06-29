@@ -72,8 +72,7 @@ export default function ActivateForm() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Erreur inconnue");
-      setDone(true);
-      setTimeout(() => router.push("/connexion"), 2500);
+      router.push("/connexion");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
     } finally {
