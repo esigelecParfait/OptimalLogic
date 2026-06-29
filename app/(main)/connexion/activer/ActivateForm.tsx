@@ -233,7 +233,7 @@ export default function ActivateForm() {
 
           {/* Expiration info si token */}
           {tokenEmail && (
-            <p className="text-center text-[11px] text-mut-2">🔒 Ce lien est valable 2 heures et à usage unique.</p>
+            <p className="text-center text-[11px] text-mut-2">🔒 Ce lien est valable 1 heure et à usage unique.</p>
           )}
 
         </form>

@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
   // Générer un token sécurisé
   const token = randomBytes(32).toString("hex");
-  const expiresAt = new Date(Date.now() + 2 * 60 * 60 * 1000); // +2h
+  const expiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000); // +1h
 
   const { error } = await db.from("activation_tokens").insert({
     token,
