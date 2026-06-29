@@ -12,4 +12,5 @@ la table services_step servira a evaluer les états d'avancement de la mise en p
 la table support_ticket servira a enregistrer les demandes faites par nos clients_services
 la table tracking marketing c'est la table marketing
 
-Gestion des Triggers et indexes rnrbrbbrrbbb fbfbfbfrbbrbrbrbbrbrnfbbfbfbfbfbfbfbfbb 
+Gestion des Triggers et indexes rnrbrbbrrbbb fbfbfbfrbbrbrbrbbrbrnfbbfbfbfbfbfbfbfbb nnnnr
+remplitrrrr
