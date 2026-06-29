@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   if (!row) return Response.json({ error: "Lien invalide." }, { status: 400 });
   if (row.used_at) return Response.json({ error: "Ce lien a déjà été utilisé." }, { status: 400 });
   if (new Date(row.expires_at) < new Date()) {
-    return Response.json({ error: "Ce lien a expiré (valable 1h). Contactez OptimalLogic." }, { status: 400 });
+    return Response.json({ error: "Ce lien a expiré (valable 2h). Contactez OptimalLogic pour en recevoir un nouveau." }, { status: 400 });
   }
 
   return Response.json({ email: row.email });

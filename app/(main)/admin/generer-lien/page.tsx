@@ -67,7 +67,7 @@ export default function GenererLienPage() {
             OL
           </div>
           <h1 className="font-display text-2xl font-semibold text-ink">Générer un lien d'accès</h1>
-          <p className="mt-2 text-sm text-mut">Le lien expire après <strong className="text-ink">1 heure</strong>.</p>
+          <p className="mt-2 text-sm text-mut">Le lien expire après <strong className="text-ink">2 heures</strong> ou après utilisation.</p>
         </div>
 
         <div className="surface-card rounded-2xl p-7">
@@ -116,7 +116,7 @@ export default function GenererLienPage() {
                 }`}>
                 {copied ? "✓ Copié !" : "📋 Copier le lien"}
               </button>
-              <p className="text-center text-[11px] text-mut-2">⏱ Expire dans 1h · Usage unique</p>
+              <p className="text-center text-[11px] text-mut-2">⏱ Expire dans 2h · Usage unique</p>
             </div>
           )}
         </div>
