@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import ConvertForm from "./ConvertForm";
 import StatusForm from "./StatusForm";
@@ -161,13 +162,21 @@ export default async function ProspectsPage({
                     {new Date(p.created_at).toLocaleDateString("fr-FR")}
                   </td>
                   <td className="px-5 py-4">
-                    {isClient ? (
-                      <span className="text-[11px] font-semibold text-emerald-400 whitespace-nowrap">✓ Déjà client</span>
-                    ) : matchingOffers.length > 0 ? (
-                      <ConvertForm prospectId={p.id_client} offers={matchingOffers} />
-                    ) : (
-                      <span className="text-[11px] text-mut-2">Aucune offre ({p.type_client ?? "type inconnu"})</span>
-                    )}
+                    <div className="flex flex-col gap-2">
+                      {isClient ? (
+                        <span className="text-[11px] font-semibold text-emerald-400 whitespace-nowrap">✓ Déjà client</span>
+                      ) : matchingOffers.length > 0 ? (
+                        <ConvertForm prospectId={p.id_client} offers={matchingOffers} />
+                      ) : (
+                        <span className="text-[11px] text-mut-2">Aucune offre ({p.type_client ?? "type inconnu"})</span>
+                      )}
+                      <Link
+                        href={`/admin/prospects/${p.id_client}`}
+                        className="text-[11px] text-mut hover:text-ink transition-colors whitespace-nowrap"
+                      >
+                        Modifier →
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               );
