@@ -29,7 +29,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     ? await supabaseAdmin
         .from("client_services")
         .select("id_service, offer_code, service_status, payment_status")
-        .eq("id_client", client.id_client)
+        .eq("id_client", prospect.id_client)
     : { data: [] };
 
   const { data: offers } = await supabaseAdmin
