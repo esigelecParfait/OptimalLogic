@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import GenerateLinkForm from "./GenerateLinkForm";
 import SendLinkButton from "./SendLinkButton";
@@ -190,7 +191,17 @@ export default async function ClientsPage({
                     {new Date(c.became_client_at).toLocaleDateString("fr-FR")}
                   </td>
                   <td className="px-5 py-4">
-                    {p?.contact_email && <SendLinkButton email={p.contact_email} />}
+                    <div className="flex items-center gap-3">
+                      {p?.contact_email && <SendLinkButton email={p.contact_email} />}
+                      {c.id_client_prospect && (
+                        <Link
+                          href={`/admin/clients/${c.id_client_prospect}`}
+                          className="text-xs text-mut hover:text-ink transition-colors whitespace-nowrap"
+                        >
+                          Modifier →
+                        </Link>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );
