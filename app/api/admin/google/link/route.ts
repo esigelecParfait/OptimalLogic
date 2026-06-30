@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
   );
 
   const { error } = await db
-    .from("clients")
+    .from("client_prospects")
     .update({
       google_location_name:          performanceName,
       google_account_location_name:  locationName,

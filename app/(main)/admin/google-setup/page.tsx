@@ -40,7 +40,7 @@ export default async function GoogleSetupPage({
   );
 
   const { data: clients } = await db
-    .from("clients")
+    .from("client_prospects")
     .select("id_client, business_name, contact_first_name, contact_last_name, google_location_name, google_account_location_name")
     .order("business_name");
 

@@ -24,9 +24,9 @@ function supabaseAdmin() {
 async function run(weekStart: Date) {
   const db = supabaseAdmin();
 
-  // Récupérer tous les clients avec une localisation GBP configurée
+  // Récupérer tous les prospects/clients avec une localisation GBP configurée
   const { data: clients, error: clientErr } = await db
-    .from("clients")
+    .from("client_prospects")
     .select("id_client, google_location_name, google_account_location_name")
     .not("google_location_name", "is", null);
 

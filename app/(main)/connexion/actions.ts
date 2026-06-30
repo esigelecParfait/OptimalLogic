@@ -72,9 +72,9 @@ export async function requestPasswordReset(
     if (appsScriptUrl) {
       const supabase = await createClient();
       const { data: client } = await supabase
-        .from("clients")
+        .from("client_prospects")
         .select("contact_first_name, contact_last_name")
-        .eq("email", email)
+        .eq("contact_email", email)
         .maybeSingle();
 
       await fetch(appsScriptUrl, {

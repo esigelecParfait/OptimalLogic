@@ -92,8 +92,18 @@ export async function updateClientInfo(
     return { error: "Impossible de retrouver votre compte client." };
   }
 
-  const { error } = await supabase
+  const { data: clientRow, error: clientRowError } = await supabase
     .from("clients")
+    .select("id_client_prospect")
+    .eq("id_client", clientMember.id_client)
+    .maybeSingle();
+
+  if (clientRowError || !clientRow?.id_client_prospect) {
+    return { error: "Impossible de retrouver votre compte client." };
+  }
+
+  const { error } = await supabase
+    .from("client_prospects")
     .update({
       contact_first_name: contactFirstName,
       contact_last_name: contactLastName,
@@ -104,7 +114,7 @@ export async function updateClientInfo(
       ),
       google_business_url: cleanOptional(formData.get("google_business_url")),
     })
-    .eq("id_client", clientMember.id_client);
+    .eq("id_client", clientRow.id_client_prospect);
 
   if (error) {
     return { error: "Impossible de mettre à jour vos informations." };

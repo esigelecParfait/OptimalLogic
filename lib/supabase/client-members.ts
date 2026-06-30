@@ -48,10 +48,25 @@ export async function getPaidClientForUser(
     };
   }
 
-  const { data: client, error: clientError } = (await supabase
+  const { data: clientRow, error: clientRowError } = await supabase
     .from("clients")
-    .select(columns)
+    .select("id_client_prospect")
     .eq("id_client", clientMember.id_client)
+    .maybeSingle();
+
+  if (clientRowError || !clientRow?.id_client_prospect) {
+    return {
+      clientMember: clientMember as ClientMember,
+      client: null,
+      memberError: null,
+      clientError: clientRowError,
+    };
+  }
+
+  const { data: client, error: clientError } = (await supabase
+    .from("client_prospects")
+    .select(columns)
+    .eq("id_client", clientRow.id_client_prospect)
     .maybeSingle()) as { data: Partial<PaidClient> | null; error: unknown };
 
   return {

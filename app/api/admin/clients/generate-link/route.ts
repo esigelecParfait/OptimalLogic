@@ -35,10 +35,25 @@ export async function POST(request: NextRequest) {
     { auth: { persistSession: false } }
   );
 
+  const { data: prospect, error: prospectError } = await db
+    .from("client_prospects")
+    .select("id_client")
+    .eq("contact_email", email)
+    .maybeSingle();
+
+  if (prospectError) {
+    return Response.json({ error: "Impossible de verifier le client." }, { status: 500 });
+  }
+
+  if (!prospect?.id_client) {
+    return Response.json({ error: "Aucun client paye associe a cet email." }, { status: 404 });
+  }
+
   const { data: client, error: clientError } = await db
     .from("clients")
     .select("id_client")
-    .eq("contact_email", email)
+    .eq("id_client_prospect", prospect.id_client)
+    .eq("status", "active")
     .maybeSingle();
 
   if (clientError) {
@@ -51,10 +66,10 @@ export async function POST(request: NextRequest) {
 
   const { data: activeService, error: serviceError } = await db
     .from("client_services")
-    .select("id")
-    .eq("id_client", client.id_client)
-    .in("payment_status", ["paid", "paye"])
-    .in("service_status", ["active", "en_cours"])
+    .select("id_service")
+    .eq("id_client", prospect.id_client)
+    .in("payment_status", ["paye"])
+    .in("service_status", ["en_cours"])
     .limit(1)
     .maybeSingle();
 
