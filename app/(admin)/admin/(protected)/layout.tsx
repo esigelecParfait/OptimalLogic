@@ -10,7 +10,7 @@ const nav = [
   { href: "/admin", label: "Tableau de bord", icon: "▦" },
   { href: "/admin/prospects", label: "Prospects", icon: "◎" },
   { href: "/admin/clients", label: "Clients", icon: "◉" },
-  { href: "/admin/emails", label: "Emails & accès", icon: "✉" },
+  { href: "/admin/metrics", label: "Métriques", icon: "▴" },
   { href: "/admin/google-setup", label: "Google Business", icon: "⊕" },
 ];
 

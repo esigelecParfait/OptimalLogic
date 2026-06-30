@@ -1,28 +1,64 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
+import ConvertForm from "./ConvertForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProspectsPage() {
-  const { data: prospects } = await supabaseAdmin
-    .from("client_prospects")
-    .select(`
-      id_client,
-      contact_first_name,
-      contact_last_name,
-      contact_email,
-      business_name,
-      type_client,
-      created_at,
-      demandes (
-        id,
-        request_status,
-        request_source,
-        offer_code,
-        created_at
-      )
-    `)
-    .order("created_at", { ascending: false })
-    .limit(100);
+type DemandeRow = {
+  id: string;
+  request_status: string | null;
+  request_source: string | null;
+  offer_code: string | null;
+  created_at: string;
+};
+
+type ProspectRow = {
+  id_client: string;
+  contact_first_name: string | null;
+  contact_last_name: string | null;
+  contact_email: string | null;
+  business_name: string | null;
+  type_client: string | null;
+  created_at: string;
+  demandes: DemandeRow[];
+};
+
+export default async function ProspectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+
+  const [prospectsRes, clientsRes, offersRes] = await Promise.all([
+    supabaseAdmin
+      .from("client_prospects")
+      .select(`
+        id_client,
+        contact_first_name,
+        contact_last_name,
+        contact_email,
+        business_name,
+        type_client,
+        created_at,
+        demandes (
+          id,
+          request_status,
+          request_source,
+          offer_code,
+          created_at
+        )
+      `)
+      .order("created_at", { ascending: false })
+      .limit(200),
+    supabaseAdmin.from("clients").select("id_client_prospect"),
+    supabaseAdmin.from("offres").select("code, nom_offre, client_type").eq("is_active", true),
+  ]);
+
+  const prospects = (prospectsRes.data ?? []) as ProspectRow[];
+  const existingClientProspectIds = new Set(
+    (clientsRes.data ?? []).map((c) => c.id_client_prospect).filter(Boolean)
+  );
+  const offers = offersRes.data ?? [];
 
   const typeLabels: Record<string, string> = {
     commerce: "Commerce",
@@ -42,12 +78,34 @@ export default async function ProspectsPage() {
     archive: "text-gray-400 bg-gray-400/10 border-gray-400/20",
   };
 
+  const query = (q ?? "").trim().toLowerCase();
+  const filtered = query
+    ? prospects.filter((p) => {
+        const haystack = [p.contact_first_name, p.contact_last_name, p.contact_email, p.business_name]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(query);
+      })
+    : prospects;
+
   return (
     <div className="p-8">
-      <div className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-widest text-mut-2">Administration</p>
-        <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Prospects</h1>
-        <p className="mt-1 text-sm text-mut">{prospects?.length ?? 0} prospects enregistrés</p>
+      <div className="mb-8 flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-mut-2">Administration</p>
+          <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Prospects</h1>
+          <p className="mt-1 text-sm text-mut">{filtered.length} prospect{filtered.length !== 1 ? "s" : ""} {query ? "trouvé(s)" : "enregistré(s)"}</p>
+        </div>
+        <form method="GET" className="shrink-0">
+          <input
+            type="text"
+            name="q"
+            defaultValue={q}
+            placeholder="Rechercher un prospect…"
+            className="h-10 w-64 rounded-xl border border-white/[0.12] bg-[rgba(26,26,29,0.8)] px-3.5 text-sm text-ink outline-none placeholder:text-mut-2 focus:border-white/30"
+          />
+        </form>
       </div>
 
       <div className="surface-card rounded-2xl overflow-hidden">
@@ -60,21 +118,18 @@ export default async function ProspectsPage() {
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Demandes</th>
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Statut</th>
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Date</th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/[0.04]">
-            {(prospects ?? []).map((p) => {
-              const demandes = (p.demandes as Array<{
-                id: string;
-                request_status: string | null;
-                request_source: string | null;
-                offer_code: string | null;
-                created_at: string;
-              }>) ?? [];
-              const latest = demandes.sort((a, b) =>
+            {filtered.map((p) => {
+              const demandes = p.demandes ?? [];
+              const latest = [...demandes].sort((a, b) =>
                 new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
               )[0];
               const status = latest?.request_status ?? null;
+              const isClient = existingClientProspectIds.has(p.id_client);
+              const matchingOffers = offers.filter((o) => o.client_type === p.type_client);
 
               return (
                 <tr key={p.id_client} className="hover:bg-white/[0.02] transition-colors">
@@ -101,14 +156,25 @@ export default async function ProspectsPage() {
                   <td className="px-5 py-4 text-xs text-mut">
                     {new Date(p.created_at).toLocaleDateString("fr-FR")}
                   </td>
+                  <td className="px-5 py-4">
+                    {isClient ? (
+                      <span className="text-[11px] font-semibold text-emerald-400 whitespace-nowrap">✓ Déjà client</span>
+                    ) : matchingOffers.length > 0 ? (
+                      <ConvertForm prospectId={p.id_client} offers={matchingOffers} />
+                    ) : (
+                      <span className="text-[11px] text-mut-2">Aucune offre ({p.type_client ?? "type inconnu"})</span>
+                    )}
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
 
-        {(!prospects || prospects.length === 0) && (
-          <div className="py-16 text-center text-sm text-mut">Aucun prospect pour l&apos;instant.</div>
+        {filtered.length === 0 && (
+          <div className="py-16 text-center text-sm text-mut">
+            {query ? "Aucun résultat pour cette recherche." : "Aucun prospect pour l'instant."}
+          </div>
         )}
       </div>
     </div>
