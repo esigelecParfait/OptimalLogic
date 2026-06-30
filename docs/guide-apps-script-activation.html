@@ -1,299 +1,349 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<title>Guide Apps Script — Liens d'activation · OptimalLogic</title>
+<meta charset="UTF-8"/>
+<title>Guide — Modifications Apps Script · OptimalLogic</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;font-size:13px;color:#1a1a1a;background:#fff;line-height:1.6}
+  @page{margin:14mm;size:A4}
+  @media print{.page{padding:0;max-width:100%}.nb{page-break-inside:avoid}}
+  .page{max-width:780px;margin:0 auto;padding:40px 44px}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Inter',system-ui,sans-serif; font-size:13.5px; color:#1a1a1a; background:#fff; line-height:1.65; }
-  @page { margin:16mm; size:A4; }
-  @media print { .page { padding:0; max-width:100%; } .nb { page-break-inside:avoid; } }
-  .page { max-width:760px; margin:0 auto; padding:44px 48px; }
+  .cover{background:linear-gradient(135deg,#0a0a14,#1a0a36,#0a1430);border-radius:12px;padding:28px 32px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;background:radial-gradient(circle,rgba(124,92,255,.4),transparent 70%);border-radius:50%}
+  .logo{display:flex;align-items:center;gap:9px;margin-bottom:16px;position:relative;z-index:1}
+  .lm{width:30px;height:30px;border-radius:7px;background:linear-gradient(110deg,#7c5cff,#b14dff 50%,#1fd5f0);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff}
+  .lt{font-size:14px;font-weight:700;color:#fff}
+  .cover h1{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.3px;margin-bottom:6px;position:relative;z-index:1}
+  .cover p{font-size:12px;color:rgba(255,255,255,.65);position:relative;z-index:1}
+  .badges{margin-top:12px;display:flex;gap:7px;flex-wrap:wrap;position:relative;z-index:1}
+  .badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:3px 9px;font-size:10.5px;color:rgba(255,255,255,.8)}
 
-  /* Cover */
-  .cover { background:linear-gradient(135deg,#0a0a14,#1a0a36,#0a1430); border-radius:14px; padding:30px 36px; color:#fff; margin-bottom:36px; position:relative; overflow:hidden; }
-  .cover::before { content:''; position:absolute; top:-80px; right:-80px; width:280px; height:280px; background:radial-gradient(circle,rgba(124,92,255,.45),transparent 70%); border-radius:50%; }
-  .logo { display:flex; align-items:center; gap:10px; margin-bottom:18px; position:relative; z-index:1; }
-  .lm { width:32px; height:32px; border-radius:8px; background:linear-gradient(110deg,#7c5cff,#b14dff 50%,#1fd5f0); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; color:#fff; }
-  .lt { font-size:15px; font-weight:700; color:#fff; }
-  .cover h1 { font-size:20px; font-weight:800; color:#fff; letter-spacing:-.3px; margin-bottom:8px; position:relative; z-index:1; }
-  .cover p { font-size:12.5px; color:rgba(255,255,255,.65); position:relative; z-index:1; }
-  .cover-badges { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; position:relative; z-index:1; }
-  .badge { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:100px; padding:3px 10px; font-size:11px; color:rgba(255,255,255,.8); }
+  .sec{margin-top:28px}
+  .sec-title{display:flex;align-items:center;gap:9px;padding-bottom:7px;border-bottom:2px solid #0a0a0a;margin-bottom:14px}
+  .sec-title .icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .sec-title h2{font-size:14.5px;font-weight:800;color:#0a0a0a}
 
-  /* Section headers */
-  h2 { font-size:16px; font-weight:800; color:#0a0a0a; margin:32px 0 14px; padding-bottom:8px; border-bottom:2px solid #0a0a0a; display:flex; align-items:center; gap:10px; }
-  h2 .n { width:26px; height:26px; border-radius:6px; background:#0a0a0a; color:#fff; font-size:12px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
-  h3 { font-size:13.5px; font-weight:700; color:#0a0a0a; margin:16px 0 8px; }
+  .mod{border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;margin-bottom:10px}
+  .mod-header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fafafa;border-bottom:1px solid #f0f0f0}
+  .mod-num{width:22px;height:22px;border-radius:6px;background:#0a0a0a;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mod-title{font-size:12.5px;font-weight:700;color:#0a0a0a}
+  .mod-sub{font-size:11px;color:#888}
+  .mod-body{padding:10px 14px;font-size:12px;color:#444}
+  .mod-body p{margin-bottom:6px}
+  .mod-body p:last-child{margin-bottom:0}
 
-  /* Change blocks */
-  .change { margin-bottom:14px; border-radius:10px; overflow:hidden; border:1px solid #e0e0e0; }
-  .change-header { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f5f5f5; border-bottom:1px solid #e0e0e0; }
-  .change-type { font-size:10px; font-weight:700; padding:2px 8px; border-radius:100px; }
-  .type-add { background:#dcfce7; color:#166534; }
-  .type-mod { background:#fef9c3; color:#854d0e; }
-  .type-new { background:#ede9fe; color:#6b21a8; }
-  .change-title { font-size:12.5px; font-weight:700; color:#0a0a0a; }
-  .change-line { font-size:11px; color:#888; margin-left:auto; white-space:nowrap; }
-  .change-body { padding:12px 14px; }
-  .change-body p { font-size:12.5px; color:#444; margin-bottom:8px; }
-  .change-body p:last-child { margin-bottom:0; }
+  pre{background:#0a0a0a;border-radius:8px;padding:12px 14px;font-size:11px;line-height:1.6;color:#e8e8e8;overflow-x:auto;margin:8px 0;font-family:'Courier New',monospace}
+  .add{color:#86efac}
+  .ctx{color:#888}
+  code{background:#ede9fe;color:#7c5cff;padding:1px 5px;border-radius:4px;font-family:monospace;font-size:10.5px}
 
-  /* Code blocks */
-  .code { background:#0f0f14; border-radius:8px; padding:12px 14px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#e0e0e0; margin:8px 0; line-height:1.7; overflow-x:auto; }
-  .code .add { color:#86efac; }
-  .code .key { color:#c084fc; }
-  .code .str { color:#67e8f9; }
-  .code .cmt { color:#555; font-style:italic; }
-  code { background:#f0edff; color:#7c5cff; padding:1px 5px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:11px; }
+  .alert{border-radius:9px;padding:10px 13px;font-size:12px;margin-top:10px;display:flex;gap:9px;align-items:flex-start}
+  .alert-warn{background:#fef9c3;border:1px solid #fde68a;color:#713f12}
+  .alert-info{background:#ede9fe;border:1px solid #c4b5fd;color:#4c1d95}
+  .alert-ok{background:#dcfce7;border:1px solid #86efac;color:#14532d}
+  .alert .icon{flex-shrink:0;margin-top:1px}
 
-  /* Info boxes */
-  .box { border-radius:8px; padding:11px 14px; font-size:12.5px; margin:10px 0; display:flex; gap:9px; }
-  .bi { font-size:16px; flex-shrink:0; }
-  .tip { background:#f0f9ff; border:1px solid #bae6fd; color:#0c4a6e; }
-  .warn { background:#fffbeb; border:1px solid #fde68a; color:#78350f; }
-  .ok { background:#f0fdf4; border:1px solid #86efac; color:#14532d; }
+  .step{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+  .step-num{width:22px;height:22px;border-radius:50%;background:#0a0a0a;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .step-body{font-size:12px;color:#333;flex:1}
 
-  /* Template table */
-  table { width:100%; border-collapse:collapse; margin:10px 0; font-size:12px; }
-  th { background:#0a0a0a; color:#fff; padding:8px 12px; text-align:left; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; }
-  th:first-child { border-radius:6px 0 0 0; } th:last-child { border-radius:0 6px 0 0; }
-  td { padding:8px 12px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
-  tr:nth-child(even) td { background:#fafafa; }
-  td code { font-size:11px; }
+  .flow{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+  .flow-step{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #e5e5e5;border-radius:8px;font-size:12px}
+  .flow-step .tag{padding:2px 7px;border-radius:100px;font-size:10px;font-weight:700;flex-shrink:0}
+  .tag-site{background:#ede9fe;color:#6b21a8}
+  .tag-api{background:#fef9c3;color:#713f12}
+  .tag-script{background:#dcfce7;color:#14532d}
+  .tag-mail{background:#e0f2fe;color:#0c4a6e}
+  .flow-arrow{text-align:center;font-size:16px;color:#ccc;line-height:1}
 
-  /* Variable highlight */
-  .var-box { background:#ede9fe; border:1px solid #c4b5fd; border-radius:10px; padding:14px 18px; margin:10px 0; }
-  .var-box .var-name { font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:700; color:#7c5cff; }
-  .var-box p { font-size:12.5px; color:#4c1d95; margin-top:6px; }
+  table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:10px}
+  th{background:#0a0a0a;color:#fff;padding:7px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+  th:first-child{border-radius:5px 0 0 0}th:last-child{border-radius:0 5px 0 0}
+  td{padding:7px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;color:#333}
+  tr:nth-child(even) td{background:#fafafa}
 
-  .foot { margin-top:40px; padding-top:12px; border-top:1px solid #ebebeb; display:flex; justify-content:space-between; font-size:11px; color:#ccc; }
+  .foot{margin-top:36px;padding-top:10px;border-top:1px solid #ebebeb;display:flex;justify-content:space-between;font-size:10.5px;color:#ccc}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- COVER -->
-  <div class="cover">
-    <div class="logo">
-      <div class="lm">OL</div>
-      <div class="lt">OptimalLogic</div>
+<!-- COVER -->
+<div class="cover">
+  <div class="logo"><div class="lm">OL</div><div class="lt">OptimalLogic</div></div>
+  <h1>Guide — Modifications Apps Script & Next.js</h1>
+  <p>Détail de toutes les modifications apportées pour automatiser la génération des liens d'activation et l'envoi des emails de réinitialisation.</p>
+  <div class="badges">
+    <span class="badge">Apps Script — 5 modifications</span>
+    <span class="badge">Next.js — 1 modification</span>
+    <span class="badge">Variable {{activation_link}}</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     RÉSUMÉ DU SYSTÈME
+═══════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title"><div class="icon" style="background:#ede9fe">🔁</div><h2>Vue d'ensemble — 2 flux automatisés</h2></div>
+
+  <p style="font-size:12px;color:#555;margin-bottom:14px">Les modifications permettent deux choses : (1) envoyer automatiquement le lien d'accès espace client après paiement, (2) envoyer le lien de réinitialisation quand un client a oublié son mot de passe.</p>
+
+  <div style="font-size:11.5px;font-weight:700;color:#0a0a0a;margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em">Flux 1 — Accès espace client (après paiement)</div>
+  <div class="flow">
+    <div class="flow-step"><span class="tag tag-script">CRM</span> Colonne <code>is_paiement_recu</code> cochée à <strong>oui</strong></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-script">Apps Script</span> <code>maybeSendIdentifiantEmail()</code> appelle l'API pour générer un lien (2h)</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-api">API</span> <code>/api/admin/clients/generate-link</code> crée un token sécurisé dans Supabase</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-mail">Email</span> Template <code>envoi_identifiant_id</code> envoyé avec <code>{{activation_link}}</code> rempli</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-site">Site</span> Client clique le lien → page <code>/connexion/activer</code> → définit son mot de passe</div>
+  </div>
+
+  <div style="font-size:11.5px;font-weight:700;color:#0a0a0a;margin:16px 0 7px;text-transform:uppercase;letter-spacing:.08em">Flux 2 — Mot de passe oublié</div>
+  <div class="flow">
+    <div class="flow-step"><span class="tag tag-site">Site</span> Client saisit son email sur <code>/connexion/mot-de-passe-oublie</code></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-api">Next.js</span> Génère un lien sécurisé (2h) via <code>/api/admin/clients/generate-link</code></div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-script">Apps Script</span> <code>doPost()</code> reçoit l'email + le lien et envoie le mail de réinitialisation</div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step"><span class="tag tag-mail">Email</span> Template <code>reset_mot_de_passe</code> envoyé avec <code>{{activation_link}}</code> rempli</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODIFICATIONS APPS SCRIPT
+═══════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title"><div class="icon" style="background:#dcfce7">📜</div><h2>Modifications Apps Script — 5 changements</h2></div>
+
+  <!-- MOD 1 -->
+  <div class="mod nb">
+    <div class="mod-header">
+      <div class="mod-num">1</div>
+      <div><div class="mod-title">setConfig() — Ajout de APP_URL</div><div class="mod-sub">Ligne ~85 · 1 ligne ajoutée</div></div>
     </div>
-    <h1>Mise à jour Apps Script — Liens d'activation client</h1>
-    <p>Ce document décrit les modifications apportées au script Google Apps Script et les deux templates d'email à créer.</p>
-    <div class="cover-badges">
-      <span class="badge">5 modifications</span>
-      <span class="badge">2 templates à créer</span>
-      <span class="badge">1 nouvelle variable</span>
+    <div class="mod-body">
+      <p>Ajoute l'URL du site dans les propriétés du script, pour que les autres fonctions puissent appeler l'API Next.js.</p>
+<pre><span class="ctx">properties.setProperties({
+  API_URL: "https://optimal-logic.com/api/admin/prospects-sync",
+  API_SECRET: "TON_SECRET",
+  ...
+</span><span class="add">  APP_URL: "https://optimal-logic.com",  // ← AJOUTÉ
+</span><span class="ctx">});</span></pre>
+      <div class="alert alert-warn"><span class="icon">⚠️</span> Après avoir collé le code, exécuter <strong>setConfig()</strong> une fois dans l'éditeur Apps Script pour enregistrer cette nouvelle propriété.</div>
     </div>
   </div>
 
-  <!-- SECTION 1 — CONTEXTE -->
-  <h2><span class="n">1</span> Contexte</h2>
-  <p style="font-size:13px;color:#444;margin-bottom:10px;">Le script a été mis à jour pour <strong>automatiser l'envoi des liens d'activation</strong> aux clients :</p>
-  <ul style="font-size:12.5px;color:#444;padding-left:18px;display:flex;flex-direction:column;gap:5px;">
-    <li><strong>Nouveau client (paiement reçu)</strong> → le script génère un lien sécurisé et envoie l'email automatiquement</li>
-    <li><strong>Mot de passe oublié</strong> → le site envoie une requête au script qui envoie l'email automatiquement</li>
-  </ul>
-  <div class="box tip" style="margin-top:10px;">
-    <span class="bi">ℹ️</span>
-    <span>Le backup du code original est dans <code>docs/google-apps-script-BACKUP-ORIGINAL.js</code>. En cas de problème, recollez ce code dans Apps Script pour revenir à l'état précédent.</span>
-  </div>
-
-  <!-- SECTION 2 — MODIFICATIONS DU CODE -->
-  <h2><span class="n">2</span> Modifications du code</h2>
-  <p style="font-size:12.5px;color:#555;margin-bottom:14px;">Le fichier à utiliser est <code>docs/google-apps-script-UPDATED.js</code>. Voici exactement ce qui a changé :</p>
-
-  <!-- Modif 1 -->
-  <div class="change nb">
-    <div class="change-header">
-      <span class="change-type type-add">AJOUT</span>
-      <span class="change-title">setConfig() — Ligne 85</span>
-      <span class="change-line">docs/google-apps-script-UPDATED.js · L.85</span>
+  <!-- MOD 2 -->
+  <div class="mod nb">
+    <div class="mod-header">
+      <div class="mod-num">2</div>
+      <div><div class="mod-title">getConfig() — Lecture de APP_URL</div><div class="mod-sub">Ligne ~100 · 1 ligne ajoutée</div></div>
     </div>
-    <div class="change-body">
-      <p>Ajout de l'URL du site pour que le script sache où appeler notre API.</p>
-      <div class="code"><span class="cmt">// Dans setConfig(), à la fin de properties.setProperties({...}) :</span>
-<span class="add">APP_URL: "https://optimal-logic.com",  // ← LIGNE AJOUTÉE</span></div>
+    <div class="mod-body">
+      <p>Expose la valeur <code>APP_URL</code> dans l'objet config retourné, pour qu'elle soit accessible partout dans le script.</p>
+<pre><span class="ctx">return {
+  apiUrl:        properties.getProperty("API_URL"),
+  apiSecret:     properties.getProperty("API_SECRET"),
+  ...
+</span><span class="add">  appUrl:        properties.getProperty("APP_URL"),  // ← AJOUTÉ
+</span><span class="ctx">};</span></pre>
     </div>
   </div>
 
-  <!-- Modif 2 -->
-  <div class="change nb">
-    <div class="change-header">
-      <span class="change-type type-add">AJOUT</span>
-      <span class="change-title">getConfig() — Ligne 100</span>
-      <span class="change-line">docs/google-apps-script-UPDATED.js · L.100</span>
+  <!-- MOD 3 -->
+  <div class="mod nb">
+    <div class="mod-header">
+      <div class="mod-num">3</div>
+      <div><div class="mod-title">replaceVariables() — Variable {{activation_link}}</div><div class="mod-sub">Ligne ~278 · 1 ligne ajoutée</div></div>
     </div>
-    <div class="change-body">
-      <p>Ajout de la récupération de cette URL dans getConfig().</p>
-      <div class="code"><span class="cmt">// Dans getConfig(), à la fin du return {...} :</span>
-<span class="add">appUrl: properties.getProperty("APP_URL"),  // ← LIGNE AJOUTÉE</span></div>
-    </div>
-  </div>
-
-  <!-- Modif 3 -->
-  <div class="change nb">
-    <div class="change-header">
-      <span class="change-type type-add">AJOUT</span>
-      <span class="change-title">replaceVariables() — Ligne 278</span>
-      <span class="change-line">docs/google-apps-script-UPDATED.js · L.278</span>
-    </div>
-    <div class="change-body">
-      <p>Ajout de la variable <code>{{activation_link}}</code> pour qu'elle soit remplacée dans les templates email.</p>
-      <div class="code"><span class="cmt">// Dans replaceVariables(), à la fin de la chaîne de .replaceAll() :</span>
-<span class="add">.replaceAll("{{activation_link}}", row.activation_link || "");  // ← LIGNE AJOUTÉE</span></div>
+    <div class="mod-body">
+      <p>Permet aux templates email d'utiliser <code>&#123;&#123;activation_link&#125;&#125;</code> pour insérer automatiquement le lien d'activation.</p>
+<pre><span class="ctx">return String(text)
+  .replaceAll("{{prenom}}", row.prenom || "")
+  ...
+  .replaceAll("{{date_heure_rdv}}", row.dateHeureRdv || "")
+</span><span class="add">  .replaceAll("{{activation_link}}", row.activation_link || "");  // ← AJOUTÉ</span></pre>
+      <div class="alert alert-info"><span class="icon">📝</span> Dans vos templates Google Sheets, utilisez <code>&#123;&#123;activation_link&#125;&#125;</code> pour insérer le lien dans les templates <strong>envoi_identifiant_id</strong> et <strong>reset_mot_de_passe</strong>.</div>
     </div>
   </div>
 
-  <!-- Modif 4 -->
-  <div class="change nb">
-    <div class="change-header">
-      <span class="change-type type-mod">MODIFIÉE</span>
-      <span class="change-title">maybeSendIdentifiantEmail() — Lignes 396–430</span>
-      <span class="change-line">docs/google-apps-script-UPDATED.js · L.396</span>
+  <!-- MOD 4 -->
+  <div class="mod nb">
+    <div class="mod-header">
+      <div class="mod-num">4</div>
+      <div><div class="mod-title">maybeSendIdentifiantEmail() — Génération automatique du lien</div><div class="mod-sub">Ligne ~396 · ~25 lignes modifiées</div></div>
     </div>
-    <div class="change-body">
-      <p>La fonction appelle maintenant notre API pour générer un lien d'activation sécurisé <strong>avant</strong> d'envoyer l'email. Ce lien est inséré dans la variable <code>row.activation_link</code> et est valable 2 heures.</p>
-      <div class="code"><span class="cmt">// Bloc ajouté au début de maybeSendIdentifiantEmail() :</span>
-<span class="key">const</span> config = getConfig();
-<span class="key">const</span> response = UrlFetchApp.fetch(
-  <span class="str">`${config.appUrl}/api/admin/clients/generate-link`</span>, {
-    method: <span class="str">"post"</span>,
-    headers: {
-      <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span>,
-      <span class="str">"x-admin-secret"</span>: config.apiSecret
-    },
-    payload: JSON.stringify({ email: row.email })
+    <div class="mod-body">
+      <p>Avant d'envoyer l'email d'identifiants, la fonction appelle maintenant l'API pour générer le lien d'activation. Si l'API échoue, l'envoi est annulé et l'erreur est loguée.</p>
+<pre><span class="ctx">function maybeSendIdentifiantEmail(sheet, row, rowNumber) {
+  if (!isTruthy(row[HEADERS.isPaiementRecu])) return;
+  if (row[HEADERS.confirmationPaiementEnvoyeeAt])) return;
+  if (row[HEADERS.identifiantRecuAt]) return;
+</span>
+<span class="add">  // Appel API pour générer le lien sécurisé (2h)
+  const config = getConfig();
+  try {
+    const response = UrlFetchApp.fetch(
+      `${config.appUrl}/api/admin/clients/generate-link`,
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": config.apiSecret,
+        },
+        payload: JSON.stringify({ email: row.email }),
+        muteHttpExceptions: true,
+      }
+    );
+    const data = JSON.parse(response.getContentText());
+    if (!data.link) throw new Error("Lien non généré");
+    row.activation_link = data.link;  // injecté dans replaceVariables
+  } catch (err) {
+    logEmail({ ..., statut: "erreur", erreur: "Génération lien: " + err.message });
+    return;  // on n'envoie pas si le lien n'a pas pu être généré
   }
-);
-<span class="key">const</span> data = JSON.parse(response.getContentText());
-<span class="add">row.activation_link = data.link;  // ← injecté dans le template</span></div>
+</span>
+<span class="ctx">  sendTemplateEmail(row, "envoi_identifiant_id");
+  updateCellByHeader(sheet, rowNumber, HEADERS.identifiantRecuAt, new Date());
+}</span></pre>
     </div>
   </div>
 
-  <!-- Modif 5 -->
-  <div class="change nb">
-    <div class="change-header">
-      <span class="change-type type-new">NOUVELLE FONCTION</span>
-      <span class="change-title">doPost() — Lignes 432–458</span>
-      <span class="change-line">docs/google-apps-script-UPDATED.js · L.432</span>
+  <!-- MOD 5 -->
+  <div class="mod nb">
+    <div class="mod-header">
+      <div class="mod-num">5</div>
+      <div><div class="mod-title">doPost() — NOUVELLE fonction</div><div class="mod-sub">Fin du fichier · ~30 lignes ajoutées</div></div>
     </div>
-    <div class="change-body">
-      <p>Nouvelle fonction qui reçoit les demandes de <strong>"mot de passe oublié"</strong> depuis le site web. Quand un client clique "Mot de passe oublié", le site envoie une requête à cette fonction qui déclenche l'email automatiquement.</p>
-      <div class="code"><span class="key">function</span> <span class="add">doPost</span>(e) {
-  <span class="key">const</span> data = JSON.parse(e.postData.contents);
-  <span class="cmt">// Vérifie le secret, puis envoie le template "reset_mot_de_passe"</span>
-  <span class="key">const</span> row = {
-    email: data.email,
-    prenom: data.prenom,
-    <span class="add">activation_link: data.link,  // ← lien généré par le site</span>
-    demande_id: <span class="str">"reset_mdp"</span>
-  };
-  sendTemplateEmail(row, <span class="str">"reset_mot_de_passe"</span>);
-}</div>
+    <div class="mod-body">
+      <p>Fonction entièrement nouvelle. Apps Script devient un endpoint web capable de recevoir des requêtes POST depuis le site. Il reçoit l'email du client + le lien déjà généré, et envoie le mail de réinitialisation.</p>
+<pre><span class="add">function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const config = getConfig();
+
+    // Vérification du secret pour sécuriser l'endpoint
+    if (data.secret !== config.apiSecret) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ error: "Non autorisé" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    const row = {
+      email: data.email,
+      prenom: data.prenom || "",
+      nom:    data.nom    || "",
+      activation_link: data.link,
+      demande_id: "reset_mdp",
+    };
+
+    sendTemplateEmail(row, "reset_mot_de_passe");
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</span></pre>
+      <div class="alert alert-warn"><span class="icon">⚠️</span> Pour activer <code>doPost</code>, il faut <strong>redéployer le Web App</strong> depuis Apps Script → Déployer → Gérer les déploiements → Nouvelle version. Puis copier l'URL du Web App dans la variable d'environnement <code>APPS_SCRIPT_URL</code> sur Vercel.</div>
     </div>
   </div>
+</div>
 
-  <!-- SECTION 3 — VARIABLE -->
-  <h2><span class="n">3</span> La variable à utiliser dans les emails</h2>
+<!-- ══════════════════════════════════════════
+     MODIFICATION NEXT.JS
+═══════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title"><div class="icon" style="background:#fef9c3">⚡</div><h2>Modification Next.js — 1 changement</h2></div>
 
-  <div class="var-box nb">
-    <div class="var-name">{{activation_link}}</div>
-    <p>C'est le lien sur lequel le client clique pour créer ou réinitialiser son mot de passe. Il est généré automatiquement par le site et <strong>expire après 2 heures</strong>.</p>
+  <div class="mod nb">
+    <div class="mod-header">
+      <div class="mod-num">1</div>
+      <div><div class="mod-title">requestPasswordReset() dans actions.ts</div><div class="mod-sub">app/(main)/connexion/actions.ts · fonction remplacée</div></div>
+    </div>
+    <div class="mod-body">
+      <p>L'ancienne version utilisait le système d'email de Supabase (qui expirait rapidement et était limité à 3 mails/heure). La nouvelle version :</p>
+      <div class="step"><div class="step-num">1</div><div class="step-body">Génère un lien d'activation sécurisé via <code>/api/admin/clients/generate-link</code> (valable 2h, usage unique)</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body">Appelle Apps Script <code>doPost</code> avec l'email, le prénom et le lien</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body">Apps Script envoie le template <code>reset_mot_de_passe</code> depuis Gmail</div></div>
+      <div class="alert alert-ok" style="margin-top:10px"><span class="icon">✅</span> La réponse au client est toujours générique (<em>"si un compte existe…"</em>), pour ne pas révéler si l'email est enregistré.</div>
+    </div>
   </div>
+</div>
 
-  <p style="font-size:12.5px;color:#444;margin:10px 0 6px;">Exemple d'utilisation dans un bouton HTML :</p>
-  <div class="code">&lt;<span class="key">a</span> <span class="add">href="{{activation_link}}"</span>
-   style="display:inline-block;background:#fff;color:#000;padding:14px 28px;
-          border-radius:10px;font-weight:700;text-decoration:none;"&gt;
-  Créer mon mot de passe →
-&lt;/<span class="key">a</span>&gt;</div>
+<!-- ══════════════════════════════════════════
+     VARIABLES D'ENVIRONNEMENT
+═══════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title"><div class="icon" style="background:#fee2e2">🔑</div><h2>Variable d'environnement à ajouter sur Vercel</h2></div>
 
-  <div class="box ok nb" style="margin-top:6px;">
-    <span class="bi">✅</span>
-    <span>Toutes les autres variables habituelles fonctionnent toujours : <code>{{prenom}}</code>, <code>{{nom}}</code>, <code>{{email}}</code>, <code>{{offre}}</code>, etc.</span>
-  </div>
-
-  <!-- SECTION 4 — TEMPLATES À CRÉER -->
-  <h2><span class="n">4</span> Les 2 templates à créer dans l'onglet Templates</h2>
-
-  <div class="box warn nb">
-    <span class="bi">⚠️</span>
-    <span>Ces deux templates doivent être créés dans l'onglet <strong>Templates</strong> du Google Sheets, avec exactement ces <code>template_id</code>. Le script les cherche par cet identifiant.</span>
-  </div>
-
-  <!-- Template 1 -->
-  <h3>Template 1 — Nouveau client</h3>
-  <table class="nb">
-    <tr><th>Colonne</th><th>Valeur</th></tr>
-    <tr><td><code>template_id</code></td><td><strong>envoi_identifiant_id</strong></td></tr>
-    <tr><td><code>objet</code></td><td>Votre espace client OptimalLogic est prêt 🎉</td></tr>
-    <tr><td><code>contenu_html</code></td><td><em>voir ci-dessous</em></td></tr>
+  <table>
+    <tr><th>Variable</th><th>Valeur</th><th>Où l'obtenir</th></tr>
+    <tr>
+      <td><code>APPS_SCRIPT_URL</code></td>
+      <td>URL du Web App Apps Script déployé</td>
+      <td>Apps Script → Déployer → Gérer les déploiements → URL du Web App</td>
+    </tr>
   </table>
-  <div class="code" style="font-size:11px;">&lt;h2 style="font-size:22px;font-weight:700;margin:0 0 16px;"&gt;Bienvenue {{prenom}} !&lt;/h2&gt;
-&lt;p style="font-size:15px;color:#b5b5bd;line-height:1.6;margin:0 0 24px;"&gt;
-  Votre espace client OptimalLogic est maintenant actif. Cliquez sur le bouton
-  ci-dessous pour créer votre mot de passe et accéder à votre tableau de bord.
-&lt;/p&gt;
-&lt;a <span class="add">href="{{activation_link}}"</span>
-   style="display:inline-block;background:#ffffff;color:#050505;font-weight:700;
-          font-size:15px;padding:14px 28px;border-radius:10px;
-          text-decoration:none;margin-bottom:24px;"&gt;
-  Créer mon mot de passe →
-&lt;/a&gt;
-&lt;p style="font-size:13px;color:#787882;margin:0;"&gt;
-  ⏱ Ce lien est valable &lt;strong style="color:#b5b5bd;"&gt;2 heures&lt;/strong&gt;.
-  Après expiration, contactez-nous pour en recevoir un nouveau.
-&lt;/p&gt;</div>
 
-  <!-- Template 2 -->
-  <h3>Template 2 — Mot de passe oublié</h3>
-  <table class="nb">
-    <tr><th>Colonne</th><th>Valeur</th></tr>
-    <tr><td><code>template_id</code></td><td><strong>reset_mot_de_passe</strong></td></tr>
-    <tr><td><code>objet</code></td><td>Réinitialisation de votre mot de passe OptimalLogic</td></tr>
-    <tr><td><code>contenu_html</code></td><td><em>voir ci-dessous</em></td></tr>
+  <div class="alert alert-warn" style="margin-top:12px"><span class="icon">⚠️</span> Sans cette variable, le flux "mot de passe oublié" ne peut pas appeler Apps Script. Le lien sera généré mais l'email ne partira pas. Le flux "accès après paiement" (flux 1) fonctionne déjà indépendamment car Apps Script appelle lui-même l'API.</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TEMPLATES À CRÉER / VÉRIFIER
+═══════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title"><div class="icon" style="background:#e0f2fe">📝</div><h2>Templates à créer dans Google Sheets</h2></div>
+
+  <p style="font-size:12px;color:#555;margin-bottom:10px">Onglet <strong>Templates</strong> du Google Sheets CRM. Chaque ligne = 1 template avec les colonnes <code>template_id</code>, <code>objet</code>, <code>contenu_html</code>.</p>
+
+  <table>
+    <tr><th>template_id</th><th>Objet exemple</th><th>Variable clé</th><th>Statut</th></tr>
+    <tr>
+      <td><code>envoi_identifiant_id</code></td>
+      <td>Votre accès espace client OptimalLogic</td>
+      <td><code>{{activation_link}}</code></td>
+      <td>À vérifier / créer</td>
+    </tr>
+    <tr>
+      <td><code>reset_mot_de_passe</code></td>
+      <td>Réinitialisation de votre mot de passe</td>
+      <td><code>{{activation_link}}</code></td>
+      <td>À créer</td>
+    </tr>
   </table>
-  <div class="code" style="font-size:11px;">&lt;h2 style="font-size:22px;font-weight:700;margin:0 0 16px;"&gt;Bonjour {{prenom}},&lt;/h2&gt;
-&lt;p style="font-size:15px;color:#b5b5bd;line-height:1.6;margin:0 0 24px;"&gt;
-  Vous avez demandé à réinitialiser votre mot de passe.
-  Cliquez sur le bouton ci-dessous pour en choisir un nouveau.
-&lt;/p&gt;
-&lt;a <span class="add">href="{{activation_link}}"</span>
-   style="display:inline-block;background:#ffffff;color:#050505;font-weight:700;
-          font-size:15px;padding:14px 28px;border-radius:10px;
-          text-decoration:none;margin-bottom:24px;"&gt;
-  Réinitialiser mon mot de passe →
-&lt;/a&gt;
-&lt;p style="font-size:13px;color:#787882;margin:0;"&gt;
-  ⏱ Ce lien est valable &lt;strong style="color:#b5b5bd;"&gt;2 heures&lt;/strong&gt;.
-  Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.
-&lt;/p&gt;</div>
 
-  <!-- SECTION 5 — DÉPLOIEMENT -->
-  <h2><span class="n">5</span> Déployer le script mis à jour</h2>
-  <div style="display:flex;flex-direction:column;gap:8px;">
-    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:#fafafa;border:1px solid #ebebeb;border-radius:8px;" class="nb">
-      <span style="width:22px;height:22px;border-radius:50%;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">1</span>
-      <p style="font-size:12.5px;color:#333;">Ouvrir Apps Script → coller tout le contenu du fichier <code>google-apps-script-UPDATED.js</code></p>
-    </div>
-    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:#fafafa;border:1px solid #ebebeb;border-radius:8px;" class="nb">
-      <span style="width:22px;height:22px;border-radius:50%;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">2</span>
-      <p style="font-size:12.5px;color:#333;">Cliquer <strong>Déployer → Créer un déploiement → Application Web</strong><br/>Accès : <em>Tout le monde</em> · Exécuter en tant que : <em>Moi</em></p>
-    </div>
-    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 14px;background:#fafafa;border:1px solid #ebebeb;border-radius:8px;" class="nb">
-      <span style="width:22px;height:22px;border-radius:50%;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">3</span>
-      <p style="font-size:12.5px;color:#333;">Copier l'URL du déploiement et l'envoyer à Parfait pour qu'il la configure dans le site</p>
-    </div>
-  </div>
+  <div class="alert alert-info" style="margin-top:12px"><span class="icon">💡</span> Le lien dans <code>&#123;&#123;activation_link&#125;&#125;</code> pointe vers <code>https://optimal-logic.com/connexion/activer?token=...</code>. Il est valable <strong>2 heures</strong> et ne peut être utilisé qu'<strong>une seule fois</strong>.</div>
+</div>
 
-  <div class="foot">
-    <span>© 2026 OptimalLogic — Document interne</span>
-    <span>Guide Apps Script v1.0</span>
-  </div>
+<!-- ══════════════════════════════════════════
+     ÉTAPES DE DÉPLOIEMENT
+═══════════════════════════════════════════ -->
+<div class="sec nb">
+  <div class="sec-title"><div class="icon" style="background:#f3f4f6">🚀</div><h2>Étapes pour activer le tout</h2></div>
+
+  <div class="step"><div class="step-num">1</div><div class="step-body">Dans Apps Script : coller le nouveau code complet → Enregistrer → Exécuter <strong>setConfig()</strong> pour enregistrer APP_URL.</div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body">Dans Apps Script : <strong>Déployer → Gérer les déploiements → Créer une nouvelle version</strong> (ou mettre à jour l'existante). Accès : "Tout le monde". Copier l'URL du Web App.</div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body">Dans Vercel : ajouter la variable <code>APPS_SCRIPT_URL</code> avec l'URL copiée. Redéployer.</div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body">Dans Google Sheets Templates : créer/mettre à jour les templates <code>envoi_identifiant_id</code> et <code>reset_mot_de_passe</code> avec <code>&#123;&#123;activation_link&#125;&#125;</code>.</div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body">Tester : cocher <code>is_paiement_recu = oui</code> pour un prospect test → vérifier que l'email part avec un vrai lien cliquable.</div></div>
+</div>
+
+<div class="foot">
+  <span>© 2026 OptimalLogic — Document interne confidentiel</span>
+  <span>Guide Modifications Apps Script v2.0</span>
+</div>
 
 </div>
 </body>

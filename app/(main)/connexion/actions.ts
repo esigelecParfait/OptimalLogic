@@ -52,14 +52,47 @@ export async function requestPasswordReset(
     return { error: "Veuillez renseigner votre email." };
   }
 
-  const supabase = await createClient();
-  const baseUrl = await getBaseUrl();
+  try {
+    const baseUrl = await getBaseUrl();
 
-  await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${baseUrl}/auth/confirm?type=recovery`,
-  });
+    // 1. Générer le lien d'activation sécurisé (2h) via notre API
+    const linkRes = await fetch(`${baseUrl}/api/admin/clients/generate-link`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-secret": process.env.ADMIN_SECRET ?? "",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const linkData = await linkRes.json();
+    if (!linkData.link) throw new Error("Génération du lien échouée");
 
-  // Toujours renvoyer un succès générique, pour ne pas révéler si l'email existe
+    // 2. Envoyer le mail via Apps Script doPost
+    const appsScriptUrl = process.env.APPS_SCRIPT_URL;
+    if (appsScriptUrl) {
+      const supabase = await createClient();
+      const { data: client } = await supabase
+        .from("clients")
+        .select("contact_first_name, contact_last_name")
+        .eq("email", email)
+        .maybeSingle();
+
+      await fetch(appsScriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          secret: process.env.ADMIN_SECRET ?? "",
+          email,
+          prenom: client?.contact_first_name ?? "",
+          nom: client?.contact_last_name ?? "",
+          link: linkData.link,
+        }),
+      });
+    }
+  } catch {
+    // Silencieux — on ne révèle pas si l'email existe ou non
+  }
+
   return { error: null, success: true };
 }
 
