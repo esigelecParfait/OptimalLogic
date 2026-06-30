@@ -31,10 +31,10 @@ export async function getClientMemberForUser(
     .maybeSingle();
 }
 
-export async function getPaidClientForUser<T extends string>(
+export async function getPaidClientForUser(
   supabase: SupabaseClient,
   userId: string,
-  columns: T
+  columns: string
 ) {
   const { data: clientMember, error: memberError } =
     await getClientMemberForUser(supabase, userId);
@@ -48,11 +48,11 @@ export async function getPaidClientForUser<T extends string>(
     };
   }
 
-  const { data: client, error: clientError } = await supabase
+  const { data: client, error: clientError } = (await supabase
     .from("clients")
     .select(columns)
     .eq("id_client", clientMember.id_client)
-    .maybeSingle();
+    .maybeSingle()) as { data: Partial<PaidClient> | null; error: unknown };
 
   return {
     clientMember: clientMember as ClientMember,

@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: "Lien non genere." }, { status: 500 });
     }
 
-    let userId = data.user?.id ?? null;
+    let userId: string | null = data.user?.id ?? null;
     if (!userId) {
       const {
         data: { users },

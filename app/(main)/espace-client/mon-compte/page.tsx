@@ -39,7 +39,19 @@ export default async function MonComptePage() {
 
           <div className="mt-8">
             {client ? (
-              <AccountForm client={client} />
+              <AccountForm
+                client={{
+                  contact_first_name: client.contact_first_name ?? "",
+                  contact_last_name: client.contact_last_name ?? "",
+                  contact_email: client.contact_email ?? "",
+                  phone_country_code: client.phone_country_code ?? "",
+                  phone_number: client.phone_number ?? "",
+                  business_name: client.business_name ?? null,
+                  business_city: client.business_city ?? null,
+                  business_website_url: client.business_website_url ?? null,
+                  google_business_url: client.google_business_url ?? null,
+                }}
+              />
             ) : (
               <p className="text-sm leading-6 text-mut">Impossible de récupérer vos informations pour le moment.</p>
             )}
