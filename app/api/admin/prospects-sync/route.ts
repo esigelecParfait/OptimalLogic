@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await supabaseAdmin
-      .from("v_prospects_google_sync")
+      .from("v_prospects_google_synchron")
       .select("*")
       .order("date_demande", { ascending: false })
       .limit(200);
