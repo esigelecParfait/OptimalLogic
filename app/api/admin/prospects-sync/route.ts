@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     const authorization = request.headers.get("authorization");
     const expectedAuthorization = `Bearer ${appsScriptSecret}`;
-
+//juthttht
     if (authorization !== expectedAuthorization) {
       return NextResponse.json(
         { error: "Accès non autorisé." },
