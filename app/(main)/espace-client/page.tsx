@@ -283,9 +283,9 @@ function buildActions(
       tip: `${appels} appels reçus, c'est bien ! Imaginez si la moitié réservait directement en ligne — partagez votre lien RDV et gagnez du temps. ⏱️`,
       badge: "Opportunité",
       cta: clientData.rdvUrl ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl } : undefined,
-      color: "text-violet",
-      bg: "rgba(124,92,255,0.06)",
-      dot: "#7c5cff",
+      color: "text-white",
+      bg: "rgba(255,255,255,0.06)",
+      dot: "#ffffff",
       href: "/espace-client/support",
       priority: 4,
     });
@@ -455,7 +455,13 @@ export default async function TableauDeBordPage() {
     <div className="grid gap-5">
 
       {/* ── MÉTRIQUES ── */}
-      <div className="surface-card rounded-[28px] p-7 sm:p-9">
+      <div className="surface-card relative overflow-hidden rounded-[30px] p-7 sm:p-9">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full opacity-20 blur-[100px]"
+          style={{ background: "var(--grad)" }}
+        />
+        <div className="relative">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <p className="eyebrow-grad text-xs font-semibold uppercase tracking-widest mb-1">Tableau de bord</p>
@@ -501,6 +507,7 @@ export default async function TableauDeBordPage() {
             </Link>
           </div>
         )}
+        </div>
       </div>
 
       {/* ── ACTIONS RECOMMANDÉES ── */}

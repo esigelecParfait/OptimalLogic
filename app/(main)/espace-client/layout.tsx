@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/(main)/connexion/actions";
+import NeuralBackground from "@/components/fx/NeuralBackground";
 
 export const dynamic = "force-dynamic";
 
@@ -32,8 +33,16 @@ export default async function EspaceClientLayout({
     .maybeSingle();
 
   return (
-    <main className="relative min-h-screen pt-28">
-      <div className="border-b border-white/[0.07]">
+    <main className="relative min-h-screen overflow-hidden pt-28">
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-30">
+        <NeuralBackground />
+      </div>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[-180px] top-16 z-0 h-[520px] w-[520px] rounded-full opacity-20 blur-[120px]"
+        style={{ background: "var(--grad)" }}
+      />
+      <div className="relative z-[1] border-b border-white/[0.07] bg-black/[0.18] backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-6 sm:px-6 lg:px-8">
           <div>
             <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Espace client</p>
@@ -51,7 +60,7 @@ export default async function EspaceClientLayout({
           ))}
         </nav>
       </div>
-      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">{children}</div>
+      <div className="relative z-[1] mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">{children}</div>
     </main>
   );
 }
