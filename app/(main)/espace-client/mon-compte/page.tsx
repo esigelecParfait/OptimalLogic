@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getPaidClientForUser } from "@/lib/supabase/client-members";
 import AccountForm from "./AccountForm";
 import PasswordForm from "./PasswordForm";
 
@@ -15,13 +16,11 @@ export default async function MonComptePage() {
     redirect("/connexion");
   }
 
-  const { data: client } = await supabase
-    .from("clients")
-    .select(
-      "contact_first_name, contact_last_name, contact_email, phone_country_code, phone_number, business_name, business_city, business_website_url, google_business_url"
-    )
-    .eq("auth_user_id", user.id)
-    .maybeSingle();
+  const { client } = await getPaidClientForUser(
+    supabase,
+    user.id,
+    "id_client, contact_first_name, contact_last_name, contact_email, phone_country_code, phone_number, business_name, business_city, business_website_url, google_business_url"
+  );
 
   return (
     <div className="grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">

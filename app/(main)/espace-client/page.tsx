@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { getPaidClientForUser } from "@/lib/supabase/client-members";
 import { getMetricsConfig, type MetricKey } from "@/lib/metrics-config";
 
 export const dynamic = "force-dynamic";
@@ -401,11 +402,13 @@ export default async function TableauDeBordPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/connexion");
 
-  const { data: client } = await supabase
-    .from("clients")
-    .select("id_client, contact_first_name, business_name, google_business_url, business_website_url")
-    .eq("auth_user_id", user.id)
-    .maybeSingle();
+  const { client } = await getPaidClientForUser(
+    supabase,
+    user.id,
+    "id_client, contact_first_name, business_name, google_business_url, business_website_url"
+  );
+
+  if (!client) redirect("/connexion");
 
   const { data: rawService } = client
     ? await supabase

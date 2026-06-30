@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
+import { getPaidClientForUser } from "@/lib/supabase/client-members";
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -69,11 +70,11 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const { data: client } = await supabase
-    .from("clients")
-    .select("contact_first_name, id_client")
-    .eq("auth_user_id", user.id)
-    .maybeSingle();
+  const { client } = await getPaidClientForUser(
+    supabase,
+    user.id,
+    "id_client, contact_first_name"
+  );
 
   type ServiceData = {
     offer_code?: string;

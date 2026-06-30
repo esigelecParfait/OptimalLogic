@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getPaidClientForUser } from "@/lib/supabase/client-members";
 import ChatInterface from "./ChatInterface";
 
 export const dynamic = "force-dynamic";
@@ -11,11 +12,11 @@ export default async function SupportPage() {
 
   let firstName: string | null = null;
   if (user) {
-    const { data: client } = await supabase
-      .from("clients")
-      .select("contact_first_name")
-      .eq("auth_user_id", user.id)
-      .maybeSingle();
+    const { client } = await getPaidClientForUser(
+      supabase,
+      user.id,
+      "id_client, contact_first_name"
+    );
     firstName = client?.contact_first_name ?? null;
   }
 

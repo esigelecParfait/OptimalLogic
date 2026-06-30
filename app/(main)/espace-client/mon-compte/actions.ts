@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getClientMemberForUser } from "@/lib/supabase/client-members";
 
 export type PasswordActionState = {
   error: string | null;
@@ -84,6 +85,13 @@ export async function updateClientInfo(
     return { error: "Le nom et le prénom sont obligatoires." };
   }
 
+  const { data: clientMember, error: memberError } =
+    await getClientMemberForUser(supabase, user.id);
+
+  if (memberError || !clientMember?.id_client) {
+    return { error: "Impossible de retrouver votre compte client." };
+  }
+
   const { error } = await supabase
     .from("clients")
     .update({
@@ -96,7 +104,7 @@ export async function updateClientInfo(
       ),
       google_business_url: cleanOptional(formData.get("google_business_url")),
     })
-    .eq("auth_user_id", user.id);
+    .eq("id_client", clientMember.id_client);
 
   if (error) {
     return { error: "Impossible de mettre à jour vos informations." };

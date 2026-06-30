@@ -277,7 +277,7 @@ export async function POST(request: Request) {
       normalizeDateTime(calData?.start) ||
       appointmentStartAtIso;
 
-    const clientData = {
+    const clientProspectData = {
       contact_first_name: firstname,
       contact_last_name: lastname,
       contact_email: email,
@@ -293,28 +293,28 @@ export async function POST(request: Request) {
       type_client: typeClient,
     };
 
-    const { data: existingClient, error: existingClientError } =
+    const { data: existingClientProspect, error: existingClientProspectError } =
       await supabaseAdmin
-        .from("clients")
+        .from("client_prospects")
         .select("id_client")
         .eq("contact_email", email)
         .maybeSingle();
 
-    if (existingClientError) {
-      console.error("Erreur recherche client :", existingClientError);
+    if (existingClientProspectError) {
+      console.error("Erreur recherche prospect :", existingClientProspectError);
 
       return jsonError(
-        "Le rendez-vous est créé, mais le client n’a pas pu être vérifié.",
+        "Le rendez-vous est créé, mais le prospect n’a pas pu être vérifié.",
         500,
       );
     }
 
-    let clientId: string;
+    let clientProspectId: string;
 
-    if (existingClient?.id_client) {
-      clientId = existingClient.id_client;
+    if (existingClientProspect?.id_client) {
+      clientProspectId = existingClientProspect.id_client;
 
-      const clientUpdateData: Record<string, string | null> = {
+      const clientProspectUpdateData: Record<string, string | null> = {
         contact_first_name: firstname,
         contact_last_name: lastname,
         phone_country_code: phoneCountryCode,
@@ -323,52 +323,52 @@ export async function POST(request: Request) {
       };
 
       if (company !== null) {
-        clientUpdateData.business_name = company;
+        clientProspectUpdateData.business_name = company;
       }
 
       if (businessCity !== null) {
-        clientUpdateData.business_city = businessCity;
+        clientProspectUpdateData.business_city = businessCity;
       }
 
       if (businessWebsiteUrl !== null) {
-        clientUpdateData.business_website_url = businessWebsiteUrl;
+        clientProspectUpdateData.business_website_url = businessWebsiteUrl;
       }
 
       if (googleBusinessUrl !== null) {
-        clientUpdateData.google_business_url = googleBusinessUrl;
+        clientProspectUpdateData.google_business_url = googleBusinessUrl;
       }
 
-      const { error: updateClientError } = await supabaseAdmin
-        .from("clients")
-        .update(clientUpdateData)
-        .eq("id_client", clientId);
+      const { error: updateClientProspectError } = await supabaseAdmin
+        .from("client_prospects")
+        .update(clientProspectUpdateData)
+        .eq("id_client", clientProspectId);
 
-      if (updateClientError) {
-        console.error("Erreur mise à jour client :", updateClientError);
+      if (updateClientProspectError) {
+        console.error("Erreur mise à jour prospect :", updateClientProspectError);
 
         return jsonError(
-          "Le rendez-vous est créé, mais le client n’a pas pu être mis à jour.",
+          "Le rendez-vous est créé, mais le prospect n’a pas pu être mis à jour.",
           500,
         );
       }
     } else {
-      const { data: insertedClient, error: insertClientError } =
+      const { data: insertedClientProspect, error: insertClientProspectError } =
         await supabaseAdmin
-          .from("clients")
-          .insert(clientData)
+          .from("client_prospects")
+          .insert(clientProspectData)
           .select("id_client")
           .single();
 
-      if (insertClientError || !insertedClient) {
-        console.error("Erreur création client :", insertClientError);
+      if (insertClientProspectError || !insertedClientProspect) {
+        console.error("Erreur création prospect :", insertClientProspectError);
 
         return jsonError(
-          "Le rendez-vous est créé, mais le client n’a pas pu être enregistré.",
+          "Le rendez-vous est créé, mais le prospect n’a pas pu être enregistré.",
           500,
         );
       }
 
-      clientId = insertedClient.id_client;
+      clientProspectId = insertedClientProspect.id_client;
     }
 
     const internalNotes = calBookingId
@@ -379,7 +379,7 @@ export async function POST(request: Request) {
       await supabaseAdmin
         .from("demandes")
         .insert({
-          id_client: clientId,
+          id_client: clientProspectId,
 
           request_source: "prise_de_rdv",
           offer_code: null,
@@ -527,7 +527,7 @@ export async function POST(request: Request) {
         message: "Rendez-vous créé et demande enregistrée avec succès.",
         booking: calData?.data || calData,
         data: {
-          id_client: clientId,
+          id_client: clientProspectId,
           demande_id: demandeId,
           appointment_start_at: appointmentStartAt,
           appointment_timezone: timeZone,

@@ -10,7 +10,7 @@ import {
 
 export const dynamic = "force-dynamic";
 
-type ClientPayload = {
+type ClientProspectPayload = {
   contact_first_name?: string;
   contact_last_name?: string;
   contact_email?: string;
@@ -42,7 +42,7 @@ type TrackingPayload = {
 };
 
 type CreateDemandeBody = {
-  client?: ClientPayload;
+  client?: ClientProspectPayload;
   demande?: DemandePayload;
   tracking?: TrackingPayload;
 };
@@ -109,11 +109,11 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as CreateDemandeBody;
 
-    const client = body.client;
+    const clientProspect = body.client;
     const demande = body.demande;
     const tracking = body.tracking;
 
-    if (!client) {
+    if (!clientProspect) {
       return jsonError("Les informations du client sont manquantes.");
     }
 
@@ -121,18 +121,18 @@ export async function POST(request: Request) {
       return jsonError("Les informations de la demande sont manquantes.");
     }
 
-    const contactFirstName = cleanText(client.contact_first_name);
-    const contactLastName = cleanText(client.contact_last_name);
-    const contactEmail = cleanText(client.contact_email).toLowerCase();
+    const contactFirstName = cleanText(clientProspect.contact_first_name);
+    const contactLastName = cleanText(clientProspect.contact_last_name);
+    const contactEmail = cleanText(clientProspect.contact_email).toLowerCase();
 
-    const phoneCountryCode = cleanText(client.phone_country_code);
-    const phoneNumber = cleanText(client.phone_number);
+    const phoneCountryCode = cleanText(clientProspect.phone_country_code);
+    const phoneNumber = cleanText(clientProspect.phone_number);
 
-    const businessName = cleanNullableText(client.business_name);
-    const businessCity = cleanNullableText(client.business_city);
-    const businessSector = cleanNullableText(client.business_sector);
-    const businessWebsiteUrl = cleanNullableText(client.business_website_url);
-    const googleBusinessUrl = cleanNullableText(client.google_business_url);
+    const businessName = cleanNullableText(clientProspect.business_name);
+    const businessCity = cleanNullableText(clientProspect.business_city);
+    const businessSector = cleanNullableText(clientProspect.business_sector);
+    const businessWebsiteUrl = cleanNullableText(clientProspect.business_website_url);
+    const googleBusinessUrl = cleanNullableText(clientProspect.google_business_url);
 
     const requestSource = demande.request_source || "contact";
     const offerCode = cleanNullableText(demande.offer_code);
@@ -140,7 +140,7 @@ export async function POST(request: Request) {
     const needDescription = cleanNullableText(demande.need_description);
     const consentRgpd = demande.consent_rgpd === true;
 
-    let typeClient = cleanNullableText(client.type_client);
+    let typeClient = cleanNullableText(clientProspect.type_client);
     let offerName: string | null = null;
 
     if (!typeClient && offerCode) {
@@ -211,7 +211,7 @@ export async function POST(request: Request) {
       offerName = offer.nom_offre;
     }
 
-    const clientInsertData = {
+    const clientProspectInsertData = {
       contact_first_name: contactFirstName,
       contact_last_name: contactLastName,
       contact_email: contactEmail,
@@ -227,24 +227,24 @@ export async function POST(request: Request) {
       type_client: typeClient,
     };
 
-    const { data: existingClient, error: existingClientError } =
+    const { data: existingClientProspect, error: existingClientProspectError } =
       await supabaseAdmin
-        .from("clients")
+        .from("client_prospects")
         .select("id_client")
         .eq("contact_email", contactEmail)
         .maybeSingle();
 
-    if (existingClientError) {
-      console.error("Erreur recherche client :", existingClientError);
-      return jsonError("Impossible de vérifier l’existence du client.", 500);
+    if (existingClientProspectError) {
+      console.error("Erreur recherche prospect :", existingClientProspectError);
+      return jsonError("Impossible de vérifier l’existence du prospect.", 500);
     }
 
-    let clientId: string;
+    let clientProspectId: string;
 
-    if (existingClient?.id_client) {
-      clientId = existingClient.id_client;
+    if (existingClientProspect?.id_client) {
+      clientProspectId = existingClientProspect.id_client;
 
-      const clientUpdateData: Record<string, string | null> = {
+      const clientProspectUpdateData: Record<string, string | null> = {
         contact_first_name: contactFirstName,
         contact_last_name: contactLastName,
         phone_country_code: phoneCountryCode,
@@ -253,55 +253,55 @@ export async function POST(request: Request) {
       };
 
       if (businessName !== null) {
-        clientUpdateData.business_name = businessName;
+        clientProspectUpdateData.business_name = businessName;
       }
 
       if (businessCity !== null) {
-        clientUpdateData.business_city = businessCity;
+        clientProspectUpdateData.business_city = businessCity;
       }
 
       if (businessSector !== null) {
-        clientUpdateData.business_sector = businessSector;
+        clientProspectUpdateData.business_sector = businessSector;
       }
 
       if (businessWebsiteUrl !== null) {
-        clientUpdateData.business_website_url = businessWebsiteUrl;
+        clientProspectUpdateData.business_website_url = businessWebsiteUrl;
       }
 
       if (googleBusinessUrl !== null) {
-        clientUpdateData.google_business_url = googleBusinessUrl;
+        clientProspectUpdateData.google_business_url = googleBusinessUrl;
       }
 
-      const { error: updateClientError } = await supabaseAdmin
-        .from("clients")
-        .update(clientUpdateData)
-        .eq("id_client", clientId);
+      const { error: updateClientProspectError } = await supabaseAdmin
+        .from("client_prospects")
+        .update(clientProspectUpdateData)
+        .eq("id_client", clientProspectId);
 
-      if (updateClientError) {
-        console.error("Erreur mise à jour client :", updateClientError);
-        return jsonError("Impossible de mettre à jour le client.", 500);
+      if (updateClientProspectError) {
+        console.error("Erreur mise à jour prospect :", updateClientProspectError);
+        return jsonError("Impossible de mettre à jour le prospect.", 500);
       }
     } else {
-      const { data: insertedClient, error: insertClientError } =
+      const { data: insertedClientProspect, error: insertClientProspectError } =
         await supabaseAdmin
-          .from("clients")
-          .insert(clientInsertData)
+          .from("client_prospects")
+          .insert(clientProspectInsertData)
           .select("id_client")
           .single();
 
-      if (insertClientError || !insertedClient) {
-        console.error("Erreur création client :", insertClientError);
-        return jsonError("Impossible de créer le client.", 500);
+      if (insertClientProspectError || !insertedClientProspect) {
+        console.error("Erreur création client :", insertClientProspectError);
+        return jsonError("Impossible de créer le prospect.", 500);
       }
 
-      clientId = insertedClient.id_client;
+      clientProspectId = insertedClientProspect.id_client;
     }
 
     const { data: insertedDemande, error: insertDemandeError } =
       await supabaseAdmin
         .from("demandes")
         .insert({
-          id_client: clientId,
+          id_client: clientProspectId,
 
           request_source: requestSource,
           offer_code: offerCode,
@@ -440,7 +440,7 @@ export async function POST(request: Request) {
         success: true,
         message: "Demande enregistrée avec succès.",
         data: {
-          id_client: clientId,
+          id_client: clientProspectId,
           demande_id: demandeId,
           tracking_saved: trackingSaved,
           emails: {
