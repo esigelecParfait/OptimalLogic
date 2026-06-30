@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   if (!secret || secret !== process.env.ADMIN_SECRET) {
     return Response.json({ error: "Non autorise." }, { status: 401 });
   }
-
+//jjerjjrjr
   let email: string;
   try {
     const body = await request.json();
