@@ -1,5 +1,6 @@
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import ConvertForm from "./ConvertForm";
+import StatusForm from "./StatusForm";
 
 export const dynamic = "force-dynamic";
 
@@ -147,10 +148,13 @@ export default async function ProspectsPage({
                   </td>
                   <td className="px-5 py-4 text-mut">{demandes.length}</td>
                   <td className="px-5 py-4">
-                    {status ? (
-                      <span className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${statusColors[status] ?? "text-mut border-white/10"}`}>
-                        {status.replace(/_/g, " ")}
-                      </span>
+                    {latest ? (
+                      <div className="space-y-1.5">
+                        <span className={`inline-block rounded-full border px-2.5 py-1 text-[11px] font-medium ${statusColors[status ?? ""] ?? "text-mut border-white/10"}`}>
+                          {(status ?? "").replace(/_/g, " ")}
+                        </span>
+                        <StatusForm demandeId={latest.id} status={status} />
+                      </div>
                     ) : "—"}
                   </td>
                   <td className="px-5 py-4 text-xs text-mut">

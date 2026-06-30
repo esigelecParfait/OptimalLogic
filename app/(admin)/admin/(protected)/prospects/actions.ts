@@ -53,3 +53,31 @@ export async function convertProspectToClient(
 
   return { error: null, success: true };
 }
+
+export type StatusState = { error: string | null; success: boolean };
+
+export async function updateDemandeStatus(
+  _prev: StatusState,
+  formData: FormData
+): Promise<StatusState> {
+  const user = await requireAdmin();
+  if (!user) return { error: "Non autorisé.", success: false };
+
+  const demandeId = formData.get("demandeId") as string;
+  const status = formData.get("status") as string;
+  const lostReason = (formData.get("lostReason") as string) || null;
+  if (!demandeId || !status) return { error: "Données invalides.", success: false };
+
+  const { error } = await supabaseAdmin
+    .from("demandes")
+    .update({
+      request_status: status,
+      lost_reason: status === "perdu" ? lostReason : null,
+    })
+    .eq("id", demandeId);
+
+  if (error) return { error: "Erreur lors de la mise à jour du statut.", success: false };
+
+  revalidatePath("/admin/prospects");
+  return { error: null, success: true };
+}

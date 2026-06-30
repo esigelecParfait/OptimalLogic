@@ -77,6 +77,26 @@ export default async function ClientsPage({
     if (!latestTokenByEmail.has(t.email)) latestTokenByEmail.set(t.email, t);
   }
 
+  const clientIds = clients.map((c) => c.id_client);
+  const membersRes = clientIds.length > 0
+    ? await supabaseAdmin.from("client_members").select("id_client, user_id").in("id_client", clientIds)
+    : { data: [] };
+
+  const userIdByClientId = new Map<string, string>(
+    (membersRes.data ?? []).map((m) => [m.id_client, m.user_id])
+  );
+
+  const lastSignInByClientId = new Map<string, string | null>();
+  if (membersRes.data && membersRes.data.length > 0) {
+    const { data: authList } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
+    const lastSignInByUserId = new Map<string, string | null>(
+      (authList?.users ?? []).map((u) => [u.id, u.last_sign_in_at ?? null])
+    );
+    for (const [clientId, userId] of userIdByClientId) {
+      lastSignInByClientId.set(clientId, lastSignInByUserId.get(userId) ?? null);
+    }
+  }
+
   const servicesByProspect = services.reduce<Record<string, ServiceRow[]>>((acc, s) => {
     (acc[s.id_client] ??= []).push(s);
     return acc;
@@ -144,6 +164,7 @@ export default async function ClientsPage({
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Statut</th>
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Services</th>
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Lien d&apos;accès</th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Dernière connexion</th>
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Depuis</th>
               <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Action</th>
             </tr>
@@ -186,6 +207,14 @@ export default async function ClientsPage({
                     <span className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${tb.cls}`}>
                       {tb.label}
                     </span>
+                  </td>
+                  <td className="px-5 py-4 text-xs text-mut">
+                    {(() => {
+                      const lastSignIn = lastSignInByClientId.get(c.id_client);
+                      if (!lastSignIn) return "Jamais connecté";
+                      const d = new Date(lastSignIn);
+                      return `${d.toLocaleDateString("fr-FR")} à ${d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+                    })()}
                   </td>
                   <td className="px-5 py-4 text-xs text-mut">
                     {new Date(c.became_client_at).toLocaleDateString("fr-FR")}
