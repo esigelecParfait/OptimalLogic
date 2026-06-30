@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import EditClientForm from "./EditClientForm";
 import ClientStatusForm from "./ClientStatusForm";
 import ServiceEditForm from "./ServiceEditForm";
+import AddMemberForm from "./AddMemberForm";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,23 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
 
   const matchingOffers = (offers ?? []).filter((o) => o.client_type === prospect.type_client);
 
+  // Membres ayant accès à cet espace client
+  const { data: members } = client
+    ? await supabaseAdmin
+        .from("client_members")
+        .select("id, user_id, role")
+        .eq("id_client", client.id_client)
+    : { data: [] };
+
+  const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
+  const authUserMap = new Map(authUsers.map((u) => [u.id, u]));
+
+  const membersWithEmail = (members ?? []).map((m) => ({
+    ...m,
+    email: authUserMap.get(m.user_id)?.email ?? "—",
+    lastSignIn: authUserMap.get(m.user_id)?.last_sign_in_at ?? null,
+  }));
+
   return (
     <div className="p-8 space-y-8 max-w-3xl">
       <div>
@@ -61,6 +79,38 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         <p className="text-xs text-mut mb-5">Modifie n&apos;importe quelle donnée du client — utile s&apos;il n&apos;arrive pas à le faire lui-même depuis son espace.</p>
         <EditClientForm prospect={prospect} />
       </section>
+
+      {client && (
+        <section className="surface-card rounded-2xl p-6 space-y-6">
+          <div>
+            <h2 className="text-sm font-semibold text-ink mb-1">Accès à l&apos;espace client</h2>
+            <p className="text-xs text-mut mb-4">Personnes pouvant se connecter à l&apos;espace de cette entreprise.</p>
+
+            {membersWithEmail.length > 0 && (
+              <div className="mb-5 divide-y divide-white/[0.05] rounded-xl border border-white/[0.08] overflow-hidden">
+                {membersWithEmail.map((m) => (
+                  <div key={m.id} className="flex items-center justify-between px-4 py-3 gap-4">
+                    <div>
+                      <p className="text-sm text-ink">{m.email}</p>
+                      <p className="text-xs text-mut-2 mt-0.5 capitalize">{m.role}</p>
+                    </div>
+                    <p className="text-xs text-mut shrink-0">
+                      {m.lastSignIn
+                        ? `Connecté le ${new Date(m.lastSignIn).toLocaleDateString("fr-FR")} à ${new Date(m.lastSignIn).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`
+                        : "Jamais connecté"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div>
+              <p className="text-xs font-medium text-mut mb-3">Ajouter une personne</p>
+              <AddMemberForm clientId={client.id_client} />
+            </div>
+          </div>
+        </section>
+      )}
 
       {client && (
         <section className="surface-card rounded-2xl p-6">

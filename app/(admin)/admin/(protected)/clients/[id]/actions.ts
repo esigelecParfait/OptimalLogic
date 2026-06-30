@@ -1,5 +1,6 @@
 "use server";
 
+import { randomBytes } from "crypto";
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin/require-admin";
 import { supabaseAdmin } from "@/lib/supabase-admin";
@@ -116,4 +117,113 @@ export async function updateService(
   revalidatePath("/admin/clients");
 
   return { error: null, success: true };
+}
+
+export type AddMemberState = { error: string | null; sent: boolean; link: string | null };
+
+export async function addClientMember(
+  _prev: AddMemberState,
+  formData: FormData
+): Promise<AddMemberState> {
+  const user = await requireAdmin();
+  if (!user) return { error: "Non autorisé.", sent: false, link: null };
+
+  const clientId   = formData.get("clientId") as string;
+  const email      = (formData.get("email") as string)?.trim().toLowerCase();
+  const firstName  = (formData.get("firstName") as string)?.trim();
+  const lastName   = (formData.get("lastName") as string)?.trim();
+
+  if (!clientId || !email || !firstName || !lastName)
+    return { error: "Tous les champs sont obligatoires.", sent: false, link: null };
+
+  // Vérifier client actif avec service payé
+  const { data: client } = await supabaseAdmin
+    .from("clients")
+    .select("id_client, id_client_prospect, status")
+    .eq("id_client", clientId)
+    .eq("status", "active")
+    .maybeSingle();
+  if (!client) return { error: "Client introuvable ou inactif.", sent: false, link: null };
+
+  const { data: activeService } = await supabaseAdmin
+    .from("client_services")
+    .select("id_service")
+    .eq("id_client", client.id_client_prospect)
+    .eq("payment_status", "paye")
+    .eq("service_status", "en_cours")
+    .limit(1)
+    .maybeSingle();
+  if (!activeService) return { error: "Aucun service payé actif pour ce client.", sent: false, link: null };
+
+  // Créer ou retrouver le compte Auth
+  const { data: { users } } = await supabaseAdmin.auth.admin.listUsers();
+  let authUser = users.find((u) => u.email?.toLowerCase() === email);
+  if (!authUser) {
+    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
+    if (createErr || !created.user) return { error: "Impossible de créer le compte.", sent: false, link: null };
+    authUser = created.user;
+  }
+
+  // Ajouter à client_members (rôle member)
+  const { data: existing } = await supabaseAdmin
+    .from("client_members")
+    .select("id")
+    .eq("id_client", clientId)
+    .eq("user_id", authUser.id)
+    .maybeSingle();
+
+  if (!existing) {
+    const { error: memberErr } = await supabaseAdmin.from("client_members").insert({
+      id_client: clientId,
+      user_id: authUser.id,
+      role: "member",
+    });
+    if (memberErr) return { error: "Impossible d'ajouter le membre.", sent: false, link: null };
+  }
+
+  // Invalider les anciens tokens et créer le nouveau
+  await supabaseAdmin
+    .from("activation_tokens")
+    .update({ used_at: new Date().toISOString() })
+    .eq("email", email)
+    .is("used_at", null);
+
+  const token = randomBytes(32).toString("hex");
+  const { error: tokenErr } = await supabaseAdmin.from("activation_tokens").insert({
+    token,
+    email,
+    expires_at: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
+  });
+  if (tokenErr) return { error: "Erreur lors de la génération du lien.", sent: false, link: null };
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://optimal-logic.com";
+  const link = `${appUrl}/connexion/activer?token=${token}`;
+
+  revalidatePath(`/admin/clients/${clientId}`);
+
+  // Envoyer par email si Apps Script configuré
+  const appsScriptUrl = process.env.APPS_SCRIPT_URL;
+  if (!appsScriptUrl) return { error: null, sent: false, link };
+
+  try {
+    const res = await fetch(appsScriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        secret: process.env.ADMIN_SECRET ?? "",
+        email,
+        prenom: firstName,
+        nom: lastName,
+        link,
+      }),
+    });
+    if (!res.ok) return { error: null, sent: false, link };
+  } catch {
+    return { error: null, sent: false, link };
+  }
+
+  return { error: null, sent: true, link };
 }
