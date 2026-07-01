@@ -41,9 +41,20 @@ export async function buildClientLink(email: string): Promise<ClientLinkResult> 
     const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
       email,
       email_confirm: true,
+      user_metadata: {
+        first_name: prospect.contact_first_name ?? "",
+        last_name: prospect.contact_last_name ?? "",
+      },
     });
     if (createErr || !created.user) return { link: null, error: "Impossible de créer le compte Auth." };
     authUser = created.user;
+  } else {
+    await supabaseAdmin.auth.admin.updateUserById(authUser.id, {
+      user_metadata: {
+        first_name: prospect.contact_first_name ?? "",
+        last_name: prospect.contact_last_name ?? "",
+      },
+    });
   }
 
   const { data: existingMember } = await supabaseAdmin

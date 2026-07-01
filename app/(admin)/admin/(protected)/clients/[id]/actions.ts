@@ -162,9 +162,14 @@ export async function addClientMember(
     const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
       email,
       email_confirm: true,
+      user_metadata: { first_name: firstName, last_name: lastName },
     });
     if (createErr || !created.user) return { error: "Impossible de créer le compte.", sent: false, link: null };
     authUser = created.user;
+  } else {
+    await supabaseAdmin.auth.admin.updateUserById(authUser.id, {
+      user_metadata: { first_name: firstName, last_name: lastName },
+    });
   }
 
   // Ajouter à client_members (rôle member)
