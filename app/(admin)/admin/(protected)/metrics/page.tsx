@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import RefreshButton from "./RefreshButton";
 
@@ -128,7 +129,7 @@ export default async function MetricsPage({
           </thead>
           <tbody>
             {sortedGroups.map(([clientId, clientRows]) => (
-              <>
+              <Fragment key={clientId}>
                 {/* En-tête de groupe entreprise */}
                 <tr key={`group-${clientId}`} className="bg-white/[0.03] border-t border-white/[0.07]">
                   <td colSpan={10} className="px-5 py-2.5">
@@ -151,7 +152,7 @@ export default async function MetricsPage({
                     <td className="px-5 py-3 text-mut">{r.nb_sessions_chatbot ?? "—"}</td>
                   </tr>
                 ))}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>
