@@ -497,9 +497,7 @@ export async function POST(request: Request) {
       {
         success: false,
         error:
-          error instanceof Error
-            ? error.message
-            : "Erreur serveur lors de la création du rendez-vous.",
+          "Erreur serveur lors de la création du rendez-vous.",
       },
       { status: 500 },
     );

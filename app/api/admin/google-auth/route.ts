@@ -1,9 +1,11 @@
-import { NextRequest } from "next/server";
+import { requireAdmin } from "@/lib/admin/require-admin";
+
+export const dynamic = "force-dynamic";
 
 /**
  * Flow d'autorisation Google Business Profile (à faire UNE SEULE FOIS)
  *
- * 1. GET /api/admin/google-auth?secret=ADMIN_SECRET
+ * 1. GET /api/admin/google-auth  (connecté en tant qu'admin)
  *    → Redirige vers Google pour l'autorisation
  *
  * 2. Google redirige vers /api/admin/google-auth/callback?code=...
@@ -15,11 +17,9 @@ const SCOPES = [
   "https://www.googleapis.com/auth/business.manage",
 ].join(" ");
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const secret = searchParams.get("secret");
-
-  if (secret !== process.env.ADMIN_SECRET) {
+export async function GET() {
+  const admin = await requireAdmin();
+  if (!admin) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 

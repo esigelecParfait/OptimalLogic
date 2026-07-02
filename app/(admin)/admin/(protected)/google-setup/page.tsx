@@ -11,8 +11,6 @@ export default async function GoogleSetupPage() {
     )
     .order("business_name");
 
-  const adminSecret = process.env.ADMIN_SECRET ?? "";
-
   return (
     <div className="p-8 space-y-8">
       <div>
@@ -23,7 +21,7 @@ export default async function GoogleSetupPage() {
         </p>
       </div>
 
-      <GoogleSetupClient clients={prospects ?? []} adminSecret={adminSecret} />
+      <GoogleSetupClient clients={prospects ?? []} />
     </div>
   );
 }

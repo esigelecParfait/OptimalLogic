@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { verifyAdminSecret, verifyCronSecret } from "@/lib/admin/api-auth";
 
 // Route appelée de deux façons :
 //   1. Automatiquement par Vercel Cron (GET, le 1er du mois à 6h)
@@ -33,8 +34,7 @@ async function aggregate(month: string | null) {
 
 // GET — appelé par Vercel Cron (authentifié via CRON_SECRET injecté par Vercel)
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!verifyCronSecret(request)) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 
@@ -51,8 +51,7 @@ export async function GET(request: NextRequest) {
 
 // POST — appelé manuellement avec x-admin-secret
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  if (!verifyAdminSecret(request)) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 

@@ -1,7 +1,9 @@
-import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { requireAdmin } from "@/lib/admin/require-admin";
 
 export const dynamic = "force-dynamic";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
  * POST /api/admin/google/link
@@ -13,9 +15,9 @@ export const dynamic = "force-dynamic";
  *   "performanceName": "locations/456"                  // pour les métriques perf
  * }
  */
-export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+export async function POST(request: Request) {
+  const admin = await requireAdmin();
+  if (!admin) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 
@@ -29,6 +31,9 @@ export async function POST(request: NextRequest) {
   const { clientId, locationName, performanceName } = body;
   if (!clientId || !locationName || !performanceName) {
     return Response.json({ error: "clientId, locationName et performanceName sont requis." }, { status: 400 });
+  }
+  if (!UUID_RE.test(clientId)) {
+    return Response.json({ error: "clientId invalide." }, { status: 400 });
   }
 
   const db = createClient(
@@ -46,7 +51,7 @@ export async function POST(request: NextRequest) {
     .eq("id_client", clientId);
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: "Impossible de lier la fiche." }, { status: 500 });
   }
 
   return Response.json({ success: true, clientId, locationName, performanceName });

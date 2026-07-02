@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { verifyAdminSecret } from "@/lib/admin/api-auth";
 
 /**
  * Genere un lien d'invitation Supabase pour un vrai client paye.
@@ -21,11 +22,10 @@ function supabaseAdmin() {
 }
 
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  if (!verifyAdminSecret(request)) {
     return Response.json({ error: "Non autorise." }, { status: 401 });
   }
-//jjerjjrjr
+
   let email: string;
   try {
     const body = await request.json();

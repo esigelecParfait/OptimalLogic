@@ -3,11 +3,18 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 export type ActionState = {
   error: string | null;
   success?: boolean;
 };
+
+async function clientIp() {
+  const requestHeaders = await headers();
+  const fwd = requestHeaders.get("x-forwarded-for");
+  return fwd ? fwd.split(",")[0].trim() : "unknown";
+}
 
 async function getBaseUrl() {
   const requestHeaders = await headers();
@@ -22,6 +29,10 @@ export async function login(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!rateLimit(`login:${await clientIp()}`, 10, 15 * 60 * 1000).allowed) {
+    return { error: "Trop de tentatives. Réessayez dans quelques minutes." };
+  }
+
   const email = (formData.get("email") as string)?.trim().toLowerCase();
   const password = formData.get("password") as string;
 
@@ -46,6 +57,11 @@ export async function requestPasswordReset(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  // Limite le spam de mails de reset ; réponse identique au cas nominal (anti-énumération)
+  if (!rateLimit(`pwd-reset:${await clientIp()}`, 5, 60 * 60 * 1000).allowed) {
+    return { error: null, success: true };
+  }
+
   const email = (formData.get("email") as string)?.trim().toLowerCase();
 
   if (!email) {

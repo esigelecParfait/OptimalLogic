@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { randomBytes } from "crypto";
+import { verifyAdminSecret } from "@/lib/admin/api-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -13,8 +14,7 @@ export const dynamic = "force-dynamic";
  * Valable 2 heures, usage unique.
  */
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  if (!verifyAdminSecret(request)) {
     return Response.json({ error: "Non autorise." }, { status: 401 });
   }
 

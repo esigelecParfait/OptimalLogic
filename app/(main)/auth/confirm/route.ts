@@ -6,7 +6,13 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const next = searchParams.get("next") ?? "/espace-client";
+
+  // n'accepter qu'un chemin interne ("/x"), jamais "//evil.com" ni une URL absolue
+  const nextParam = searchParams.get("next");
+  const next =
+    nextParam && nextParam.startsWith("/") && !nextParam.startsWith("//")
+      ? nextParam
+      : "/espace-client";
 
   if (token_hash && type) {
     const supabase = await createClient();

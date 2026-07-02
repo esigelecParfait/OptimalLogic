@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { fetchWeeklyGBPMetrics } from "@/lib/google-business";
+import { verifyAdminSecret, verifyCronSecret } from "@/lib/admin/api-auth";
 
 /**
  * Récupère les métriques Google Business pour tous les clients
@@ -76,8 +77,7 @@ async function run(weekStart: Date) {
 
 // GET — Vercel Cron (même schedule que /api/admin/metrics/refresh)
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!verifyCronSecret(request)) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 
@@ -89,8 +89,7 @@ export async function GET(request: NextRequest) {
 
 // POST — Manuel
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+  if (!verifyAdminSecret(request)) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 

@@ -77,10 +77,8 @@ function findBestMatch(locationName: string, clients: DbClient[]): { client: DbC
 
 export default function GoogleSetupClient({
   clients,
-  adminSecret,
 }: {
   clients: DbClient[];
-  adminSecret: string;
 }) {
   const [groups, setGroups] = useState<GBPGroup[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,9 +98,7 @@ export default function GoogleSetupClient({
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/google/locations", {
-        headers: { "x-admin-secret": adminSecret },
-      });
+      const res = await fetch("/api/admin/google/locations");
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Erreur API");
       const fetchedGroups: GBPGroup[] = data.groups ?? [];
@@ -122,18 +118,18 @@ export default function GoogleSetupClient({
     } finally {
       setLoading(false);
     }
-  }, [adminSecret, clients]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [clients]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => { loadLocations(); }, [loadLocations]);
 
   const linkOne = useCallback(async (loc: GBPLocation, clientId: string): Promise<boolean> => {
     const res = await fetch("/api/admin/google/link", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-admin-secret": adminSecret },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ clientId, locationName: loc.name, performanceName: loc.performanceName }),
     });
     return res.ok;
-  }, [adminSecret]);
+  }, []);
 
   const handleLinkOne = async (loc: GBPLocation) => {
     const clientId = selections[loc.name];

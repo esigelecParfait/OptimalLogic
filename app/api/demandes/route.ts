@@ -408,9 +408,7 @@ export async function POST(request: Request) {
       {
         success: false,
         error:
-          error instanceof Error
-            ? error.message
-            : "Une erreur est survenue lors de l’enregistrement de la demande.",
+          "Une erreur est survenue lors de l’enregistrement de la demande.",
       },
       { status: 500 }
     );

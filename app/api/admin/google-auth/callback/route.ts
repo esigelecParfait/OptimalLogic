@@ -1,12 +1,21 @@
 import { NextRequest } from "next/server";
+import { requireAdmin } from "@/lib/admin/require-admin";
 
 export async function GET(request: NextRequest) {
+  const admin = await requireAdmin();
+  if (!admin) {
+    return new Response("<h1>Non autorisé</h1>", {
+      headers: { "Content-Type": "text/html" },
+      status: 401,
+    });
+  }
+
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const error = searchParams.get("error");
 
   if (error || !code) {
-    return new Response(`<h1>Erreur Google OAuth</h1><p>${error ?? "Code absent"}</p>`, {
+    return new Response(`<h1>Erreur Google OAuth</h1><p>${error ? "autorisation refusée" : "Code absent"}</p>`, {
       headers: { "Content-Type": "text/html" },
       status: 400,
     });
@@ -29,12 +38,12 @@ export async function GET(request: NextRequest) {
   const data = await res.json();
 
   if (!data.refresh_token) {
+    // On ne dump PAS `data` (peut contenir access_token / détails sensibles)
     return new Response(
       `<h1>Pas de refresh_token</h1>
        <p>Assurez-vous d'avoir révoqué l'accès précédent depuis
        <a href="https://myaccount.google.com/permissions">Google Account Permissions</a>
-       puis réessayez.</p>
-       <pre>${JSON.stringify(data, null, 2)}</pre>`,
+       puis réessayez.</p>`,
       { headers: { "Content-Type": "text/html" }, status: 400 }
     );
   }

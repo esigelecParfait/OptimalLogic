@@ -1,12 +1,12 @@
-import { NextRequest } from "next/server";
 import { fetchAllManagedLocations } from "@/lib/google-business";
+import { requireAdmin } from "@/lib/admin/require-admin";
 
 export const dynamic = "force-dynamic";
 
 /** GET /api/admin/google/locations — liste toutes les fiches GBP gérées */
-export async function GET(request: NextRequest) {
-  const secret = request.headers.get("x-admin-secret");
-  if (!secret || secret !== process.env.ADMIN_SECRET) {
+export async function GET() {
+  const admin = await requireAdmin();
+  if (!admin) {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 
