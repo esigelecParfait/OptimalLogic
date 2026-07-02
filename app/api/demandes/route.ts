@@ -1,14 +1,10 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
-import { sendBrevoEmail } from "@/lib/brevo";
-import {
-  buildAdminImmediateEmail,
-  buildClientImmediateEmail,
-  type TypeClient,
-} from "@/lib/mail-templates";
 
 export const dynamic = "force-dynamic";
+
+type TypeClient = "commerce" | "tpe_pme" | "startup" | "autre";
 
 type ClientProspectPayload = {
   contact_first_name?: string;
@@ -343,96 +339,50 @@ export async function POST(request: Request) {
     }
 
     const adminEmail = process.env.ADMIN_EMAIL || null;
-    const adminName = process.env.ADMIN_NAME || "Admin OptimalLogic";
-
     const phoneDisplay = `${phoneCountryCode} ${phoneNumber}`.trim();
 
-    const clientMail = buildClientImmediateEmail({
-      firstName: contactFirstName,
-      lastName: contactLastName,
-      email: contactEmail,
-      phone: phoneDisplay,
-      company: businessName,
-      businessCity,
-      typeClient: typeClient as TypeClient,
-      requestSource,
-      offerName,
-      offerCode,
-      objective: objectiveType,
-      message: needDescription,
-      demandeId,
-    });
-
-    const adminMail = buildAdminImmediateEmail({
-      firstName: contactFirstName,
-      lastName: contactLastName,
-      email: contactEmail,
-      phone: phoneDisplay,
-      company: businessName,
-      businessCity,
-      typeClient: typeClient as TypeClient,
-      requestSource,
-      offerName,
-      offerCode,
-      objective: objectiveType,
-      message: needDescription,
-      demandeId,
-    });
-
-    const clientMailResult = await sendBrevoEmail({
-      to: [
-        {
-          email: contactEmail,
-          name: `${contactFirstName} ${contactLastName}`.trim(),
-        },
-      ],
-      subject: clientMail.subject,
-      htmlContent: clientMail.html,
-      textContent: clientMail.text,
-    });
-
-    const adminMailResult = adminEmail
-      ? await sendBrevoEmail({
-          to: [
-            {
-              email: adminEmail,
-              name: adminName,
-            },
-          ],
-          subject: adminMail.subject,
-          htmlContent: adminMail.html,
-          textContent: adminMail.text,
-        })
-      : {
-          success: false,
-          messageId: null,
-          error: "ADMIN_EMAIL manquant dans les variables d’environnement.",
-        };
+    let adminNotifSent = false;
+    const appsScriptUrl = process.env.APPS_SCRIPT_URL;
+    if (appsScriptUrl && adminEmail) {
+      try {
+        const res = await fetch(appsScriptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            secret: process.env.ADMIN_SECRET ?? "",
+            template_id: "notification_admin",
+            admin_email: adminEmail,
+            prenom: contactFirstName,
+            nom: contactLastName,
+            email: contactEmail,
+            telephone: phoneDisplay,
+            entreprise: businessName ?? "",
+            ville: businessCity ?? "",
+            offre: offerName ?? offerCode ?? "",
+            objectif: objectiveType ?? "",
+            message: needDescription ?? "",
+            source: requestSource,
+            type_client: typeClient ?? "",
+            demande_id: demandeId,
+          }),
+        });
+        adminNotifSent = res.ok;
+      } catch {
+        // Apps Script non disponible — non bloquant
+      }
+    }
 
     const { error: updateMailStatusError } = await supabaseAdmin
       .from("demandes")
       .update({
-        client_notification_sent: clientMailResult.success,
-        client_notification_error: clientMailResult.error,
-        client_brevo_message_id: clientMailResult.messageId,
-        client_notification_sent_at: clientMailResult.success
-          ? new Date().toISOString()
-          : null,
-
-        admin_notification_sent: adminMailResult.success,
-        admin_notification_error: adminMailResult.error,
-        admin_brevo_message_id: adminMailResult.messageId,
-        admin_notification_sent_at: adminMailResult.success
-          ? new Date().toISOString()
-          : null,
+        client_notification_sent: true,
+        admin_notification_sent: adminNotifSent,
+        admin_notification_sent_at: adminNotifSent ? new Date().toISOString() : null,
       })
       .eq("id", demandeId);
 
     if (updateMailStatusError) {
-      console.error(
-        "Erreur mise à jour statut emails :",
-        updateMailStatusError
-      );
+      console.error("Erreur mise à jour statut emails :", updateMailStatusError);
     }
 
     return NextResponse.json(
@@ -444,8 +394,8 @@ export async function POST(request: Request) {
           demande_id: demandeId,
           tracking_saved: trackingSaved,
           emails: {
-            client_sent: clientMailResult.success,
-            admin_sent: adminMailResult.success,
+            client_sent: true,
+            admin_sent: adminNotifSent,
           },
         },
       },

@@ -153,7 +153,13 @@ function formatDateColumn(sheet, headerName) {
   const headers = getHeaders(sheet);
   const columnIndex = headers.indexOf(headerName) + 1;
   if (columnIndex === 0) throw new Error(`Colonne introuvable: ${headerName}`);
-  sheet.getRange(2, columnIndex, sheet.getMaxRows() - 1, 1).setNumberFormat("dd/MM/yyyy HH:mm");
+
+  try {
+    sheet.getRange(2, columnIndex, sheet.getMaxRows() - 1, 1).setNumberFormat("dd/MM/yyyy HH:mm");
+    SpreadsheetApp.flush();
+  } catch (err) {
+    Logger.log(`Formatage ignoré pour ${headerName} : ${err.message}`);
+  }
 }
 
 function updateCellByHeader(sheet, rowNumber, headerName, value) {
@@ -339,7 +345,7 @@ function maybeSendValueEmail(sheet, row, rowNumber) {
   if (row[HEADERS.source] === "tarifs") {
     if (row[HEADERS.typeClient] === "commerce") templateId = "valeur_tarif_commerce";
     if (row[HEADERS.typeClient] === "tpe_pme") templateId = "valeur_tarif_tpe_pme";
-    if (row[HEADERS.typeClient] === "startup") templateId = "valeur_tarif_commerce";
+    if (row[HEADERS.typeClient] === "startup") templateId = "valeur_tarif_startup";
   }
   if (row[HEADERS.source] === "prise_de_rdv") {
     templateId = "valeur_rdv";
@@ -428,35 +434,76 @@ function maybeSendIdentifiantEmail(sheet, row, rowNumber) {
   updateCellByHeader(sheet, rowNumber, HEADERS.identifiantRecuAt, new Date());
 }
 
-// ── NOUVEAU : reçoit les demandes "mot de passe oublié" depuis le site ─────────
+// ── doPost : reset mdp, notif admin nouvelle demande, invitation membre ──────────
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
     const config = getConfig();
 
-    // Vérification du secret
     if (data.secret !== config.apiSecret) {
+      logEmail({ demandeId: data.demande_id || "doPost", email: data.email || "", templateId: data.template_id || "?", statut: "erreur", erreur: "Secret invalide (doPost)" });
       return ContentService
         .createTextOutput(JSON.stringify({ error: "Non autorisé" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // Envoi de l'email de réinitialisation
+    const templateId = data.template_id || "reset_mot_de_passe";
+
+    // Notification admin nouvelle demande — HTML construit directement
+    if (templateId === "notification_admin") {
+      const adminEmail = data.admin_email;
+      if (!adminEmail) throw new Error("admin_email manquant");
+
+      const sourceLabels = { contact: "Formulaire contact", tarifs: "Page tarifs", prise_de_rdv: "Prise de RDV" };
+      const typeLabels = { commerce: "Commerce local", tpe_pme: "TPE / PME", startup: "Startup", autre: "Autre" };
+      const sourceLabel = sourceLabels[data.source] || data.source || "—";
+      const typeLabel = typeLabels[data.type_client] || data.type_client || "—";
+
+      const contentHtml = `
+        <p style="margin:0 0 14px;font-size:16px;color:#ffffff;">Une nouvelle demande a été enregistrée.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Provenance</td><td style="padding:5px 0;color:#ffffff;">${sourceLabel}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Type</td><td style="padding:5px 0;color:#ffffff;">${typeLabel}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Nom</td><td style="padding:5px 0;color:#ffffff;">${data.prenom || ""} ${data.nom || ""}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Email</td><td style="padding:5px 0;color:#ffffff;">${data.email || ""}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Téléphone</td><td style="padding:5px 0;color:#ffffff;">${data.telephone || "—"}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Entreprise</td><td style="padding:5px 0;color:#ffffff;">${data.entreprise || "—"}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Ville</td><td style="padding:5px 0;color:#ffffff;">${data.ville || "—"}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Offre</td><td style="padding:5px 0;color:#ffffff;">${data.offre || "—"}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Objectif</td><td style="padding:5px 0;color:#ffffff;">${data.objectif || "—"}</td></tr>
+          <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Message</td><td style="padding:5px 0;color:#ffffff;">${data.message || "—"}</td></tr>
+        </table>
+      `;
+      const htmlBody = wrapEmailLayout(contentHtml);
+      const plainBody = htmlBody.replace(/<[^>]*>/g, " ");
+      const subject = `[OptimalLogic] Nouvelle demande — ${sourceLabel}`;
+      const options = { htmlBody, name: config.fromName };
+      const aliases = GmailApp.getAliases();
+      if (config.fromAlias && aliases.includes(config.fromAlias)) options.from = config.fromAlias;
+      GmailApp.sendEmail(adminEmail, subject, plainBody, options);
+      logEmail({ demandeId: data.demande_id || "notif_admin", email: adminEmail, templateId: "notification_admin", statut: "envoye", erreur: "" });
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // Template depuis la feuille (reset_mot_de_passe, invitation_membre, etc.)
     const row = {
       email: data.email,
       prenom: data.prenom || "",
       nom: data.nom || "",
-      activation_link: data.link,
-      demande_id: "reset_mdp",
+      activation_link: data.link || "",
+      demande_id: data.demande_id || templateId,
     };
-
-    sendTemplateEmail(row, "reset_mot_de_passe");
+    sendTemplateEmail(row, templateId);
 
     return ContentService
       .createTextOutput(JSON.stringify({ success: true }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
+    logEmail({ demandeId: "doPost", email: "", templateId: "?", statut: "erreur", erreur: "doPost: " + err.message });
     return ContentService
       .createTextOutput(JSON.stringify({ error: err.message }))
       .setMimeType(ContentService.MimeType.JSON);
