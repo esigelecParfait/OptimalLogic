@@ -26,11 +26,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Pas de .limit() : l'Apps Script supprime de la feuille toute ligne absente
+    // de cette réponse. Avec une limite fixe, un prospect qui sort de la fenêtre
+    // (date_demande ne change jamais) en sortirait DÉFINITIVEMENT — sa ligne est
+    // supprimée puis, s'il revient, recréée vierge -> tout son suivi (devis,
+    // remerciement, paiement...) repart de zéro et ses emails peuvent repartir.
     const { data, error } = await supabaseAdmin
       .from("v_prospects_google_synchron")
       .select("*")
-      .order("date_demande", { ascending: false })
-      .limit(200);
+      .order("date_demande", { ascending: false });
 
     if (error) {
       console.error("Erreur Supabase prospects-sync:", error);
