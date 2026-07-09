@@ -348,6 +348,7 @@ export async function POST(request: Request) {
         const res = await fetch(appsScriptUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          signal: AbortSignal.timeout(15000),
           body: JSON.stringify({
             secret: process.env.ADMIN_SECRET ?? "",
             template_id: "notification_admin",
@@ -366,7 +367,14 @@ export async function POST(request: Request) {
             demande_id: demandeId,
           }),
         });
-        adminNotifSent = res.ok;
+        // Apps Script répond toujours 200 (ContentService) : le vrai statut est dans le body
+        const resBody = (await res.json().catch(() => null)) as
+          | { success?: boolean; error?: string }
+          | null;
+        adminNotifSent = res.ok && resBody?.success === true;
+        if (!adminNotifSent) {
+          console.error("Apps Script notification_admin en erreur :", resBody?.error ?? res.status);
+        }
       } catch {
         // Apps Script non disponible — non bloquant
       }
@@ -375,7 +383,8 @@ export async function POST(request: Request) {
     const { error: updateMailStatusError } = await supabaseAdmin
       .from("demandes")
       .update({
-        client_notification_sent: true,
+        // le mail client ("valeur") part plus tard via l'automatisation Sheet, pas ici
+        client_notification_sent: false,
         admin_notification_sent: adminNotifSent,
         admin_notification_sent_at: adminNotifSent ? new Date().toISOString() : null,
       })
@@ -394,7 +403,7 @@ export async function POST(request: Request) {
           demande_id: demandeId,
           tracking_saved: trackingSaved,
           emails: {
-            client_sent: true,
+            client_sent: false,
             admin_sent: adminNotifSent,
           },
         },

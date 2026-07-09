@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { rateLimit } from "@/lib/rate-limit";
+import { buildClientLink } from "@/lib/admin/generate-client-link";
 
 export type ActionState = {
   error: string | null;
@@ -14,15 +15,6 @@ async function clientIp() {
   const requestHeaders = await headers();
   const fwd = requestHeaders.get("x-forwarded-for");
   return fwd ? fwd.split(",")[0].trim() : "unknown";
-}
-
-async function getBaseUrl() {
-  const requestHeaders = await headers();
-  const host =
-    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
-  const protocol = requestHeaders.get("x-forwarded-proto") ?? "http";
-
-  return `${protocol}://${host}`;
 }
 
 export async function login(
@@ -69,39 +61,24 @@ export async function requestPasswordReset(
   }
 
   try {
-    const baseUrl = await getBaseUrl();
-
-    // 1. Générer le lien d'activation sécurisé (2h) via notre API
-    const linkRes = await fetch(`${baseUrl}/api/admin/clients/generate-link`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-admin-secret": process.env.ADMIN_SECRET ?? "",
-      },
-      body: JSON.stringify({ email }),
-    });
-    const linkData = await linkRes.json();
-    if (!linkData.link) throw new Error("Génération du lien échouée");
+    // 1. Générer le lien d'activation sécurisé (2h) — appel direct, pas de HTTP interne
+    const linkResult = await buildClientLink(email);
+    if (!linkResult.link) throw new Error(linkResult.error ?? "Génération du lien échouée");
 
     // 2. Envoyer le mail via Apps Script doPost
     const appsScriptUrl = process.env.APPS_SCRIPT_URL;
     if (appsScriptUrl) {
-      const supabase = await createClient();
-      const { data: client } = await supabase
-        .from("client_prospects")
-        .select("contact_first_name, contact_last_name")
-        .eq("contact_email", email)
-        .maybeSingle();
-
       await fetch(appsScriptUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(15000),
         body: JSON.stringify({
           secret: process.env.ADMIN_SECRET ?? "",
+          template_id: "reset_mot_de_passe",
           email,
-          prenom: client?.contact_first_name ?? "",
-          nom: client?.contact_last_name ?? "",
-          link: linkData.link,
+          prenom: linkResult.firstName ?? "",
+          nom: linkResult.lastName ?? "",
+          link: linkResult.link,
         }),
       });
     }

@@ -37,15 +37,21 @@ export async function sendClientLinkByEmail(
     const res = await fetch(appsScriptUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(15000),
       body: JSON.stringify({
         secret: process.env.ADMIN_SECRET ?? "",
+        template_id: "envoi_identifiant_id",
         email,
         prenom: result.firstName ?? "",
         nom: result.lastName ?? "",
         link: result.link,
       }),
     });
-    if (!res.ok) return { error: "Erreur lors de l'envoi de l'email.", sent: false };
+    // Apps Script répond toujours 200 (ContentService) : lire le vrai statut dans le body
+    const body = (await res.json().catch(() => null)) as { success?: boolean } | null;
+    if (!res.ok || body?.success !== true) {
+      return { error: "Erreur lors de l'envoi de l'email.", sent: false };
+    }
   } catch {
     return { error: "Erreur lors de l'envoi de l'email.", sent: false };
   }

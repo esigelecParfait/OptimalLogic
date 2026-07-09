@@ -279,9 +279,30 @@ function replaceVariables(text, row) {
     .replaceAll("{{contact_link}}", config.contactLink || "https://optimallogic.fr/contact")
     .replaceAll("{{temporary_password}}", row.temporary_password || "")
     .replaceAll("{{password_changed_at}}", row.password_changed_at || "")
-    .replaceAll("{{date_heure_rdv}}", row.dateHeureRdv || "")
-    .replaceAll("{{timezone_rdv}}}", row.timezoneRdv || "")
+    // BUGFIX : la ligne est indexée par les noms d'en-tête ("date_heure_rdv"),
+    // pas en camelCase → row.dateHeureRdv était toujours undefined (mail RDV sans date/heure)
+    .replaceAll("{{date_heure_rdv}}", formatRdvDateTime(row[HEADERS.dateHeureRdv], row[HEADERS.timezoneRdv]))
+    .replaceAll("{{timezone_rdv}}", row[HEADERS.timezoneRdv] || "Europe/Paris")
     .replaceAll("{{activation_link}}", row.activation_link || "");  // ← AJOUTÉ
+}
+
+// Formate la date/heure de RDV en français, dans le fuseau du RDV.
+// Accepte un objet Date (cellule agenda) ou une chaîne ISO.
+// Composants numériques via formatDate (indépendants de la locale du script),
+// puis noms jour/mois en français → résultat toujours francophone.
+function formatRdvDateTime(value, timezone) {
+  if (!value) return "";
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const tz = timezone || "Europe/Paris";
+  const jours = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+  const mois = ["janvier", "février", "mars", "avril", "mai", "juin",
+                "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  const parts = Utilities.formatDate(date, tz, "u/d/M/yyyy/HH/mm").split("/");
+  const dow = Number(parts[0]) % 7; // ISO 1=lundi..7=dimanche → 0=dimanche..6=samedi
+  const day = Number(parts[1]);
+  const monthIndex = Number(parts[2]) - 1;
+  return `${jours[dow]} ${day} ${mois[monthIndex]} ${parts[3]} à ${parts[4]}h${parts[5]}`;
 }
 
 function wrapEmailLayout(contentHtml) {
@@ -459,11 +480,20 @@ function doPost(e) {
       const sourceLabel = sourceLabels[data.source] || data.source || "—";
       const typeLabel = typeLabels[data.type_client] || data.type_client || "—";
 
+      // Date/heure du RDV : préformatée par le serveur, sinon reformatée depuis l'ISO
+      const rdvDisplay = data.date_heure_rdv
+        || formatRdvDateTime(data.date_heure_rdv_iso, data.timezone_rdv)
+        || "";
+      const rdvRow = rdvDisplay
+        ? `<tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Rendez-vous</td><td style="padding:5px 0;color:#ffffff;">${rdvDisplay}</td></tr>`
+        : "";
+
       const contentHtml = `
         <p style="margin:0 0 14px;font-size:16px;color:#ffffff;">Une nouvelle demande a été enregistrée.</p>
         <table style="width:100%;border-collapse:collapse;font-size:14px;">
           <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Provenance</td><td style="padding:5px 0;color:#ffffff;">${sourceLabel}</td></tr>
           <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Type</td><td style="padding:5px 0;color:#ffffff;">${typeLabel}</td></tr>
+          ${rdvRow}
           <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Nom</td><td style="padding:5px 0;color:#ffffff;">${data.prenom || ""} ${data.nom || ""}</td></tr>
           <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Email</td><td style="padding:5px 0;color:#ffffff;">${data.email || ""}</td></tr>
           <tr><td style="padding:5px 12px 5px 0;color:#9f9faf;white-space:nowrap;">Téléphone</td><td style="padding:5px 0;color:#ffffff;">${data.telephone || "—"}</td></tr>
@@ -530,11 +560,34 @@ function processScheduledEmails() {
   });
 }
 
+// BUGFIX doublons : supprime d'abord TOUT trigger runAutomation existant.
+// Sans ça, chaque appel ajoutait un trigger de plus → N triggers => N envois
+// du même email à chaque cycle. Idempotent : à relancer 1 fois pour nettoyer.
 function installHourlyTrigger() {
+  ScriptApp.getProjectTriggers().forEach((t) => {
+    if (t.getHandlerFunction() === "runAutomation") ScriptApp.deleteTrigger(t);
+  });
   ScriptApp.newTrigger("runAutomation").timeBased().everyMinutes(5).create();
 }
 
+// Fonction ponctuelle : à exécuter une fois pour purger d'éventuels triggers
+// dupliqués installés lors de tests précédents, puis réinstaller un seul.
+function resetTriggers() {
+  installHourlyTrigger();
+}
+
 function runAutomation() {
-  syncProspectsFromApi();
-  processScheduledEmails();
+  // Verrou anti-concurrence : deux cycles qui se chevauchent liraient tous deux
+  // "mail non envoyé" avant que la cellule soit écrite → double envoi.
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(0)) {
+    Logger.log("runAutomation déjà en cours — cycle ignoré.");
+    return;
+  }
+  try {
+    syncProspectsFromApi();
+    processScheduledEmails();
+  } finally {
+    lock.releaseLock();
+  }
 }
