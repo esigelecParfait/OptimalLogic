@@ -591,18 +591,6 @@ export default function TarifsPage() {
           <p className="mt-3 text-sm leading-6 text-mut">{pack.subtitle}</p>
         </div>
 
-        {pack.target && (
-          <div
-            className="relative z-[1] mt-5 rounded-2xl border border-white/[0.08] p-4"
-            style={{ background: "rgba(26,26,29,0.48)" }}
-          >
-            <div className="mb-2 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              <Target size={13} strokeWidth={2} />
-              Pour qui ?
-            </div>
-            <p className="text-xs leading-5 text-mut">{pack.target}</p>
-          </div>
-        )}
 
         <div className="relative z-[1] mt-6 grid gap-3 sm:grid-cols-2">
           <div
