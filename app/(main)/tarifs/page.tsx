@@ -81,8 +81,8 @@ const baseCommercePacks: PricingPack[] = [
     category: "Commerce local",
     subtitle: "Pour les commerces qui veulent être mieux trouvés, répondre plus vite et obtenir plus d'avis.",
     target: "Coiffeur, restaurant, serrurier, menuisier, vendeur, artisan, institut, garage...",
-    setupPrice: "590 € HT",
-    monthlyPrice: "129 € HT / mois",
+    setupPrice: "590 € ",
+    monthlyPrice: "129 € / mois",
     highlighted: true,
     setupIncludes: [
       "Audit de la présence digitale actuelle",
@@ -116,8 +116,8 @@ const baseCommercePacks: PricingPack[] = [
     category: "Commerce local",
     subtitle: "Pour les commerces qui veulent mieux organiser leurs demandes clients et réduire les opportunités perdues.",
     target: "Commerces avec beaucoup d'appels, réservations, demandes de devis, urgences ou secrétariat.",
-    setupPrice: "990 € HT",
-    monthlyPrice: "249 € HT / mois",
+    setupPrice: "990 € ",
+    monthlyPrice: "249 € / mois",
     highlighted: false,
     setupIncludes: [
       "Tout ce qui est inclus dans Commerce Intelligent",
@@ -151,8 +151,8 @@ const baseTpePmePacks: PricingPack[] = [
     name: "Présence Pro",
     category: "TPE / PME",
     subtitle: "Pour une petite entreprise qui veut une image sérieuse et un site clair.",
-    setupPrice: "890 € HT",
-    monthlyPrice: "99 € HT / mois",
+    setupPrice: "890 € ",
+    monthlyPrice: "99 € / mois",
     highlighted: false,
     setupIncludes: [
       "Analyse du besoin et de l'activité",
@@ -179,8 +179,8 @@ const baseTpePmePacks: PricingPack[] = [
     name: "Croissance",
     category: "TPE / PME",
     subtitle: "Pour une entreprise qui veut générer et suivre ses prospects plus sérieusement.",
-    setupPrice: "1 490 € HT",
-    monthlyPrice: "179 € HT / mois",
+    setupPrice: "1 490 € ",
+    monthlyPrice: "179 € / mois",
     highlighted: true,
     setupIncludes: [
       "Tout ce qui est inclus dans Présence Pro",
@@ -207,8 +207,8 @@ const baseTpePmePacks: PricingPack[] = [
     name: "Performance",
     category: "TPE / PME",
     subtitle: "Pour une PME qui veut mieux structurer son acquisition et son suivi commercial.",
-    setupPrice: "2 490 € HT",
-    monthlyPrice: "349 € HT / mois",
+    setupPrice: "2 490 € ",
+    monthlyPrice: "349 € / mois",
     highlighted: false,
     setupIncludes: [
       "Tout ce qui est inclus dans Croissance",
@@ -239,8 +239,8 @@ const baseStartupPacks: PricingPack[] = [
     name: "Validation",
     category: "Startup",
     subtitle: "Pour tester rapidement une idée et mesurer l'intérêt du marché.",
-    setupPrice: "790 € HT",
-    monthlyPrice: "99 € HT / mois",
+    setupPrice: "790 € ",
+    monthlyPrice: "99 € / mois",
     highlighted: false,
     setupIncludes: [
       "Clarification de la proposition de valeur",
@@ -265,8 +265,8 @@ const baseStartupPacks: PricingPack[] = [
     name: "Launch",
     category: "Startup",
     subtitle: "Pour lancer une bêta, générer des demandes de démo et suivre les premiers leads.",
-    setupPrice: "1 490 € HT",
-    monthlyPrice: "199 € HT / mois",
+    setupPrice: "1 490 € ",
+    monthlyPrice: "199 € / mois",
     highlighted: true,
     setupIncludes: [
       "Tout ce qui est inclus dans Validation",
@@ -294,8 +294,8 @@ const baseStartupPacks: PricingPack[] = [
     name: "Growth",
     category: "Startup",
     subtitle: "Pour une startup qui veut optimiser son acquisition et améliorer ses conversions.",
-    setupPrice: "2 990 € HT",
-    monthlyPrice: "399 € HT / mois",
+    setupPrice: "2 990 € ",
+    monthlyPrice: "399 € / mois",
     highlighted: false,
     setupIncludes: [
       "Tout ce qui est inclus dans Launch",
@@ -336,13 +336,13 @@ const faqs = [
 function formatSetupPrice(value: number | string | null) {
   const price = Number(value);
   if (!Number.isFinite(price)) return "Sur devis";
-  return `${new Intl.NumberFormat("fr-FR").format(price)} € HT`;
+  return `${new Intl.NumberFormat("fr-FR").format(price)} € `;
 }
 
 function formatMonthlyPrice(value: number | string | null) {
   const price = Number(value);
   if (!Number.isFinite(price)) return "Sur devis";
-  return `${new Intl.NumberFormat("fr-FR").format(price)} € HT / mois`;
+  return `${new Intl.NumberFormat("fr-FR").format(price)} € / mois`;
 }
 
 function cleanOptionalText(value: string) {
