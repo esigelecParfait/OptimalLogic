@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { parsePhoneNumber } from "react-phone-number-input";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -20,6 +20,7 @@ import {
   Sparkles,
   Target,
   UsersRound,
+  X,
 } from "lucide-react";
 
 import NeuralBackground from "@/components/fx/NeuralBackground";
@@ -215,7 +216,10 @@ export default function PriseDeRdvPage() {
   const [slots, setSlots] = useState<SlotMap>({});
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedSlot, setSelectedSlot] = useState<string>("");
+  const [isSlotModalOpen, setIsSlotModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
+  const slotModalRef = useRef<HTMLDivElement>(null);
+  const slotModalOpenButtonRef = useRef<HTMLButtonElement>(null);
 
   const [isLoadingSlots, setIsLoadingSlots] = useState(true);
   const [slotsError, setSlotsError] = useState<string | null>(null);
@@ -320,6 +324,7 @@ export default function PriseDeRdvPage() {
       const resetSelection = window.setTimeout(() => {
         setSelectedDate("");
         setSelectedSlot("");
+        setIsSlotModalOpen(false);
       }, 0);
 
       return () => window.clearTimeout(resetSelection);
@@ -329,6 +334,62 @@ export default function PriseDeRdvPage() {
   const availableDateSet = useMemo(() => new Set(Object.keys(slots)), [slots]);
   const calendarDays = useMemo(() => getCalendarDays(currentMonth), [currentMonth]);
   const selectedDateSlots = useMemo(() => slots[selectedDate] || [], [slots, selectedDate]);
+
+  useEffect(() => {
+    if (!isSlotModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const openerButton = slotModalOpenButtonRef.current;
+    document.body.style.overflow = "hidden";
+    slotModalRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsSlotModalOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !slotModalRef.current) return;
+
+      const focusableElements = slotModalRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (!firstElement || !lastElement) return;
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      openerButton?.focus();
+    };
+  }, [isSlotModalOpen]);
+
+  function openSlotModal() {
+    if (!selectedDate) return;
+    setIsSlotModalOpen(true);
+  }
+
+  function closeSlotModal() {
+    setIsSlotModalOpen(false);
+  }
+
+  function selectSlot(slotStart: string) {
+    setSelectedSlot(slotStart);
+    setIsSlotModalOpen(false);
+  }
 
   function updateField<K extends keyof AppointmentForm>(field: K, value: AppointmentForm[K]) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -735,14 +796,14 @@ export default function PriseDeRdvPage() {
 
                 {selectedDate && selectedDateSlots.length === 0 && (
                   <p
-                    className="mt-6 rounded-2xl border border-white/[0.07] p-4 text-sm leading-6 text-mut"
+                    className="hidden"
                     style={{ background: "rgba(26,26,29,0.5)" }}
                   >
                     Aucun créneau disponible pour cette date.
                   </p>
                 )}
 
-                <div className="mt-6 grid gap-2">
+                {false && <div className="mt-6 grid gap-2 hidden">
                   {selectedDateSlots.map((slot) => (
                     <button
                       key={slot.start}
@@ -758,7 +819,33 @@ export default function PriseDeRdvPage() {
                       {formatTimeLabel(slot.start)}
                     </button>
                   ))}
-                </div>
+                </div>}
+
+                {selectedSlot && (
+                  <div className="mt-6 rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">Rendez-vous sélectionner</p>
+                    <p className="mt-3 text-sm font-bold capitalize text-ink">
+                      {formatDateLabel(selectedSlot.slice(0, 10))} A {formatTimeLabel(selectedSlot)}
+                    </p>
+                  </div>
+                )}
+
+                <button
+                  ref={slotModalOpenButtonRef}
+                  type="button"
+                  disabled={!selectedDate}
+                  onClick={openSlotModal}
+                  className="btn-grad mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {selectedSlot ? "Modifier l'horaire" : "Voir les horaires disponibles"}
+                  <Clock3 size={17} strokeWidth={2.2} />
+                </button>
+
+                {selectedDate && !selectedSlot && (
+                  <p className="mt-4 text-sm leading-6 text-mut">
+                    Ouvrez les horaires disponibles pour choisir le moment qui vous convient.
+                  </p>
+                )}
 
                 <div className="mt-8 rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.5)" }}>
                   <div className="flex items-start gap-3">
@@ -774,6 +861,83 @@ export default function PriseDeRdvPage() {
               </section>
             </div>
           </div>
+
+          {isSlotModalOpen && (
+            <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 py-4 sm:items-center sm:py-6">
+              <button
+                type="button"
+                aria-label="Fermer la fenÃªtre des horaires"
+                onClick={closeSlotModal}
+                className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+              />
+              <div
+                ref={slotModalRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="slot-modal-title"
+                tabIndex={-1}
+                className="surface-card relative max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-[28px] p-6 shadow-2xl outline-none sm:p-8"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">Horaires disponibles</p>
+                    <h3 id="slot-modal-title" className="mt-2 font-display text-2xl font-semibold capitalize">
+                      {selectedDate ? `Horaires disponibles - ${formatDateLabel(selectedDate)}` : "Horaires disponibles"}
+                    </h3>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={closeSlotModal}
+                    aria-label="Fermer"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink"
+                  >
+                    <X size={18} strokeWidth={2} />
+                  </button>
+                </div>
+
+                {selectedDateSlots.length === 0 ? (
+                  <p
+                    className="mt-7 rounded-2xl border border-white/[0.07] p-5 text-sm leading-6 text-mut"
+                    style={{ background: "rgba(26,26,29,0.5)" }}
+                  >
+                    Aucun horaire n&apos;est disponible pour cette date. Veuillez sélectionner une autre date.
+                  </p>
+                ) : (
+                  <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {selectedDateSlots.map((slot) => {
+                      const isSelected = selectedSlot === slot.start;
+
+                      return (
+                        <button
+                          key={slot.start}
+                          type="button"
+                          onClick={() => selectSlot(slot.start)}
+                          aria-pressed={isSelected}
+                          className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                            isSelected
+                              ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
+                              : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
+                          }`}
+                          style={isSelected ? { background: "var(--grad)" } : undefined}
+                        >
+                          {formatTimeLabel(slot.start)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {selectedSlot && (
+                  <div className="mt-7 rounded-2xl border border-white/[0.13] p-4" style={{ background: "var(--grad-soft)" }}>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Horaire actuellement choisi</p>
+                    <p className="mt-2 text-sm font-bold capitalize text-ink">
+                      {formatDateLabel(selectedSlot.slice(0, 10))} A {formatTimeLabel(selectedSlot)}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* FORM */}
           <div className="mt-10 grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
