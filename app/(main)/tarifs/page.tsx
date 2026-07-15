@@ -962,6 +962,7 @@ export default function TarifsPage() {
                     labelTextClassName={modalLabelClass}
                   />
                 </div>
+        {/*
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>Entreprise</span><input value={leadForm.company} onChange={(e) => updateLeadField("company", e.target.value)} placeholder="Nom de l'entreprise" className={modalFieldClass} /></label>
                   <label className="grid gap-2"><span className={modalLabelClass}>Ville</span><input value={leadForm.businessCity} onChange={(e) => updateLeadField("businessCity", e.target.value)} placeholder="Ex : Rouen, Paris, Lyon..." className={modalFieldClass} /></label>
@@ -980,7 +981,8 @@ export default function TarifsPage() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>Site web actuel</span><input type="text" value={leadForm.businessWebsiteUrl} onChange={(e) => updateLeadField("businessWebsiteUrl", e.target.value)} placeholder="https://www.votre-site.com" className={modalFieldClass} /></label>
                   <label className="grid gap-2"><span className={modalLabelClass}>Lien Google Business</span><input type="text" value={leadForm.googleBusinessUrl} onChange={(e) => updateLeadField("googleBusinessUrl", e.target.value)} placeholder="Lien vers votre fiche Google Business" className={modalFieldClass} /></label>
-                </div>
+                </div> */}
+              
                 <label className="grid gap-2"><span className={modalLabelClass}>Message</span><textarea rows={4} value={leadForm.message} onChange={(e) => updateLeadField("message", e.target.value)} placeholder="Décrivez brièvement votre besoin." className={`resize-none ${modalFieldClass}`} /></label>
 
                 {formError && (

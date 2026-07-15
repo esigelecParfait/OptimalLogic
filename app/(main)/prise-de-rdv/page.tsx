@@ -858,7 +858,7 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                       <PremiumPhoneField
-                        required
+                        
                         value={form.phoneFullNumber}
                         onChange={(value) => updateField("phoneFullNumber", value)}
                         labelClassName={labelClass}
@@ -874,7 +874,30 @@ export default function PriseDeRdvPage() {
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
-                      <label className={labelClass}>
+                       <label className={labelClass}>
+                        <span className={labelTextClass}>Type de client *</span>
+                        <PremiumSelectControl
+                          
+                          value={form.type_client}
+                          onChange={(value) => updateField("type_client", value)}
+                          placeholder="Choisissez un type de client"
+                          options={typeClientOptions}
+                        />
+                      </label>
+                      <ObjectiveSelectField
+                        
+                        value={form.objective}
+                        onChange={(value) => updateField("objective", value)}
+                        options={objectiveOptions}
+                        labelClassName={labelClass}
+                        labelTextClassName={labelTextClass}
+                      />
+                     
+    
+                    </div>
+
+                    <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                     <label className={labelClass}>
                         <span className={labelTextClass}>Entreprise</span>
                         <input
                           value={form.company}
@@ -893,30 +916,9 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                     </div>
-
-                    <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                      <label className={labelClass}>
-                        <span className={labelTextClass}>Type de client *</span>
-                        <PremiumSelectControl
-                          required
-                          value={form.type_client}
-                          onChange={(value) => updateField("type_client", value)}
-                          placeholder="Choisissez un type de client"
-                          options={typeClientOptions}
-                        />
-                      </label>
-                      <ObjectiveSelectField
-                        required
-                        value={form.objective}
-                        onChange={(value) => updateField("objective", value)}
-                        options={objectiveOptions}
-                        labelClassName={labelClass}
-                        labelTextClassName={labelTextClass}
-                      />
-                    </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
+                {/*  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={MousePointer2} compact />
                       <h3 className="font-display text-lg font-semibold">Présence digitale actuelle</h3>
@@ -942,7 +944,7 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                     </div>
-                  </div>
+                  </div>*/}
 
                   <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <label className={labelClass}>
@@ -981,7 +983,7 @@ export default function PriseDeRdvPage() {
                   >
                     <input
                       type="checkbox"
-                      required
+                      
                       checked={form.consentRgpd}
                       onChange={(e) => updateField("consentRgpd", e.target.checked)}
                       className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"

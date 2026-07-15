@@ -1,0 +1,36 @@
+<svg width="900" height="1000" viewBox="0 0 900 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1000" rx="34" fill="#F7F4EF"/>
+  <rect x="285" y="80" width="330" height="820" rx="56" fill="#050505"/>
+  <rect x="306" y="110" width="288" height="760" rx="42" fill="#FFFFFF"/>
+  <rect x="306" y="110" width="288" height="160" rx="42" fill="#D8C3A5"/>
+  <rect x="306" y="208" width="288" height="62" fill="#D8C3A5"/>
+  <circle cx="450" cy="130" r="4" fill="#050505" fill-opacity="0.45"/>
+  <text x="330" y="306" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#050505">Maison Élégance</text>
+  <text x="330" y="333" font-family="Arial, sans-serif" font-size="15" fill="#6F6A60">Salon & institut à Rouen</text>
+  <text x="330" y="361" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#050505">4,9 ★★★★★</text>
+  <text x="440" y="361" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">128 avis</text>
+  <text x="330" y="389" font-family="Arial, sans-serif" font-size="14" fill="#138A3D">Ouvert · Ferme à 19:00</text>
+
+  <rect x="330" y="420" width="74" height="42" rx="21" fill="#F7F4EF" stroke="#050505" stroke-opacity="0.10"/>
+  <text x="346" y="446" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#050505">Appeler</text>
+  <rect x="412" y="420" width="84" height="42" rx="21" fill="#F7F4EF" stroke="#050505" stroke-opacity="0.10"/>
+  <text x="428" y="446" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#050505">Itinéraire</text>
+  <rect x="504" y="420" width="70" height="42" rx="21" fill="#050505"/>
+  <text x="516" y="446" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Réserver</text>
+
+  <rect x="330" y="488" width="74" height="84" rx="18" fill="#E8E1D6"/>
+  <rect x="414" y="488" width="74" height="84" rx="18" fill="#CFC2B3"/>
+  <rect x="498" y="488" width="74" height="84" rx="18" fill="#EDE7DE"/>
+
+  <line x1="330" y1="610" x2="574" y2="610" stroke="#050505" stroke-opacity="0.12"/>
+  <text x="330" y="640" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#050505">Aperçu</text>
+  <text x="398" y="640" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">Services</text>
+  <text x="478" y="640" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">Avis</text>
+  <text x="528" y="640" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">Photos</text>
+  <line x1="330" y1="654" x2="380" y2="654" stroke="#050505" stroke-width="3" stroke-linecap="round"/>
+
+  <text x="330" y="698" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">📍 12 rue des Carmes, 76000 Rouen</text>
+  <text x="330" y="734" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">🕘 Aujourd’hui 09:00–19:00</text>
+  <text x="330" y="770" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">🌐 maison-elegance.fr</text>
+  <text x="330" y="806" font-family="Arial, sans-serif" font-size="14" fill="#6F6A60">💬 Réponse rapide aux messages</text>
+</svg>

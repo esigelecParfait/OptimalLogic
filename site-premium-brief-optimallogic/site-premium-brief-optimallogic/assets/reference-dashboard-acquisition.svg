@@ -1,0 +1,47 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="34" fill="#F7F4EF"/>
+  <rect x="85" y="70" width="1030" height="620" rx="34" fill="#050505"/>
+  <text x="130" y="130" font-family="Arial, sans-serif" font-size="28" font-weight="800" fill="#FFFFFF">OptimalLogic — Suivi prospects</text>
+  <text x="130" y="162" font-family="Arial, sans-serif" font-size="16" fill="#B5B5BD">Demandes, rendez-vous et actions prioritaires</text>
+  <rect x="875" y="100" width="180" height="44" rx="22" fill="#FFFFFF"/>
+  <text x="913" y="128" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#050505">Voir les demandes</text>
+
+  <rect x="130" y="210" width="210" height="130" rx="24" fill="#FFFFFF" fill-opacity="0.10" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="160" y="252" font-family="Arial, sans-serif" font-size="15" fill="#B5B5BD">Demandes reçues</text>
+  <text x="160" y="306" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="#FFFFFF">48</text>
+  <text x="250" y="304" font-family="Arial, sans-serif" font-size="15" fill="#D8C3A5">+32%</text>
+
+  <rect x="370" y="210" width="210" height="130" rx="24" fill="#FFFFFF" fill-opacity="0.10" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="400" y="252" font-family="Arial, sans-serif" font-size="15" fill="#B5B5BD">RDV générés</text>
+  <text x="400" y="306" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="#FFFFFF">19</text>
+  <text x="490" y="304" font-family="Arial, sans-serif" font-size="15" fill="#D8C3A5">+11</text>
+
+  <rect x="610" y="210" width="210" height="130" rx="24" fill="#FFFFFF" fill-opacity="0.10" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="640" y="252" font-family="Arial, sans-serif" font-size="15" fill="#B5B5BD">Prospects chauds</text>
+  <text x="640" y="306" font-family="Arial, sans-serif" font-size="46" font-weight="800" fill="#FFFFFF">12</text>
+  <text x="730" y="304" font-family="Arial, sans-serif" font-size="15" fill="#D8C3A5">à relancer</text>
+
+  <rect x="850" y="210" width="210" height="130" rx="24" fill="#FFFFFF" fill-opacity="0.10" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <text x="880" y="252" font-family="Arial, sans-serif" font-size="15" fill="#B5B5BD">Valeur estimée</text>
+  <text x="880" y="306" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#FFFFFF">2 840€</text>
+
+  <text x="130" y="405" font-family="Arial, sans-serif" font-size="20" font-weight="800" fill="#FFFFFF">Actions recommandées</text>
+
+  <rect x="130" y="435" width="930" height="72" rx="20" fill="#FFFFFF" fill-opacity="0.08"/>
+  <circle cx="168" cy="471" r="18" fill="#D8C3A5"/>
+  <text x="162" y="477" font-family="Arial, sans-serif" font-size="16" font-weight="800" fill="#050505">1</text>
+  <text x="205" y="464" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Relancer 4 prospects chauds</text>
+  <text x="205" y="489" font-family="Arial, sans-serif" font-size="14" fill="#B5B5BD">Priorité commerciale</text>
+
+  <rect x="130" y="525" width="930" height="72" rx="20" fill="#FFFFFF" fill-opacity="0.08"/>
+  <circle cx="168" cy="561" r="18" fill="#D8C3A5"/>
+  <text x="162" y="567" font-family="Arial, sans-serif" font-size="16" font-weight="800" fill="#050505">2</text>
+  <text x="205" y="554" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Demander 7 avis clients</text>
+  <text x="205" y="579" font-family="Arial, sans-serif" font-size="14" fill="#B5B5BD">Impact local</text>
+
+  <rect x="130" y="615" width="930" height="72" rx="20" fill="#FFFFFF" fill-opacity="0.08"/>
+  <circle cx="168" cy="651" r="18" fill="#D8C3A5"/>
+  <text x="162" y="657" font-family="Arial, sans-serif" font-size="16" font-weight="800" fill="#050505">3</text>
+  <text x="205" y="644" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Optimiser l’offre la plus consultée</text>
+  <text x="205" y="669" font-family="Arial, sans-serif" font-size="14" fill="#B5B5BD">Conversion</text>
+</svg>

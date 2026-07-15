@@ -420,7 +420,7 @@ export default function ContactPage() {
                       />
                     </label>
                     <PremiumPhoneField
-                      required
+                    
                       value={form.phone}
                       onChange={(value) => updateField("phone", value)}
                       labelClassName={labelClass}
@@ -442,7 +442,7 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>Type de client *</span>
                       <PremiumSelectControl
-                        required
+                        
                         value={form.type_client}
                         onChange={(value) => updateField("type_client", value)}
                         placeholder="Choisissez un type"
@@ -478,7 +478,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+               {/* <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Globe2} />
                     <div>
@@ -509,7 +509,7 @@ export default function ContactPage() {
                       />
                     </label>
                   </div>
-                </div>
+                </div>*/}
 
                 <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
