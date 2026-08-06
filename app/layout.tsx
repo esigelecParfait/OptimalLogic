@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { AssistantChatProvider } from "@/components/chat/AssistantChatProvider";
 import "./globals.css";
 
 // Polices auto-hébergées (aucune requête réseau au build/runtime) :
@@ -31,7 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${inter.variable} ${display.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AssistantChatProvider>{children}</AssistantChatProvider>
+      </body>
     </html>
   );
 }

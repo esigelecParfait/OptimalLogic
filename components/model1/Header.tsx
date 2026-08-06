@@ -81,7 +81,7 @@ export default function Header() {
         {/* Bouton mobile */}
         <button
           type="button"
-          aria-label="Ouvrir le menu"
+          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen((current) => !current)}
           className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-900 transition hover:bg-slate-100 lg:hidden"
@@ -128,6 +128,29 @@ export default function Header() {
                 </Link>
               );
             })}
+
+            <Link
+              href="/aide"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex min-h-11 items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-950"
+            >
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                <path d="M9.6 9a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 1.8-2.4 3.1" />
+                <path d="M12 17h.01" />
+              </svg>
+              Aide
+            </Link>
 
             <Link
               href="/espace-client"

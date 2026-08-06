@@ -24,6 +24,17 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const desktopMedia = window.matchMedia("(min-width: 64rem)");
+    const closeMenuOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsMenuOpen(false);
+    };
+
+    desktopMedia.addEventListener("change", closeMenuOnDesktop);
+    return () =>
+      desktopMedia.removeEventListener("change", closeMenuOnDesktop);
+  }, []);
+
   const isActiveLink = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
@@ -92,10 +103,11 @@ export default function Header() {
         {/* Bouton hamburger mobile */}
         <button
           type="button"
-          aria-label="Ouvrir le menu"
+          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
           onClick={() => setIsMenuOpen((c) => !c)}
-          className="grid h-10 w-10 place-items-center text-ink lg:hidden"
+          className="grid h-11 w-11 place-items-center text-ink lg:hidden"
         >
           {isMenuOpen ? (
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -106,7 +118,10 @@ export default function Header() {
 
         {/* Menu mobile */}
         {isMenuOpen && (
-          <div className="absolute left-0 right-0 top-[calc(100%+10px)] max-h-[calc(100vh-104px)] overflow-y-auto rounded-2xl border border-white/[0.12] bg-[#121214]/95 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl lg:hidden">
+          <div
+            id="mobile-navigation"
+            className="absolute left-0 right-0 top-[calc(100%+10px)] max-h-[calc(100dvh-104px)] overflow-y-auto rounded-2xl border border-white/[0.12] bg-[#121214]/95 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-xl lg:hidden"
+          >
             <nav className="flex flex-col gap-0.5">
               {navLinks.map((link) => {
                 const active = isActiveLink(link.href);
@@ -123,6 +138,33 @@ export default function Header() {
                   </Link>
                 );
               })}
+              <Link
+                href="/aide"
+                onClick={() => setIsMenuOpen(false)}
+                aria-current={isActiveLink("/aide") ? "page" : undefined}
+                className={`flex min-h-11 items-center gap-3 rounded-xl px-[14px] py-[13px] text-[15px] font-medium transition-colors ${
+                  isActiveLink("/aide")
+                    ? "bg-white/[0.06] text-ink"
+                    : "text-mut hover:bg-white/[0.05] hover:text-ink"
+                }`}
+              >
+                <svg
+                  aria-hidden="true"
+                  width="19"
+                  height="19"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  <path d="M9.6 9a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 1.8-2.4 3.1" />
+                  <path d="M12 17h.01" />
+                </svg>
+                Aide
+              </Link>
               <div className="mt-[10px] flex flex-col gap-[10px]">
                 <Link href="/espace-client" onClick={() => setIsMenuOpen(false)} className="btn-ghost rounded-full px-5 py-[14px] text-center text-sm font-semibold">
                   Espace client
