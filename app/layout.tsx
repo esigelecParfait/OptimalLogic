@@ -20,9 +20,30 @@ const display = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "OptimalLogic — Digital, IA & acquisition client",
+  metadataBase: new URL("https://optimal-logic.com"),
+  title: {
+    default: "OptimalLogic — Digital, IA & acquisition client",
+    template: "%s — OptimalLogic",
+  },
   description:
     "OptimalLogic transforme votre présence en ligne en moteur d'acquisition client : Google Business, site web, prise de rendez-vous, assistant IA et suivi des demandes.",
+  applicationName: "OptimalLogic",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/",
+    siteName: "OptimalLogic",
+    title: "OptimalLogic — Digital, IA & acquisition client",
+    description:
+      "Google Business, site web, prise de rendez-vous, assistant IA et suivi des demandes réunis dans un système digital clair.",
+  },
+  twitter: {
+    card: "summary",
+    title: "OptimalLogic — Digital, IA & acquisition client",
+    description:
+      "Une présence digitale claire pour être trouvé, inspirer confiance et générer des demandes.",
+  },
 };
 
 export default function RootLayout({

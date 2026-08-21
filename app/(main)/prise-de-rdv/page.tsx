@@ -23,7 +23,7 @@ import {
   X,
 } from "lucide-react";
 
-import NeuralBackground from "@/components/fx/NeuralBackground";
+import Brand from "@/components/Brand";
 import {
   ObjectiveSelectField,
   PremiumPhoneField,
@@ -521,31 +521,14 @@ export default function PriseDeRdvPage() {
 
   return (
     <main className="relative overflow-hidden">
-      {/* HERO */}
-      <section className="relative overflow-hidden px-7 pb-14 pt-44 lg:pt-52">
-        <NeuralBackground />
-
-        <div
-          className="pointer-events-none absolute inset-0 z-[1]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(4,5,11,0.3) 0%, rgba(4,5,11,0.76) 70%, rgba(4,5,11,1) 100%)",
-          }}
-        />
-
-        <div className="relative z-[2] mx-auto grid max-w-[1240px] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
+      <section className="page-hero">
+        <div className="section-shell grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
           <div>
-            <div
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-2 text-sm font-medium text-ink"
-              style={{ background: "var(--grad-soft)" }}
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
-              Diagnostic OptimalLogic · 15 minutes
-            </div>
+            <div className="section-label">Diagnostic OptimalLogic · 15 minutes</div>
 
-            <h1 className="max-w-4xl text-[clamp(38px,5.3vw,62px)] font-semibold leading-[1.03]">
-              Réservez un diagnostic gratuit.
-              <span className="grad-text"> On clarifie votre besoin en 15 minutes.</span>
+            <h1 className="mt-7 max-w-4xl text-[clamp(2.8rem,5.7vw,4.9rem)] font-semibold leading-[0.98] tracking-[-0.055em]">
+              Quinze minutes pour
+              <span className="grad-text"> clarifier la prochaine action.</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
@@ -563,7 +546,7 @@ export default function PriseDeRdvPage() {
             </div>
           </div>
 
-          <div className="surface-card rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(255,255,255,0.42)]">
+          <div className="premium-panel rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(255,255,255,0.42)]">
             <div
               className="relative overflow-hidden rounded-[24px] border border-white/[0.07] p-6"
               style={{ background: "linear-gradient(165deg, rgba(18,18,20,0.9), rgba(5,5,5,0.88))" }}
@@ -586,7 +569,7 @@ export default function PriseDeRdvPage() {
                       style={{ background: "rgba(26,26,29,0.52)" }}
                     >
                       <span
-                        className="grid h-8 w-8 shrink-0 place-items-center rounded-full font-display text-sm font-bold text-white"
+                        className="grid h-8 w-8 shrink-0 place-items-center rounded-full font-display text-sm font-bold text-black"
                         style={{ background: "var(--grad)" }}
                       >
                         {index + 1}
@@ -629,9 +612,7 @@ export default function PriseDeRdvPage() {
                 className="border-b border-white/[0.07] p-6 sm:p-8 lg:border-b-0 lg:border-r"
                 style={{ background: "linear-gradient(165deg, rgba(26,26,29,0.66), rgba(5,5,5,0.7))" }}
               >
-                <div className="grid h-12 w-12 place-items-center rounded-2xl font-display text-sm font-bold text-white" style={{ background: "var(--grad)" }}>
-                  OL
-                </div>
+                <Brand compact />
 
                 <p className="mt-6 eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">OptimalLogic</p>
                 <h3 className="mt-3 font-display text-2xl font-semibold">Diagnostic gratuit</h3>
@@ -751,7 +732,7 @@ export default function PriseDeRdvPage() {
                             }}
                             className={`relative flex aspect-square items-center justify-center rounded-xl text-sm font-semibold transition ${
                               isSelected
-                                ? "text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
+                                ? "text-black shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
                                 : isAvailable
                                   ? "border border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
                                   : day.isCurrentMonth
@@ -803,29 +784,11 @@ export default function PriseDeRdvPage() {
                   </p>
                 )}
 
-                {false && <div className="mt-6 grid gap-2 hidden">
-                  {selectedDateSlots.map((slot) => (
-                    <button
-                      key={slot.start}
-                      type="button"
-                      onClick={() => setSelectedSlot(slot.start)}
-                      className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
-                        selectedSlot === slot.start
-                          ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
-                          : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
-                      }`}
-                      style={selectedSlot === slot.start ? { background: "var(--grad)" } : undefined}
-                    >
-                      {formatTimeLabel(slot.start)}
-                    </button>
-                  ))}
-                </div>}
-
                 {selectedSlot && (
                   <div className="mt-6 rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">Rendez-vous sélectionner</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">Rendez-vous sélectionné</p>
                     <p className="mt-3 text-sm font-bold capitalize text-ink">
-                      {formatDateLabel(selectedSlot.slice(0, 10))} A {formatTimeLabel(selectedSlot)}
+                      {formatDateLabel(selectedSlot.slice(0, 10))} à {formatTimeLabel(selectedSlot)}
                     </p>
                   </div>
                 )}
@@ -866,7 +829,8 @@ export default function PriseDeRdvPage() {
             <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 py-4 sm:items-center sm:py-6">
               <button
                 type="button"
-                aria-label="Fermer la fenÃªtre des horaires"
+                tabIndex={-1}
+                aria-label="Fermer la fenêtre des horaires"
                 onClick={closeSlotModal}
                 className="absolute inset-0 bg-black/75 backdrop-blur-sm"
               />
@@ -915,7 +879,7 @@ export default function PriseDeRdvPage() {
                           aria-pressed={isSelected}
                           className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
                             isSelected
-                              ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
+                              ? "border-transparent text-black shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
                               : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
                           }`}
                           style={isSelected ? { background: "var(--grad)" } : undefined}
@@ -931,7 +895,7 @@ export default function PriseDeRdvPage() {
                   <div className="mt-7 rounded-2xl border border-white/[0.13] p-4" style={{ background: "var(--grad-soft)" }}>
                     <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Horaire actuellement choisi</p>
                     <p className="mt-2 text-sm font-bold capitalize text-ink">
-                      {formatDateLabel(selectedSlot.slice(0, 10))} A {formatTimeLabel(selectedSlot)}
+                      {formatDateLabel(selectedSlot.slice(0, 10))} à {formatTimeLabel(selectedSlot)}
                     </p>
                   </div>
                 )}
@@ -973,7 +937,7 @@ export default function PriseDeRdvPage() {
 
               {bookingSuccess ? (
                 <div className="rounded-[24px] border border-white/[0.13] p-8 text-center" style={{ background: "var(--grad-soft)" }}>
-                  <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full text-white" style={{ background: "var(--grad)" }}>
+                  <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full text-black" style={{ background: "var(--grad)" }}>
                     <CheckCircle2 size={30} strokeWidth={2.5} />
                   </div>
                   <h3 className="font-display text-2xl font-semibold">Rendez-vous confirmé</h3>
@@ -993,6 +957,7 @@ export default function PriseDeRdvPage() {
                       <label className={labelClass}>
                         <span className={labelTextClass}>Nom de famille *</span>
                         <input
+                          required
                           value={form.lastname}
                           onChange={(e) => updateField("lastname", e.target.value)}
                           placeholder="Votre nom"
@@ -1002,6 +967,7 @@ export default function PriseDeRdvPage() {
                       <label className={labelClass}>
                         <span className={labelTextClass}>Prénom *</span>
                         <input
+                          required
                           value={form.firstname}
                           onChange={(e) => updateField("firstname", e.target.value)}
                           placeholder="Votre prénom"
@@ -1015,6 +981,7 @@ export default function PriseDeRdvPage() {
                         <span className={labelTextClass}>E-mail *</span>
                         <input
                           type="email"
+                          required
                           value={form.email}
                           onChange={(e) => updateField("email", e.target.value)}
                           placeholder="vous@email.com"
@@ -1022,7 +989,7 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                       <PremiumPhoneField
-                        
+                        required
                         value={form.phoneFullNumber}
                         onChange={(value) => updateField("phoneFullNumber", value)}
                         labelClassName={labelClass}
@@ -1041,7 +1008,7 @@ export default function PriseDeRdvPage() {
                        <label className={labelClass}>
                         <span className={labelTextClass}>Type de client *</span>
                         <PremiumSelectControl
-                          
+                          required
                           value={form.type_client}
                           onChange={(value) => updateField("type_client", value)}
                           placeholder="Choisissez un type de client"
@@ -1049,7 +1016,7 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                       <ObjectiveSelectField
-                        
+                        required
                         value={form.objective}
                         onChange={(value) => updateField("objective", value)}
                         options={objectiveOptions}
@@ -1071,7 +1038,7 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                       <label className={labelClass}>
-                        <span className={labelTextClass}>Ville du business</span>
+                        <span className={labelTextClass}>Ville de l&apos;activité</span>
                         <input
                           value={form.businessCity}
                           onChange={(e) => updateField("businessCity", e.target.value)}
@@ -1081,34 +1048,6 @@ export default function PriseDeRdvPage() {
                       </label>
                     </div>
                   </div>
-
-                {/*  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
-                    <div className="mb-5 flex items-center gap-3">
-                      <IconFrame icon={MousePointer2} compact />
-                      <h3 className="font-display text-lg font-semibold">Présence digitale actuelle</h3>
-                    </div>
-
-                    <div className="grid gap-5 sm:grid-cols-2">
-                      <label className={labelClass}>
-                        <span className={labelTextClass}>Site web actuel</span>
-                        <input
-                          value={form.businessWebsiteUrl}
-                          onChange={(e) => updateField("businessWebsiteUrl", e.target.value)}
-                          placeholder="https://www.votre-site.com"
-                          className={fieldClass}
-                        />
-                      </label>
-                      <label className={labelClass}>
-                        <span className={labelTextClass}>Lien Google Business</span>
-                        <input
-                          value={form.googleBusinessUrl}
-                          onChange={(e) => updateField("googleBusinessUrl", e.target.value)}
-                          placeholder="Lien vers votre fiche Google Business"
-                          className={fieldClass}
-                        />
-                      </label>
-                    </div>
-                  </div>*/}
 
                   <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <label className={labelClass}>
@@ -1147,7 +1086,7 @@ export default function PriseDeRdvPage() {
                   >
                     <input
                       type="checkbox"
-                      
+                      required
                       checked={form.consentRgpd}
                       onChange={(e) => updateField("consentRgpd", e.target.checked)}
                       className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"

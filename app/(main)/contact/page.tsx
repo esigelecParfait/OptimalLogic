@@ -3,7 +3,6 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { parsePhoneNumber } from "react-phone-number-input";
-import NeuralBackground from "@/components/fx/NeuralBackground";
 import {
   ObjectiveSelectField,
   PremiumPhoneField,
@@ -269,27 +268,19 @@ export default function ContactPage() {
 
   return (
     <main className="relative overflow-hidden">
-      {/* HERO */}
-      <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
-        <NeuralBackground />
-        <div className="relative z-[2] mx-auto max-w-[1240px]">
-          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
+      <section className="page-hero">
+        <div className="section-shell">
+          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
-              <span
-                className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-                style={{ background: "var(--grad-soft)" }}
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Contact &amp; diagnostic
-              </span>
+              <div className="section-label">Contact &amp; diagnostic</div>
 
-              <h1 className="mt-6 max-w-4xl text-[clamp(38px,5vw,62px)] font-semibold leading-[1.04]">
-                Parlons de votre activité,
-                <span className="grad-text"> pas seulement de votre site.</span>
+              <h1 className="mt-7 max-w-4xl text-[clamp(2.8rem,5.7vw,4.9rem)] font-semibold leading-[0.98] tracking-[-0.055em]">
+                Partons de votre activité,
+                <span className="grad-text"> puis choisissons les bons outils.</span>
               </h1>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
-                Visibilité Google, site web, prise de rendez-vous, assistant IA ou suivi des demandes :
-                nous vous aidons à identifier le système digital vraiment utile pour votre activité.
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-mut">
+                Décrivez votre priorité et le point qui vous freine aujourd’hui. Nous vous répondrons avec une première orientation claire, sans vous imposer une solution toute faite.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -308,26 +299,21 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="surface-card relative overflow-hidden rounded-[28px] p-6 sm:p-7">
-              <div
-                className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full opacity-60 blur-[70px]"
-                style={{ background: "var(--ink)" }}
-              />
+            <div className="premium-panel p-6 sm:p-7">
               <div className="relative">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Pourquoi nous contacter ?</p>
-                    <h2 className="mt-2 text-2xl font-semibold">Un diagnostic avant la solution.</h2>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Le premier échange</p>
+                    <h2 className="mt-2 text-2xl font-semibold">Clarifier avant de construire.</h2>
                   </div>
                   <IconFrame icon={Sparkles} />
                 </div>
 
-                <div className="mt-7 grid gap-3">
+                <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                   {contactReasons.map(({ icon: Icon, title, description }) => (
                     <div
                       key={title}
-                      className="flex gap-4 rounded-2xl border border-white/[0.07] p-4"
-                      style={{ background: "rgba(26,26,29,0.48)" }}
+                      className="flex gap-4 rounded-2xl border border-white/[0.07] bg-black/20 p-4"
                     >
                       <IconFrame icon={Icon} />
                       <div>
@@ -343,14 +329,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FORMULAIRE */}
       <section id="formulaire" className="relative z-[2] px-7 py-16">
         <div className="mx-auto grid max-w-[1240px] gap-8 lg:grid-cols-[1fr_0.82fr]">
           <div className="surface-card rounded-[30px] p-6 sm:p-8 lg:p-10">
             <SectionTitle
               eyebrow="Formulaire"
               title="Expliquez-nous votre besoin."
-              description="Votre demande sera enregistrée dans notre système pour être traitée rapidement et orientée vers la solution la plus adaptée."
+              description="Quelques informations suffisent pour comprendre le contexte et préparer une réponse utile."
             />
 
             {submitted ? (
@@ -359,7 +344,7 @@ export default function ContactPage() {
                 style={{ background: "var(--grad-soft)" }}
               >
                 <div
-                  className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full text-white"
+                  className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full text-black"
                   style={{ background: "var(--grad)" }}
                 >
                   <CheckCircle2 size={30} strokeWidth={2.3} />
@@ -391,6 +376,7 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>Nom de famille *</span>
                       <input
+                        required
                         value={form.lastname}
                         onChange={(event) => updateField("lastname", event.target.value)}
                         placeholder="Votre nom"
@@ -401,6 +387,7 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>Prénom *</span>
                       <input
+                        required
                         value={form.firstname}
                         onChange={(event) => updateField("firstname", event.target.value)}
                         placeholder="Votre prénom"
@@ -411,6 +398,7 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>E-mail *</span>
                       <input
+                        required
                         type="email"
                         value={form.email}
                         onChange={(event) => updateField("email", event.target.value)}
@@ -420,7 +408,7 @@ export default function ContactPage() {
                       />
                     </label>
                     <PremiumPhoneField
-                    
+                      required
                       value={form.phone}
                       onChange={(value) => updateField("phone", value)}
                       labelClassName={labelClass}
@@ -442,7 +430,7 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>Type de client *</span>
                       <PremiumSelectControl
-                        
+                        required
                         value={form.type_client}
                         onChange={(value) => updateField("type_client", value)}
                         placeholder="Choisissez un type"
@@ -460,7 +448,7 @@ export default function ContactPage() {
                       />
                     </label>
                     <label className={labelClass}>
-                      <span className={labelTextClass}>Ville du business</span>
+                      <span className={labelTextClass}>Ville de l&apos;activité</span>
                       <input
                         value={form.businessCity}
                         onChange={(event) => updateField("businessCity", event.target.value)}
@@ -477,39 +465,6 @@ export default function ContactPage() {
                     />
                   </div>
                 </div>
-
-               {/* <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
-                  <div className="mb-5 flex items-center gap-3">
-                    <IconFrame icon={Globe2} />
-                    <div>
-                      <h3 className="font-display text-xl font-semibold">Présence digitale actuelle</h3>
-                      <p className="mt-1 text-sm text-mut">Ces liens nous aident à analyser votre visibilité et votre image actuelle.</p>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <label className={labelClass}>
-                      <span className={labelTextClass}>Site web actuel</span>
-                      <input
-                        value={form.businessWebsiteUrl}
-                        onChange={(event) => updateField("businessWebsiteUrl", event.target.value)}
-                        placeholder="https://www.votre-site.com"
-                        className={fieldClass}
-                        inputMode="url"
-                      />
-                    </label>
-                    <label className={labelClass}>
-                      <span className={labelTextClass}>Lien Google Business</span>
-                      <input
-                        value={form.googleBusinessUrl}
-                        onChange={(event) => updateField("googleBusinessUrl", event.target.value)}
-                        placeholder="Lien vers votre fiche Google Business"
-                        className={fieldClass}
-                        inputMode="url"
-                      />
-                    </label>
-                  </div>
-                </div>*/}
 
                 <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
@@ -638,7 +593,7 @@ export default function ContactPage() {
                     style={{ background: "rgba(26,26,29,0.45)" }}
                   >
                     <span
-                      className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-white"
+                      className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-black"
                       style={{ background: "var(--grad)" }}
                     >
                       {index + 1}

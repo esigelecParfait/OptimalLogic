@@ -6,7 +6,6 @@ type Props = { children: ReactNode; className?: string; delay?: number };
 export function AnimateIn({ children, className = "", delay = 0 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-///uurrubrrurburbrburubur
   useEffect(() => {
     const el = ref.current;
     if (!el) return;

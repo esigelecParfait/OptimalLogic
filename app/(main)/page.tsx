@@ -1,744 +1,364 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
-import NeuralBackground from "@/components/fx/NeuralBackground";
-import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
-  BadgeCheck,
   BarChart3,
   Bot,
-  BriefcaseBusiness,
   CalendarCheck,
+  Check,
   ClipboardList,
-  Clock3,
   Globe2,
-  Handshake,
   MapPin,
   MessageCircle,
-  MonitorSmartphone,
-  Rocket,
-  Scissors,
   Search,
   ShieldCheck,
-  Store,
+  Sparkles,
   Target,
-  Utensils,
-  Wrench,
-  Scale,
-  Stethoscope,
-  UsersRound,
 } from "lucide-react";
-const audienceCards = [
-  {
-    n: "01",
-    t: "Vous êtes un commerce local ?",
-    d: "Votre fiche Google Business peut devenir votre première source de visibilité, d’appels et de réservations.",
-    icon: Store,
-  },
-  {
-    n: "02",
-    t: "Vous êtes indépendant ?",
-    d: "Votre image en ligne doit inspirer confiance rapidement et donner envie de vous contacter.",
-    icon: BriefcaseBusiness,
-  },
-  {
-    n: "03",
-    t: "Vous êtes une PME ou startup ?",
-    d: "Votre site doit présenter clairement votre valeur, vos offres et guider vos visiteurs vers l’action.",
-    icon: Rocket,
-  },
-];
 
-const problems = [
-  {
-    n: "01",
-    t: "Fiche Google peu optimisée",
-    d: "Une fiche incomplète, peu d’avis ou des photos faibles peuvent envoyer vos prospects chez un concurrent.",
-    icon: Search,
-  },
-  {
-    n: "02",
-    t: "Site peu convaincant",
-    d: "Un site lent, daté ou peu clair ne rassure pas assez vite et fait perdre des demandes.",
-    icon: MonitorSmartphone,
-  },
-  {
-    n: "03",
-    t: "Demandes mal traitées",
-    d: "Quand les messages, appels ou formulaires ne sont pas suivis, les prospects chauds disparaissent.",
-    icon: MessageCircle,
-  },
-  {
-    n: "04",
-    t: "Parcours de contact flou",
-    d: "Sans bouton clair, prise de rendez-vous ou formulaire simple, le client intéressé hésite puis abandonne.",
-    icon: CalendarCheck,
-  },
-];
+export const metadata: Metadata = {
+  title: "Présence digitale et acquisition client",
+  description:
+    "OptimalLogic réunit visibilité locale, site web, prise de rendez-vous, assistant IA et suivi des prospects dans un système digital clair.",
+  alternates: { canonical: "/" },
+};
 
-const solutionCards = [
+const capabilities = [
   {
-    t: "Site web professionnel",
-    d: "Un site clair, moderne et pensé pour convertir.",
-    c: "var(--ink)",
-    span: "md:col-span-2",
-    icon: MonitorSmartphone,
-  },
-  {
-    t: "Prise de RDV",
-    d: "Des réservations simples, sans friction.",
-    c: "var(--ink)",
-    span: "md:col-span-1",
-    icon: CalendarCheck,
-  },
-  {
-    t: "Google Business",
-    d: "Une fiche optimisée pour être choisi localement.",
-    c: "var(--pink)",
-    span: "md:col-span-1",
     icon: MapPin,
+    number: "01",
+    title: "Google Business",
+    description: "Une fiche complète, cohérente et pensée pour déclencher appels, itinéraires et réservations.",
   },
   {
-    t: "Suivi prospects",
-    d: "Des demandes centralisées et mieux relancées.",
-    c: "var(--ink)",
-    span: "md:col-span-2",
-    icon: ClipboardList,
-  },
-];
-
-const difference = [
-  {
-    n: "1",
-    t: "On part de votre activité",
-    d: "Un restaurant, un artisan, un cabinet, une PME ou une startup n’ont pas les mêmes besoins digitaux.",
-    icon: UsersRound,
+    icon: Globe2,
+    number: "02",
+    title: "Site web professionnel",
+    description: "Un site rapide et lisible qui explique votre valeur et guide chaque visiteur vers l’action.",
   },
   {
-    n: "2",
-    t: "On active les bons leviers",
-    d: "Fiche Google, site web, RDV, assistant IA ou suivi prospects : uniquement ce qui sert vraiment votre objectif.",
-    icon: Target,
+    icon: CalendarCheck,
+    number: "03",
+    title: "Prise de rendez-vous",
+    description: "Un parcours de réservation simple, accessible à toute heure et relié à votre organisation.",
   },
   {
-    n: "3",
-    t: "On évite la complexité inutile",
-    d: "Vous n’avez pas besoin de tout. Vous avez besoin de ce qui vous correspond et pousse vos clients à agir.",
-    icon: ShieldCheck,
+    icon: Bot,
+    number: "04",
+    title: "Assistant IA",
+    description: "Des réponses immédiates aux questions fréquentes avec une orientation vers le bon contact.",
   },
   {
-    n: "4",
-    t: "On mesure ce qui compte",
-    d: "Demandes reçues, rendez-vous générés, prospects à relancer et actions prioritaires deviennent visibles.",
-    icon: BarChart3,
-  },
-];
-
-const results = [
-  {
-    n: "01",
-    t: "Être mieux trouvé",
-    d: "Une présence Google claire pour apparaître au bon moment, devant les bonnes personnes.",
-    icon: Search,
-  },
-  {
-    n: "02",
-    t: "Inspirer confiance",
-    d: "Des informations, visuels et messages qui rassurent dès les premières secondes.",
-    icon: ShieldCheck,
-  },
-  {
-    n: "03",
-    t: "Recevoir plus de demandes",
-    d: "Des boutons d’action visibles pour appeler, réserver ou demander un devis facilement.",
     icon: MessageCircle,
+    number: "05",
+    title: "Formulaires intelligents",
+    description: "Les bonnes questions au bon moment pour recevoir des demandes plus faciles à traiter.",
   },
   {
-    n: "04",
-    t: "Gagner du temps",
-    d: "Un assistant IA peut répondre aux questions répétitives, même quand vous êtes occupé.",
-    icon: Clock3,
+    icon: ClipboardList,
+    number: "06",
+    title: "Suivi des prospects",
+    description: "Une vue centralisée des demandes, priorités et relances pour ne plus perdre d’opportunités.",
+  },
+];
+
+const method = [
+  {
+    number: "01",
+    title: "Diagnostic",
+    description: "Nous observons votre présence actuelle, votre activité et les actions qui comptent vraiment.",
+  },
+  {
+    number: "02",
+    title: "Parcours",
+    description: "Nous simplifions le chemin entre une recherche, la confiance et la prise de contact.",
+  },
+  {
+    number: "03",
+    title: "Mise en place",
+    description: "Nous configurons les outils utiles, avec vos contenus et votre manière de travailler.",
+  },
+  {
+    number: "04",
+    title: "Suivi",
+    description: "Nous suivons les demandes et améliorons progressivement les points qui freinent l’action.",
   },
 ];
 
 const audiences = [
-  { label: "Commerces locaux", icon: Store },
-  { label: "Restaurants", icon: Utensils },
-  { label: "Salons & instituts", icon: Scissors },
-  { label: "Artisans", icon: Wrench },
-  { label: "Cabinets professionnels", icon: Scale },
-  { label: "Cabinets médicaux", icon: Stethoscope },
-  { label: "Indépendants", icon: BriefcaseBusiness },
-  { label: "PME", icon: Globe2 },
-  { label: "Startups", icon: Rocket },
-  { label: "Formateurs & coachs", icon: Target },
-  { label: "Prestataires de services", icon: Handshake },
+  "Commerces locaux",
+  "Restaurants",
+  "Salons & instituts",
+  "Artisans",
+  "Cabinets professionnels",
+  "Cabinets médicaux",
+  "Indépendants",
+  "TPE / PME",
+  "Startups",
+  "Formateurs & coachs",
 ];
 
-const marquee = [
-  "Google Business",
-  "Site web professionnel",
-  "Prise de RDV",
-  "Assistant IA",
-  "Formulaire intelligent",
-  "Suivi prospects",
+const clarityPoints = [
+  "Un périmètre et un tarif validés avant le lancement",
+  "Des contenus et parcours adaptés à votre activité",
+  "Un interlocuteur pour la mise en place et le suivi",
+  "Des indicateurs reliés aux demandes réellement reçues",
 ];
 
-const dashboardActions = [
-  { n: "01", t: "Relancer 4 prospects chauds", d: "Priorité commerciale" },
-  { n: "02", t: "Demander 7 avis clients", d: "Impact local" },
-  { n: "03", t: "Optimiser l’offre la plus consultée", d: "Conversion" },
-];
-function IconFrame({
-  icon: Icon,
-  tone = "default",
-}: {
-  icon: LucideIcon;
-  tone?: "default" | "danger" | "success";
-}) {
-  const styles = {
-    default: {
-      color: "var(--ink)",
-      background: "rgba(255,255,255,0.1)",
-      borderColor: "rgba(255,255,255,0.13)",
-    },
-    danger: {
-      color: "#ff7a90",
-      background: "rgba(255,255,255,0.08)",
-      borderColor: "rgba(255,255,255,0.16)",
-    },
-    success: {
-      color: "var(--emerald)",
-      background: "rgba(46,230,168,0.12)",
-      borderColor: "rgba(46,230,168,0.22)",
-    },
-  };
-
+function DemoInterface() {
   return (
-    <div
-      className="mb-5 grid h-[54px] w-[54px] place-items-center rounded-[16px] border transition-transform duration-300 group-hover:scale-105"
-      style={styles[tone]}
-    >
-      <Icon size={23} strokeWidth={1.8} />
-    </div>
-  );
-}
-function Check() {
-  return <BadgeCheck size={17} strokeWidth={2.3} className="text-emerald" />;
-}
+    <div className="product-window">
+      <div className="flex items-center justify-between border-b border-white/[0.09] px-4 py-3 sm:px-5">
+        <div className="flex items-center gap-2" aria-hidden="true">
+          <span className="h-2 w-2 rounded-full bg-white/25" />
+          <span className="h-2 w-2 rounded-full bg-white/15" />
+          <span className="h-2 w-2 rounded-full bg-white/10" />
+        </div>
+        <span className="rounded-full border border-white/[0.1] bg-white/[0.04] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-mut">
+          Aperçu démonstratif
+        </span>
+      </div>
 
-function Arrow() {
-  return <ArrowRight size={16} strokeWidth={2.5} />;
-}
-
-export default function HomePage() {
-  return (
-    <main className="relative">
-      {/* ===== HERO ===== */}
-      <section className="relative overflow-hidden px-7 pb-24 pt-44 lg:pt-52">
-        <NeuralBackground className="opacity-90" />
-
-        <div className="relative z-[2] mx-auto grid max-w-[1240px] items-center gap-14 lg:grid-cols-[1.08fr_0.92fr]">
-          <div>
-            <div
-              className="mb-7 inline-flex items-center gap-[10px] rounded-full border border-white/[0.13] px-4 py-2 text-[13px] font-semibold text-ink"
-              style={{ background: "var(--grad-soft)" }}
-            >
-              <span
-                className="h-2 w-2 rounded-full bg-emerald"
-                style={{
-                  boxShadow: "0 0 12px var(--emerald)",
-                  animation: "blink 1.6s infinite",
-                }}
-              />
-              Google Business • Site web • RDV • Assistant IA
+      <div className="grid gap-3 p-4 sm:p-5">
+        <div className="grid gap-3 sm:grid-cols-[1.2fr_0.8fr]">
+          <div className="premium-panel-soft p-4 sm:p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mut-2">Visibilité locale</p>
+                <p className="mt-2 font-display text-lg font-semibold">Fiche Google Business</p>
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald/20 bg-emerald/10 px-2.5 py-1 text-[10px] font-semibold text-emerald">
+                <Check size={11} strokeWidth={3} /> Optimisée
+              </span>
             </div>
-
-            <h1 className="text-[clamp(42px,5.8vw,76px)] font-semibold">
-              Faites de votre présence en ligne un vrai{" "}
-              <span className="grad-text-kinetic">moteur de clients</span>.
-            </h1>
-
-            <p className="mt-7 max-w-[560px] text-[clamp(17px,1.4vw,20px)] text-mut">
-              Google Business, site web, prise de rendez-vous, assistant IA et
-              suivi des demandes — adaptés à votre activité.
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-[14px]">
-              <Link
-                href="/prise-de-rdv"
-                className="btn-grad inline-flex items-center gap-2 rounded-full px-[30px] py-4 text-[15px] font-semibold"
-              >
-                Réserver un appel gratuit <Arrow />
-              </Link>
-              <Link
-                href="/services"
-                className="btn-ghost inline-flex items-center rounded-full px-[30px] py-4 text-[15px] font-semibold"
-              >
-                Améliorer ma visibilité
-              </Link>
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-[26px]">
+            <div className="mt-6 grid gap-4">
               {[
-                "Diagnostic gratuit",
-                "Sans engagement",
-                "Solutions adaptées",
-              ].map((text) => (
-                <span
-                  key={text}
-                  className="inline-flex items-center gap-[9px] text-sm text-mut"
-                >
-                  <Check /> {text}
-                </span>
+                ["Informations", "92%"],
+                ["Parcours de contact", "84%"],
+                ["Contenus", "76%"],
+              ].map(([label, width]) => (
+                <div key={label}>
+                  <div className="mb-2 flex justify-between text-[11px] text-mut"><span>{label}</span><span>{width}</span></div>
+                  <div className="metric-bar"><span style={{ width }} /></div>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Dashboard mockup */}
-          <AnimateIn delay={150}>
-            <div
-              className="relative rounded-[26px] border border-white/[0.13] p-[22px] shadow-[0_50px_110px_-40px_rgba(0,0,0,0.95)]"
-              style={{
-                background:
-                  "linear-gradient(165deg, rgba(18,18,20,0.95), rgba(5,5,5,0.95))",
-              }}
-            >
-              <div className="mb-[18px] flex items-center justify-between">
-                <div className="flex items-center gap-[10px] text-sm font-semibold">
-                  <span
-                    className="grid h-[30px] w-[30px] place-items-center rounded-[9px] font-display text-xs font-bold text-white"
-                    style={{ background: "var(--grad)" }}
-                  >
-                    OL
-                  </span>
-                  Performance digitale
-                </div>
-                <span className="inline-flex items-center gap-[6px] text-[11px] font-semibold uppercase tracking-[0.08em] text-emerald">
-                  <span
-                    className="h-[6px] w-[6px] rounded-full bg-emerald"
-                    style={{ animation: "blink 1.4s infinite" }}
-                  />{" "}
-                  En progression
-                </span>
-              </div>
+          <div className="premium-panel-soft flex flex-col justify-between p-4 sm:p-5">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mut-2">Nouvelle demande</p>
+              <p className="mt-3 font-display text-base font-semibold">Projet de site web</p>
+              <p className="mt-2 text-xs leading-5 text-mut">Formulaire qualifié · à traiter</p>
+            </div>
+            <div className="mt-8 flex items-center justify-between border-t border-white/[0.08] pt-4 text-xs">
+              <span className="text-mut">Priorité</span>
+              <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-black">Haute</span>
+            </div>
+          </div>
+        </div>
 
-              <div className="mb-4 grid grid-cols-2 gap-3">
-                {[
-                  { l: "Demandes reçues", v: "48", d: "+32% ce mois" },
-                  { l: "RDV générés", v: "19", d: "+11 nouveaux" },
-                  { l: "Prospects chauds", v: "12", d: "À relancer" },
-                  { l: "Valeur estimée", v: "2 840€", d: "opportunités" },
-                ].map((stat) => (
-                  <div
-                    key={stat.l}
-                    className="rounded-[15px] border border-white/[0.07] p-4"
-                    style={{ background: "rgba(26,26,29,0.8)" }}
-                  >
-                    <p className="text-xs text-mut-2">{stat.l}</p>
-                    <p className="mt-2 font-display text-[27px] font-semibold">
-                      {stat.v}
-                    </p>
-                    <p className="mt-1 text-[11.5px] font-semibold text-emerald">
-                      {stat.d}
-                    </p>
+        <div className="premium-panel-soft p-4 sm:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-mut-2">Parcours actif</p>
+              <p className="mt-1 font-display text-base font-semibold">De la découverte à la prise de contact</p>
+            </div>
+            <span className="text-[10px] text-mut-2">Exemple d’interface</span>
+          </div>
+          <div className="mt-5 grid gap-2 sm:grid-cols-3">
+            {[
+              [Search, "Trouver", "Google & site"],
+              [ShieldCheck, "Rassurer", "Offre & preuves"],
+              [Target, "Agir", "RDV & demande"],
+            ].map(([Icon, title, subtitle], index) => {
+              const ItemIcon = Icon as typeof Search;
+              return (
+                <div key={title as string} className="flex items-center gap-3 rounded-xl border border-white/[0.07] bg-black/20 p-3">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/[0.08] text-white"><ItemIcon size={17} /></span>
+                  <div><p className="text-xs font-semibold">{index + 1}. {title as string}</p><p className="mt-0.5 text-[10px] text-mut-2">{subtitle as string}</p></div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "OptimalLogic",
+    url: "https://optimal-logic.com",
+    email: "contact@optimal-logic.com",
+    description:
+      "Solutions de visibilité locale, site web, prise de rendez-vous, assistant IA et suivi des prospects.",
+  };
+
+  return (
+    <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+
+      <section className="page-hero">
+        <div className="section-shell grid gap-14 lg:grid-cols-[0.96fr_1.04fr] lg:items-center">
+          <AnimateIn>
+            <div className="section-label">Digital · IA · Acquisition</div>
+            <h1 className="mt-7 max-w-[780px] text-[clamp(2.8rem,6.2vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.055em]">
+              Une présence digitale qui mène à
+              <span className="grad-text"> l’action.</span>
+            </h1>
+            <p className="mt-7 max-w-[650px] text-[clamp(1rem,1.5vw,1.18rem)] leading-8 text-mut">
+              OptimalLogic réunit visibilité locale, site web, rendez-vous, assistant IA et suivi des prospects dans un système simple à comprendre et utile au quotidien.
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link href="/prise-de-rdv" className="btn-grad inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold">
+                Réserver un diagnostic <ArrowRight size={16} />
+              </Link>
+              <Link href="/services" className="btn-ghost inline-flex min-h-12 items-center justify-center rounded-full px-6 text-sm font-semibold">
+                Découvrir les services
+              </Link>
+            </div>
+            <div className="mt-9 flex flex-wrap gap-x-6 gap-y-2 border-t border-white/[0.09] pt-5 text-xs font-medium text-mut">
+              <span>Diagnostic gratuit</span>
+              <span>Périmètre clair</span>
+              <span>Suivi mensuel</span>
+            </div>
+          </AnimateIn>
+
+          <AnimateIn delay={120}>
+            <DemoInterface />
+          </AnimateIn>
+        </div>
+      </section>
+
+      <section className="border-y border-white/[0.08] bg-white/[0.018]">
+        <div className="section-shell grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            [Search, "Être trouvé", "au bon moment"],
+            [ShieldCheck, "Inspirer confiance", "dès les premières secondes"],
+            [Target, "Déclencher l’action", "sans friction"],
+            [BarChart3, "Suivre les demandes", "sans opportunité perdue"],
+          ].map(([Icon, title, description]) => {
+            const ItemIcon = Icon as typeof Search;
+            return (
+              <div key={title as string} className="flex gap-4 border-white/[0.08] px-5 py-6 lg:border-r lg:last:border-r-0">
+                <ItemIcon className="mt-0.5 shrink-0 text-white" size={20} strokeWidth={1.7} />
+                <div><p className="text-sm font-semibold">{title as string}</p><p className="mt-1 text-xs text-mut">{description as string}</p></div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="section-space">
+        <div className="section-shell">
+          <AnimateIn className="grid gap-6 lg:grid-cols-[0.76fr_1.24fr] lg:items-end">
+            <div>
+              <div className="section-label">Le système</div>
+              <h2 className="mt-5 text-[clamp(2.1rem,4.5vw,4rem)] font-semibold tracking-[-0.045em]">Les bons leviers, réunis.</h2>
+            </div>
+            <p className="max-w-[650px] text-base leading-7 text-mut lg:justify-self-end">
+              Chaque brique répond à un point précis du parcours client. Elles peuvent fonctionner seules ou ensemble, selon votre activité et votre objectif.
+            </p>
+          </AnimateIn>
+
+          <div className="mt-11 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {capabilities.map((item, index) => (
+              <AnimateIn key={item.title} delay={index * 55}>
+                <article className="premium-panel group h-full p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7">
+                  <div className="flex items-center justify-between">
+                    <span className="grid h-11 w-11 place-items-center rounded-2xl border border-white/[0.1] bg-white/[0.06] text-white">
+                      <item.icon size={20} strokeWidth={1.7} />
+                    </span>
+                    <span className="font-display text-xs font-semibold text-mut-2">{item.number}</span>
                   </div>
+                  <h3 className="mt-8 text-xl font-semibold">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-mut">{item.description}</p>
+                </article>
+              </AnimateIn>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-ink underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-white">
+              Voir le détail des services <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-space border-y border-white/[0.08] bg-white/[0.018]">
+        <div className="section-shell grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
+          <AnimateIn>
+            <div className="section-label">Notre méthode</div>
+            <h2 className="mt-5 max-w-[480px] text-[clamp(2.1rem,4vw,3.6rem)] font-semibold tracking-[-0.045em]">Moins d’outils. Plus de cohérence.</h2>
+            <p className="mt-6 max-w-[500px] text-base leading-7 text-mut">
+              Nous partons du parcours de votre client, puis nous choisissons la solution la plus directe pour le rendre visible, rassurant et mesurable.
+            </p>
+          </AnimateIn>
+
+          <div className="grid gap-3">
+            {method.map((step, index) => (
+              <AnimateIn key={step.number} delay={index * 70}>
+                <article className="grid gap-4 rounded-[22px] border border-white/[0.09] bg-black/20 p-5 sm:grid-cols-[3.25rem_0.55fr_1fr] sm:items-center sm:p-6">
+                  <span className="grid h-11 w-11 place-items-center rounded-full border border-white/[0.12] bg-white/[0.05] font-display text-xs font-semibold text-mut">{step.number}</span>
+                  <h3 className="text-lg font-semibold">{step.title}</h3>
+                  <p className="text-sm leading-6 text-mut">{step.description}</p>
+                </article>
+              </AnimateIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-space">
+        <div className="section-shell grid gap-12 lg:grid-cols-2 lg:items-start">
+          <AnimateIn>
+            <div className="section-label">Pour qui ?</div>
+            <h2 className="mt-5 max-w-[600px] text-[clamp(2rem,4vw,3.6rem)] font-semibold tracking-[-0.045em]">Une approche adaptée à votre manière de vendre.</h2>
+            <p className="mt-6 max-w-[570px] text-base leading-7 text-mut">
+              Un commerce local, un cabinet, une PME et une startup n’ont ni les mêmes clients ni le même cycle de décision. Le dispositif s’adapte à cette réalité.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-2.5">
+              {audiences.map((audience) => (
+                <span key={audience} className="rounded-full border border-white/[0.1] bg-white/[0.035] px-4 py-2 text-xs font-medium text-mut">{audience}</span>
+              ))}
+            </div>
+          </AnimateIn>
+
+          <AnimateIn delay={100}>
+            <div className="premium-panel p-6 sm:p-8">
+              <div className="flex items-center gap-3">
+                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-black"><Sparkles size={19} /></span>
+                <div><p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-mut-2">Cadre de travail</p><h3 className="mt-1 text-xl font-semibold">Clair du départ au suivi</h3></div>
+              </div>
+              <ul className="mt-8 grid gap-4">
+                {clarityPoints.map((item) => (
+                  <li key={item} className="flex gap-3 border-b border-white/[0.08] pb-4 text-sm leading-6 text-mut last:border-0 last:pb-0">
+                    <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald/10 text-emerald"><Check size={12} strokeWidth={3} /></span>
+                    {item}
+                  </li>
                 ))}
-              </div>
-
-              <div
-                className="rounded-[15px] border border-white/[0.07] p-4"
-                style={{ background: "rgba(26,26,29,0.8)" }}
-              >
-                <div className="mb-[14px] flex items-center justify-between text-[12.5px] text-mut">
-                  <span>Actions recommandées</span>
-                  <span className="grad-text font-bold">Aujourd’hui</span>
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  {dashboardActions.map((action) => (
-                    <div
-                      key={action.n}
-                      className="flex items-center gap-3 rounded-[13px] border border-white/[0.07] p-3"
-                      style={{ background: "rgba(255,255,255,0.03)" }}
-                    >
-                      <span className="grad-text w-8 shrink-0 font-display text-[18px] font-semibold leading-none">
-                        {action.n}
-                      </span>
-                      <div>
-                        <p className="text-[13.5px] font-semibold text-ink">
-                          {action.t}
-                        </p>
-                        <p className="text-[12px] text-mut-2">{action.d}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              </ul>
             </div>
           </AnimateIn>
         </div>
       </section>
 
-      {/* ===== MARQUEE ===== */}
-      <div
-        className="relative z-[2] overflow-hidden border-y border-white/[0.07] py-[26px]"
-        style={{ background: "rgba(5,5,5,0.5)" }}
-      >
-        <div className="flex w-max animate-marquee gap-14">
-          {[...marquee, ...marquee].map((item, index) => (
-            <span
-              key={`${item}-${index}`}
-              className="flex items-center gap-[14px] whitespace-nowrap font-display text-[22px] font-medium text-mut"
-            >
-              <span className="text-white">✦</span> {item}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ===== POUR QUI ===== */}
-      <section className="relative z-[2] px-7 py-[95px]">
-        <div className="mx-auto max-w-[1240px]">
-          <AnimateIn className="mx-auto mb-[56px] max-w-[720px] text-center">
-            <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Pour qui ?
-            </span>
-            <h2 className="text-[clamp(34px,4.6vw,52px)]">
-              Chaque activité a sa place.
-            </h2>
-            <p className="mt-4 text-lg text-mut">
-              Votre présence digitale doit refléter votre réalité : commerce
-              local, indépendant, PME ou startup.
-            </p>
-          </AnimateIn>
-
-          <div className="grid gap-[22px] md:grid-cols-3">
-            {audienceCards.map((card, index) => (
-              <AnimateIn key={card.n} delay={index * 80}>
-                <div className="surface-card group relative h-full overflow-hidden rounded-[22px] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.13]">
-                  <span className="absolute right-[30px] top-[26px] font-display text-sm text-mut-2">
-                    {card.n}
-                  </span>
-                  <IconFrame icon={card.icon} />
-                  <h3 className="mb-[10px] text-xl font-semibold">{card.t}</h3>
-                  <p className="text-[15px] text-mut">{card.d}</p>
-                </div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== PROBLÈME ===== */}
-      <section className="relative z-[2] px-7 py-[105px]">
-        <div className="mx-auto max-w-[1240px]">
-          <AnimateIn className="mx-auto mb-[70px] max-w-[820px] text-center">
-            <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Le vrai problème
-            </span>
-            <h2 className="text-[clamp(34px,4.6vw,52px)]">
-              Le problème n’est pas toujours l’absence de site. C’est l’absence
-              de clarté.
-            </h2>
-            <p className="mt-4 text-lg text-mut">
-              Fiche Google incomplète, photos peu attractives, avis mal
-              exploités, pas de réservation simple — voilà ce qui fait perdre
-              des clients.
-            </p>
-          </AnimateIn>
-
-          <div className="grid gap-[22px] sm:grid-cols-2 lg:grid-cols-3">
-            {problems.map((p, i) => (
-              <AnimateIn key={p.n} delay={(i % 2) * 80}>
-                <div className="surface-card group relative h-full overflow-hidden rounded-[22px] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.13]">
-                  <span className="absolute right-[30px] top-[26px] font-display text-sm text-mut-2">
-                    {p.n}
-                  </span>
-
-                  <IconFrame icon={p.icon} tone="danger" />
-
-                  <h3 className="mb-[10px] text-xl font-semibold">{p.t}</h3>
-                  <p className="text-[15px] text-mut">{p.d}</p>
-                </div>
-              </AnimateIn>
-))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== VISION ===== */}
-      <section className="relative z-[2] px-7 py-[110px]">
-        <AnimateIn className="mx-auto max-w-[1000px] text-center">
-          <span className="eyebrow-grad mb-[18px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-            Notre vision
-          </span>
-          <p className="font-display text-[clamp(30px,4.4vw,56px)] font-medium leading-[1.18]">
-            Nous ne partons pas d’un outil. Nous partons de{" "}
-            <span className="grad-text">votre activité</span>.
-          </p>
-          <p className="mx-auto mt-8 max-w-[680px] text-lg text-mut">
-            Un restaurant, un artisan, un cabinet, une PME ou une marque
-            digitale n’ont pas les mêmes besoins. Parfois, une fiche Google
-            optimisée suffit. Parfois, un site complet devient nécessaire.
-          </p>
-          <p className="mx-auto mt-6 max-w-[700px] text-[20px] text-ink">
-            “Le bon digital n’est pas forcément le plus compliqué. C’est celui
-            qui aide vos clients à vous choisir.”
-          </p>
-        </AnimateIn>
-      </section>
-
-      {/* ===== SOLUTIONS ===== */}
-      <section className="relative z-[2] px-9 py-[125px]">
-        <div className="mx-auto max-w-[1260px]">
-          <AnimateIn className="mx-auto mb-[70px] max-w-[760px] text-center">
-            <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Solutions
-            </span>
-            <h2 className="text-[clamp(34px,4.6vw,52px)]">
-              Une présence digitale sur mesure, selon vos vrais besoins.
-            </h2>
-            <p className="mt-4 text-lg text-mut">
-              Google Business, site web, réservation, assistant IA, formulaire
-              et suivi prospects : on active uniquement les leviers utiles.
-            </p>
-            <Link
-              href="/services"
-              className="btn-ghost mt-8 inline-flex items-center rounded-full px-[30px] py-4 text-[15px] font-semibold"
-            >
-              Voir les services
-            </Link>
-          </AnimateIn>
-
-          <div className="grid gap-5 md:grid-cols-4 md:[grid-auto-rows:215px]">
-            <AnimateIn className="md:col-span-2 md:row-span-2">
-              <div className="surface-card relative flex h-full flex-col justify-end overflow-hidden rounded-[24px] p-[30px] transition-all hover:-translate-y-1 hover:border-white/[0.13]">
-                <span
-                  className="absolute right-[26px] top-[26px] z-[2] rounded-full px-3 py-[5px] text-[11px] font-bold text-[#d8a9ff]"
-                  style={{ background: "rgba(255,255,255,0.1)" }}
-                >
-                  Gain de temps · 24/7
-                </span>
-                <div
-                  className="absolute right-7 top-7 h-[86px] w-[86px] animate-orb rounded-full blur-[2px]"
-                  style={{
-                    background: "var(--grad)",
-                    boxShadow: "0 0 60px rgba(255,255,255,0.34)",
-                  }}
-                />
-                <div className="relative z-[1] mb-auto">
-                  <IconFrame icon={Bot} />
-                </div>
-                <h3 className="relative z-[1] mb-2 mt-auto text-[30px] font-semibold">
-                  Assistant IA
-                </h3>
-                <p className="relative z-[1] text-[14.5px] text-mut">
-                  Un conseiller disponible 24h/24 pour répondre aux questions
-                  fréquentes et guider les visiteurs vers l’action.
-                </p>
-                <div className="relative z-[1] mt-5 flex max-w-[330px] flex-col gap-2">
-                  <span
-                    className="w-fit self-end rounded-[14px] rounded-br-[4px] border border-white/[0.13] px-4 py-2 text-[13px]"
-                    style={{ background: "rgba(255,255,255,0.12)" }}
-                  >
-                    Vous êtes ouverts aujourd’hui ?
-                  </span>
-                  <span
-                    className="w-fit rounded-[14px] rounded-bl-[4px] border border-white/[0.07] px-4 py-2 text-[13px] text-mut"
-                    style={{ background: "rgba(255,255,255,0.05)" }}
-                  >
-                    Oui. Je peux aussi vous proposer un créneau.
-                  </span>
-                </div>
-              </div>
-            </AnimateIn>
-
-            {solutionCards.map((solution, index) => (
-              <AnimateIn
-                key={solution.t}
-                className={solution.span}
-                delay={(index % 2) * 80}
-              >
-                <div className="surface-card group relative flex h-full flex-col justify-end overflow-hidden rounded-[24px] p-[30px] transition-all hover:-translate-y-1 hover:border-white/[0.13]">
-                  <div
-                    className="absolute -right-16 -top-16 h-[220px] w-[220px] rounded-full opacity-50 blur-[70px]"
-                    style={{ background: solution.c }}
-                  />
-
-                  <div className="relative z-[1] mb-auto">
-                    <IconFrame icon={solution.icon} />
-                  </div>
-                  <h3 className="relative z-[1] mb-2 mt-2 text-[21px] font-semibold">
-                    {solution.t}
-                  </h3>
-                  <p className="relative z-[1] text-[14.5px] text-mut">
-                    {solution.d}
-                  </p>
-                </div>
-              </AnimateIn>
-            ))}          </div>
-        </div>
-      </section>
-
-      {/* ===== DIFFÉRENCE ===== */}
-      <section className="relative z-[2] px-7 py-[105px]">
-        <div className="mx-auto max-w-[1240px]">
-          <AnimateIn className="mx-auto mb-[56px] max-w-[820px] text-center">
-            <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Notre différence
-            </span>
-            <h2 className="text-[clamp(30px,4vw,48px)]">
-              Vous n’avez pas besoin de tout. Vous avez besoin de ce qui vous
-              correspond.
-            </h2>
-            <p className="mt-4 text-lg text-mut">
-              Fiche Google, site web, réservation ou assistant IA — notre rôle
-              est de vous orienter vers ce qui est vraiment utile, sans vous
-              vendre ce qui ne sert pas.
-            </p>
-          </AnimateIn>
-
-          <div className="grid gap-[22px] md:grid-cols-2 lg:grid-cols-4">
-            {difference.map((item, index) => (
-              <AnimateIn key={item.n} delay={index * 70}>
-                <div className="surface-card h-full rounded-[22px] p-8 transition-all hover:-translate-y-1 hover:border-white/[0.13]">
-                  <div className="relative mb-5">
-                    <IconFrame icon={item.icon} />
-                    <span
-                      className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full font-display text-[11px] font-bold text-white"
-                      style={{ background: "var(--grad)" }}
-                    >
-                      {item.n}
-                    </span>
-                  </div>
-                  <h3 className="mb-[10px] text-xl font-semibold">{item.t}</h3>
-                  <p className="text-[15px] text-mut">{item.d}</p>
-                </div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== RÉSULTATS ===== */}
-      <section className="relative z-[2] px-7 py-[105px]">
-        <div className="mx-auto grid max-w-[1240px] items-start gap-[60px] lg:grid-cols-[0.8fr_1.2fr]">
-          <AnimateIn className="lg:sticky lg:top-[130px]">
-            <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Résultats
-            </span>
-            <h2 className="text-[clamp(32px,4.4vw,48px)]">
-              Ce que votre présence digitale peut changer.
-            </h2>
-            <p className="mt-4 text-[17px] text-mut">
-              L’objectif n’est pas d’avoir plus d’outils. L’objectif est d’être
-              trouvé, compris, choisi et contacté plus facilement.
-            </p>
-          </AnimateIn>
-
-          <div className="flex flex-col gap-[18px]">
-            {results.map((result, index) => (
-              <AnimateIn key={result.n} delay={index * 80}>
-                <div
-                  className="group flex gap-[22px] rounded-[22px] border border-white/[0.07] p-7 transition-all hover:-translate-y-1 hover:border-white/[0.13]"
-                  style={{ background: "rgba(18,18,20,0.6)" }}
-                >
-                  <div className="shrink-0">
-                    <IconFrame icon={result.icon} tone="success" />
-                  </div>
-                  <div>
-                    <span className="grad-text mb-2 block font-display text-[18px] font-semibold leading-none">
-                      {result.n}
-                    </span>
-                    <h4 className="mb-2 text-xl font-semibold">{result.t}</h4>
-                    <p className="text-[15px] text-mut">{result.d}</p>
-                  </div>
-                </div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== ACTIVITÉS ===== */}
-      <section className="relative z-[2] px-7 py-[85px]">
-        <div className="mx-auto max-w-[1240px]">
-          <AnimateIn className="mx-auto mb-12 max-w-[760px] text-center">
-            <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Activités accompagnées
-            </span>
-            <h2 className="text-[clamp(32px,4.4vw,48px)]">
-              Une présence digitale pensée pour chaque type d’activité.
-            </h2>
-            <p className="mt-4 text-lg text-mut">
-              Que vous soyez un commerce de quartier, un restaurant, un artisan,
-              un cabinet, une PME ou une marque en développement, votre présence
-              en ligne doit refléter votre valeur et faciliter le passage à
-              l’action.
-            </p>
-          </AnimateIn>
-
-          <div className="flex flex-wrap justify-center gap-[14px]">
-            {audiences.map(({ label, icon: Icon }) => (
-              <span
-                key={label}
-                className="surface-card inline-flex items-center gap-3 rounded-full px-[24px] py-[14px] text-[15px] font-medium text-mut transition-colors hover:border-white/30 hover:text-ink"
-              >
-                <Icon size={18} strokeWidth={1.8} className="text-white" />
-                {label}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CTA FINAL ===== */}
-      <section className="relative overflow-hidden rounded-[30px] border border-white/[0.13] px-8 py-14 text-center md:px-10 md:py-16">
-        <AnimateIn className="mx-auto max-w-[1240px]">
-          <div
-            className="relative overflow-hidden rounded-[36px] border border-white/[0.13] px-[50px] py-[82px] text-center"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08))",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)",
-              }}
-            />
+      <section className="px-4 py-10 sm:px-7 sm:py-16">
+        <AnimateIn className="section-shell">
+          <div className="relative overflow-hidden rounded-[32px] border border-white/[0.14] bg-white px-6 py-14 text-center text-black sm:px-10 sm:py-16">
+            <div className="absolute inset-0 opacity-50" aria-hidden="true" style={{ background: "radial-gradient(circle at 50% 0%, #ffffff, #d6d6d6 75%)" }} />
             <div className="relative">
-              <div
-                className="mb-6 inline-flex items-center gap-[10px] rounded-full border border-white/[0.13] px-4 py-2 text-[13px] font-semibold text-ink"
-                style={{ background: "var(--grad-soft)" }}
-              >
-                <span className="h-2 w-2 rounded-full bg-emerald" /> Première
-                étape · diagnostic gratuit
-              </div>
-             <h2 className="text-[clamp(32px,4.6vw,54px)]">
-              Vous ne savez pas par où commencer ?
-              <br />
-              C’est justement notre rôle.
-            </h2>
-              <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-7 text-mut">
-                Réservez un appel gratuit. Nous analysons votre présence actuelle et vous proposons la solution la plus adaptée.
-              </p>
-              <div className="mt-9 flex flex-wrap justify-center gap-[14px]">
-                <Link
-                  href="/prise-de-rdv"
-                  className="btn-grad inline-flex items-center gap-2 rounded-full px-[30px] py-4 text-[15px] font-semibold"
-                >
-                  Réserver un appel gratuit <Arrow />
-                </Link>
-                <Link
-                  href="/tarifs"
-                  className="btn-ghost inline-flex items-center rounded-full px-[30px] py-4 text-[15px] font-semibold"
-                >
-                  Nos formules
-                </Link>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-black/50">Premier échange sans engagement</p>
+              <h2 className="mx-auto mt-5 max-w-[780px] text-[clamp(2rem,4.7vw,4rem)] font-semibold tracking-[-0.05em]">Voyons ce qui peut réellement simplifier votre acquisition.</h2>
+              <p className="mx-auto mt-6 max-w-[650px] text-base leading-7 text-black/65">Un diagnostic pour clarifier votre priorité, le bon périmètre et la formule la plus adaptée.</p>
+              <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+                <Link href="/prise-de-rdv" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-black px-6 text-sm font-semibold text-white">Prendre rendez-vous <ArrowRight size={16} /></Link>
+                <Link href="/tarifs" className="inline-flex min-h-12 items-center justify-center rounded-full border border-black/15 px-6 text-sm font-semibold text-black transition-colors hover:bg-black/[0.05]">Voir les tarifs</Link>
               </div>
             </div>
           </div>

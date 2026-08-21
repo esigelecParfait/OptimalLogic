@@ -14,9 +14,9 @@ export default function CookiesPage() {
 
   return (
     <main className="relative">
-      <section className="px-7 pb-12 pt-44 lg:pt-52">
-        <div className="mx-auto max-w-[1240px]">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-2 text-sm font-medium text-ink" style={{ background: "var(--grad-soft)" }}>Cookies &amp; traceurs</div>
+      <section className="page-hero !pb-12">
+        <div className="section-shell">
+          <div className="section-label">Cookies &amp; traceurs</div>
           <h1 className="mt-6 max-w-4xl text-[clamp(38px,5.4vw,68px)] font-semibold">Gestion des cookies.<span className="grad-text"> Choisissez ce que vous acceptez.</span></h1>
           <p className="mt-8 max-w-3xl text-lg leading-8 text-mut">Cette page explique les cookies et traceurs qui peuvent être utilisés sur le site. Vous pouvez modifier vos préférences à tout moment.</p>
           <button type="button" onClick={openCookiePreferences} className="btn-grad mt-10 inline-flex rounded-full px-6 py-3 text-sm font-semibold">Modifier mes préférences</button>
