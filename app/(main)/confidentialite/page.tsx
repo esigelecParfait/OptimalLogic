@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Confidentialité",
+  description: "Politique de confidentialité et traitement des données personnelles sur le site OptimalLogic.",
+  alternates: { canonical: "/confidentialite" },
+};
+
 const sections = [
   { t: "1. Données collectées", d: "Nous pouvons collecter les informations que vous nous transmettez volontairement via les formulaires du site : nom, prénom, adresse e-mail, numéro de téléphone, nom d’entreprise, type de projet et message." },
   { t: "2. Utilisation des données", d: "Ces données sont utilisées uniquement pour répondre à vos demandes, vous recontacter, organiser un rendez-vous, établir une proposition commerciale ou assurer le suivi de votre projet." },
@@ -10,18 +18,18 @@ const sections = [
 export default function ConfidentialitePage() {
   return (
     <main className="relative">
-      <section className="px-7 pb-12 pt-44 lg:pt-52">
-        <div className="mx-auto max-w-4xl">
-          <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Politique de confidentialité</p>
+      <section className="page-hero !pb-12">
+        <div className="section-shell max-w-4xl">
+          <div className="section-label">Politique de confidentialité</div>
           <h1 className="mt-4 text-[clamp(36px,5vw,56px)] font-semibold">Protection de vos <span className="grad-text">données personnelles</span></h1>
           <p className="mt-6 text-lg leading-8 text-mut">Cette page explique comment OptimalLogic collecte, utilise et protège les informations transmises via son site internet.</p>
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-7 py-12">
+      <section className="section-shell max-w-4xl py-12">
         <div className="space-y-5">
           {sections.map((s) => (
-            <div key={s.t} className="surface-card rounded-[24px] p-7 sm:p-8">
+            <div key={s.t} className="premium-panel rounded-[24px] p-7 sm:p-8">
               <h2 className="font-display text-2xl font-semibold">{s.t}</h2>
               <p className="mt-4 leading-8 text-mut">{s.d}</p>
             </div>

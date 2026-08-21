@@ -1,17 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { AnimateIn } from "@/components/AnimateIn";
-import NeuralBackground from "@/components/fx/NeuralBackground";
 import { parsePhoneNumber } from "react-phone-number-input";
 import Link from "next/link";
 import {
   BadgeCheck,
+  ChevronDown,
   Check,
   CreditCard,
   FileText,
   RefreshCw,
-  Target,
   X,
 } from "lucide-react";
 import {
@@ -398,6 +397,7 @@ export default function TarifsPage() {
   const [formSent, setFormSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const modalCloseButtonRef = useRef<HTMLButtonElement>(null);
 
   const [leadForm, setLeadForm] = useState<OfferRequestForm>({
     lastname: "",
@@ -441,6 +441,29 @@ export default function TarifsPage() {
     }
     loadOffers();
   }, []);
+
+  useEffect(() => {
+    if (!selectedPack) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    modalCloseButtonRef.current?.focus();
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedPack(null);
+        setFormSent(false);
+        setIsSubmitting(false);
+        setFormError(null);
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [selectedPack]);
 
   const applyDatabaseOffer = useCallback((pack: PricingPack): PricingPack => {
     const matchingOffer = databaseOffers.find((offer) => offer.code === pack.code);
@@ -556,8 +579,6 @@ export default function TarifsPage() {
 
   function PricingCard({ pack }: { pack: PricingPack }) {
     const featured = pack.highlighted;
-    const visibleSetupIncludes = pack.setupIncludes.slice(0, 4);
-    const visibleMonthlyIncludes = pack.monthlyIncludes.slice(0, 3);
 
     return (
       <article
@@ -581,6 +602,12 @@ export default function TarifsPage() {
 
        
 
+        {featured && (
+          <span className="absolute right-5 top-5 z-[2] rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-black">
+            Recommandée
+          </span>
+        )}
+
         <div className="relative z-[1] pr-24">
           <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">
             {pack.category}
@@ -589,6 +616,7 @@ export default function TarifsPage() {
             {pack.name}
           </h3>
           <p className="mt-3 text-sm leading-6 text-mut">{pack.subtitle}</p>
+          {pack.target && <p className="mt-3 text-xs leading-5 text-mut-2">{pack.target}</p>}
         </div>
 
 
@@ -619,43 +647,25 @@ export default function TarifsPage() {
           </div>
         </div>
 
-        <div
-          className="relative z-[1] mt-6 rounded-2xl border border-white/[0.08] p-5"
-          style={{ background: "rgba(26,26,29,0.48)" }}
-        >
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              Mise en place
-            </p>
-            <span className="rounded-full border border-white/[0.1] px-2.5 py-1 text-[10px] text-mut-2">
-              points clés
-            </span>
-          </div>
-          <ul className="grid gap-2.5">
-            {visibleSetupIncludes.map((item) => (
-              <PremiumCheck key={item} item={item} tone="emerald" />
-            ))}
+        <details className="group relative z-[1] mt-6 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5">
+          <summary className="flex cursor-pointer items-center justify-between gap-3 text-[11px] font-semibold uppercase tracking-wider text-mut transition-colors hover:text-ink">
+            <span>Mise en place · {pack.setupIncludes.length} éléments</span>
+            <ChevronDown size={16} className="transition-transform group-open:rotate-180" />
+          </summary>
+          <ul className="mt-5 grid gap-2.5 border-t border-white/[0.08] pt-5">
+            {pack.setupIncludes.map((item) => <PremiumCheck key={item} item={item} tone="emerald" />)}
           </ul>
-        </div>
+        </details>
 
-        <div
-          className="relative z-[1] mt-4 rounded-2xl border border-white/[0.08] p-5"
-          style={{ background: "rgba(26,26,29,0.42)" }}
-        >
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              Suivi mensuel
-            </p>
-            <span className="rounded-full border border-white/[0.1] px-2.5 py-1 text-[10px] text-mut-2">
-              continuité
-            </span>
-          </div>
-          <ul className="grid gap-2.5">
-            {visibleMonthlyIncludes.map((item) => (
-              <PremiumCheck key={item} item={item} tone="cyan" />
-            ))}
+        <details className="group relative z-[1] mt-3 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5">
+          <summary className="flex cursor-pointer items-center justify-between gap-3 text-[11px] font-semibold uppercase tracking-wider text-mut transition-colors hover:text-ink">
+            <span>Suivi mensuel · {pack.monthlyIncludes.length} éléments</span>
+            <ChevronDown size={16} className="transition-transform group-open:rotate-180" />
+          </summary>
+          <ul className="mt-5 grid gap-2.5 border-t border-white/[0.08] pt-5">
+            {pack.monthlyIncludes.map((item) => <PremiumCheck key={item} item={item} tone="cyan" />)}
           </ul>
-        </div>
+        </details>
 
         <div
           className="relative z-[1] mt-4 rounded-2xl border border-white/[0.08] p-5"
@@ -688,32 +698,18 @@ export default function TarifsPage() {
   return (
     <main className="relative">
       {/* HERO */}
-      <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
-        <NeuralBackground />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 18% 18%, rgba(255,255,255,0.12), transparent 35%), radial-gradient(circle at 86% 18%, rgba(255,255,255,0.08), transparent 30%)",
-          }}
-        />
-
-        <AnimateIn className="relative z-[2] mx-auto max-w-[1240px]">
-          <span
-            className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-            style={{ background: "var(--grad-soft)" }}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Tarifs &amp; formules
-          </span>
+      <section className="page-hero">
+        <AnimateIn className="section-shell">
+          <div className="section-label">Tarifs &amp; formules</div>
 
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-end">
             <div>
               <h1 className="max-w-4xl text-[clamp(38px,5.4vw,68px)] font-semibold leading-[1.03]">
-                Des formules claires pour transformer votre présence digitale
-                <span className="grad-text"> en demandes concrètes.</span>
+                Des formules lisibles,
+                <span className="grad-text"> sans périmètre caché.</span>
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-mut">
-                Chaque offre combine mise en place, outils adaptés et suivi mensuel pour aider votre activité à être trouvée, comprise, choisie et mieux suivie.
+                Chaque offre distingue clairement le projet initial du suivi mensuel. Ouvrez le détail de chaque formule pour consulter l’ensemble des fonctionnalités incluses.
               </p>
 
               <div className="mt-10 flex flex-wrap gap-3">
@@ -822,7 +818,7 @@ export default function TarifsPage() {
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
             <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Commerces locaux</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour être trouvé, rassuré et être choisi rapidement</h2>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour être trouvé, rassurer et être choisi rapidement</h2>
             <p className="mt-5 text-base leading-7 text-mut">Deux formules pensées pour les commerces qui dépendent des recherches locales, des avis, des appels, des réservations, des devis ou des visites physiques.</p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -871,7 +867,7 @@ export default function TarifsPage() {
             {paymentSteps.map((item, i) => (
               <AnimateIn key={item.step} delay={i * 90}>
                 <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.5)" }}>
-                  <span className="grid h-10 w-10 place-items-center rounded-full font-display text-xs font-bold text-white" style={{ background: "var(--grad)" }}>{item.step}</span>
+                  <span className="grid h-10 w-10 place-items-center rounded-full font-display text-xs font-bold text-black" style={{ background: "var(--grad)" }}>{item.step}</span>
                   <h3 className="mt-5 font-display text-lg font-semibold">{item.title}</h3>
                   <p className="mt-3 text-xs leading-5 text-mut">{item.description}</p>
                 </div>
@@ -919,15 +915,15 @@ export default function TarifsPage() {
       {/* MODAL */}
       {selectedPack && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 py-6">
-          <button type="button" aria-label="Fermer la fenêtre" onClick={closeOfferModal} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-          <div className="surface-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[28px] p-6 shadow-2xl sm:p-8">
+          <button type="button" tabIndex={-1} aria-label="Fermer la fenêtre" onClick={closeOfferModal} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          <div role="dialog" aria-modal="true" aria-labelledby="offer-dialog-title" className="surface-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[28px] p-6 shadow-2xl sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">Demande d&apos;offre</p>
-                <h3 className="mt-2 font-display text-2xl font-semibold">{selectedPack.name}</h3>
+                <h3 id="offer-dialog-title" className="mt-2 font-display text-2xl font-semibold">{selectedPack.name}</h3>
                 <p className="mt-1 text-sm font-medium text-mut">{selectedPack.category} · Mise en place {selectedPack.setupPrice} · Abonnement {selectedPack.monthlyPrice}</p>
               </div>
-              <button type="button" onClick={closeOfferModal} aria-label="Fermer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink">
+              <button ref={modalCloseButtonRef} type="button" onClick={closeOfferModal} aria-label="Fermer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink">
                 <X size={18} strokeWidth={2} />
               </button>
             </div>
@@ -939,7 +935,7 @@ export default function TarifsPage() {
 
             {formSent ? (
               <div className="mt-6 rounded-[24px] border border-white/[0.13] p-6 text-center" style={{ background: "var(--grad-soft)" }}>
-                <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full text-white" style={{ background: "var(--grad)" }}>
+                <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full text-black" style={{ background: "var(--grad)" }}>
                   <Check size={24} strokeWidth={3} />
                 </div>
                 <h4 className="font-display text-xl font-semibold">Demande envoyée</h4>
@@ -962,27 +958,15 @@ export default function TarifsPage() {
                     labelTextClassName={modalLabelClass}
                   />
                 </div>
-        {/*
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>Entreprise</span><input value={leadForm.company} onChange={(e) => updateLeadField("company", e.target.value)} placeholder="Nom de l'entreprise" className={modalFieldClass} /></label>
-                  <label className="grid gap-2"><span className={modalLabelClass}>Ville</span><input value={leadForm.businessCity} onChange={(e) => updateLeadField("businessCity", e.target.value)} placeholder="Ex : Rouen, Paris, Lyon..." className={modalFieldClass} /></label>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>Type d&apos;activité</span><input value={leadForm.activity} onChange={(e) => updateLeadField("activity", e.target.value)} placeholder="Ex : restaurant, BTP, SaaS..." className={modalFieldClass} /></label>
-                  <ObjectiveSelectField
-                    required
-                    value={leadForm.objective}
-                    onChange={(value) => updateLeadField("objective", value)}
-                    options={objectiveOptions}
-                    labelClassName="grid gap-2"
-                    labelTextClassName={modalLabelClass}
-                  />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>Site web actuel</span><input type="text" value={leadForm.businessWebsiteUrl} onChange={(e) => updateLeadField("businessWebsiteUrl", e.target.value)} placeholder="https://www.votre-site.com" className={modalFieldClass} /></label>
-                  <label className="grid gap-2"><span className={modalLabelClass}>Lien Google Business</span><input type="text" value={leadForm.googleBusinessUrl} onChange={(e) => updateLeadField("googleBusinessUrl", e.target.value)} placeholder="Lien vers votre fiche Google Business" className={modalFieldClass} /></label>
-                </div> */}
-              
+                <ObjectiveSelectField
+                  required
+                  value={leadForm.objective}
+                  onChange={(value) => updateLeadField("objective", value)}
+                  options={objectiveOptions}
+                  labelClassName="grid gap-2"
+                  labelTextClassName={modalLabelClass}
+                />
+
                 <label className="grid gap-2"><span className={modalLabelClass}>Message</span><textarea rows={4} value={leadForm.message} onChange={(e) => updateLeadField("message", e.target.value)} placeholder="Décrivez brièvement votre besoin." className={`resize-none ${modalFieldClass}`} /></label>
 
                 {formError && (

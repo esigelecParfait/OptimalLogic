@@ -74,14 +74,14 @@ function DesktopChatWidget() {
               className="flex flex-shrink-0 items-center gap-3 px-5 py-4"
               style={{ background: "var(--grad)" }}
             >
-              <div className="grid h-8 w-8 place-items-center rounded-full bg-white/20">
+              <div className="grid h-8 w-8 place-items-center rounded-full bg-black/10 text-black">
                 <svg
                   aria-hidden="true"
                   width="14"
                   height="14"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="white"
+                  stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -90,10 +90,10 @@ function DesktopChatWidget() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">
+                <p className="text-sm font-semibold text-black">
                   Assistant OptimalLogic
                 </p>
-                <p className="text-[11px] text-white/80">
+                <p className="text-[11px] text-black/65">
                   Réponse en quelques secondes
                 </p>
               </div>
@@ -101,7 +101,7 @@ function DesktopChatWidget() {
                 type="button"
                 onClick={closeWidget}
                 aria-label="Fermer"
-                className="ml-auto rounded-full p-1.5 text-white/80 transition hover:bg-white/15 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="ml-auto rounded-full p-1.5 text-black/70 transition hover:bg-black/10 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
                 <svg
                   aria-hidden="true"
@@ -128,7 +128,7 @@ function DesktopChatWidget() {
         ref={launcherRef}
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        className="fixed bottom-4 right-4 z-50 hidden h-14 w-14 place-items-center rounded-full shadow-[0_18px_40px_-12px_rgba(255,255,255,0.45)] transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:grid"
+        className="fixed bottom-4 right-4 z-50 hidden h-14 w-14 place-items-center rounded-full text-black shadow-[0_18px_40px_-12px_rgba(255,255,255,0.45)] transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:grid"
         style={{ background: "var(--grad)" }}
         aria-label={isOpen ? "Fermer l'assistant" : "Ouvrir l'assistant"}
         aria-expanded={isOpen}

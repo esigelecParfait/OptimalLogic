@@ -48,12 +48,23 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 50% -18rem, rgba(255, 255, 255, 0.07), transparent 35rem),
+    var(--bg);
   color: var(--ink);
   font-family: var(--font-body), "Inter", system-ui, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+a, button, input, select, textarea, summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.78);
+  outline-offset: 3px;
 }
 
 h1, h2, h3, h4, .font-display {
@@ -89,12 +100,10 @@ h1, h2, h3, h4, .font-display {
   -webkit-text-fill-color: transparent;
 }
 .grad-text-kinetic {
-  background: linear-gradient(110deg, #ffffff, #bdbdbd, #ffffff);
-  background-size: 250% auto;
+  background: var(--grad);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: flow 6s linear infinite;
 }
 .glass {
   background: rgba(13, 13, 15, 0.66);
@@ -153,10 +162,10 @@ h1, h2, h3, h4, .font-display {
 
 .animate-fade-in-up { animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .animate-fade-in { animation: fade-in 0.6s ease-out both; }
-.animate-marquee { animation: marquee 28s linear infinite; }
-.animate-marquee-rev { animation: marquee-rev 32s linear infinite; }
-.animate-floaty { animation: floaty 4s ease-in-out infinite; }
-.animate-orb { animation: orb 5s ease-in-out infinite; }
+.animate-marquee,
+.animate-marquee-rev,
+.animate-floaty,
+.animate-orb { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -273,4 +282,182 @@ h1, h2, h3, h4, .font-display {
     margin-right: 0.65rem;
     padding-right: 0.65rem;
   }
+}
+
+/* ===================================================================
+   Premium site shell
+   =================================================================== */
+.site-backdrop {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    radial-gradient(circle at 12% 5%, rgba(255, 255, 255, 0.06), transparent 28rem),
+    radial-gradient(circle at 88% 24%, rgba(255, 255, 255, 0.035), transparent 25rem);
+  background-size: 72px 72px, 72px 72px, auto, auto;
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.4) 58%, transparent 96%);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 500;
+  top: 0.75rem;
+  left: 0.75rem;
+  transform: translateY(-180%);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #050505;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: transform 0.2s var(--ease);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+.brand-mark {
+  position: relative;
+  display: inline-grid;
+  width: 2.55rem;
+  height: 2.55rem;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #ffffff;
+  box-shadow: 0 14px 34px -18px rgba(255, 255, 255, 0.68);
+}
+
+.brand-mark-image {
+  width: 3.55rem;
+  height: 3.55rem;
+  max-width: none;
+  object-fit: cover;
+  transform: scale(1.18);
+}
+
+.site-header {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.35rem;
+  background: rgba(5, 5, 5, 0.56);
+  box-shadow: 0 18px 55px -34px rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.site-header--scrolled {
+  border-color: rgba(255, 255, 255, 0.13);
+  background: rgba(5, 5, 5, 0.87);
+  box-shadow: 0 22px 65px -30px rgba(0, 0, 0, 0.95);
+}
+
+.nav-link {
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  color: var(--mut);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link--active {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 10.5rem 1.25rem 5rem;
+}
+
+.section-shell {
+  position: relative;
+  z-index: 2;
+  width: min(100% - 2.5rem, 1240px);
+  margin-inline: auto;
+}
+
+.section-space { padding-block: clamp(4.5rem, 8vw, 7rem); }
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--mut);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section-label::before {
+  content: "";
+  width: 1.7rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.premium-panel {
+  border: 1px solid var(--line);
+  border-radius: 1.75rem;
+  background: linear-gradient(150deg, rgba(26, 26, 29, 0.88), rgba(10, 10, 11, 0.9));
+  box-shadow: 0 38px 95px -56px rgba(255, 255, 255, 0.25);
+}
+
+.premium-panel-soft {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.35rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.product-window {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1.6rem;
+  background: #0b0b0d;
+  box-shadow: 0 44px 120px -48px rgba(255, 255, 255, 0.3);
+}
+
+.product-window::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 28%);
+}
+
+.metric-bar {
+  height: 0.36rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.metric-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), #ffffff);
+}
+
+.hairline { border-color: rgba(255, 255, 255, 0.09); }
+
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+@media (max-width: 640px) {
+  .page-hero { padding: 8.75rem 0.25rem 3.5rem; }
+  .section-shell { width: min(100% - 2rem, 1240px); }
+  .section-space { padding-block: 4.25rem; }
+  .brand-mark { width: 2.4rem; height: 2.4rem; }
 }

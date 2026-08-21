@@ -205,7 +205,7 @@ export default function CookieConsent() {
                     </p>
                   </div>
                   <span
-                    className="rounded-full px-3 py-1.5 text-[11px] font-semibold text-white"
+                    className="rounded-full px-3 py-1.5 text-[11px] font-semibold text-black"
                     style={{ background: "var(--grad)" }}
                   >
                     Actifs
@@ -320,8 +320,8 @@ function PreferenceToggle({
           />
           <span
             aria-hidden="true"
-            className={`absolute top-3 h-5 w-5 rounded-full bg-white transition-all ${
-              checked ? "left-6" : "left-1"
+            className={`absolute top-3 h-5 w-5 rounded-full transition-all ${
+              checked ? "left-6 bg-black" : "left-1 bg-white"
             }`}
           />
         </button>
