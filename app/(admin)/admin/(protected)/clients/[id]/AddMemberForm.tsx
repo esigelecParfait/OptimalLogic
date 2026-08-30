@@ -5,7 +5,8 @@ import { addClientMember, type AddMemberState } from "./actions";
 
 const initial: AddMemberState = { error: null, sent: false, link: null };
 
-const field = "h-10 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-3 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
+const field =
+  "h-10 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-3 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
 const label = "block text-xs font-medium text-mut mb-1.5";
 
 export default function AddMemberForm({ clientId }: { clientId: string }) {
@@ -13,22 +14,18 @@ export default function AddMemberForm({ clientId }: { clientId: string }) {
 
   if (state.sent) {
     return (
-      <p className="text-sm font-medium text-emerald-400">
-        ✓ Lien envoyé par email.
-      </p>
+      <p className="text-sm font-medium text-emerald-400">✓ Lien envoyé par email.</p>
     );
   }
 
   if (state.link && !state.sent) {
     return (
       <div className="space-y-3">
-        <p className="text-xs text-mut">Email non configuré — copie ce lien et envoie-le manuellement :</p>
+        <p className="text-xs text-mut">
+          Email non configuré — copie ce lien et envoie-le manuellement :
+        </p>
         <div className="flex items-center gap-2">
-          <input
-            readOnly
-            value={state.link}
-            className={`${field} font-mono text-xs`}
-          />
+          <input readOnly value={state.link} className={`${field} font-mono text-xs`} />
           <button
             type="button"
             onClick={() => navigator.clipboard.writeText(state.link!)}
@@ -58,7 +55,13 @@ export default function AddMemberForm({ clientId }: { clientId: string }) {
 
       <div>
         <label className={label}>Email</label>
-        <input className={field} type="email" name="email" placeholder="paul@boulangerie.fr" required />
+        <input
+          className={field}
+          type="email"
+          name="email"
+          placeholder="paul@boulangerie.fr"
+          required
+        />
       </div>
 
       <div className="flex items-center gap-3 pt-1">

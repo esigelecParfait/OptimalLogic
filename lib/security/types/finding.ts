@@ -1,15 +1,6 @@
-export type FindingSeverity =
-  | "critical"
-  | "high"
-  | "medium"
-  | "low"
-  | "info";
+export type FindingSeverity = "critical" | "high" | "medium" | "low" | "info";
 
-export type FindingStatus =
-  | "pass"
-  | "fail"
-  | "warning"
-  | "manual_review";
+export type FindingStatus = "pass" | "fail" | "warning" | "manual_review";
 
 export type FindingCategory =
   | "HEADERS"

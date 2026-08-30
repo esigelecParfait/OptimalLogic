@@ -1,0 +1,7 @@
+manifest_version: "1.0"
+status: proposed
+direction_revision: null
+budget:
+  initial_media_kb_max: 1200
+  total_marketing_transfer_kb_max: 2048
+assets: []

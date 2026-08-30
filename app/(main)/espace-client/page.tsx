@@ -33,9 +33,8 @@ function getValue(m: Metrics, key: MetricKey): number | null {
 function formatValue(key: MetricKey, value: number | null): string {
   if (value == null) return "—";
   if (key === "note_google") return `${value}/5`;
-  if (key === "nb_vues_google") return value >= 1000
-    ? `${(value / 1000).toFixed(1)}k`
-    : `${value}`;
+  if (key === "nb_vues_google")
+    return value >= 1000 ? `${(value / 1000).toFixed(1)}k` : `${value}`;
   return `${value}`;
 }
 
@@ -47,18 +46,18 @@ function pctDiff(curr: number | null, prev: number | null): number | null {
 type ActionCTA = {
   type: "copy" | "external";
   label: string;
-  value: string;       // texte à copier OU url à ouvrir
+  value: string; // texte à copier OU url à ouvrir
 };
 
 type Action = {
-  label: string;       // titre court, affiché en gras
-  tip: string;         // encouragement, affiché en petit en dessous
+  label: string; // titre court, affiché en gras
+  tip: string; // encouragement, affiché en petit en dessous
   badge: string;
   color: string;
   bg: string;
   dot: string;
   href: string;
-  cta?: ActionCTA;     // bouton d'action directe (optionnel)
+  cta?: ActionCTA; // bouton d'action directe (optionnel)
   priority: number;
 };
 
@@ -67,7 +66,12 @@ function buildActions(
   prev: Metrics | undefined,
   config: ReturnType<typeof getMetricsConfig>,
   paymentPending: boolean,
-  clientData: { googleUrl: string | null; siteUrl: string | null; rdvUrl: string | null; businessName: string | null }
+  clientData: {
+    googleUrl: string | null;
+    siteUrl: string | null;
+    rdvUrl: string | null;
+    businessName: string | null;
+  },
 ): Action[] {
   const actions: Action[] = [];
 
@@ -81,7 +85,11 @@ function buildActions(
       bg: "rgba(255,107,107,0.08)",
       dot: "#ff6b6b",
       href: "/espace-client/mon-compte",
-      cta: { type: "external", label: "Mettre à jour", value: "/espace-client/mon-compte" },
+      cta: {
+        type: "external",
+        label: "Mettre à jour",
+        value: "/espace-client/mon-compte",
+      },
       priority: 0,
     });
   }
@@ -100,20 +108,20 @@ function buildActions(
     return actions;
   }
 
-  const hasKey = (k: MetricKey) => config.cards.some(c => c.key === k);
+  const hasKey = (k: MetricKey) => config.cards.some((c) => c.key === k);
 
-  const rdv        = getValue(current, "nb_rdv")              ?? 0;
-  const prevRdv    = prev ? (getValue(prev, "nb_rdv")         ?? 0) : null;
-  const avis       = getValue(current, "nb_avis_google")      ?? 0;
-  const note       = getValue(current, "note_google");
-  const vues       = getValue(current, "nb_vues_google")      ?? 0;
-  const prevVues   = prev ? (getValue(prev, "nb_vues_google") ?? 0) : null;
-  const clics      = getValue(current, "nb_clics_google")     ?? 0;
-  const chatbot    = getValue(current, "nb_sessions_chatbot") ?? 0;
-  const prevChat   = prev ? (getValue(prev, "nb_sessions_chatbot") ?? 0) : null;
-  const demandes   = getValue(current, "nb_demandes")         ?? 0;
-  const prevDem    = prev ? (getValue(prev, "nb_demandes")    ?? 0) : null;
-  const appels     = getValue(current, "nb_appels")           ?? 0;
+  const rdv = getValue(current, "nb_rdv") ?? 0;
+  const prevRdv = prev ? (getValue(prev, "nb_rdv") ?? 0) : null;
+  const avis = getValue(current, "nb_avis_google") ?? 0;
+  const note = getValue(current, "note_google");
+  const vues = getValue(current, "nb_vues_google") ?? 0;
+  const prevVues = prev ? (getValue(prev, "nb_vues_google") ?? 0) : null;
+  const clics = getValue(current, "nb_clics_google") ?? 0;
+  const chatbot = getValue(current, "nb_sessions_chatbot") ?? 0;
+  const prevChat = prev ? (getValue(prev, "nb_sessions_chatbot") ?? 0) : null;
+  const demandes = getValue(current, "nb_demandes") ?? 0;
+  const prevDem = prev ? (getValue(prev, "nb_demandes") ?? 0) : null;
+  const appels = getValue(current, "nb_appels") ?? 0;
 
   // ── Réputation ──────────────────────────────────────────────────────────────
 
@@ -123,7 +131,13 @@ function buildActions(
       label: `Répondre à vos avis négatifs`,
       tip: `Votre note est à ${note}/5 — une réponse bienveillante peut vraiment inverser la tendance. 2 minutes suffisent. 💪`,
       badge: "Réputation ⚠",
-      cta: clientData.googleUrl ? { type: "external" as const, label: "Ouvrir Google Business", value: clientData.googleUrl } : undefined,
+      cta: clientData.googleUrl
+        ? {
+            type: "external" as const,
+            label: "Ouvrir Google Business",
+            value: clientData.googleUrl,
+          }
+        : undefined,
       color: "text-[#ff6b6b]",
       bg: "rgba(255,107,107,0.06)",
       dot: "#ff6b6b",
@@ -191,7 +205,13 @@ function buildActions(
       label: `Relancer votre visibilité Google`,
       tip: `Vos vues ont baissé de ${Math.abs(vuesDiff)}% — une nouvelle photo sur votre fiche suffit souvent à relancer l'algorithme. Rapide et efficace ! 📸`,
       badge: "Visibilité ↘",
-      cta: clientData.googleUrl ? { type: "external" as const, label: "Ouvrir Google Business", value: clientData.googleUrl } : undefined,
+      cta: clientData.googleUrl
+        ? {
+            type: "external" as const,
+            label: "Ouvrir Google Business",
+            value: clientData.googleUrl,
+          }
+        : undefined,
       color: "text-amber-400",
       bg: "rgba(251,191,36,0.06)",
       dot: "#fbbf24",
@@ -220,7 +240,13 @@ function buildActions(
       label: "Rendre votre fiche Google plus attractive",
       tip: `Vous avez ${vues} vues mais peu de clics — une belle photo suffit souvent à doubler les résultats. Votre fiche mérite de briller ! ✨`,
       badge: "Attractivité",
-      cta: clientData.googleUrl ? { type: "external" as const, label: "Ouvrir Google Business", value: clientData.googleUrl } : undefined,
+      cta: clientData.googleUrl
+        ? {
+            type: "external" as const,
+            label: "Ouvrir Google Business",
+            value: clientData.googleUrl,
+          }
+        : undefined,
       color: "text-amber-400",
       bg: "rgba(251,191,36,0.06)",
       dot: "#fbbf24",
@@ -237,7 +263,9 @@ function buildActions(
       label: "Partager votre lien de réservation",
       tip: "Partagez votre lien à vos contacts — c'est souvent le petit geste qui déclenche les premières réservations ! 📅",
       badge: "RDV ⚠",
-      cta: clientData.rdvUrl ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl } : undefined,
+      cta: clientData.rdvUrl
+        ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl }
+        : undefined,
       color: "text-[#ff6b6b]",
       bg: "rgba(255,107,107,0.06)",
       dot: "#ff6b6b",
@@ -253,7 +281,9 @@ function buildActions(
       label: `Relancer vos réservations`,
       tip: `${diff} RDV de moins — pas de panique, ça fluctue ! Partagez votre lien à vos clients habituels, un rappel suffit souvent. 💡`,
       badge: "RDV ↘",
-      cta: clientData.rdvUrl ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl } : undefined,
+      cta: clientData.rdvUrl
+        ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl }
+        : undefined,
       color: "text-amber-400",
       bg: "rgba(251,191,36,0.06)",
       dot: "#fbbf24",
@@ -283,7 +313,9 @@ function buildActions(
       label: `Convertir vos appels en réservations en ligne`,
       tip: `${appels} appels reçus, c'est bien ! Imaginez si la moitié réservait directement en ligne — partagez votre lien RDV et gagnez du temps. ⏱️`,
       badge: "Opportunité",
-      cta: clientData.rdvUrl ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl } : undefined,
+      cta: clientData.rdvUrl
+        ? { type: "copy" as const, label: "Copier le lien RDV", value: clientData.rdvUrl }
+        : undefined,
       color: "text-white",
       bg: "rgba(255,255,255,0.06)",
       dot: "#ffffff",
@@ -344,7 +376,11 @@ function buildActions(
       label: `+${demDiff}% de demandes — répondez vite !`,
       tip: "Vous êtes en plein élan ! 🔥 Les clients qui reçoivent une réponse rapide convertissent 3x plus — ne laissez pas refroidir.",
       badge: "Demandes ↗",
-      cta: { type: "external" as const, label: "Voir les demandes", value: "/espace-client/support" },
+      cta: {
+        type: "external" as const,
+        label: "Voir les demandes",
+        value: "/espace-client/support",
+      },
       color: "text-emerald",
       bg: "rgba(46,230,168,0.05)",
       dot: "#2ee6a8",
@@ -354,7 +390,7 @@ function buildActions(
   }
 
   // ── Fallback ─────────────────────────────────────────────────────────────────
-  if (actions.filter(a => a.priority < 7).length === 0) {
+  if (actions.filter((a) => a.priority < 7).length === 0) {
     actions.push({
       label: "Demander un avis à vos derniers clients",
       tip: "Tout est au vert — excellent travail ! 🌟 Un avis Google demandé à vos derniers clients, c'est le meilleur investissement de 30 secondes.",
@@ -375,12 +411,23 @@ function buildActions(
 }
 
 function StatCard({
-  label, value, pct, up, noData,
+  label,
+  value,
+  pct,
+  up,
+  noData,
 }: {
-  label: string; value: string; pct: number | null; up: boolean; noData?: boolean;
+  label: string;
+  value: string;
+  pct: number | null;
+  up: boolean;
+  noData?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.6)" }}>
+    <div
+      className="flex flex-col gap-3 rounded-2xl border border-white/[0.07] p-5"
+      style={{ background: "rgba(26,26,29,0.6)" }}
+    >
       <p className="text-xs font-medium text-mut-2 uppercase tracking-wider">{label}</p>
       <p className="font-display text-3xl font-semibold text-ink leading-none">{value}</p>
       {!noData && pct !== null ? (
@@ -399,13 +446,15 @@ function StatCard({
 
 export default async function TableauDeBordPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect("/connexion");
 
   const { client } = await getPaidClientForUser(
     supabase,
     user.id,
-    "id_client, contact_first_name, business_name, google_business_url, business_website_url"
+    "id_client, contact_first_name, business_name, google_business_url, business_website_url",
   );
 
   if (!client) redirect("/connexion");
@@ -413,7 +462,9 @@ export default async function TableauDeBordPage() {
   const { data: rawService } = client
     ? await supabase
         .from("client_services")
-        .select("offer_code, service_status, payment_status, start_date, offres(nom_offre)")
+        .select(
+          "offer_code, service_status, payment_status, start_date, offres(nom_offre)",
+        )
         .eq("id_client", client.id_client)
         .order("created_at", { ascending: false })
         .limit(1)
@@ -431,32 +482,42 @@ export default async function TableauDeBordPage() {
   const { data: metricsRows } = client
     ? await supabase
         .from("client_metrics")
-        .select("mois, nb_rdv, nb_demandes, nb_appels, nb_avis_google, note_google, nb_vues_google, nb_clics_google, nb_sessions_chatbot")
+        .select(
+          "mois, nb_rdv, nb_demandes, nb_appels, nb_avis_google, note_google, nb_vues_google, nb_clics_google, nb_sessions_chatbot",
+        )
         .eq("id_client", client.id_client)
         .in("mois", [currentMonth, prevMonth])
         .order("mois", { ascending: false })
     : { data: null };
 
-  const current = (metricsRows ?? []).find((r: Metrics) => r.mois === currentMonth) as Metrics | undefined;
-  const prev = (metricsRows ?? []).find((r: Metrics) => r.mois === prevMonth) as Metrics | undefined;
+  const current = (metricsRows ?? []).find((r: Metrics) => r.mois === currentMonth) as
+    Metrics | undefined;
+  const prev = (metricsRows ?? []).find((r: Metrics) => r.mois === prevMonth) as
+    Metrics | undefined;
   const hasData = !!current;
 
-  const paymentPending = service?.payment_status === "en_attente" || service?.payment_status === "impaye";
+  const paymentPending =
+    service?.payment_status === "en_attente" || service?.payment_status === "impaye";
   const monthLabel = now.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
   const prevMonthLabel = prevDate.toLocaleDateString("fr-FR", { month: "long" });
 
   const clientData = {
-    googleUrl:    (client as Record<string,unknown> | null)?.google_business_url as string | null ?? null,
-    siteUrl:      (client as Record<string,unknown> | null)?.business_website_url as string | null ?? null,
-    businessName: (client as Record<string,unknown> | null)?.business_name as string | null ?? null,
-    rdvUrl:       "/prise-de-rdv", // lien de RDV global — à personnaliser par client si nécessaire
+    googleUrl:
+      ((client as Record<string, unknown> | null)?.google_business_url as
+        string | null) ?? null,
+    siteUrl:
+      ((client as Record<string, unknown> | null)?.business_website_url as
+        string | null) ?? null,
+    businessName:
+      ((client as Record<string, unknown> | null)?.business_name as string | null) ??
+      null,
+    rdvUrl: "/prise-de-rdv", // lien de RDV global — à personnaliser par client si nécessaire
   };
 
   const actions = buildActions(current, prev, config, paymentPending, clientData);
 
   return (
     <div className="grid gap-5">
-
       {/* ── MÉTRIQUES ── */}
       <div className="surface-card relative overflow-hidden rounded-[30px] p-7 sm:p-9">
         <div
@@ -465,51 +526,69 @@ export default async function TableauDeBordPage() {
           style={{ background: "var(--grad)" }}
         />
         <div className="relative">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <p className="eyebrow-grad text-xs font-semibold uppercase tracking-widest mb-1">Tableau de bord</p>
-            <h1 className="font-display text-2xl font-semibold text-ink">{config.dashboardTitle}</h1>
-            {service?.offres?.nom_offre && (
-              <p className="mt-1 text-sm text-mut-2">Offre : <span className="text-mut">{service.offres.nom_offre}</span></p>
-            )}
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <p className="eyebrow-grad text-xs font-semibold uppercase tracking-widest mb-1">
+                Tableau de bord
+              </p>
+              <h1 className="font-display text-2xl font-semibold text-ink">
+                {config.dashboardTitle}
+              </h1>
+              {service?.offres?.nom_offre && (
+                <p className="mt-1 text-sm text-mut-2">
+                  Offre : <span className="text-mut">{service.offres.nom_offre}</span>
+                </p>
+              )}
+            </div>
+            <span
+              className="flex-shrink-0 rounded-full border border-emerald/40 px-3 py-1 text-xs font-bold capitalize text-emerald"
+              style={{ background: "rgba(46,230,168,0.1)" }}
+            >
+              {monthLabel}
+            </span>
           </div>
-          <span className="flex-shrink-0 rounded-full border border-emerald/40 px-3 py-1 text-xs font-bold capitalize text-emerald" style={{ background: "rgba(46,230,168,0.1)" }}>
-            {monthLabel}
-          </span>
-        </div>
 
-        <div className="mt-5 h-px bg-white/[0.07]" />
+          <div className="mt-5 h-px bg-white/[0.07]" />
 
-        {hasData && current ? (
-          <div className={`mt-6 grid gap-3 ${config.cards.length <= 3 ? "grid-cols-1 sm:grid-cols-3" : config.cards.length <= 4 ? "grid-cols-2" : "grid-cols-2 sm:grid-cols-3"}`}>
-            {config.cards.map((card) => {
-              const curr = getValue(current, card.key);
-              const prv = prev ? getValue(prev, card.key) : null;
-              const pct = card.key === "note_google" ? null : pctDiff(curr, prv);
-              const up = curr != null && prv != null ? curr >= prv : true;
-              return (
-                <StatCard
-                  key={card.key}
-                  label={card.altLabel ?? card.label}
-                  value={formatValue(card.key, curr)}
-                  pct={pct}
-                  up={up}
-                />
-              );
-            })}
-          </div>
-        ) : (
-          <div className="mt-8 rounded-2xl border border-white/[0.07] p-8 text-center" style={{ background: "rgba(26,26,29,0.5)" }}>
-            <p className="text-3xl mb-3">📊</p>
-            <p className="text-sm leading-7 text-mut">
-              Vos indicateurs de performance apparaîtront ici chaque mois.<br />
-              OptimalLogic met à jour ces données après chaque rapport mensuel.
-            </p>
-            <Link href="/espace-client/support" className="mt-4 inline-block rounded-full border border-white/[0.13] px-4 py-2 text-xs font-semibold text-mut transition hover:border-white/30 hover:text-ink">
-              Contacter mon conseiller
-            </Link>
-          </div>
-        )}
+          {hasData && current ? (
+            <div
+              className={`mt-6 grid gap-3 ${config.cards.length <= 3 ? "grid-cols-1 sm:grid-cols-3" : config.cards.length <= 4 ? "grid-cols-2" : "grid-cols-2 sm:grid-cols-3"}`}
+            >
+              {config.cards.map((card) => {
+                const curr = getValue(current, card.key);
+                const prv = prev ? getValue(prev, card.key) : null;
+                const pct = card.key === "note_google" ? null : pctDiff(curr, prv);
+                const up = curr != null && prv != null ? curr >= prv : true;
+                return (
+                  <StatCard
+                    key={card.key}
+                    label={card.altLabel ?? card.label}
+                    value={formatValue(card.key, curr)}
+                    pct={pct}
+                    up={up}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <div
+              className="mt-8 rounded-2xl border border-white/[0.07] p-8 text-center"
+              style={{ background: "rgba(26,26,29,0.5)" }}
+            >
+              <p className="text-3xl mb-3">📊</p>
+              <p className="text-sm leading-7 text-mut">
+                Vos indicateurs de performance apparaîtront ici chaque mois.
+                <br />
+                OptimalLogic met à jour ces données après chaque rapport mensuel.
+              </p>
+              <Link
+                href="/espace-client/support"
+                className="mt-4 inline-block rounded-full border border-white/[0.13] px-4 py-2 text-xs font-semibold text-mut transition hover:border-white/30 hover:text-ink"
+              >
+                Contacter mon conseiller
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -517,7 +596,13 @@ export default async function TableauDeBordPage() {
       <div className="surface-card rounded-[28px] p-6 sm:p-8">
         <div className="mb-5 flex items-center justify-between gap-4 flex-wrap">
           <p className="text-base font-bold text-ink">Actions recommandées</p>
-          <p className="text-xs text-mut-2">{now.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}</p>
+          <p className="text-xs text-mut-2">
+            {now.toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}
+          </p>
         </div>
         <div className="grid gap-2">
           {actions.map((action, i) => (
@@ -527,12 +612,23 @@ export default async function TableauDeBordPage() {
               style={{ background: action.bg }}
             >
               <div className="flex items-start gap-3">
-                <span className="mt-[5px] h-2 w-2 flex-shrink-0 rounded-full" style={{ background: action.dot }} />
+                <span
+                  className="mt-[5px] h-2 w-2 flex-shrink-0 rounded-full"
+                  style={{ background: action.dot }}
+                />
                 <span className="flex-1 min-w-0">
-                  <span className="block text-sm font-semibold text-ink">{action.label}</span>
-                  <span className="block text-xs text-mut leading-relaxed mt-0.5">{action.tip}</span>
+                  <span className="block text-sm font-semibold text-ink">
+                    {action.label}
+                  </span>
+                  <span className="block text-xs text-mut leading-relaxed mt-0.5">
+                    {action.tip}
+                  </span>
                 </span>
-                <span className={`flex-shrink-0 mt-0.5 text-[11px] font-bold ${action.color}`}>{action.badge}</span>
+                <span
+                  className={`flex-shrink-0 mt-0.5 text-[11px] font-bold ${action.color}`}
+                >
+                  {action.badge}
+                </span>
               </div>
             </div>
           ))}
@@ -550,7 +646,10 @@ export default async function TableauDeBordPage() {
                 {prevMonthLabel}
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ background: "var(--grad)" }} />
+                <span
+                  className="h-2.5 w-2.5 rounded-full"
+                  style={{ background: "var(--grad)" }}
+                />
                 Ce mois
               </span>
             </div>
@@ -558,7 +657,7 @@ export default async function TableauDeBordPage() {
 
           <div className="grid gap-5">
             {config.comparisonKeys.map((key) => {
-              const card = config.cards.find(c => c.key === key);
+              const card = config.cards.find((c) => c.key === key);
               const label = card?.altLabel ?? card?.label ?? key;
               const currVal = getValue(current, key) ?? 0;
               const prvVal = prev ? (getValue(prev, key) ?? 0) : null;
@@ -567,17 +666,31 @@ export default async function TableauDeBordPage() {
               const up = prvVal !== null ? currVal >= prvVal : true;
 
               return (
-                <div key={key} className="rounded-xl border border-white/[0.06] p-4" style={{ background: "rgba(26,26,29,0.4)" }}>
+                <div
+                  key={key}
+                  className="rounded-xl border border-white/[0.06] p-4"
+                  style={{ background: "rgba(26,26,29,0.4)" }}
+                >
                   <div className="mb-3 flex items-center justify-between gap-2 flex-wrap">
                     <p className="text-sm font-medium text-mut">{label}</p>
                     <div className="flex items-center gap-3">
                       {prvVal !== null && (
-                        <span className="text-xs text-mut-2">{formatValue(key, prvVal)}</span>
+                        <span className="text-xs text-mut-2">
+                          {formatValue(key, prvVal)}
+                        </span>
                       )}
-                      <span className="text-sm font-bold text-ink">{formatValue(key, currVal)}</span>
+                      <span className="text-sm font-bold text-ink">
+                        {formatValue(key, currVal)}
+                      </span>
                       {pct !== null && (
-                        <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${up ? "text-emerald" : "text-[#ff6b6b]"}`}
-                          style={{ background: up ? "rgba(46,230,168,0.12)" : "rgba(255,107,107,0.1)" }}>
+                        <span
+                          className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${up ? "text-emerald" : "text-[#ff6b6b]"}`}
+                          style={{
+                            background: up
+                              ? "rgba(46,230,168,0.12)"
+                              : "rgba(255,107,107,0.1)",
+                          }}
+                        >
                           {up ? "▲" : "▼"} {Math.abs(pct)}%
                         </span>
                       )}

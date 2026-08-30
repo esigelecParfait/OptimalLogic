@@ -1,0 +1,31 @@
+decisions_version: "1.0"
+status: ready
+decisions:
+  - id: offer-revision
+    topic: offres et tarifs
+    question: Quelle grille remplacera les huit offres actuelles ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: finalisation de la page tarifs
+    current_rule: Conserver la grille actuelle avec l'état current_pending_revision et des données remplaçables.
+  - id: channel-readiness
+    topic: gestion des demandes
+    question: Quels canaux, règles IA et automatisations peuvent être présentés comme opérationnels ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: validation éditoriale préproduction
+    current_rule: Décrire la capacité et l'ambition sans affirmer une intégration non vérifiée.
+  - id: brand-assets
+    topic: identité visuelle
+    question: Le logo actuel doit-il évoluer ou seulement être décliné ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: production finale des médias
+    current_rule: Conserver le logo comme actif provisoire et vérifier ses variantes.
+  - id: legal-review
+    topic: conformité
+    question: Les textes légaux et durées de conservation sont-ils à jour ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: mise en production
+    current_rule: Préserver les pages actuelles et exiger une revue professionnelle avant livraison.

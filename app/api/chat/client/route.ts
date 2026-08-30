@@ -12,7 +12,7 @@ function buildSystemPrompt(
   paymentStatus: string | null,
   startDate: string | null,
   prix: string | null,
-  prixAbonnement: string | null
+  prixAbonnement: string | null,
 ): string {
   const lines = [];
   if (firstName) lines.push(`Prénom du client : ${firstName}`);
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
   const { client } = await getPaidClientForUser(
     supabase,
     user.id,
-    "id_client, contact_first_name"
+    "id_client, contact_first_name",
   );
 
   type ServiceData = {
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     const { data } = await supabase
       .from("client_services")
       .select(
-        "offer_code, service_status, payment_status, start_date, offres(nom_offre, prix, prix_abonnement)"
+        "offer_code, service_status, payment_status, start_date, offres(nom_offre, prix, prix_abonnement)",
       )
       .eq("id_client", client.id_client)
       .order("created_at", { ascending: false })
@@ -113,9 +113,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const rawMessages = Array.isArray(body.messages)
-    ? body.messages.slice(-20)
-    : [];
+  const rawMessages = Array.isArray(body.messages) ? body.messages.slice(-20) : [];
 
   const messages = rawMessages.filter(
     (m): m is { role: "user" | "assistant"; content: string } =>
@@ -123,7 +121,7 @@ export async function POST(request: NextRequest) {
       m !== null &&
       typeof (m as Record<string, unknown>).content === "string" &&
       ((m as Record<string, unknown>).role === "user" ||
-        (m as Record<string, unknown>).role === "assistant")
+        (m as Record<string, unknown>).role === "assistant"),
   );
 
   if (messages.length === 0) {
@@ -141,12 +139,10 @@ export async function POST(request: NextRequest) {
     serviceData?.start_date
       ? new Date(serviceData.start_date).toLocaleDateString("fr-FR")
       : null,
-    serviceData?.offres?.prix != null
-      ? String(serviceData.offres.prix)
-      : null,
+    serviceData?.offres?.prix != null ? String(serviceData.offres.prix) : null,
     serviceData?.offres?.prix_abonnement != null
       ? String(serviceData.offres.prix_abonnement)
-      : null
+      : null,
   );
 
   const stream = new ReadableStream({
@@ -161,14 +157,11 @@ export async function POST(request: NextRequest) {
         });
 
         for await (const event of response) {
-          if (
-            event.type === "content_block_delta" &&
-            event.delta.type === "text_delta"
-          ) {
+          if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
             controller.enqueue(
               new TextEncoder().encode(
-                `data: ${JSON.stringify({ text: event.delta.text })}\n\n`
-              )
+                `data: ${JSON.stringify({ text: event.delta.text })}\n\n`,
+              ),
             );
           }
         }
@@ -178,8 +171,8 @@ export async function POST(request: NextRequest) {
       } catch {
         controller.enqueue(
           new TextEncoder().encode(
-            `data: ${JSON.stringify({ error: "Erreur lors de la génération de la réponse." })}\n\n`
-          )
+            `data: ${JSON.stringify({ error: "Erreur lors de la génération de la réponse." })}\n\n`,
+          ),
         );
         controller.close();
       }
@@ -190,7 +183,7 @@ export async function POST(request: NextRequest) {
     headers: {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      "Connection": "keep-alive",
+      Connection: "keep-alive",
     },
   });
 }

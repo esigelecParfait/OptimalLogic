@@ -56,9 +56,7 @@ export default function CookieConsent() {
   useEffect(() => {
     function openPreferences() {
       returnFocusRef.current =
-        document.activeElement instanceof HTMLElement
-          ? document.activeElement
-          : null;
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
       setIsVisible(true);
       setIsSettingsOpen(true);
     }
@@ -67,9 +65,7 @@ export default function CookieConsent() {
       if (event.key !== COOKIE_PREFERENCES_STORAGE_KEY) return;
 
       try {
-        const parsed: unknown = event.newValue
-          ? JSON.parse(event.newValue)
-          : null;
+        const parsed: unknown = event.newValue ? JSON.parse(event.newValue) : null;
         if (isCookiePreferences(parsed)) setPreferences(parsed);
       } catch {
         // Une valeur invalide dans un autre onglet est ignorée dans le panneau.
@@ -79,10 +75,7 @@ export default function CookieConsent() {
     window.addEventListener(OPEN_COOKIE_PREFERENCES_EVENT, openPreferences);
     window.addEventListener("storage", syncPreferences);
     return () => {
-      window.removeEventListener(
-        OPEN_COOKIE_PREFERENCES_EVENT,
-        openPreferences,
-      );
+      window.removeEventListener(OPEN_COOKIE_PREFERENCES_EVENT, openPreferences);
       window.removeEventListener("storage", syncPreferences);
     };
   }, []);
@@ -142,10 +135,10 @@ export default function CookieConsent() {
                 Gestion des cookies
               </p>
               <p className="mt-2 text-xs leading-5 text-mut">
-                Nous utilisons des cookies nécessaires au fonctionnement du
-                site. Avec votre accord, nous pouvons aussi utiliser des
-                cookies de mesure d’audience, de chatbot ou de marketing pour
-                améliorer l’expérience et suivre les performances.
+                Nous utilisons des cookies nécessaires au fonctionnement du site. Avec
+                votre accord, nous pouvons aussi utiliser des cookies de mesure
+                d’audience, de chatbot ou de marketing pour améliorer l’expérience et
+                suivre les performances.
               </p>
               <a
                 href="/cookies"
@@ -185,8 +178,8 @@ export default function CookieConsent() {
                 Préférences cookies
               </p>
               <p className="mt-2 text-xs leading-5 text-mut">
-                Les cookies nécessaires sont toujours actifs. Vous pouvez
-                choisir les autres catégories.
+                Les cookies nécessaires sont toujours actifs. Vous pouvez choisir les
+                autres catégories.
               </p>
             </div>
             <div className="grid gap-3">
@@ -196,12 +189,10 @@ export default function CookieConsent() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-sm font-semibold text-ink">
-                      Cookies nécessaires
-                    </p>
+                    <p className="text-sm font-semibold text-ink">Cookies nécessaires</p>
                     <p className="mt-1 text-xs leading-5 text-mut">
-                      Indispensables au fonctionnement du site et à la
-                      mémorisation de vos choix.
+                      Indispensables au fonctionnement du site et à la mémorisation de vos
+                      choix.
                     </p>
                   </div>
                   <span
@@ -313,9 +304,7 @@ function PreferenceToggle({
             aria-hidden="true"
             className="absolute left-0 top-2 h-7 w-12 rounded-full transition"
             style={{
-              background: checked
-                ? "var(--grad)"
-                : "rgba(255,255,255,0.15)",
+              background: checked ? "var(--grad)" : "rgba(255,255,255,0.15)",
             }}
           />
           <span

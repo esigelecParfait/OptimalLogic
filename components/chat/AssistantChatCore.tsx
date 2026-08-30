@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useId,
-  useRef,
-  type KeyboardEvent,
-  type ReactNode,
-} from "react";
+import { useEffect, useId, useRef, type KeyboardEvent, type ReactNode } from "react";
 import { useAssistantChat } from "@/components/chat/AssistantChatProvider";
 
 type ChoiceItem = {
@@ -170,9 +164,7 @@ export default function AssistantChatCore({
     previousMessageCountRef.current = messages.length;
     if (!shouldAutoScrollRef.current) return;
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     messagesRef.current.scrollTo({
       top: messagesRef.current.scrollHeight,
@@ -247,8 +239,8 @@ export default function AssistantChatCore({
             Autorisez le chatbot pour démarrer
           </p>
           <p className="mt-2 text-xs leading-5 text-mut">
-            Votre choix de consentement est nécessaire pour utiliser
-            l&apos;assistant et mémoriser la conversation dans cet onglet.
+            Votre choix de consentement est nécessaire pour utiliser l&apos;assistant et
+            mémoriser la conversation dans cet onglet.
           </p>
           <button
             type="button"
@@ -304,8 +296,7 @@ export default function AssistantChatCore({
             className="max-w-[85%] rounded-2xl rounded-tl-sm border border-white/[0.07] px-4 py-3 text-sm leading-relaxed text-mut"
             style={{ background: "rgba(26,26,29,0.72)" }}
           >
-            Bonjour ! Je suis l&apos;assistant OptimalLogic. Comment puis-je vous
-            aider ?
+            Bonjour ! Je suis l&apos;assistant OptimalLogic. Comment puis-je vous aider ?
           </div>
         </div>
 

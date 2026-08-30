@@ -37,12 +37,9 @@ type AssistantChatContextValue = {
 };
 
 const HISTORY_STORAGE_KEY = "ol_chat_messages";
-const ERROR_MESSAGE =
-  "Une erreur est survenue. Contactez-nous à contact@optimallogic.fr";
+const ERROR_MESSAGE = "Une erreur est survenue. Contactez-nous à contact@optimallogic.fr";
 
-const AssistantChatContext = createContext<AssistantChatContextValue | null>(
-  null,
-);
+const AssistantChatContext = createContext<AssistantChatContextValue | null>(null);
 
 function isAssistantMessage(value: unknown): value is AssistantMessage {
   if (typeof value !== "object" || value === null) return false;
@@ -60,9 +57,7 @@ function readStoredMessages(): AssistantMessage[] {
     if (!savedMessages) return [];
 
     const parsed: unknown = JSON.parse(savedMessages);
-    const messages = Array.isArray(parsed)
-      ? parsed.filter(isAssistantMessage)
-      : [];
+    const messages = Array.isArray(parsed) ? parsed.filter(isAssistantMessage) : [];
 
     const lastMessage = messages[messages.length - 1];
     if (lastMessage?.role === "assistant" && !lastMessage.content.trim()) {
@@ -102,9 +97,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
     let initialConsent = false;
 
     try {
-      const savedPreferences = localStorage.getItem(
-        COOKIE_PREFERENCES_STORAGE_KEY,
-      );
+      const savedPreferences = localStorage.getItem(COOKIE_PREFERENCES_STORAGE_KEY);
       if (savedPreferences) {
         const parsed: unknown = JSON.parse(savedPreferences);
         initialConsent = isCookiePreferences(parsed) ? parsed.chatbot : false;
@@ -131,12 +124,8 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
       window.clearTimeout(initialConsentTimeout);
 
       try {
-        const parsed: unknown = event.newValue
-          ? JSON.parse(event.newValue)
-          : null;
-        setChatbotConsent(
-          isCookiePreferences(parsed) ? parsed.chatbot : false,
-        );
+        const parsed: unknown = event.newValue ? JSON.parse(event.newValue) : null;
+        setChatbotConsent(isCookiePreferences(parsed) ? parsed.chatbot : false);
       } catch {
         setChatbotConsent(false);
       }
@@ -191,12 +180,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
   const sendMessage = useCallback(
     async (text: string) => {
       const trimmedText = text.trim();
-      if (
-        !trimmedText ||
-        isStreaming ||
-        chatbotConsent !== true ||
-        !isHistoryReady
-      ) {
+      if (!trimmedText || isStreaming || chatbotConsent !== true || !isHistoryReady) {
         return;
       }
 
@@ -206,10 +190,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
       };
       const nextMessages = [...messages, userMessage];
 
-      setMessages([
-        ...nextMessages,
-        { role: "assistant", content: "" },
-      ]);
+      setMessages([...nextMessages, { role: "assistant", content: "" }]);
       setInput("");
       setIsStreaming(true);
 
@@ -225,9 +206,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
         });
 
         if (!response.ok || !response.body) {
-          setMessages((current) =>
-            replacePendingAssistant(current, ERROR_MESSAGE),
-          );
+          setMessages((current) => replacePendingAssistant(current, ERROR_MESSAGE));
           return;
         }
 
@@ -290,9 +269,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
         if (buffer) processLine(buffer);
 
         if (streamFailed || !receivedText) {
-          setMessages((current) =>
-            replacePendingAssistant(current, ERROR_MESSAGE),
-          );
+          setMessages((current) => replacePendingAssistant(current, ERROR_MESSAGE));
         } else if (!streamFinished) {
           setMessages((current) => {
             if (current.length === 0) return current;
@@ -307,8 +284,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
           });
         }
       } catch (error) {
-        const wasAborted =
-          error instanceof DOMException && error.name === "AbortError";
+        const wasAborted = error instanceof DOMException && error.name === "AbortError";
         setMessages((current) =>
           replacePendingAssistant(
             current,
@@ -359,9 +335,7 @@ export function AssistantChatProvider({ children }: { children: ReactNode }) {
 export function useAssistantChat() {
   const context = useContext(AssistantChatContext);
   if (!context) {
-    throw new Error(
-      "useAssistantChat doit être utilisé dans AssistantChatProvider.",
-    );
+    throw new Error("useAssistantChat doit être utilisé dans AssistantChatProvider.");
   }
   return context;
 }

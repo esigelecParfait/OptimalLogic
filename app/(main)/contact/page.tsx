@@ -78,22 +78,26 @@ const contactReasons: Reason[] = [
   {
     icon: Globe2,
     title: "Visibilité locale",
-    description: "Comprendre comment être mieux trouvé sur Google et convertir plus de recherches en contacts.",
+    description:
+      "Comprendre comment être mieux trouvé sur Google et convertir plus de recherches en contacts.",
   },
   {
     icon: MousePointerClick,
     title: "Parcours de contact",
-    description: "Clarifier les appels, formulaires et rendez-vous pour réduire les abandons.",
+    description:
+      "Clarifier les appels, formulaires et rendez-vous pour réduire les abandons.",
   },
   {
     icon: MessageCircle,
     title: "Réponses & suivi",
-    description: "Structurer les demandes entrantes pour relancer les bons prospects au bon moment.",
+    description:
+      "Structurer les demandes entrantes pour relancer les bons prospects au bon moment.",
   },
   {
     icon: Target,
     title: "Offre adaptée",
-    description: "Identifier ce qui est vraiment utile avant de parler site, IA ou automatisation.",
+    description:
+      "Identifier ce qui est vraiment utile avant de parler site, IA ou automatisation.",
   },
 ];
 
@@ -164,7 +168,9 @@ function SectionTitle({
         {eyebrow}
       </span>
       <h2 className="mt-3 text-[clamp(25px,3vw,36px)] font-semibold">{title}</h2>
-      {description && <p className="mt-3 max-w-2xl text-base leading-7 text-mut">{description}</p>}
+      {description && (
+        <p className="mt-3 max-w-2xl text-base leading-7 text-mut">{description}</p>
+      )}
     </div>
   );
 }
@@ -221,7 +227,9 @@ export default function ContactPage() {
     }
 
     if (!form.consentRgpd) {
-      setFormError("Vous devez accepter l'utilisation de vos informations pour être recontacté.");
+      setFormError(
+        "Vous devez accepter l'utilisation de vos informations pour être recontacté.",
+      );
       setIsSubmitting(false);
       return;
     }
@@ -258,10 +266,15 @@ export default function ContactPage() {
       });
 
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Erreur lors de l'envoi de votre demande.");
+      if (!response.ok)
+        throw new Error(result.error || "Erreur lors de l'envoi de votre demande.");
       setSubmitted(true);
     } catch (error) {
-      setFormError(error instanceof Error ? error.message : "Erreur lors de l'envoi de votre demande.");
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : "Erreur lors de l'envoi de votre demande.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -279,7 +292,8 @@ export default function ContactPage() {
                 className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
                 style={{ background: "var(--grad-soft)" }}
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Contact &amp; diagnostic
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Contact &amp;
+                diagnostic
               </span>
 
               <h1 className="mt-6 max-w-4xl text-[clamp(38px,5vw,62px)] font-semibold leading-[1.04]">
@@ -288,8 +302,9 @@ export default function ContactPage() {
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
-                Visibilité Google, site web, prise de rendez-vous, assistant IA ou suivi des demandes :
-                nous vous aidons à identifier le système digital vraiment utile pour votre activité.
+                Visibilité Google, site web, prise de rendez-vous, assistant IA ou suivi
+                des demandes : nous vous aidons à identifier le système digital vraiment
+                utile pour votre activité.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -316,8 +331,12 @@ export default function ContactPage() {
               <div className="relative">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Pourquoi nous contacter ?</p>
-                    <h2 className="mt-2 text-2xl font-semibold">Un diagnostic avant la solution.</h2>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
+                      Pourquoi nous contacter ?
+                    </p>
+                    <h2 className="mt-2 text-2xl font-semibold">
+                      Un diagnostic avant la solution.
+                    </h2>
                   </div>
                   <IconFrame icon={Sparkles} />
                 </div>
@@ -332,7 +351,9 @@ export default function ContactPage() {
                       <IconFrame icon={Icon} />
                       <div>
                         <p className="text-sm font-semibold text-ink">{title}</p>
-                        <p className="mt-1 text-[13.5px] leading-6 text-mut">{description}</p>
+                        <p className="mt-1 text-[13.5px] leading-6 text-mut">
+                          {description}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -364,9 +385,12 @@ export default function ContactPage() {
                 >
                   <CheckCircle2 size={30} strokeWidth={2.3} />
                 </div>
-                <h3 className="font-display text-2xl font-semibold">Votre demande a bien été envoyée.</h3>
+                <h3 className="font-display text-2xl font-semibold">
+                  Votre demande a bien été envoyée.
+                </h3>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">
-                  Nous avons bien reçu votre demande. Nous reviendrons vers vous rapidement avec une première orientation.
+                  Nous avons bien reçu votre demande. Nous reviendrons vers vous
+                  rapidement avec une première orientation.
                 </p>
                 <button
                   type="button"
@@ -378,12 +402,19 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-8">
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={UserRound} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Vos coordonnées</h3>
-                      <p className="mt-1 text-sm text-mut">Pour pouvoir vous recontacter correctement.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Vos coordonnées
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Pour pouvoir vous recontacter correctement.
+                      </p>
                     </div>
                   </div>
 
@@ -420,7 +451,6 @@ export default function ContactPage() {
                       />
                     </label>
                     <PremiumPhoneField
-                    
                       value={form.phone}
                       onChange={(value) => updateField("phone", value)}
                       labelClassName={labelClass}
@@ -429,12 +459,19 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={ClipboardList} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Votre activité</h3>
-                      <p className="mt-1 text-sm text-mut">Pour comprendre votre contexte et votre type de besoin.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Votre activité
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Pour comprendre votre contexte et votre type de besoin.
+                      </p>
                     </div>
                   </div>
 
@@ -442,7 +479,6 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>Type de client *</span>
                       <PremiumSelectControl
-                        
                         value={form.type_client}
                         onChange={(value) => updateField("type_client", value)}
                         placeholder="Choisissez un type"
@@ -463,7 +499,9 @@ export default function ContactPage() {
                       <span className={labelTextClass}>Ville du business</span>
                       <input
                         value={form.businessCity}
-                        onChange={(event) => updateField("businessCity", event.target.value)}
+                        onChange={(event) =>
+                          updateField("businessCity", event.target.value)
+                        }
                         placeholder="Ex : Rouen, Paris, Lyon..."
                         className={fieldClass}
                       />
@@ -478,7 +516,7 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-               {/* <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                {/* <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Globe2} />
                     <div>
@@ -511,12 +549,19 @@ export default function ContactPage() {
                   </div>
                 </div>*/}
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Mail} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Votre message</h3>
-                      <p className="mt-1 text-sm text-mut">Décrivez simplement ce que vous voulez améliorer.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Votre message
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Décrivez simplement ce que vous voulez améliorer.
+                      </p>
                     </div>
                   </div>
 
@@ -552,8 +597,8 @@ export default function ContactPage() {
                     className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"
                   />
                   <span>
-                    J&apos;accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande
-                    et me recontacter.
+                    J&apos;accepte que mes informations soient utilisées par OptimalLogic
+                    pour traiter ma demande et me recontacter.
                   </span>
                 </label>
 
@@ -585,9 +630,12 @@ export default function ContactPage() {
                 >
                   <CalendarCheck size={14} /> Diagnostic gratuit
                 </span>
-                <h3 className="mt-4 font-display text-2xl font-semibold">Vous voulez aller plus vite ?</h3>
+                <h3 className="mt-4 font-display text-2xl font-semibold">
+                  Vous voulez aller plus vite ?
+                </h3>
                 <p className="mt-4 text-sm leading-7 text-mut">
-                  Réservez directement un créneau pour présenter votre activité, clarifier votre besoin et obtenir une première orientation.
+                  Réservez directement un créneau pour présenter votre activité, clarifier
+                  votre besoin et obtenir une première orientation.
                 </p>
                 <Link
                   href="/prise-de-rdv"
@@ -605,14 +653,23 @@ export default function ContactPage() {
                   <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
                     Ce qu&apos;il faut préparer
                   </span>
-                  <h3 className="mt-1 font-display text-xl font-semibold">Quelques éléments utiles.</h3>
+                  <h3 className="mt-1 font-display text-xl font-semibold">
+                    Quelques éléments utiles.
+                  </h3>
                 </div>
               </div>
 
               <ul className="mt-6 grid gap-3 text-sm font-medium text-mut">
                 {preparationItems.map((item) => (
-                  <li key={item} className="flex items-center gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0">
-                    <Check size={16} strokeWidth={2.3} className="shrink-0 text-emerald" />
+                  <li
+                    key={item}
+                    className="flex items-center gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0"
+                  >
+                    <Check
+                      size={16}
+                      strokeWidth={2.3}
+                      className="shrink-0 text-emerald"
+                    />
                     {item}
                   </li>
                 ))}
@@ -626,7 +683,9 @@ export default function ContactPage() {
                   <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
                     Après l&apos;envoi
                   </span>
-                  <h3 className="mt-1 font-display text-xl font-semibold">Un traitement simple.</h3>
+                  <h3 className="mt-1 font-display text-xl font-semibold">
+                    Un traitement simple.
+                  </h3>
                 </div>
               </div>
 
@@ -656,11 +715,17 @@ export default function ContactPage() {
       <section className="relative z-[2] mx-auto max-w-[1240px] px-7 py-16">
         <div
           className="relative overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16"
-          style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))" }}
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))",
+          }}
         >
           <div
             className="pointer-events-none absolute inset-0 opacity-70"
-            style={{ background: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)" }}
+            style={{
+              background:
+                "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)",
+            }}
           />
           <div className="relative">
             <span
@@ -673,7 +738,8 @@ export default function ContactPage() {
               Transformer votre présence digitale en demandes concrètes.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-mut">
-              Appels, rendez-vous, devis, inscriptions ou prospects qualifiés : nous vous aidons à choisir le bon système.
+              Appels, rendez-vous, devis, inscriptions ou prospects qualifiés : nous vous
+              aidons à choisir le bon système.
             </p>
             <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
               <Link

@@ -1,0 +1,100 @@
+content_version: "1.0"
+status: ready
+
+positioning:
+  existing_core: >-
+    OptimalLogic relie présence digitale, IA et acquisition pour transformer la
+    visibilité en demandes et en clients, avec une approche centrée sur
+    l'activité avant l'outil.
+  added_demand_management: >-
+    OptimalLogic aide aussi à centraliser, qualifier, traiter et suivre les
+    appels, devis, formulaires, rendez-vous et messages grâce à l'IA et à ses
+    outils, dans les limites des intégrations réellement activées.
+
+pages:
+  - id: home
+    blocks:
+      - message: Une présence digitale qui génère des demandes et permet de les suivre jusqu'à la prochaine action.
+        source_ids: [src-live-site, src-owner-decision]
+        state: rewrite
+        proof_requirement: aucune preuve chiffrée sans source
+        notes: Hero court, démonstration visuelle du flux et CTA rendez-vous.
+      - message: Appels, devis, formulaires, rendez-vous et messages convergent vers un suivi plus clair.
+        source_ids: [src-owner-decision]
+        state: new
+        proof_requirement: vérifier les canaux réellement connectés
+        notes: Utiliser WorkflowRouting, jamais une fausse capture produit.
+  - id: services
+    blocks:
+      - message: Trois contextes distincts, une méthode centrée sur l'activité.
+        source_ids: [src-live-site]
+        state: rewrite
+        proof_requirement: relier chaque capacité à une offre ou un module validé
+        notes: Conserver commerce, TPE-PME et startup.
+      - message: Visibilité, conversion, qualification et suivi forment une chaîne cohérente.
+        source_ids: [src-owner-decision]
+        state: new
+        proof_requirement: décrire les capacités, pas des résultats garantis
+        notes: Présenter le workflow par contexte.
+  - id: pricing
+    blocks:
+      - message: Huit offres actuelles réparties par audience.
+        source_ids: [src-live-site, src-repository]
+        state: pending_offer_revision
+        proof_requirement: montants et inclusions lus depuis une source unique
+        notes: Conserver les prix actuels jusqu'à décision explicite.
+  - id: contact
+    blocks:
+      - message: Décrivez votre contexte afin que la demande soit qualifiée et orientée.
+        source_ids: [src-owner-decision]
+        state: rewrite
+        proof_requirement: finalités et consentement cohérents avec la politique de confidentialité
+        notes: Réassurance factuelle et accusé de réception précis.
+  - id: booking
+    blocks:
+      - message: Choisissez un échange adapté à votre contexte.
+        source_ids: [src-live-site]
+        state: rewrite
+        proof_requirement: ne promettre que les confirmations effectivement envoyées
+        notes: Minimiser les distractions.
+  - id: help
+    blocks:
+      - message: Obtenez une première orientation puis passez à un contact humain si nécessaire.
+        source_ids: [src-repository]
+        state: rewrite
+        proof_requirement: préciser limites et disponibilité de l'assistant
+        notes: Alternative visible.
+  - id: auth-client-admin
+    blocks:
+      - message: Accès sécurisé au bon espace selon le rôle.
+        source_ids: [src-repository]
+        state: keep
+        proof_requirement: aucune promesse de sécurité absolue
+        notes: UI cohérente, logique d'accès inchangée.
+  - id: workspaces
+    blocks:
+      - message: Suivre services, demandes, prospects, support et métriques avec un état et une prochaine action clairs.
+        source_ids: [src-repository, src-owner-decision]
+        state: rewrite
+        proof_requirement: chaque indicateur et statut doit venir des données réelles
+        notes: Priorité à la lisibilité opérationnelle.
+  - id: legal
+    blocks:
+      - message: Contenu légal actuel conservé avant revue professionnelle.
+        source_ids: [src-live-site, src-repository]
+        state: keep
+        proof_requirement: validation juridique avant production
+        notes: Le design ne change pas la portée du contenu.
+
+claims_policy:
+  prohibited:
+    - faux clients, témoignages, partenaires, certifications ou réalisations
+    - chiffres de performance sans période et source
+    - fonctionnalité IA présentée comme disponible sans validation technique
+    - garantie d'acquisition ou de conversion
+  requires_source:
+    - volumes de demandes
+    - délais de réponse
+    - taux de conversion
+    - économies ou gains de temps
+    - disponibilité des intégrations

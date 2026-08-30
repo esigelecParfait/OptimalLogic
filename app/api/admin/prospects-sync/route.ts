@@ -11,7 +11,10 @@ export async function GET(request: NextRequest) {
 
     if (!supabaseUrl || !serviceRoleKey || !appsScriptSecret) {
       console.error("prospects-sync: variables d'environnement manquantes.");
-      return NextResponse.json({ error: "Configuration serveur incomplète." }, { status: 500 });
+      return NextResponse.json(
+        { error: "Configuration serveur incomplète." },
+        { status: 500 },
+      );
     }
 
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey);
@@ -20,10 +23,7 @@ export async function GET(request: NextRequest) {
     const expectedAuthorization = `Bearer ${appsScriptSecret}`;
 
     if (authorization !== expectedAuthorization) {
-      return NextResponse.json(
-        { error: "Accès non autorisé." },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Accès non autorisé." }, { status: 401 });
     }
 
     // Pas de .limit() : l'Apps Script supprime de la feuille toute ligne absente
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json(
         { error: "Impossible de récupérer les prospects." },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -51,9 +51,6 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Erreur API prospects-sync:", error);
 
-    return NextResponse.json(
-      { error: "Erreur serveur." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Erreur serveur." }, { status: 500 });
   }
 }

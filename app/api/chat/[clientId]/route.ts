@@ -9,7 +9,7 @@ const SESSION_LIMIT = 20;
 
 export async function POST(
   request: NextRequest,
-  ctx: RouteContext<"/api/chat/[clientId]">
+  ctx: { params: Promise<{ clientId: string }> },
 ) {
   const ip = getClientIp(request);
   const rl = rateLimit(`chat-client:${ip}`, 10, 60 * 1000);
@@ -38,7 +38,8 @@ export async function POST(
       typeof m === "object" &&
       m !== null &&
       typeof (m as Record<string, unknown>).content === "string" &&
-      ((m as Record<string, unknown>).role === "user" || (m as Record<string, unknown>).role === "assistant")
+      ((m as Record<string, unknown>).role === "user" ||
+        (m as Record<string, unknown>).role === "assistant"),
   );
 
   if (messages.length === 0) {
@@ -59,7 +60,9 @@ export async function POST(
         for await (const event of response) {
           if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
             controller.enqueue(
-              new TextEncoder().encode(`data: ${JSON.stringify({ text: event.delta.text })}\n\n`)
+              new TextEncoder().encode(
+                `data: ${JSON.stringify({ text: event.delta.text })}\n\n`,
+              ),
             );
           }
         }
@@ -67,7 +70,9 @@ export async function POST(
         controller.close();
       } catch {
         controller.enqueue(
-          new TextEncoder().encode(`data: ${JSON.stringify({ error: "Erreur de génération." })}\n\n`)
+          new TextEncoder().encode(
+            `data: ${JSON.stringify({ error: "Erreur de génération." })}\n\n`,
+          ),
         );
         controller.close();
       }
@@ -78,7 +83,7 @@ export async function POST(
     headers: {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      "Connection": "keep-alive",
+      Connection: "keep-alive",
     },
   });
 }

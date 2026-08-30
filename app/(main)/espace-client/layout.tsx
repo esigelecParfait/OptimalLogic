@@ -30,7 +30,7 @@ export default async function EspaceClientLayout({
   const { client } = await getPaidClientForUser(
     supabase,
     user.id,
-    "id_client, contact_first_name"
+    "id_client, contact_first_name",
   );
 
   if (!client) {
@@ -50,22 +50,40 @@ export default async function EspaceClientLayout({
       <div className="relative z-[1] border-b border-white/[0.07] bg-black/[0.18] backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-6 sm:px-6 lg:px-8">
           <div>
-            <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Espace client</p>
-            <h1 className="mt-2 font-display text-2xl font-semibold">Bonjour {(user.user_metadata?.first_name as string | undefined) ?? client.contact_first_name ?? ""}</h1>
+            <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+              Espace client
+            </p>
+            <h1 className="mt-2 font-display text-2xl font-semibold">
+              Bonjour{" "}
+              {(user.user_metadata?.first_name as string | undefined) ??
+                client.contact_first_name ??
+                ""}
+            </h1>
           </div>
           <form action={logout}>
-            <button type="submit" className="btn-ghost rounded-full px-5 py-2.5 text-sm font-semibold">Se déconnecter</button>
+            <button
+              type="submit"
+              className="btn-ghost rounded-full px-5 py-2.5 text-sm font-semibold"
+            >
+              Se déconnecter
+            </button>
           </form>
         </div>
         <nav className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-5 pb-4 sm:px-6 lg:px-8">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="whitespace-nowrap rounded-full border border-white/[0.13] px-4 py-2 text-sm font-semibold text-mut transition hover:border-white/30 hover:text-ink">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="whitespace-nowrap rounded-full border border-white/[0.13] px-4 py-2 text-sm font-semibold text-mut transition hover:border-white/30 hover:text-ink"
+            >
               {item.label}
             </Link>
           ))}
         </nav>
       </div>
-      <div className="relative z-[1] mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">{children}</div>
+      <div className="relative z-[1] mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
+        {children}
+      </div>
     </main>
   );
 }

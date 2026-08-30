@@ -62,10 +62,7 @@ export default function AssistantChatPage() {
               Assistant OptimalLogic
             </h1>
             <p className="mt-0.5 flex items-center justify-center gap-1.5 text-[11px] text-mut">
-              <span
-                className="h-1.5 w-1.5 rounded-full bg-emerald"
-                aria-hidden="true"
-              />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald" aria-hidden="true" />
               Réponse en quelques secondes
             </p>
           </div>

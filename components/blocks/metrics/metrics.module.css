@@ -1,0 +1,127 @@
+.dashboardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dashboardGrid,
+.strip {
+  display: grid;
+}
+
+.dashboardGrid {
+  gap: 1px;
+  margin-top: var(--space-5);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-border);
+}
+
+.dashboardMetric {
+  position: relative;
+  display: flex;
+  min-height: 12rem;
+  flex-direction: column;
+  padding: var(--space-5);
+  background: var(--color-surface-elevated);
+}
+
+.label {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.value,
+.stripValue {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.035em;
+}
+
+.value {
+  order: -1;
+  margin-bottom: auto;
+  font-size: clamp(2.25rem, 7vw, var(--text-display));
+  line-height: var(--line-height-tight);
+}
+
+.detail,
+.trend {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.trend {
+  color: var(--color-action);
+}
+
+.stripIntro {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.strip {
+  border-top: 1px solid var(--color-border);
+}
+
+.stripMetric {
+  display: flex;
+  min-height: 9rem;
+  flex-direction: column;
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.stripValue {
+  order: -1;
+  margin-bottom: auto;
+  font-size: var(--text-title);
+  line-height: var(--line-height-heading);
+}
+
+@media (min-width: 40rem) {
+  .dashboardGrid,
+  .strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stripMetric:nth-child(odd) {
+    padding-right: var(--space-5);
+    border-right: 1px solid var(--color-border);
+  }
+
+  .stripMetric:nth-child(even) {
+    padding-left: var(--space-5);
+  }
+}
+
+@media (min-width: 64rem) {
+  .dashboardGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stripMetric {
+    padding-inline: var(--space-5);
+    border-right: 1px solid var(--color-border);
+  }
+
+  .stripMetric:first-child {
+    padding-left: 0;
+  }
+
+  .stripMetric:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+}

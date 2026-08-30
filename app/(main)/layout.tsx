@@ -6,11 +6,7 @@ import CustomCursor from "@/components/CustomCursor";
 import Aurora from "@/components/fx/Aurora";
 import Grain from "@/components/fx/Grain";
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Aurora />

@@ -46,7 +46,10 @@ export function validateTargetUrl(input: unknown): TargetUrlValidationResult {
   }
 
   url.hash = "";
-  if ((url.protocol === "https:" && url.port === "443") || (url.protocol === "http:" && url.port === "80")) {
+  if (
+    (url.protocol === "https:" && url.port === "443") ||
+    (url.protocol === "http:" && url.port === "80")
+  ) {
     url.port = "";
   }
 

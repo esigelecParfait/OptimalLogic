@@ -3,10 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "tokens": "node scripts/generate-tokens.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "format": "prettier --write . --ignore-unknown",
+    "format:check": "prettier --check . --ignore-unknown",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "setup:browsers": "playwright install chromium",
+    "test": "npm run test:unit && npm run test:functional",
+    "test:unit": "vitest run tests/unit",
+    "test:functional": "playwright test --project=functional",
+    "test:responsive": "playwright test --project=mobile-320 --project=mobile-390 --project=tablet-768 --project=desktop-1024 --project=wide-1440",
+    "test:performance": "node scripts/run-lighthouse.mjs",
+    "check:static": "npm run format:check && npm run lint && npm run typecheck && npm run build",
+    "check": "npm run check:static && npm run test:unit && npm run test:functional && npm run test:responsive",
+    "check:all": "npm run check && npm run test:performance"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.104.2",
@@ -20,13 +33,17 @@
     "react-phone-number-input": "^3.4.17"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "prettier": "^3.9.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }

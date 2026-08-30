@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { generateClientLink } from "./actions";
 
-const field = "h-11 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
+const field =
+  "h-11 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
 const initial = { link: null as string | null, error: null as string | null };
 
 export default function GenerateLinkForm({ defaultEmail }: { defaultEmail?: string }) {
@@ -37,7 +38,9 @@ export default function GenerateLinkForm({ defaultEmail }: { defaultEmail?: stri
 
       {state.link && (
         <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] p-3 space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-400">Lien généré — valide 2h</p>
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-400">
+            Lien généré — valide 2h
+          </p>
           <p className="break-all text-xs text-mut font-mono">{state.link}</p>
           <CopyButton link={state.link} />
         </div>

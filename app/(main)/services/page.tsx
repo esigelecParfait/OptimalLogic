@@ -249,11 +249,16 @@ export default function ServicesPage() {
 
               <h1 className="mt-6 text-[clamp(38px,5vw,64px)] font-semibold leading-[0.98] tracking-[-0.04em]">
                 Le bon service n’est pas forcément le plus complet.
-                <span className="grad-text"> C’est celui qui aide vos clients à vous choisir.</span>
+                <span className="grad-text">
+                  {" "}
+                  C’est celui qui aide vos clients à vous choisir.
+                </span>
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
-                OptimalLogic construit des systèmes digitaux adaptés à votre activité : visibilité Google, site web, prise de rendez-vous, assistant IA, suivi des prospects et automatisations utiles.
+                OptimalLogic construit des systèmes digitaux adaptés à votre activité :
+                visibilité Google, site web, prise de rendez-vous, assistant IA, suivi des
+                prospects et automatisations utiles.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -301,12 +306,17 @@ export default function ServicesPage() {
                       >
                         <div
                           className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/[0.1]"
-                          style={{ background: "rgba(255,255,255,0.1)", color: "var(--ink)" }}
+                          style={{
+                            background: "rgba(255,255,255,0.1)",
+                            color: "var(--ink)",
+                          }}
                         >
                           <Icon size={20} strokeWidth={1.8} />
                         </div>
                         <div>
-                          <p className="font-display text-sm font-semibold text-ink">{label}</p>
+                          <p className="font-display text-sm font-semibold text-ink">
+                            {label}
+                          </p>
                           <p className="mt-1 text-sm leading-6 text-mut">{description}</p>
                         </div>
                       </div>
@@ -330,7 +340,8 @@ export default function ServicesPage() {
               Trois contextes différents, trois systèmes adaptés
             </h2>
             <p className="mt-4 text-base leading-7 text-mut">
-              Nous ne vous imposons pas une pile d’outils. Nous partons du blocage réel : visibilité, conversion, suivi commercial ou validation marché.
+              Nous ne vous imposons pas une pile d’outils. Nous partons du blocage réel :
+              visibilité, conversion, suivi commercial ou validation marché.
             </p>
           </AnimateIn>
 
@@ -403,7 +414,9 @@ export default function ServicesPage() {
                         <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
                           Résultat attendu
                         </p>
-                        <p className="mt-3 text-sm leading-6 text-mut">{service.result}</p>
+                        <p className="mt-3 text-sm leading-6 text-mut">
+                          {service.result}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -427,7 +440,8 @@ export default function ServicesPage() {
               <span className="grad-text">pas seulement du design</span>
             </h2>
             <p className="mt-4 max-w-md text-base leading-7 text-mut">
-              La bonne question n’est pas “quel outil faut-il ajouter ?”, mais “quelle action le client doit-il faire après vous avoir trouvé ?”.
+              La bonne question n’est pas “quel outil faut-il ajouter ?”, mais “quelle
+              action le client doit-il faire après vous avoir trouvé ?”.
             </p>
           </AnimateIn>
 
@@ -473,7 +487,8 @@ export default function ServicesPage() {
                 Le bon service dépend du vrai besoin
               </h2>
               <p className="mt-4 text-base leading-7 text-mut">
-                Un commerce, une PME et une startup n’ont pas le même enjeu. Notre rôle est de choisir le système qui sert votre objectif réel.
+                Un commerce, une PME et une startup n’ont pas le même enjeu. Notre rôle
+                est de choisir le système qui sert votre objectif réel.
               </p>
             </div>
 
@@ -526,7 +541,8 @@ export default function ServicesPage() {
                 </h2>
 
                 <p className="mt-4 max-w-2xl text-lg leading-8 text-mut">
-                  On analyse votre présence actuelle, vos objectifs et vos points de blocage pour vous orienter vers la solution la plus utile.
+                  On analyse votre présence actuelle, vos objectifs et vos points de
+                  blocage pour vous orienter vers la solution la plus utile.
                 </p>
               </div>
 
@@ -534,8 +550,12 @@ export default function ServicesPage() {
                 <div className="mb-5 flex items-center gap-4">
                   <IconFrame icon={UsersRound} tone="soft" />
                   <div>
-                    <p className="font-display text-xl font-semibold">Parlons de votre projet</p>
-                    <p className="mt-1 text-sm text-mut">Un échange simple pour identifier les priorités.</p>
+                    <p className="font-display text-xl font-semibold">
+                      Parlons de votre projet
+                    </p>
+                    <p className="mt-1 text-sm text-mut">
+                      Un échange simple pour identifier les priorités.
+                    </p>
                   </div>
                 </div>
 

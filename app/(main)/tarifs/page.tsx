@@ -5,19 +5,8 @@ import { AnimateIn } from "@/components/AnimateIn";
 import NeuralBackground from "@/components/fx/NeuralBackground";
 import { parsePhoneNumber } from "react-phone-number-input";
 import Link from "next/link";
-import {
-  BadgeCheck,
-  Check,
-  CreditCard,
-  FileText,
-  RefreshCw,
-  Target,
-  X,
-} from "lucide-react";
-import {
-  ObjectiveSelectField,
-  PremiumPhoneField,
-} from "@/components/forms/PremiumFormFields";
+import { BadgeCheck, Check, CreditCard, FileText, RefreshCw, X } from "lucide-react";
+import { PremiumPhoneField } from "@/components/forms/PremiumFormFields";
 
 type PricingPack = {
   code: string;
@@ -59,28 +48,15 @@ type OfferRequestForm = {
   consentRgpd: boolean;
 };
 
-type ObjectiveOption = {
-  value: string;
-  label: string;
-};
-
-const objectiveOptions: ObjectiveOption[] = [
-  { value: "plus_appels_reservations", label: "Plus d'appels ou de réservations" },
-  { value: "plus_devis_qualifies", label: "Plus de devis ou demandes qualifiées" },
-  { value: "mieux_suivre_prospects", label: "Mieux suivre les prospects" },
-  { value: "ameliorer_image", label: "Améliorer mon image professionnelle" },
-  { value: "lancer_offre", label: "Lancer ou tester une offre" },
-  { value: "automatiser_reponses", label: "Automatiser les réponses aux clients" },
-  { value: "incertain", label: "Je ne sais pas encore" },
-];
-
 const baseCommercePacks: PricingPack[] = [
   {
     code: "commerce_intelligent",
     name: "Commerce Intelligent",
     category: "Commerce local",
-    subtitle: "Pour les commerces qui veulent être mieux trouvés, répondre plus vite et obtenir plus d'avis.",
-    target: "Coiffeur, restaurant, serrurier, menuisier, vendeur, artisan, institut, garage...",
+    subtitle:
+      "Pour les commerces qui veulent être mieux trouvés, répondre plus vite et obtenir plus d'avis.",
+    target:
+      "Coiffeur, restaurant, serrurier, menuisier, vendeur, artisan, institut, garage...",
     setupPrice: "590 € ",
     monthlyPrice: "129 € / mois",
     highlighted: true,
@@ -114,8 +90,10 @@ const baseCommercePacks: PricingPack[] = [
     code: "commerce_premium",
     name: "Commerce Premium",
     category: "Commerce local",
-    subtitle: "Pour les commerces qui veulent mieux organiser leurs demandes clients et réduire les opportunités perdues.",
-    target: "Commerces avec beaucoup d'appels, réservations, demandes de devis, urgences ou secrétariat.",
+    subtitle:
+      "Pour les commerces qui veulent mieux organiser leurs demandes clients et réduire les opportunités perdues.",
+    target:
+      "Commerces avec beaucoup d'appels, réservations, demandes de devis, urgences ou secrétariat.",
     setupPrice: "990 € ",
     monthlyPrice: "249 € / mois",
     highlighted: false,
@@ -172,13 +150,15 @@ const baseTpePmePacks: PricingPack[] = [
       "Ajustements mineurs du parcours de contact",
       "Rapport mensuel simple",
     ],
-    result: "Une image plus professionnelle et un site capable de recevoir les premières demandes clients.",
+    result:
+      "Une image plus professionnelle et un site capable de recevoir les premières demandes clients.",
   },
   {
     code: "tpe_pme_croissance",
     name: "Croissance",
     category: "TPE / PME",
-    subtitle: "Pour une entreprise qui veut générer et suivre ses prospects plus sérieusement.",
+    subtitle:
+      "Pour une entreprise qui veut générer et suivre ses prospects plus sérieusement.",
     setupPrice: "1 490 € ",
     monthlyPrice: "179 € / mois",
     highlighted: true,
@@ -200,13 +180,15 @@ const baseTpePmePacks: PricingPack[] = [
       "Optimisations des formulaires ou prises de rendez-vous",
       "Rapport mensuel sur les demandes et rendez-vous",
     ],
-    result: "Un site qui devient un véritable outil commercial pour attirer, qualifier et suivre les prospects.",
+    result:
+      "Un site qui devient un véritable outil commercial pour attirer, qualifier et suivre les prospects.",
   },
   {
     code: "tpe_pme_performance",
     name: "Performance",
     category: "TPE / PME",
-    subtitle: "Pour une PME qui veut mieux structurer son acquisition et son suivi commercial.",
+    subtitle:
+      "Pour une PME qui veut mieux structurer son acquisition et son suivi commercial.",
     setupPrice: "2 490 € ",
     monthlyPrice: "349 € / mois",
     highlighted: false,
@@ -229,7 +211,8 @@ const baseTpePmePacks: PricingPack[] = [
       "Rapport mensuel détaillé",
       "Accompagnement mensuel",
     ],
-    result: "Une acquisition plus structurée, un meilleur suivi commercial et des décisions plus claires.",
+    result:
+      "Une acquisition plus structurée, un meilleur suivi commercial et des décisions plus claires.",
   },
 ];
 
@@ -264,7 +247,8 @@ const baseStartupPacks: PricingPack[] = [
     code: "startup_launch",
     name: "Launch",
     category: "Startup",
-    subtitle: "Pour lancer une bêta, générer des demandes de démo et suivre les premiers leads.",
+    subtitle:
+      "Pour lancer une bêta, générer des demandes de démo et suivre les premiers leads.",
     setupPrice: "1 490 € ",
     monthlyPrice: "199 € / mois",
     highlighted: true,
@@ -287,13 +271,15 @@ const baseStartupPacks: PricingPack[] = [
       "Analyse des conversions",
       "Reporting traction mensuel",
     ],
-    result: "Un système de lancement pour générer des leads, mesurer l'intérêt et préparer la croissance.",
+    result:
+      "Un système de lancement pour générer des leads, mesurer l'intérêt et préparer la croissance.",
   },
   {
     code: "startup_growth",
     name: "Growth",
     category: "Startup",
-    subtitle: "Pour une startup qui veut optimiser son acquisition et améliorer ses conversions.",
+    subtitle:
+      "Pour une startup qui veut optimiser son acquisition et améliorer ses conversions.",
     setupPrice: "2 990 € ",
     monthlyPrice: "399 € / mois",
     highlighted: false,
@@ -315,22 +301,59 @@ const baseStartupPacks: PricingPack[] = [
       "Recommandations growth",
       "Reporting mensuel avancé",
     ],
-    result: "Une acquisition plus mesurable, des messages plus clairs et une meilleure conversion des prospects.",
+    result:
+      "Une acquisition plus mesurable, des messages plus clairs et une meilleure conversion des prospects.",
   },
 ];
 
 const paymentSteps = [
-  { step: "01", title: "Diagnostic gratuit", description: "On échange pour comprendre votre activité, vos objectifs et vos outils actuels." },
-  { step: "02", title: "Proposition claire", description: "Vous recevez une formule recommandée avec le détail de la mise en place et de l'abonnement." },
-  { step: "03", title: "Devis & acompte", description: "Le projet démarre après validation du devis et paiement d'un acompte de lancement." },
-  { step: "04", title: "Livraison & suivi mensuel", description: "Après la mise en place, l'abonnement permet de maintenir, suivre et améliorer le système." },
+  {
+    step: "01",
+    title: "Diagnostic gratuit",
+    description:
+      "On échange pour comprendre votre activité, vos objectifs et vos outils actuels.",
+  },
+  {
+    step: "02",
+    title: "Proposition claire",
+    description:
+      "Vous recevez une formule recommandée avec le détail de la mise en place et de l'abonnement.",
+  },
+  {
+    step: "03",
+    title: "Devis & acompte",
+    description:
+      "Le projet démarre après validation du devis et paiement d'un acompte de lancement.",
+  },
+  {
+    step: "04",
+    title: "Livraison & suivi mensuel",
+    description:
+      "Après la mise en place, l'abonnement permet de maintenir, suivre et améliorer le système.",
+  },
 ];
 
 const faqs = [
-  { question: "Pourquoi une mise en place et un abonnement mensuel ?", answer: "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou tableau de suivi. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps." },
-  { question: "Les tarifs sont-ils définitifs ?", answer: "Ce sont des tarifs de départ avec un périmètre clair. Une proposition sur mesure est réalisée uniquement si le projet demande des fonctionnalités spécifiques, des intégrations complexes ou un accompagnement particulier." },
-  { question: "Quelle formule choisir si je ne sais pas encore ?", answer: "Le plus simple est de réserver un diagnostic. Nous analysons votre activité et nous vous orientons vers la formule la plus adaptée." },
-  { question: "Puis-je commencer avec une formule simple et évoluer ensuite ?", answer: "Oui. L'objectif est de commencer avec une base utile, puis d'ajouter progressivement des fonctionnalités selon les résultats et les besoins." },
+  {
+    question: "Pourquoi une mise en place et un abonnement mensuel ?",
+    answer:
+      "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou tableau de suivi. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps.",
+  },
+  {
+    question: "Les tarifs sont-ils définitifs ?",
+    answer:
+      "Ce sont des tarifs de départ avec un périmètre clair. Une proposition sur mesure est réalisée uniquement si le projet demande des fonctionnalités spécifiques, des intégrations complexes ou un accompagnement particulier.",
+  },
+  {
+    question: "Quelle formule choisir si je ne sais pas encore ?",
+    answer:
+      "Le plus simple est de réserver un diagnostic. Nous analysons votre activité et nous vous orientons vers la formule la plus adaptée.",
+  },
+  {
+    question: "Puis-je commencer avec une formule simple et évoluer ensuite ?",
+    answer:
+      "Oui. L'objectif est de commencer avec une base utile, puis d'ajouter progressivement des fonctionnalités selon les résultats et les besoins.",
+  },
 ];
 
 function formatSetupPrice(value: number | string | null) {
@@ -374,14 +397,23 @@ const modalFieldClass =
   "rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 py-3 text-sm text-ink outline-none transition-all placeholder:text-mut-2 focus:border-white/35 focus:ring-2 focus:ring-white/[0.12]";
 const modalLabelClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 
-function PremiumCheck({ item, tone = "emerald" }: { item: string; tone?: "emerald" | "cyan" }) {
+function PremiumCheck({
+  item,
+  tone = "emerald",
+}: {
+  item: string;
+  tone?: "emerald" | "cyan";
+}) {
   return (
     <li className="flex gap-2.5 text-[13px] leading-5">
       <span
         className={`mt-0.5 grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full ${
           tone === "emerald" ? "text-emerald" : "text-white"
         }`}
-        style={{ background: tone === "emerald" ? "rgba(46,230,168,0.1)" : "rgba(255,255,255,0.08)" }}
+        style={{
+          background:
+            tone === "emerald" ? "rgba(46,230,168,0.1)" : "rgba(255,255,255,0.08)",
+        }}
       >
         <Check size={12} strokeWidth={3} />
       </span>
@@ -424,7 +456,9 @@ export default function TarifsPage() {
       }
     }
     window.addEventListener("pageshow", resetPageAfterBrowserBack);
-    return () => { window.removeEventListener("pageshow", resetPageAfterBrowserBack); };
+    return () => {
+      window.removeEventListener("pageshow", resetPageAfterBrowserBack);
+    };
   }, []);
 
   useEffect(() => {
@@ -432,32 +466,50 @@ export default function TarifsPage() {
       try {
         const response = await fetch("/api/offres", { method: "GET", cache: "no-store" });
         const result = await response.json();
-        if (!response.ok) throw new Error(result.error || "Impossible de charger les offres.");
+        if (!response.ok)
+          throw new Error(result.error || "Impossible de charger les offres.");
         setDatabaseOffers(result.offres ?? []);
       } catch (error) {
         console.error("Erreur chargement offres :", error);
-        setOffersError(error instanceof Error ? error.message : "Impossible de charger les offres.");
+        setOffersError(
+          error instanceof Error ? error.message : "Impossible de charger les offres.",
+        );
       }
     }
     loadOffers();
   }, []);
 
-  const applyDatabaseOffer = useCallback((pack: PricingPack): PricingPack => {
-    const matchingOffer = databaseOffers.find((offer) => offer.code === pack.code);
-    if (!matchingOffer) return pack;
-    return {
-      ...pack,
-      name: matchingOffer.nom_offre,
-      setupPrice: formatSetupPrice(matchingOffer.prix),
-      monthlyPrice: formatMonthlyPrice(matchingOffer.prix_abonnement),
-    };
-  }, [databaseOffers]);
+  const applyDatabaseOffer = useCallback(
+    (pack: PricingPack): PricingPack => {
+      const matchingOffer = databaseOffers.find((offer) => offer.code === pack.code);
+      if (!matchingOffer) return pack;
+      return {
+        ...pack,
+        name: matchingOffer.nom_offre,
+        setupPrice: formatSetupPrice(matchingOffer.prix),
+        monthlyPrice: formatMonthlyPrice(matchingOffer.prix_abonnement),
+      };
+    },
+    [databaseOffers],
+  );
 
-  const commercePacks = useMemo(() => baseCommercePacks.map(applyDatabaseOffer), [applyDatabaseOffer]);
-  const tpePmePacks = useMemo(() => baseTpePmePacks.map(applyDatabaseOffer), [applyDatabaseOffer]);
-  const startupPacks = useMemo(() => baseStartupPacks.map(applyDatabaseOffer), [applyDatabaseOffer]);
+  const commercePacks = useMemo(
+    () => baseCommercePacks.map(applyDatabaseOffer),
+    [applyDatabaseOffer],
+  );
+  const tpePmePacks = useMemo(
+    () => baseTpePmePacks.map(applyDatabaseOffer),
+    [applyDatabaseOffer],
+  );
+  const startupPacks = useMemo(
+    () => baseStartupPacks.map(applyDatabaseOffer),
+    [applyDatabaseOffer],
+  );
 
-  function updateLeadField<K extends keyof OfferRequestForm>(field: K, value: OfferRequestForm[K]) {
+  function updateLeadField<K extends keyof OfferRequestForm>(
+    field: K,
+    value: OfferRequestForm[K],
+  ) {
     setLeadForm((current) => ({ ...current, [field]: value }));
   }
 
@@ -476,10 +528,13 @@ export default function TarifsPage() {
     setFormError(null);
     setLeadForm((current) => {
       const currentMessage = current.message.trim();
-      const shouldReplaceMessage = currentMessage.length === 0 || isDefaultOfferMessage(currentMessage);
+      const shouldReplaceMessage =
+        currentMessage.length === 0 || isDefaultOfferMessage(currentMessage);
       return {
         ...current,
-        message: shouldReplaceMessage ? getDefaultOfferMessage(pack.name) : current.message,
+        message: shouldReplaceMessage
+          ? getDefaultOfferMessage(pack.name)
+          : current.message,
         consentRgpd: false,
       };
     });
@@ -510,7 +565,9 @@ export default function TarifsPage() {
       return;
     }
     if (!leadForm.consentRgpd) {
-      setFormError("Vous devez accepter l'utilisation de vos informations pour être recontacté.");
+      setFormError(
+        "Vous devez accepter l'utilisation de vos informations pour être recontacté.",
+      );
       setIsSubmitting(false);
       return;
     }
@@ -545,10 +602,13 @@ export default function TarifsPage() {
         body: JSON.stringify(payload),
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Erreur lors de l'envoi de la demande.");
+      if (!response.ok)
+        throw new Error(result.error || "Erreur lors de l'envoi de la demande.");
       setFormSent(true);
     } catch (error) {
-      setFormError(error instanceof Error ? error.message : "Erreur lors de l'envoi de la demande.");
+      setFormError(
+        error instanceof Error ? error.message : "Erreur lors de l'envoi de la demande.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -579,8 +639,6 @@ export default function TarifsPage() {
           style={{ background: featured ? "var(--ink)" : "var(--ink)" }}
         />
 
-       
-
         <div className="relative z-[1] pr-24">
           <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">
             {pack.category}
@@ -590,7 +648,6 @@ export default function TarifsPage() {
           </h3>
           <p className="mt-3 text-sm leading-6 text-mut">{pack.subtitle}</p>
         </div>
-
 
         <div className="relative z-[1] mt-6 grid gap-3 sm:grid-cols-2">
           <div
@@ -713,7 +770,8 @@ export default function TarifsPage() {
                 <span className="grad-text"> en demandes concrètes.</span>
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-mut">
-                Chaque offre combine mise en place, outils adaptés et suivi mensuel pour aider votre activité à être trouvée, comprise, choisie et mieux suivie.
+                Chaque offre combine mise en place, outils adaptés et suivi mensuel pour
+                aider votre activité à être trouvée, comprise, choisie et mieux suivie.
               </p>
 
               <div className="mt-10 flex flex-wrap gap-3">
@@ -736,13 +794,22 @@ export default function TarifsPage() {
                   Accès rapide
                 </p>
                 <div className="flex flex-wrap gap-2.5">
-                  <a href="#commerce" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">
+                  <a
+                    href="#commerce"
+                    className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold"
+                  >
                     Commerce
                   </a>
-                  <a href="#tpe-pme" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">
+                  <a
+                    href="#tpe-pme"
+                    className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold"
+                  >
                     TPE/PME
                   </a>
-                  <a href="#startup" className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold">
+                  <a
+                    href="#startup"
+                    className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold"
+                  >
                     Startup
                   </a>
                 </div>
@@ -753,7 +820,8 @@ export default function TarifsPage() {
                   className="mt-6 rounded-xl border border-amber-300/30 px-5 py-3 text-xs font-medium text-amber-200"
                   style={{ background: "rgba(251,191,36,0.08)" }}
                 >
-                  Les prix affichés utilisent les valeurs par défaut, car les offres n&apos;ont pas pu être chargées.
+                  Les prix affichés utilisent les valeurs par défaut, car les offres
+                  n&apos;ont pas pu être chargées.
                 </div>
               )}
             </div>
@@ -770,7 +838,9 @@ export default function TarifsPage() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
                     Comment lire les prix ?
                   </p>
-                  <p className="mt-1 font-display text-xl font-semibold">Un projet + un suivi</p>
+                  <p className="mt-1 font-display text-xl font-semibold">
+                    Un projet + un suivi
+                  </p>
                 </div>
               </div>
 
@@ -781,10 +851,13 @@ export default function TarifsPage() {
                 >
                   <div className="mb-3 flex items-center gap-2 text-white">
                     <FileText size={18} strokeWidth={1.8} />
-                    <p className="font-display text-lg font-semibold text-ink">Diagnostic</p>
+                    <p className="font-display text-lg font-semibold text-ink">
+                      Diagnostic
+                    </p>
                   </div>
                   <p className="text-sm leading-6 text-mut">
-                    Avant de choisir, nous validons la formule réellement adaptée à votre activité.
+                    Avant de choisir, nous validons la formule réellement adaptée à votre
+                    activité.
                   </p>
                 </div>
                 <div
@@ -793,10 +866,13 @@ export default function TarifsPage() {
                 >
                   <div className="mb-3 flex items-center gap-2 text-emerald">
                     <CreditCard size={18} strokeWidth={1.8} />
-                    <p className="font-display text-lg font-semibold text-ink">Mise en place</p>
+                    <p className="font-display text-lg font-semibold text-ink">
+                      Mise en place
+                    </p>
                   </div>
                   <p className="text-sm leading-6 text-mut">
-                    Création, configuration, intégration des outils et construction du parcours digital.
+                    Création, configuration, intégration des outils et construction du
+                    parcours digital.
                   </p>
                 </div>
                 <div
@@ -805,7 +881,9 @@ export default function TarifsPage() {
                 >
                   <div className="mb-3 flex items-center gap-2 text-white">
                     <RefreshCw size={18} strokeWidth={1.8} />
-                    <p className="font-display text-lg font-semibold text-ink">Suivi mensuel</p>
+                    <p className="font-display text-lg font-semibold text-ink">
+                      Suivi mensuel
+                    </p>
                   </div>
                   <p className="text-sm leading-6 text-mut">
                     Maintenance, amélioration, reporting et accompagnement dans le temps.
@@ -821,12 +899,22 @@ export default function TarifsPage() {
       <section id="commerce" className="px-7 py-16">
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Commerces locaux</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour être trouvé, rassuré et être choisi rapidement</h2>
-            <p className="mt-5 text-base leading-7 text-mut">Deux formules pensées pour les commerces qui dépendent des recherches locales, des avis, des appels, des réservations, des devis ou des visites physiques.</p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              Commerces locaux
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Pour être trouvé, rassuré et être choisi rapidement
+            </h2>
+            <p className="mt-5 text-base leading-7 text-mut">
+              Deux formules pensées pour les commerces qui dépendent des recherches
+              locales, des avis, des appels, des réservations, des devis ou des visites
+              physiques.
+            </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
-            {commercePacks.map((pack) => <PricingCard key={pack.code} pack={pack} />)}
+            {commercePacks.map((pack) => (
+              <PricingCard key={pack.code} pack={pack} />
+            ))}
           </div>
         </div>
       </section>
@@ -835,12 +923,22 @@ export default function TarifsPage() {
       <section id="tpe-pme" className="px-7 py-16">
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">TPE / PME</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour générer des prospects et mieux suivre les demandes</h2>
-            <p className="mt-5 text-base leading-7 text-mut">Ces formules transforment le site web en outil commercial : présentation claire, prise de contact, chatbot, suivi clients/prospects et automatisations simples.</p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              TPE / PME
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Pour générer des prospects et mieux suivre les demandes
+            </h2>
+            <p className="mt-5 text-base leading-7 text-mut">
+              Ces formules transforment le site web en outil commercial : présentation
+              claire, prise de contact, chatbot, suivi clients/prospects et
+              automatisations simples.
+            </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
-            {tpePmePacks.map((pack) => <PricingCard key={pack.code} pack={pack} />)}
+            {tpePmePacks.map((pack) => (
+              <PricingCard key={pack.code} pack={pack} />
+            ))}
           </div>
         </div>
       </section>
@@ -849,12 +947,22 @@ export default function TarifsPage() {
       <section id="startup" className="px-7 py-16">
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Startups</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Pour lancer, tester et mesurer la traction</h2>
-            <p className="mt-5 text-base leading-7 text-mut">Ces formules aident les startups à clarifier leur offre, attirer les premiers utilisateurs, générer des demandes de démo et suivre les signaux de traction.</p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              Startups
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Pour lancer, tester et mesurer la traction
+            </h2>
+            <p className="mt-5 text-base leading-7 text-mut">
+              Ces formules aident les startups à clarifier leur offre, attirer les
+              premiers utilisateurs, générer des demandes de démo et suivre les signaux de
+              traction.
+            </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-3">
-            {startupPacks.map((pack) => <PricingCard key={pack.code} pack={pack} />)}
+            {startupPacks.map((pack) => (
+              <PricingCard key={pack.code} pack={pack} />
+            ))}
           </div>
         </div>
       </section>
@@ -863,16 +971,33 @@ export default function TarifsPage() {
       <section className="px-7 py-16">
         <div className="surface-card mx-auto max-w-[1240px] rounded-[28px] p-8 sm:p-10 lg:p-12">
           <div className="mb-10 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Démarrage</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Comment se passe le lancement ?</h2>
-            <p className="mt-5 text-base leading-7 text-mut">Un parcours simple : comprendre votre besoin, choisir le bon périmètre, puis lancer un système clair et suivi.</p>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              Démarrage
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Comment se passe le lancement ?
+            </h2>
+            <p className="mt-5 text-base leading-7 text-mut">
+              Un parcours simple : comprendre votre besoin, choisir le bon périmètre, puis
+              lancer un système clair et suivi.
+            </p>
           </div>
           <div className="grid gap-4 md:grid-cols-4">
             {paymentSteps.map((item, i) => (
               <AnimateIn key={item.step} delay={i * 90}>
-                <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.5)" }}>
-                  <span className="grid h-10 w-10 place-items-center rounded-full font-display text-xs font-bold text-white" style={{ background: "var(--grad)" }}>{item.step}</span>
-                  <h3 className="mt-5 font-display text-lg font-semibold">{item.title}</h3>
+                <div
+                  className="rounded-2xl border border-white/[0.07] p-5"
+                  style={{ background: "rgba(26,26,29,0.5)" }}
+                >
+                  <span
+                    className="grid h-10 w-10 place-items-center rounded-full font-display text-xs font-bold text-white"
+                    style={{ background: "var(--grad)" }}
+                  >
+                    {item.step}
+                  </span>
+                  <h3 className="mt-5 font-display text-lg font-semibold">
+                    {item.title}
+                  </h3>
                   <p className="mt-3 text-xs leading-5 text-mut">{item.description}</p>
                 </div>
               </AnimateIn>
@@ -887,8 +1012,12 @@ export default function TarifsPage() {
       <section className="px-7 py-16">
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">Questions fréquentes</span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">Comprendre nos formules</h2>
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              Questions fréquentes
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Comprendre nos formules
+            </h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {faqs.map((faq, i) => (
@@ -905,13 +1034,39 @@ export default function TarifsPage() {
 
       {/* CTA */}
       <section className="px-7 py-20">
-        <div className="relative mx-auto max-w-[1240px] overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))" }}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink" style={{ background: "var(--grad-soft)" }}>Diagnostic</span>
-          <h2 className="mx-auto mt-5 max-w-3xl text-[clamp(28px,4.4vw,48px)] font-semibold">Le bon tarif dépend du bon système.</h2>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-mut">Nous commençons par comprendre votre activité, vos objectifs et vos outils actuels. Ensuite, nous vous orientons vers la formule la plus adaptée.</p>
+        <div
+          className="relative mx-auto max-w-[1240px] overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))",
+          }}
+        >
+          <span
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
+            style={{ background: "var(--grad-soft)" }}
+          >
+            Diagnostic
+          </span>
+          <h2 className="mx-auto mt-5 max-w-3xl text-[clamp(28px,4.4vw,48px)] font-semibold">
+            Le bon tarif dépend du bon système.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-mut">
+            Nous commençons par comprendre votre activité, vos objectifs et vos outils
+            actuels. Ensuite, nous vous orientons vers la formule la plus adaptée.
+          </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href="/services" className="btn-ghost inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold">Revoir nos services</Link>
-            <Link href="/prise-de-rdv" className="btn-grad inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold">Réserver un diagnostic</Link>
+            <Link
+              href="/services"
+              className="btn-ghost inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold"
+            >
+              Revoir nos services
+            </Link>
+            <Link
+              href="/prise-de-rdv"
+              className="btn-grad inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold"
+            >
+              Réserver un diagnostic
+            </Link>
           </div>
         </div>
       </section>
@@ -919,41 +1074,108 @@ export default function TarifsPage() {
       {/* MODAL */}
       {selectedPack && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center px-4 py-6">
-          <button type="button" aria-label="Fermer la fenêtre" onClick={closeOfferModal} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          <button
+            type="button"
+            aria-label="Fermer la fenêtre"
+            onClick={closeOfferModal}
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          />
           <div className="surface-card relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[28px] p-6 shadow-2xl sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">Demande d&apos;offre</p>
-                <h3 className="mt-2 font-display text-2xl font-semibold">{selectedPack.name}</h3>
-                <p className="mt-1 text-sm font-medium text-mut">{selectedPack.category} · Mise en place {selectedPack.setupPrice} · Abonnement {selectedPack.monthlyPrice}</p>
+                <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">
+                  Demande d&apos;offre
+                </p>
+                <h3 className="mt-2 font-display text-2xl font-semibold">
+                  {selectedPack.name}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-mut">
+                  {selectedPack.category} · Mise en place {selectedPack.setupPrice} ·
+                  Abonnement {selectedPack.monthlyPrice}
+                </p>
               </div>
-              <button type="button" onClick={closeOfferModal} aria-label="Fermer" className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink">
+              <button
+                type="button"
+                onClick={closeOfferModal}
+                aria-label="Fermer"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/[0.13] text-mut transition-colors hover:bg-white/[0.08] hover:text-ink"
+              >
                 <X size={18} strokeWidth={2} />
               </button>
             </div>
 
-            <div className="mt-6 rounded-2xl border border-white/[0.13] p-4" style={{ background: "var(--grad-soft)" }}>
-              <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Offre préremplie</p>
-              <p className="mt-1 font-display text-base font-semibold">{selectedPack.name}</p>
+            <div
+              className="mt-6 rounded-2xl border border-white/[0.13] p-4"
+              style={{ background: "var(--grad-soft)" }}
+            >
+              <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
+                Offre préremplie
+              </p>
+              <p className="mt-1 font-display text-base font-semibold">
+                {selectedPack.name}
+              </p>
             </div>
 
             {formSent ? (
-              <div className="mt-6 rounded-[24px] border border-white/[0.13] p-6 text-center" style={{ background: "var(--grad-soft)" }}>
-                <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full text-white" style={{ background: "var(--grad)" }}>
+              <div
+                className="mt-6 rounded-[24px] border border-white/[0.13] p-6 text-center"
+                style={{ background: "var(--grad-soft)" }}
+              >
+                <div
+                  className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full text-white"
+                  style={{ background: "var(--grad)" }}
+                >
                   <Check size={24} strokeWidth={3} />
                 </div>
                 <h4 className="font-display text-xl font-semibold">Demande envoyée</h4>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">Votre demande a bien été enregistrée. Nous reviendrons vers vous rapidement avec une proposition adaptée.</p>
-                <button type="button" onClick={closeOfferModal} className="btn-ghost mt-6 rounded-full px-5 py-2.5 text-xs font-semibold">Fermer</button>
+                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">
+                  Votre demande a bien été enregistrée. Nous reviendrons vers vous
+                  rapidement avec une proposition adaptée.
+                </p>
+                <button
+                  type="button"
+                  onClick={closeOfferModal}
+                  className="btn-ghost mt-6 rounded-full px-5 py-2.5 text-xs font-semibold"
+                >
+                  Fermer
+                </button>
               </div>
             ) : (
               <form onSubmit={handleOfferSubmit} className="mt-6 grid gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>Nom de famille *</span><input required value={leadForm.lastname} onChange={(e) => updateLeadField("lastname", e.target.value)} placeholder="Votre nom" className={modalFieldClass} /></label>
-                  <label className="grid gap-2"><span className={modalLabelClass}>Prénom *</span><input required value={leadForm.firstname} onChange={(e) => updateLeadField("firstname", e.target.value)} placeholder="Votre prénom" className={modalFieldClass} /></label>
+                  <label className="grid gap-2">
+                    <span className={modalLabelClass}>Nom de famille *</span>
+                    <input
+                      required
+                      value={leadForm.lastname}
+                      onChange={(e) => updateLeadField("lastname", e.target.value)}
+                      placeholder="Votre nom"
+                      className={modalFieldClass}
+                    />
+                  </label>
+                  <label className="grid gap-2">
+                    <span className={modalLabelClass}>Prénom *</span>
+                    <input
+                      required
+                      value={leadForm.firstname}
+                      onChange={(e) => updateLeadField("firstname", e.target.value)}
+                      placeholder="Votre prénom"
+                      className={modalFieldClass}
+                    />
+                  </label>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2"><span className={modalLabelClass}>E-mail *</span><input required type="email" value={leadForm.email} onChange={(e) => updateLeadField("email", e.target.value)} placeholder="vous@email.com" className={modalFieldClass} /></label>
+                  <label className="grid gap-2">
+                    <span className={modalLabelClass}>E-mail *</span>
+                    <input
+                      required
+                      type="email"
+                      value={leadForm.email}
+                      onChange={(e) => updateLeadField("email", e.target.value)}
+                      placeholder="vous@email.com"
+                      className={modalFieldClass}
+                    />
+                  </label>
                   <PremiumPhoneField
                     required
                     value={leadForm.phoneFullNumber}
@@ -962,7 +1184,7 @@ export default function TarifsPage() {
                     labelTextClassName={modalLabelClass}
                   />
                 </div>
-        {/*
+                {/*
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="grid gap-2"><span className={modalLabelClass}>Entreprise</span><input value={leadForm.company} onChange={(e) => updateLeadField("company", e.target.value)} placeholder="Nom de l'entreprise" className={modalFieldClass} /></label>
                   <label className="grid gap-2"><span className={modalLabelClass}>Ville</span><input value={leadForm.businessCity} onChange={(e) => updateLeadField("businessCity", e.target.value)} placeholder="Ex : Rouen, Paris, Lyon..." className={modalFieldClass} /></label>
@@ -982,21 +1204,53 @@ export default function TarifsPage() {
                   <label className="grid gap-2"><span className={modalLabelClass}>Site web actuel</span><input type="text" value={leadForm.businessWebsiteUrl} onChange={(e) => updateLeadField("businessWebsiteUrl", e.target.value)} placeholder="https://www.votre-site.com" className={modalFieldClass} /></label>
                   <label className="grid gap-2"><span className={modalLabelClass}>Lien Google Business</span><input type="text" value={leadForm.googleBusinessUrl} onChange={(e) => updateLeadField("googleBusinessUrl", e.target.value)} placeholder="Lien vers votre fiche Google Business" className={modalFieldClass} /></label>
                 </div> */}
-              
-                <label className="grid gap-2"><span className={modalLabelClass}>Message</span><textarea rows={4} value={leadForm.message} onChange={(e) => updateLeadField("message", e.target.value)} placeholder="Décrivez brièvement votre besoin." className={`resize-none ${modalFieldClass}`} /></label>
+
+                <label className="grid gap-2">
+                  <span className={modalLabelClass}>Message</span>
+                  <textarea
+                    rows={4}
+                    value={leadForm.message}
+                    onChange={(e) => updateLeadField("message", e.target.value)}
+                    placeholder="Décrivez brièvement votre besoin."
+                    className={`resize-none ${modalFieldClass}`}
+                  />
+                </label>
 
                 {formError && (
-                  <div className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-xs font-medium text-[#ff9db1]" style={{ background: "rgba(255,77,109,0.1)" }}>{formError}</div>
+                  <div
+                    className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-xs font-medium text-[#ff9db1]"
+                    style={{ background: "rgba(255,77,109,0.1)" }}
+                  >
+                    {formError}
+                  </div>
                 )}
 
                 <div className="mt-2 grid gap-3">
-                  <p className="text-xs font-medium text-mut">Aucun paiement maintenant. Cette demande sert à préparer un devis clair.</p>
-                  <label className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-xs leading-5 text-mut" style={{ background: "rgba(26,26,29,0.45)" }}>
-                    <input type="checkbox" checked={leadForm.consentRgpd} onChange={(e) => updateLeadField("consentRgpd", e.target.checked)} className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white" />
-                    <span>J&apos;accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande et me recontacter.</span>
+                  <p className="text-xs font-medium text-mut">
+                    Aucun paiement maintenant. Cette demande sert à préparer un devis
+                    clair.
+                  </p>
+                  <label
+                    className="flex items-start gap-3 rounded-xl border border-white/[0.1] p-4 text-xs leading-5 text-mut"
+                    style={{ background: "rgba(26,26,29,0.45)" }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={leadForm.consentRgpd}
+                      onChange={(e) => updateLeadField("consentRgpd", e.target.checked)}
+                      className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"
+                    />
+                    <span>
+                      J&apos;accepte que mes informations soient utilisées par
+                      OptimalLogic pour traiter ma demande et me recontacter.
+                    </span>
                   </label>
                   <div className="flex justify-end">
-                    <button type="submit" disabled={isSubmitting} className="btn-grad rounded-full px-5 py-2.5 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-60">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="btn-grad rounded-full px-5 py-2.5 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+                    >
                       {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
                     </button>
                   </div>

@@ -1,0 +1,86 @@
+name: Quality gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "feat/**"
+
+# Une vérification de code n'a besoin que de lire le dépôt.
+permissions:
+  contents: read
+
+# Un nouveau push remplace le contrôle encore en cours sur la même branche.
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Format, code, browser and performance
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # Valeurs non sensibles utilisées uniquement pour permettre au build et
+      # au serveur de test d'initialiser leurs clients externes. Aucun appel
+      # métier n'est envoyé par la CI.
+      NEXT_PUBLIC_APP_URL: http://127.0.0.1:3100
+      NEXT_PUBLIC_SUPABASE_URL: https://ci-placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+      SUPABASE_SERVICE_ROLE_KEY: ci-placeholder-service-role-key
+      ANTHROPIC_API_KEY: ci-placeholder-anthropic-key
+      GOOGLE_CLIENT_ID: ci-placeholder-google-client
+      GOOGLE_CLIENT_SECRET: ci-placeholder-google-secret
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check TypeScript
+        run: npm run typecheck
+
+      - name: Build production site
+        run: npm run build
+
+      - name: Run unit and API tests
+        run: npm run test:unit
+
+      - name: Run functional browser tests
+        run: npm run test:functional
+
+      - name: Run responsive tests
+        run: npm run test:responsive
+
+      - name: Run Lighthouse quality budgets
+        run: npm run test:performance
+
+      - name: Upload quality reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-reports-${{ github.run_id }}
+          path: |
+            playwright-report/
+            test-results/
+            .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 7

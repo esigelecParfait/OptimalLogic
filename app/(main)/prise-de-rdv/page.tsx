@@ -129,7 +129,9 @@ function toDateKey(date: Date) {
 }
 
 function formatMonthLabel(date: Date) {
-  return new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" }).format(date);
+  return new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" }).format(
+    date,
+  );
 }
 
 function formatDateLabel(dateKey: string) {
@@ -143,7 +145,9 @@ function formatDateLabel(dateKey: string) {
 
 function formatShortDateLabel(dateKey: string) {
   const date = new Date(`${dateKey}T12:00:00`);
-  return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short" }).format(date);
+  return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short" }).format(
+    date,
+  );
 }
 
 function formatTimeLabel(value: string) {
@@ -201,7 +205,13 @@ function getTrackingPayload() {
   };
 }
 
-function IconFrame({ icon: Icon, compact = false }: { icon: LucideIcon; compact?: boolean }) {
+function IconFrame({
+  icon: Icon,
+  compact = false,
+}: {
+  icon: LucideIcon;
+  compact?: boolean;
+}) {
   return (
     <div
       className={`${compact ? "h-9 w-9 rounded-xl" : "h-12 w-12 rounded-2xl"} grid shrink-0 place-items-center border border-white/[0.13] text-white`}
@@ -274,7 +284,11 @@ export default function PriseDeRdvPage() {
           setCurrentMonth(new Date(`${firstDate}T12:00:00`));
         }
       } catch (error) {
-        setSlotsError(error instanceof Error ? error.message : "Impossible de récupérer les créneaux.");
+        setSlotsError(
+          error instanceof Error
+            ? error.message
+            : "Impossible de récupérer les créneaux.",
+        );
       } finally {
         setIsLoadingSlots(false);
       }
@@ -333,7 +347,10 @@ export default function PriseDeRdvPage() {
 
   const availableDateSet = useMemo(() => new Set(Object.keys(slots)), [slots]);
   const calendarDays = useMemo(() => getCalendarDays(currentMonth), [currentMonth]);
-  const selectedDateSlots = useMemo(() => slots[selectedDate] || [], [slots, selectedDate]);
+  const selectedDateSlots = useMemo(
+    () => slots[selectedDate] || [],
+    [slots, selectedDate],
+  );
 
   useEffect(() => {
     if (!isSlotModalOpen) return;
@@ -352,7 +369,7 @@ export default function PriseDeRdvPage() {
       if (event.key !== "Tab" || !slotModalRef.current) return;
 
       const focusableElements = slotModalRef.current.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -391,7 +408,10 @@ export default function PriseDeRdvPage() {
     setIsSlotModalOpen(false);
   }
 
-  function updateField<K extends keyof AppointmentForm>(field: K, value: AppointmentForm[K]) {
+  function updateField<K extends keyof AppointmentForm>(
+    field: K,
+    value: AppointmentForm[K],
+  ) {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
@@ -443,7 +463,9 @@ export default function PriseDeRdvPage() {
     }
 
     if (!form.consentRgpd) {
-      setBookingError("Vous devez accepter l’utilisation de vos informations pour être recontacté.");
+      setBookingError(
+        "Vous devez accepter l’utilisation de vos informations pour être recontacté.",
+      );
       return;
     }
 
@@ -463,7 +485,9 @@ export default function PriseDeRdvPage() {
         activity: null,
         type_client: form.type_client,
         objective: form.objective,
-        objectiveLabel: objectiveOptions.find((o) => o.value === form.objective)?.label ?? form.objective,
+        objectiveLabel:
+          objectiveOptions.find((o) => o.value === form.objective)?.label ??
+          form.objective,
         businessWebsiteUrl: normalizeOptionalUrl(form.businessWebsiteUrl),
         googleBusinessUrl: normalizeOptionalUrl(form.googleBusinessUrl),
         message: cleanOptionalText(form.message),
@@ -502,8 +526,13 @@ export default function PriseDeRdvPage() {
       try {
         const refreshStart = new Date().toISOString();
         const refreshEnd = addDays(new Date(), 30).toISOString();
-        const refreshParams = new URLSearchParams({ start: refreshStart, end: refreshEnd });
-        const refreshRes = await fetch(`/api/cal/slots?${refreshParams}`, { cache: "no-store" });
+        const refreshParams = new URLSearchParams({
+          start: refreshStart,
+          end: refreshEnd,
+        });
+        const refreshRes = await fetch(`/api/cal/slots?${refreshParams}`, {
+          cache: "no-store",
+        });
 
         if (refreshRes.ok) {
           const refreshData = await refreshRes.json();
@@ -513,7 +542,11 @@ export default function PriseDeRdvPage() {
         // Le rendez-vous est déjà confirmé. Le rafraîchissement post-confirmation est secondaire.
       }
     } catch (error) {
-      setBookingError(error instanceof Error ? error.message : "Impossible de confirmer le rendez-vous.");
+      setBookingError(
+        error instanceof Error
+          ? error.message
+          : "Impossible de confirmer le rendez-vous.",
+      );
     } finally {
       setIsBooking(false);
     }
@@ -549,12 +582,17 @@ export default function PriseDeRdvPage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
-              Choisissez un créneau, partagez votre contexte, puis nous identifions la priorité digitale la plus utile pour votre activité : visibilité, conversion, suivi ou automatisation.
+              Choisissez un créneau, partagez votre contexte, puis nous identifions la
+              priorité digitale la plus utile pour votre activité : visibilité,
+              conversion, suivi ou automatisation.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {diagnosticBenefits.map((benefit) => (
-                <div key={benefit.label} className="surface-card group rounded-2xl p-4 transition hover:-translate-y-1 hover:border-white/[0.13]">
+                <div
+                  key={benefit.label}
+                  className="surface-card group rounded-2xl p-4 transition hover:-translate-y-1 hover:border-white/[0.13]"
+                >
                   <IconFrame icon={benefit.icon} compact />
                   <p className="mt-4 text-sm font-semibold text-ink">{benefit.label}</p>
                   <p className="mt-2 text-xs leading-5 text-mut">{benefit.description}</p>
@@ -566,14 +604,19 @@ export default function PriseDeRdvPage() {
           <div className="surface-card rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(255,255,255,0.42)]">
             <div
               className="relative overflow-hidden rounded-[24px] border border-white/[0.07] p-6"
-              style={{ background: "linear-gradient(165deg, rgba(18,18,20,0.9), rgba(5,5,5,0.88))" }}
+              style={{
+                background:
+                  "linear-gradient(165deg, rgba(18,18,20,0.9), rgba(5,5,5,0.88))",
+              }}
             >
               <div
                 className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full blur-[80px]"
                 style={{ background: "rgba(255,255,255,0.18)" }}
               />
               <div className="relative z-[1]">
-                <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Objectif du RDV</p>
+                <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                  Objectif du RDV
+                </p>
                 <h2 className="mt-4 font-display text-2xl font-semibold leading-tight">
                   Passer d’un besoin flou à une action digitale claire.
                 </h2>
@@ -597,10 +640,14 @@ export default function PriseDeRdvPage() {
                   ))}
                 </div>
 
-                <div className="mt-6 rounded-2xl border border-white/[0.13] p-4" style={{ background: "var(--grad-soft)" }}>
+                <div
+                  className="mt-6 rounded-2xl border border-white/[0.13] p-4"
+                  style={{ background: "var(--grad-soft)" }}
+                >
                   <p className="text-sm font-semibold text-ink">À la fin de l’échange</p>
                   <p className="mt-2 text-sm leading-6 text-mut">
-                    Vous savez quelle priorité traiter : Google Business, site web, parcours de contact, suivi prospect ou assistant IA.
+                    Vous savez quelle priorité traiter : Google Business, site web,
+                    parcours de contact, suivi prospect ou assistant IA.
                   </p>
                 </div>
               </div>
@@ -614,11 +661,16 @@ export default function PriseDeRdvPage() {
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Réservation</p>
-              <h2 className="mt-3 text-[clamp(28px,3.6vw,40px)] font-semibold">Sélectionnez votre créneau.</h2>
+              <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                Réservation
+              </p>
+              <h2 className="mt-3 text-[clamp(28px,3.6vw,40px)] font-semibold">
+                Sélectionnez votre créneau.
+              </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-mut">
-              Les créneaux affichés sont actualisés automatiquement pour éviter les doubles réservations.
+              Les créneaux affichés sont actualisés automatiquement pour éviter les
+              doubles réservations.
             </p>
           </div>
 
@@ -627,16 +679,27 @@ export default function PriseDeRdvPage() {
               {/* Left panel */}
               <aside
                 className="border-b border-white/[0.07] p-6 sm:p-8 lg:border-b-0 lg:border-r"
-                style={{ background: "linear-gradient(165deg, rgba(26,26,29,0.66), rgba(5,5,5,0.7))" }}
+                style={{
+                  background:
+                    "linear-gradient(165deg, rgba(26,26,29,0.66), rgba(5,5,5,0.7))",
+                }}
               >
-                <div className="grid h-12 w-12 place-items-center rounded-2xl font-display text-sm font-bold text-white" style={{ background: "var(--grad)" }}>
+                <div
+                  className="grid h-12 w-12 place-items-center rounded-2xl font-display text-sm font-bold text-white"
+                  style={{ background: "var(--grad)" }}
+                >
                   OL
                 </div>
 
-                <p className="mt-6 eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">OptimalLogic</p>
-                <h3 className="mt-3 font-display text-2xl font-semibold">Diagnostic gratuit</h3>
+                <p className="mt-6 eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                  OptimalLogic
+                </p>
+                <h3 className="mt-3 font-display text-2xl font-semibold">
+                  Diagnostic gratuit
+                </h3>
                 <p className="mt-3 text-sm leading-6 text-mut">
-                  Un échange court pour comprendre votre contexte et définir la prochaine action utile.
+                  Un échange court pour comprendre votre contexte et définir la prochaine
+                  action utile.
                 </p>
 
                 <div className="mt-7 grid gap-3">
@@ -649,8 +712,12 @@ export default function PriseDeRdvPage() {
                       <div className="flex items-start gap-3">
                         <IconFrame icon={detail.icon} compact />
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mut-2">{detail.label}</p>
-                          <p className="mt-1 text-sm font-semibold text-ink">{detail.value}</p>
+                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-mut-2">
+                            {detail.label}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-ink">
+                            {detail.value}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -658,17 +725,27 @@ export default function PriseDeRdvPage() {
                 </div>
 
                 {selectedSlot ? (
-                  <div className="mt-8 rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">Créneau choisi</p>
-                    <p className="mt-3 text-sm font-bold capitalize text-ink">{formatDateLabel(selectedSlot.slice(0, 10))}</p>
-                    <p className="mt-1 text-sm text-mut">{formatTimeLabel(selectedSlot)}</p>
+                  <div
+                    className="mt-8 rounded-2xl border border-white/[0.13] p-5"
+                    style={{ background: "var(--grad-soft)" }}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">
+                      Créneau choisi
+                    </p>
+                    <p className="mt-3 text-sm font-bold capitalize text-ink">
+                      {formatDateLabel(selectedSlot.slice(0, 10))}
+                    </p>
+                    <p className="mt-1 text-sm text-mut">
+                      {formatTimeLabel(selectedSlot)}
+                    </p>
                   </div>
                 ) : (
                   <div
                     className="mt-8 rounded-2xl border border-white/[0.07] p-5 text-sm leading-6 text-mut"
                     style={{ background: "rgba(26,26,29,0.5)" }}
                   >
-                    Choisissez une date disponible, puis un horaire pour débloquer la confirmation du rendez-vous.
+                    Choisissez une date disponible, puis un horaire pour débloquer la
+                    confirmation du rendez-vous.
                   </div>
                 )}
               </aside>
@@ -677,8 +754,12 @@ export default function PriseDeRdvPage() {
               <section className="border-b border-white/[0.07] p-6 sm:p-8 lg:border-b-0 lg:border-r">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Calendrier</p>
-                    <h3 className="mt-2 font-display text-2xl font-semibold capitalize">{formatMonthLabel(currentMonth)}</h3>
+                    <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                      Calendrier
+                    </p>
+                    <h3 className="mt-2 font-display text-2xl font-semibold capitalize">
+                      {formatMonthLabel(currentMonth)}
+                    </h3>
                   </div>
 
                   <div className="flex gap-2">
@@ -702,13 +783,20 @@ export default function PriseDeRdvPage() {
                 </div>
 
                 {isLoadingSlots && (
-                  <div className="mt-8 rounded-2xl border border-white/[0.07] p-6" style={{ background: "rgba(26,26,29,0.5)" }}>
+                  <div
+                    className="mt-8 rounded-2xl border border-white/[0.07] p-6"
+                    style={{ background: "rgba(26,26,29,0.5)" }}
+                  >
                     <div className="flex items-center gap-3 text-sm font-semibold text-mut">
-                      <RefreshCw size={16} className="animate-spin" /> Chargement des créneaux disponibles
+                      <RefreshCw size={16} className="animate-spin" /> Chargement des
+                      créneaux disponibles
                     </div>
                     <div className="mt-5 grid grid-cols-7 gap-2">
                       {Array.from({ length: 35 }).map((_, index) => (
-                        <div key={index} className="aspect-square animate-pulse rounded-xl bg-white/[0.06]" />
+                        <div
+                          key={index}
+                          className="aspect-square animate-pulse rounded-xl bg-white/[0.06]"
+                        />
                       ))}
                     </div>
                   </div>
@@ -761,7 +849,9 @@ export default function PriseDeRdvPage() {
                             style={isSelected ? { background: "var(--grad)" } : undefined}
                           >
                             {day.date.getDate()}
-                            {day.isToday && !isSelected && <span className="absolute bottom-1.5 h-1.5 w-1.5 rounded-full bg-emerald" />}
+                            {day.isToday && !isSelected && (
+                              <span className="absolute bottom-1.5 h-1.5 w-1.5 rounded-full bg-emerald" />
+                            )}
                           </button>
                         );
                       })}
@@ -769,7 +859,10 @@ export default function PriseDeRdvPage() {
 
                     <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-mut">
                       <div className="flex items-center gap-2">
-                        <span className="h-2.5 w-2.5 rounded-full" style={{ background: "var(--grad)" }} />
+                        <span
+                          className="h-2.5 w-2.5 rounded-full"
+                          style={{ background: "var(--grad)" }}
+                        />
                         <span>Disponible</span>
                       </div>
                       <div className="flex items-center gap-2">
@@ -787,45 +880,62 @@ export default function PriseDeRdvPage() {
 
               {/* Slots */}
               <section className="p-6 sm:p-8" style={{ background: "rgba(5,5,5,0.42)" }}>
-                <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Créneaux</p>
+                <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                  Créneaux
+                </p>
                 <h3 className="mt-2 font-display text-2xl font-semibold capitalize">
-                  {selectedDate ? formatShortDateLabel(selectedDate) : "Choisissez une date"}
+                  {selectedDate
+                    ? formatShortDateLabel(selectedDate)
+                    : "Choisissez une date"}
                 </h3>
 
-                {!selectedDate && <p className="mt-6 text-sm leading-6 text-mut">Sélectionnez une date disponible dans le calendrier.</p>}
+                {!selectedDate && (
+                  <p className="mt-6 text-sm leading-6 text-mut">
+                    Sélectionnez une date disponible dans le calendrier.
+                  </p>
+                )}
 
                 {selectedDate && selectedDateSlots.length === 0 && (
-                  <p
-                    className="hidden"
-                    style={{ background: "rgba(26,26,29,0.5)" }}
-                  >
+                  <p className="hidden" style={{ background: "rgba(26,26,29,0.5)" }}>
                     Aucun créneau disponible pour cette date.
                   </p>
                 )}
 
-                {false && <div className="mt-6 grid gap-2 hidden">
-                  {selectedDateSlots.map((slot) => (
-                    <button
-                      key={slot.start}
-                      type="button"
-                      onClick={() => setSelectedSlot(slot.start)}
-                      className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
-                        selectedSlot === slot.start
-                          ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
-                          : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
-                      }`}
-                      style={selectedSlot === slot.start ? { background: "var(--grad)" } : undefined}
-                    >
-                      {formatTimeLabel(slot.start)}
-                    </button>
-                  ))}
-                </div>}
+                {false && (
+                  <div className="mt-6 grid gap-2 hidden">
+                    {selectedDateSlots.map((slot) => (
+                      <button
+                        key={slot.start}
+                        type="button"
+                        onClick={() => setSelectedSlot(slot.start)}
+                        className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
+                          selectedSlot === slot.start
+                            ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
+                            : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
+                        }`}
+                        style={
+                          selectedSlot === slot.start
+                            ? { background: "var(--grad)" }
+                            : undefined
+                        }
+                      >
+                        {formatTimeLabel(slot.start)}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {selectedSlot && (
-                  <div className="mt-6 rounded-2xl border border-white/[0.13] p-5" style={{ background: "var(--grad-soft)" }}>
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">Rendez-vous sélectionner</p>
+                  <div
+                    className="mt-6 rounded-2xl border border-white/[0.13] p-5"
+                    style={{ background: "var(--grad-soft)" }}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">
+                      Rendez-vous sélectionner
+                    </p>
                     <p className="mt-3 text-sm font-bold capitalize text-ink">
-                      {formatDateLabel(selectedSlot.slice(0, 10))} A {formatTimeLabel(selectedSlot)}
+                      {formatDateLabel(selectedSlot.slice(0, 10))} A{" "}
+                      {formatTimeLabel(selectedSlot)}
                     </p>
                   </div>
                 )}
@@ -843,17 +953,24 @@ export default function PriseDeRdvPage() {
 
                 {selectedDate && !selectedSlot && (
                   <p className="mt-4 text-sm leading-6 text-mut">
-                    Ouvrez les horaires disponibles pour choisir le moment qui vous convient.
+                    Ouvrez les horaires disponibles pour choisir le moment qui vous
+                    convient.
                   </p>
                 )}
 
-                <div className="mt-8 rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.5)" }}>
+                <div
+                  className="mt-8 rounded-2xl border border-white/[0.07] p-5"
+                  style={{ background: "rgba(26,26,29,0.5)" }}
+                >
                   <div className="flex items-start gap-3">
                     <IconFrame icon={ShieldCheck} compact />
                     <div>
-                      <p className="text-sm font-bold text-ink">Conseil avant de réserver</p>
+                      <p className="text-sm font-bold text-ink">
+                        Conseil avant de réserver
+                      </p>
                       <p className="mt-2 text-sm leading-6 text-mut">
-                        Choisissez un créneau où vous pouvez parler librement de votre activité, de vos objectifs et de vos difficultés actuelles.
+                        Choisissez un créneau où vous pouvez parler librement de votre
+                        activité, de vos objectifs et de vos difficultés actuelles.
                       </p>
                     </div>
                   </div>
@@ -880,9 +997,16 @@ export default function PriseDeRdvPage() {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">Horaires disponibles</p>
-                    <h3 id="slot-modal-title" className="mt-2 font-display text-2xl font-semibold capitalize">
-                      {selectedDate ? `Horaires disponibles - ${formatDateLabel(selectedDate)}` : "Horaires disponibles"}
+                    <p className="eyebrow-grad text-xs font-semibold uppercase tracking-wider">
+                      Horaires disponibles
+                    </p>
+                    <h3
+                      id="slot-modal-title"
+                      className="mt-2 font-display text-2xl font-semibold capitalize"
+                    >
+                      {selectedDate
+                        ? `Horaires disponibles - ${formatDateLabel(selectedDate)}`
+                        : "Horaires disponibles"}
                     </h3>
                   </div>
                   <button
@@ -900,7 +1024,8 @@ export default function PriseDeRdvPage() {
                     className="mt-7 rounded-2xl border border-white/[0.07] p-5 text-sm leading-6 text-mut"
                     style={{ background: "rgba(26,26,29,0.5)" }}
                   >
-                    Aucun horaire n&apos;est disponible pour cette date. Veuillez sélectionner une autre date.
+                    Aucun horaire n&apos;est disponible pour cette date. Veuillez
+                    sélectionner une autre date.
                   </p>
                 ) : (
                   <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -928,10 +1053,16 @@ export default function PriseDeRdvPage() {
                 )}
 
                 {selectedSlot && (
-                  <div className="mt-7 rounded-2xl border border-white/[0.13] p-4" style={{ background: "var(--grad-soft)" }}>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Horaire actuellement choisi</p>
+                  <div
+                    className="mt-7 rounded-2xl border border-white/[0.13] p-4"
+                    style={{ background: "var(--grad-soft)" }}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
+                      Horaire actuellement choisi
+                    </p>
                     <p className="mt-2 text-sm font-bold capitalize text-ink">
-                      {formatDateLabel(selectedSlot.slice(0, 10))} A {formatTimeLabel(selectedSlot)}
+                      {formatDateLabel(selectedSlot.slice(0, 10))} A{" "}
+                      {formatTimeLabel(selectedSlot)}
                     </p>
                   </div>
                 )}
@@ -942,10 +1073,15 @@ export default function PriseDeRdvPage() {
           {/* FORM */}
           <div className="mt-10 grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
             <aside className="surface-card rounded-[28px] p-6 sm:p-8">
-              <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Préparation</p>
-              <h2 className="mt-3 font-display text-2xl font-semibold">Les informations utiles avant l’échange.</h2>
+              <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                Préparation
+              </p>
+              <h2 className="mt-3 font-display text-2xl font-semibold">
+                Les informations utiles avant l’échange.
+              </h2>
               <p className="mt-4 text-sm leading-7 text-mut">
-                Le formulaire permet de comprendre rapidement votre contexte et de rendre le diagnostic plus efficace.
+                Le formulaire permet de comprendre rapidement votre contexte et de rendre
+                le diagnostic plus efficace.
               </p>
 
               <div className="mt-7 space-y-3">
@@ -964,29 +1100,49 @@ export default function PriseDeRdvPage() {
 
             <section className="surface-card rounded-[28px] p-6 sm:p-8 lg:p-10">
               <div className="mb-8">
-                <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Informations</p>
-                <h2 className="mt-3 text-[clamp(26px,3.4vw,38px)] font-semibold">Confirmez votre rendez-vous</h2>
+                <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+                  Informations
+                </p>
+                <h2 className="mt-3 text-[clamp(26px,3.4vw,38px)] font-semibold">
+                  Confirmez votre rendez-vous
+                </h2>
                 <p className="mt-4 text-base leading-7 text-mut">
-                  Ces informations nous permettent de préparer le diagnostic avant l’échange.
+                  Ces informations nous permettent de préparer le diagnostic avant
+                  l’échange.
                 </p>
               </div>
 
               {bookingSuccess ? (
-                <div className="rounded-[24px] border border-white/[0.13] p-8 text-center" style={{ background: "var(--grad-soft)" }}>
-                  <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full text-white" style={{ background: "var(--grad)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.13] p-8 text-center"
+                  style={{ background: "var(--grad-soft)" }}
+                >
+                  <div
+                    className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full text-white"
+                    style={{ background: "var(--grad)" }}
+                  >
                     <CheckCircle2 size={30} strokeWidth={2.5} />
                   </div>
-                  <h3 className="font-display text-2xl font-semibold">Rendez-vous confirmé</h3>
+                  <h3 className="font-display text-2xl font-semibold">
+                    Rendez-vous confirmé
+                  </h3>
                   <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-mut">
-                    Votre diagnostic a bien été réservé. Vous recevrez une confirmation par email, et votre demande est enregistrée dans notre système de suivi.
+                    Votre diagnostic a bien été réservé. Vous recevrez une confirmation
+                    par email, et votre demande est enregistrée dans notre système de
+                    suivi.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleBookingSubmit} className="grid gap-7">
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
+                  <div
+                    className="rounded-2xl border border-white/[0.07] p-5"
+                    style={{ background: "rgba(26,26,29,0.38)" }}
+                  >
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={UsersRound} compact />
-                      <h3 className="font-display text-lg font-semibold">Vos coordonnées</h3>
+                      <h3 className="font-display text-lg font-semibold">
+                        Vos coordonnées
+                      </h3>
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
@@ -1022,7 +1178,6 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                       <PremiumPhoneField
-                        
                         value={form.phoneFullNumber}
                         onChange={(value) => updateField("phoneFullNumber", value)}
                         labelClassName={labelClass}
@@ -1031,17 +1186,21 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
+                  <div
+                    className="rounded-2xl border border-white/[0.07] p-5"
+                    style={{ background: "rgba(26,26,29,0.38)" }}
+                  >
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={FileText} compact />
-                      <h3 className="font-display text-lg font-semibold">Votre activité</h3>
+                      <h3 className="font-display text-lg font-semibold">
+                        Votre activité
+                      </h3>
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
-                       <label className={labelClass}>
+                      <label className={labelClass}>
                         <span className={labelTextClass}>Type de client *</span>
                         <PremiumSelectControl
-                          
                           value={form.type_client}
                           onChange={(value) => updateField("type_client", value)}
                           placeholder="Choisissez un type de client"
@@ -1049,19 +1208,16 @@ export default function PriseDeRdvPage() {
                         />
                       </label>
                       <ObjectiveSelectField
-                        
                         value={form.objective}
                         onChange={(value) => updateField("objective", value)}
                         options={objectiveOptions}
                         labelClassName={labelClass}
                         labelTextClassName={labelTextClass}
                       />
-                     
-    
                     </div>
 
                     <div className="mt-5 grid gap-5 sm:grid-cols-2">
-                     <label className={labelClass}>
+                      <label className={labelClass}>
                         <span className={labelTextClass}>Entreprise</span>
                         <input
                           value={form.company}
@@ -1082,7 +1238,7 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>
 
-                {/*  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
+                  {/*  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={MousePointer2} compact />
                       <h3 className="font-display text-lg font-semibold">Présence digitale actuelle</h3>
@@ -1110,7 +1266,10 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>*/}
 
-                  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
+                  <div
+                    className="rounded-2xl border border-white/[0.07] p-5"
+                    style={{ background: "rgba(26,26,29,0.38)" }}
+                  >
                     <label className={labelClass}>
                       <span className={labelTextClass}>Votre message</span>
                       <textarea
@@ -1124,10 +1283,14 @@ export default function PriseDeRdvPage() {
                   </div>
 
                   {selectedSlot && (
-                    <div className="rounded-xl border border-white/[0.13] p-4 text-sm text-mut" style={{ background: "var(--grad-soft)" }}>
+                    <div
+                      className="rounded-xl border border-white/[0.13] p-4 text-sm text-mut"
+                      style={{ background: "var(--grad-soft)" }}
+                    >
                       Créneau choisi :{" "}
                       <span className="font-bold capitalize text-ink">
-                        {formatDateLabel(selectedSlot.slice(0, 10))} à {formatTimeLabel(selectedSlot)}
+                        {formatDateLabel(selectedSlot.slice(0, 10))} à{" "}
+                        {formatTimeLabel(selectedSlot)}
                       </span>
                     </div>
                   )}
@@ -1147,13 +1310,14 @@ export default function PriseDeRdvPage() {
                   >
                     <input
                       type="checkbox"
-                      
+
                       checked={form.consentRgpd}
                       onChange={(e) => updateField("consentRgpd", e.target.checked)}
                       className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"
                     />
                     <span>
-                      J’accepte que mes informations soient utilisées par OptimalLogic pour préparer le rendez-vous, traiter ma demande et me recontacter.
+                      J’accepte que mes informations soient utilisées par OptimalLogic
+                      pour préparer le rendez-vous, traiter ma demande et me recontacter.
                     </span>
                   </label>
 

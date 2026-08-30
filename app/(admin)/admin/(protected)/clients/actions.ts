@@ -5,7 +5,7 @@ import { buildClientLink } from "@/lib/admin/generate-client-link";
 
 export async function generateClientLink(
   _prev: { link: string | null; error: string | null },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ link: string | null; error: string | null }> {
   const email = (formData.get("email") as string)?.trim().toLowerCase();
   if (!email) return { link: null, error: "Email requis." };
@@ -19,7 +19,7 @@ export async function generateClientLink(
 
 export async function sendClientLinkByEmail(
   _prev: { error: string | null; sent: boolean },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ error: string | null; sent: boolean }> {
   const email = (formData.get("email") as string)?.trim().toLowerCase();
   if (!email) return { error: "Email requis.", sent: false };
@@ -31,7 +31,8 @@ export async function sendClientLinkByEmail(
   if (!result.link) return { error: result.error, sent: false };
 
   const appsScriptUrl = process.env.APPS_SCRIPT_URL;
-  if (!appsScriptUrl) return { error: "Envoi automatique non configuré (APPS_SCRIPT_URL).", sent: false };
+  if (!appsScriptUrl)
+    return { error: "Envoi automatique non configuré (APPS_SCRIPT_URL).", sent: false };
 
   try {
     const res = await fetch(appsScriptUrl, {

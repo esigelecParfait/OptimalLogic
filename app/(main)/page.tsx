@@ -260,8 +260,8 @@ export default function HomePage() {
             </h1>
 
             <p className="mt-7 max-w-[560px] text-[clamp(17px,1.4vw,20px)] text-mut">
-              Google Business, site web, prise de rendez-vous, assistant IA et
-              suivi des demandes — adaptés à votre activité.
+              Google Business, site web, prise de rendez-vous, assistant IA et suivi des
+              demandes — adaptés à votre activité.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-[14px]">
@@ -280,18 +280,16 @@ export default function HomePage() {
             </div>
 
             <div className="mt-10 flex flex-wrap gap-[26px]">
-              {[
-                "Diagnostic gratuit",
-                "Sans engagement",
-                "Solutions adaptées",
-              ].map((text) => (
-                <span
-                  key={text}
-                  className="inline-flex items-center gap-[9px] text-sm text-mut"
-                >
-                  <Check /> {text}
-                </span>
-              ))}
+              {["Diagnostic gratuit", "Sans engagement", "Solutions adaptées"].map(
+                (text) => (
+                  <span
+                    key={text}
+                    className="inline-flex items-center gap-[9px] text-sm text-mut"
+                  >
+                    <Check /> {text}
+                  </span>
+                ),
+              )}
             </div>
           </div>
 
@@ -366,9 +364,7 @@ export default function HomePage() {
                         {action.n}
                       </span>
                       <div>
-                        <p className="text-[13.5px] font-semibold text-ink">
-                          {action.t}
-                        </p>
+                        <p className="text-[13.5px] font-semibold text-ink">{action.t}</p>
                         <p className="text-[12px] text-mut-2">{action.d}</p>
                       </div>
                     </div>
@@ -404,12 +400,10 @@ export default function HomePage() {
             <span className="eyebrow-grad mb-[14px] inline-block text-[13px] font-semibold uppercase tracking-[0.16em]">
               Pour qui ?
             </span>
-            <h2 className="text-[clamp(34px,4.6vw,52px)]">
-              Chaque activité a sa place.
-            </h2>
+            <h2 className="text-[clamp(34px,4.6vw,52px)]">Chaque activité a sa place.</h2>
             <p className="mt-4 text-lg text-mut">
-              Votre présence digitale doit refléter votre réalité : commerce
-              local, indépendant, PME ou startup.
+              Votre présence digitale doit refléter votre réalité : commerce local,
+              indépendant, PME ou startup.
             </p>
           </AnimateIn>
 
@@ -438,13 +432,11 @@ export default function HomePage() {
               Le vrai problème
             </span>
             <h2 className="text-[clamp(34px,4.6vw,52px)]">
-              Le problème n’est pas toujours l’absence de site. C’est l’absence
-              de clarté.
+              Le problème n’est pas toujours l’absence de site. C’est l’absence de clarté.
             </h2>
             <p className="mt-4 text-lg text-mut">
-              Fiche Google incomplète, photos peu attractives, avis mal
-              exploités, pas de réservation simple — voilà ce qui fait perdre
-              des clients.
+              Fiche Google incomplète, photos peu attractives, avis mal exploités, pas de
+              réservation simple — voilà ce qui fait perdre des clients.
             </p>
           </AnimateIn>
 
@@ -462,7 +454,7 @@ export default function HomePage() {
                   <p className="text-[15px] text-mut">{p.d}</p>
                 </div>
               </AnimateIn>
-))}
+            ))}
           </div>
         </div>
       </section>
@@ -478,13 +470,13 @@ export default function HomePage() {
             <span className="grad-text">votre activité</span>.
           </p>
           <p className="mx-auto mt-8 max-w-[680px] text-lg text-mut">
-            Un restaurant, un artisan, un cabinet, une PME ou une marque
-            digitale n’ont pas les mêmes besoins. Parfois, une fiche Google
-            optimisée suffit. Parfois, un site complet devient nécessaire.
+            Un restaurant, un artisan, un cabinet, une PME ou une marque digitale n’ont
+            pas les mêmes besoins. Parfois, une fiche Google optimisée suffit. Parfois, un
+            site complet devient nécessaire.
           </p>
           <p className="mx-auto mt-6 max-w-[700px] text-[20px] text-ink">
-            “Le bon digital n’est pas forcément le plus compliqué. C’est celui
-            qui aide vos clients à vous choisir.”
+            “Le bon digital n’est pas forcément le plus compliqué. C’est celui qui aide
+            vos clients à vous choisir.”
           </p>
         </AnimateIn>
       </section>
@@ -500,8 +492,8 @@ export default function HomePage() {
               Une présence digitale sur mesure, selon vos vrais besoins.
             </h2>
             <p className="mt-4 text-lg text-mut">
-              Google Business, site web, réservation, assistant IA, formulaire
-              et suivi prospects : on active uniquement les leviers utiles.
+              Google Business, site web, réservation, assistant IA, formulaire et suivi
+              prospects : on active uniquement les leviers utiles.
             </p>
             <Link
               href="/services"
@@ -534,8 +526,8 @@ export default function HomePage() {
                   Assistant IA
                 </h3>
                 <p className="relative z-[1] text-[14.5px] text-mut">
-                  Un conseiller disponible 24h/24 pour répondre aux questions
-                  fréquentes et guider les visiteurs vers l’action.
+                  Un conseiller disponible 24h/24 pour répondre aux questions fréquentes
+                  et guider les visiteurs vers l’action.
                 </p>
                 <div className="relative z-[1] mt-5 flex max-w-[330px] flex-col gap-2">
                   <span
@@ -553,7 +545,6 @@ export default function HomePage() {
                 </div>
               </div>
             </AnimateIn>
-
             {solutionCards.map((solution, index) => (
               <AnimateIn
                 key={solution.t}
@@ -572,12 +563,11 @@ export default function HomePage() {
                   <h3 className="relative z-[1] mb-2 mt-2 text-[21px] font-semibold">
                     {solution.t}
                   </h3>
-                  <p className="relative z-[1] text-[14.5px] text-mut">
-                    {solution.d}
-                  </p>
+                  <p className="relative z-[1] text-[14.5px] text-mut">{solution.d}</p>
                 </div>
               </AnimateIn>
-            ))}          </div>
+            ))}{" "}
+          </div>
         </div>
       </section>
 
@@ -589,13 +579,12 @@ export default function HomePage() {
               Notre différence
             </span>
             <h2 className="text-[clamp(30px,4vw,48px)]">
-              Vous n’avez pas besoin de tout. Vous avez besoin de ce qui vous
-              correspond.
+              Vous n’avez pas besoin de tout. Vous avez besoin de ce qui vous correspond.
             </h2>
             <p className="mt-4 text-lg text-mut">
-              Fiche Google, site web, réservation ou assistant IA — notre rôle
-              est de vous orienter vers ce qui est vraiment utile, sans vous
-              vendre ce qui ne sert pas.
+              Fiche Google, site web, réservation ou assistant IA — notre rôle est de vous
+              orienter vers ce qui est vraiment utile, sans vous vendre ce qui ne sert
+              pas.
             </p>
           </AnimateIn>
 
@@ -632,8 +621,8 @@ export default function HomePage() {
               Ce que votre présence digitale peut changer.
             </h2>
             <p className="mt-4 text-[17px] text-mut">
-              L’objectif n’est pas d’avoir plus d’outils. L’objectif est d’être
-              trouvé, compris, choisi et contacté plus facilement.
+              L’objectif n’est pas d’avoir plus d’outils. L’objectif est d’être trouvé,
+              compris, choisi et contacté plus facilement.
             </p>
           </AnimateIn>
 
@@ -672,10 +661,9 @@ export default function HomePage() {
               Une présence digitale pensée pour chaque type d’activité.
             </h2>
             <p className="mt-4 text-lg text-mut">
-              Que vous soyez un commerce de quartier, un restaurant, un artisan,
-              un cabinet, une PME ou une marque en développement, votre présence
-              en ligne doit refléter votre valeur et faciliter le passage à
-              l’action.
+              Que vous soyez un commerce de quartier, un restaurant, un artisan, un
+              cabinet, une PME ou une marque en développement, votre présence en ligne
+              doit refléter votre valeur et faciliter le passage à l’action.
             </p>
           </AnimateIn>
 
@@ -715,16 +703,17 @@ export default function HomePage() {
                 className="mb-6 inline-flex items-center gap-[10px] rounded-full border border-white/[0.13] px-4 py-2 text-[13px] font-semibold text-ink"
                 style={{ background: "var(--grad-soft)" }}
               >
-                <span className="h-2 w-2 rounded-full bg-emerald" /> Première
-                étape · diagnostic gratuit
+                <span className="h-2 w-2 rounded-full bg-emerald" /> Première étape ·
+                diagnostic gratuit
               </div>
-             <h2 className="text-[clamp(32px,4.6vw,54px)]">
-              Vous ne savez pas par où commencer ?
-              <br />
-              C’est justement notre rôle.
-            </h2>
+              <h2 className="text-[clamp(32px,4.6vw,54px)]">
+                Vous ne savez pas par où commencer ?
+                <br />
+                C’est justement notre rôle.
+              </h2>
               <p className="mx-auto mt-4 max-w-[520px] text-[17px] leading-7 text-mut">
-                Réservez un appel gratuit. Nous analysons votre présence actuelle et vous proposons la solution la plus adaptée.
+                Réservez un appel gratuit. Nous analysons votre présence actuelle et vous
+                proposons la solution la plus adaptée.
               </p>
               <div className="mt-9 flex flex-wrap justify-center gap-[14px]">
                 <Link

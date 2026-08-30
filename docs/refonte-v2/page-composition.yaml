@@ -1,0 +1,271 @@
+composition_version: "1.0"
+status: proposed
+direction_revision: "2026-08-29.1"
+
+pages:
+  - page_id: home
+    path: /
+    silhouette: éditoriale forte puis démonstration opérationnelle
+    sections:
+      - {
+          id: home-hero,
+          role: proposition,
+          block: HeroEditorial,
+          content: content-map.home.0,
+          media: img-hero-signal-house,
+        }
+      - {
+          id: home-demand-flow,
+          role: compréhension,
+          block: WorkflowRouting,
+          content: content-map.home.1,
+          media: none,
+        }
+      - {
+          id: home-contexts,
+          role: orientation,
+          block: ServicesFeatured,
+          content: services-by-audience,
+          media: img-context-system,
+        }
+      - {
+          id: home-manifesto,
+          role: différenciation,
+          block: NarrativeManifesto,
+          content: business.differentiators,
+          media: none,
+        }
+      - {
+          id: home-process,
+          role: réassurance,
+          block: ProcessTimeline,
+          content: method,
+          media: none,
+        }
+      - {
+          id: home-cta,
+          role: conversion,
+          block: CtaSplit,
+          content: conversion.primary_cta,
+          media: none,
+        }
+  - page_id: services
+    path: /services
+    silhouette: choix de contexte puis chaîne de valeur
+    sections:
+      - {
+          id: services-hero,
+          role: proposition,
+          block: HeroCentered,
+          content: content-map.services.0,
+          media: none,
+        }
+      - {
+          id: services-contexts,
+          role: comparaison,
+          block: NarrativeMosaic,
+          content: services-by-audience,
+          media: img-context-system,
+        }
+      - {
+          id: services-workflow,
+          role: explication,
+          block: WorkflowPipeline,
+          content: content-map.services.1,
+          media: none,
+        }
+      - {
+          id: services-faq,
+          role: objections,
+          block: FaqColumns,
+          content: services-faq,
+          media: none,
+        }
+      - {
+          id: services-cta,
+          role: conversion,
+          block: CtaBand,
+          content: conversion.primary_cta,
+          media: none,
+        }
+  - page_id: pricing
+    path: /tarifs
+    silhouette: introduction courte, filtres d'audience, comparaison lisible
+    sections:
+      - {
+          id: pricing-hero,
+          role: cadrage,
+          block: HeroCentered,
+          content: pricing-intro,
+          media: none,
+        }
+      - {
+          id: pricing-plans,
+          role: comparaison,
+          block: PricingCards,
+          content: business.offers,
+          media: none,
+        }
+      - {
+          id: pricing-faq,
+          role: conditions,
+          block: FaqList,
+          content: pricing-faq,
+          media: none,
+        }
+      - {
+          id: pricing-cta,
+          role: conversion,
+          block: CtaSplit,
+          content: conversion.primary_cta,
+          media: none,
+        }
+  - page_id: contact
+    path: /contact
+    silhouette: contexte éditorial puis formulaire concentré
+    sections:
+      - {
+          id: contact-hero,
+          role: réassurance,
+          block: HeroEditorial,
+          content: content-map.contact.0,
+          media: img-contact-signal,
+        }
+      - {
+          id: contact-form,
+          role: conversion,
+          block: ContactFormExisting,
+          content: contact-schema,
+          media: none,
+        }
+  - page_id: booking
+    path: /prise-de-rdv
+    silhouette: parcours unique sans distraction
+    sections:
+      - {
+          id: booking-intro,
+          role: cadrage,
+          block: HeroCentered,
+          content: content-map.booking.0,
+          media: none,
+        }
+      - {
+          id: booking-flow,
+          role: conversion,
+          block: BookingExisting,
+          content: booking-schema,
+          media: none,
+        }
+  - page_id: help
+    path: /aide
+    silhouette: assistant principal et sortie humaine visible
+    sections:
+      - {
+          id: help-intro,
+          role: cadrage,
+          block: HeroCentered,
+          content: content-map.help.0,
+          media: none,
+        }
+      - {
+          id: help-assistant,
+          role: assistance,
+          block: AssistantExisting,
+          content: assistant-contract,
+          media: none,
+        }
+      - {
+          id: help-fallback,
+          role: escalade,
+          block: CtaBand,
+          content: contact-fallback,
+          media: none,
+        }
+  - page_id: legal
+    paths: [/mentions-legales, /confidentialite, /cookies]
+    silhouette: lecture longue sobre
+    sections:
+      - {
+          id: legal-header,
+          role: identification,
+          block: HeroCentered,
+          content: current-legal-title,
+          media: none,
+        }
+      - {
+          id: legal-body,
+          role: information,
+          block: LegalDocumentExisting,
+          content: current-legal-copy,
+          media: none,
+        }
+  - page_id: auth
+    paths:
+      [
+        /connexion,
+        /connexion/activer,
+        /connexion/mot-de-passe-oublie,
+        /connexion/nouveau-mot-de-passe,
+        /admin/connexion,
+      ]
+    silhouette: panneau d'accès centré avec identité discrète
+    sections:
+      - {
+          id: auth-shell,
+          role: authentification,
+          block: AuthShellExisting,
+          content: current-auth-flow,
+          media: img-auth-ambient,
+        }
+  - page_id: client-space
+    paths: [/espace-client, /espace-client/mon-compte, /espace-client/support]
+    silhouette: navigation stable, état courant, prochaine action
+    sections:
+      - {
+          id: client-shell,
+          role: navigation,
+          block: ClientShellExisting,
+          content: client-navigation,
+          media: none,
+        }
+      - {
+          id: client-content,
+          role: opérationnel,
+          block: ExistingClientFeatures,
+          content: live-client-data,
+          media: none,
+        }
+  - page_id: admin
+    paths:
+      [
+        /admin,
+        /admin/clients,
+        "/admin/clients/[id]",
+        /admin/prospects,
+        "/admin/prospects/[id]",
+        /admin/google-setup,
+        /admin/metrics,
+      ]
+    silhouette: cockpit dense, statuts lisibles, actions traçables
+    sections:
+      - {
+          id: admin-shell,
+          role: navigation,
+          block: AdminShellExisting,
+          content: admin-navigation,
+          media: none,
+        }
+      - {
+          id: admin-metrics,
+          role: pilotage,
+          block: MetricsDashboard,
+          content: live-admin-metrics,
+          media: none,
+        }
+      - {
+          id: admin-workflow,
+          role: traitement,
+          block: ExistingAdminFeatures,
+          content: live-admin-data,
+          media: none,
+        }
