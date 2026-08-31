@@ -3,11 +3,17 @@ status: ready
 decisions:
   - id: offer-revision
     topic: offres et tarifs
-    question: Quelle grille remplacera les huit offres actuelles ?
+    question: Quelle grille remplace les huit offres historiques ?
     blocking: false
     owner: OptimalLogic
     due_before: finalisation de la page tarifs
-    current_rule: Conserver la grille actuelle avec l'état current_pending_revision et des données remplaçables.
+    status: resolved
+    resolved_at: "2026-08-30"
+    decision: >-
+      Publier cinq offres existantes — commerce_intelligent, commerce_premium,
+      tpe_pme_croissance, tpe_pme_performance et startup_launch — dans cet ordre.
+      Lire nom_offre, prix et prix_abonnement depuis la table offres. Ne jamais
+      afficher de montant de remplacement si Supabase est indisponible.
   - id: channel-readiness
     topic: gestion des demandes
     question: Quels canaux, règles IA et automatisations peuvent être présentés comme opérationnels ?

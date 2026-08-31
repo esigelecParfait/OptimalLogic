@@ -18,6 +18,12 @@ sources:
     location: conversation-2026-08-29
     observed_at: "2026-08-29"
     scope: Conservation de toutes les pages, ajout du suivi IA des demandes, report de la refonte des offres.
+  - id: src-owner-correction
+    type: user_decision
+    title: Corrections de périmètre et grille à cinq offres
+    location: conversation-2026-08-30
+    observed_at: "2026-08-30"
+    scope: Cinq offres publiques, prix issus de la BDD, aucun dashboard client public et reprise de la refonte depuis le système V2.
   - id: src-template-v2
     type: git_repository
     title: Branche premium du dépôt modèle

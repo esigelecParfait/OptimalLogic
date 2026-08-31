@@ -33,12 +33,12 @@ routes:
     surface: marketing
     access: public
     decision: redesign
-    purpose: Comparer les offres actuellement publiées.
+    purpose: Comparer les cinq offres publiées.
     primary_cta: /prise-de-rdv
-    data: offres current_pending_revision
-    integrations: []
-    acceptance: Les huit offres restent lisibles depuis une source de données unique et remplaçable.
-    notes: Ne pas modifier les montants avant décision commerciale.
+    data: table Supabase offres filtrée par cinq codes publics
+    integrations: [supabase]
+    acceptance: Les cinq offres restent lisibles dans un ordre stable ; nom et prix viennent de la BDD et aucune valeur de secours n'est affichée.
+    notes: Les inclusions éditoriales restent dans le frontend ; l'accompagnement mensuel est facultatif.
   - id: contact
     path: /contact
     surface: conversion

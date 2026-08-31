@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { MessagesSquare, ScanSearch, Sparkles } from "lucide-react";
 
@@ -11,6 +12,14 @@ import {
 import { DemandFlow } from "@/components/marketing/DemandFlow";
 import marketingStyles from "@/components/marketing/marketing.module.css";
 import { MotionReveal } from "@/components/motion";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Image en ligne & demandes clients",
+  description:
+    "OptimalLogic renforce votre image en ligne et installe un système IA simple pour recevoir, qualifier et transmettre vos demandes clients.",
+  path: "/",
+});
 
 const services = [
   {

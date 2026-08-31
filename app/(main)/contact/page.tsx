@@ -17,12 +17,14 @@ import {
   CheckCircle2,
   ClipboardList,
   Clock3,
+  Globe2,
   Mail,
   Send,
   ShieldCheck,
   Sparkles,
   UserRound,
 } from "lucide-react";
+import { MotionReveal } from "@/components/motion";
 
 type FormState = {
   lastname: string;
@@ -246,11 +248,12 @@ export default function ContactPage() {
   return (
     <main className="relative overflow-hidden">
       {/* HERO */}
-      <section
-        className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52"
-        data-motion-preset-id="reveal-copy"
-      >
-        <div className="relative z-[2] mx-auto max-w-[1240px]">
+      <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
+        <MotionReveal
+          className="relative z-[2] mx-auto max-w-[1240px]"
+          preset="rise"
+          presetId="reveal-copy"
+        >
           <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
             <div>
               <span
@@ -312,13 +315,17 @@ export default function ContactPage() {
               </figcaption>
             </figure>
           </div>
-        </div>
+        </MotionReveal>
       </section>
 
       {/* FORMULAIRE */}
       <section id="formulaire" className="relative z-[2] px-7 py-16">
         <div className="mx-auto grid max-w-[1240px] gap-8 lg:grid-cols-[1fr_0.82fr]">
-          <div className="surface-card rounded-[30px] p-6 sm:p-8 lg:p-10">
+          <MotionReveal
+            className="surface-card rounded-[30px] p-6 sm:p-8 lg:p-10"
+            preset="scale"
+            presetId="surface-lift"
+          >
             <SectionTitle
               eyebrow="Formulaire"
               title="Expliquez-nous votre besoin."
@@ -326,31 +333,35 @@ export default function ContactPage() {
             />
 
             {submitted ? (
-              <div
+              <MotionReveal
                 className="rounded-[26px] border border-white/[0.13] p-8 text-center"
+                preset="scale"
+                presetId="feedback-success"
                 style={{ background: "var(--grad-soft)" }}
               >
-                <div
-                  className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full text-white"
-                  style={{ background: "var(--grad)" }}
-                >
-                  <CheckCircle2 size={30} strokeWidth={2.3} />
+                <div aria-live="polite">
+                  <div
+                    className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full text-white"
+                    style={{ background: "var(--grad)" }}
+                  >
+                    <CheckCircle2 size={30} strokeWidth={2.3} />
+                  </div>
+                  <h3 className="font-display text-2xl font-semibold">
+                    Votre demande a bien été envoyée.
+                  </h3>
+                  <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">
+                    Nous avons bien reçu votre demande. Nous reviendrons vers vous
+                    rapidement avec une première orientation.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="btn-ghost mt-6 rounded-full px-5 py-3 text-sm font-semibold"
+                  >
+                    Envoyer une autre demande
+                  </button>
                 </div>
-                <h3 className="font-display text-2xl font-semibold">
-                  Votre demande a bien été envoyée.
-                </h3>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">
-                  Nous avons bien reçu votre demande. Nous reviendrons vers vous
-                  rapidement avec une première orientation.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                  className="btn-ghost mt-6 rounded-full px-5 py-3 text-sm font-semibold"
-                >
-                  Envoyer une autre demande
-                </button>
-              </div>
+              </MotionReveal>
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-8">
                 <div
@@ -467,12 +478,20 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Globe2} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Présence digitale actuelle</h3>
-                      <p className="mt-1 text-sm text-mut">Ces liens nous aident à analyser votre visibilité et votre image actuelle.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Présence digitale actuelle
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Ces liens nous aident à analyser votre visibilité et votre image
+                        actuelle.
+                      </p>
                     </div>
                   </div>
 
@@ -481,7 +500,9 @@ export default function ContactPage() {
                       <span className={labelTextClass}>Site web actuel</span>
                       <input
                         value={form.businessWebsiteUrl}
-                        onChange={(event) => updateField("businessWebsiteUrl", event.target.value)}
+                        onChange={(event) =>
+                          updateField("businessWebsiteUrl", event.target.value)
+                        }
                         placeholder="https://www.votre-site.com"
                         className={fieldClass}
                         inputMode="url"
@@ -491,14 +512,16 @@ export default function ContactPage() {
                       <span className={labelTextClass}>Lien Google Business</span>
                       <input
                         value={form.googleBusinessUrl}
-                        onChange={(event) => updateField("googleBusinessUrl", event.target.value)}
+                        onChange={(event) =>
+                          updateField("googleBusinessUrl", event.target.value)
+                        }
                         placeholder="Lien vers votre fiche Google Business"
                         className={fieldClass}
                         inputMode="url"
                       />
                     </label>
                   </div>
-                </div>*/}
+                </div>
 
                 <div
                   className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
@@ -530,6 +553,7 @@ export default function ContactPage() {
 
                 {formError && (
                   <div
+                    role="alert"
                     className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]"
                     style={{ background: "rgba(255,77,109,0.1)" }}
                   >
@@ -563,102 +587,104 @@ export default function ContactPage() {
                 </button>
               </form>
             )}
-          </div>
+          </MotionReveal>
 
-          <aside className="grid content-start gap-6">
-            <div
-              className="relative overflow-hidden rounded-[26px] border border-white/[0.13] p-6 sm:p-8"
-              style={{ background: "var(--grad-soft)" }}
-            >
+          <MotionReveal delay="short" preset="rise" presetId="reveal-group">
+            <aside className="grid content-start gap-6">
               <div
-                className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full opacity-50 blur-[75px]"
-                style={{ background: "var(--ink)" }}
-              />
-              <div className="relative">
-                <span
-                  className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-                  style={{ background: "rgba(5,5,5,0.5)" }}
-                >
-                  <CalendarCheck size={14} /> Diagnostic gratuit
-                </span>
-                <h3 className="mt-4 font-display text-2xl font-semibold">
-                  Vous voulez aller plus vite ?
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-mut">
-                  Réservez directement un créneau pour présenter votre activité, clarifier
-                  votre besoin et obtenir une première orientation.
-                </p>
-                <Link
-                  href="/prise-de-rdv"
-                  className="btn-grad mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold"
-                >
-                  Prendre rendez-vous <ArrowIcon />
-                </Link>
-              </div>
-            </div>
-
-            <div className="surface-card rounded-[26px] p-6 sm:p-8">
-              <div className="flex items-center gap-3">
-                <IconFrame icon={ShieldCheck} />
-                <div>
-                  <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-                    Ce qu&apos;il faut préparer
+                className="relative overflow-hidden rounded-[26px] border border-white/[0.13] p-6 sm:p-8"
+                style={{ background: "var(--grad-soft)" }}
+              >
+                <div
+                  className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full opacity-50 blur-[75px]"
+                  style={{ background: "var(--ink)" }}
+                />
+                <div className="relative">
+                  <span
+                    className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
+                    style={{ background: "rgba(5,5,5,0.5)" }}
+                  >
+                    <CalendarCheck size={14} /> Diagnostic gratuit
                   </span>
-                  <h3 className="mt-1 font-display text-xl font-semibold">
-                    Quelques éléments utiles.
+                  <h3 className="mt-4 font-display text-2xl font-semibold">
+                    Vous voulez aller plus vite ?
                   </h3>
+                  <p className="mt-4 text-sm leading-7 text-mut">
+                    Réservez directement un créneau pour présenter votre activité,
+                    clarifier votre besoin et obtenir une première orientation.
+                  </p>
+                  <Link
+                    href="/prise-de-rdv"
+                    className="btn-grad mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold"
+                  >
+                    Prendre rendez-vous <ArrowIcon />
+                  </Link>
                 </div>
               </div>
 
-              <ul className="mt-6 grid gap-3 text-sm font-medium text-mut">
-                {preparationItems.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0"
-                  >
-                    <Check
-                      size={16}
-                      strokeWidth={2.3}
-                      className="shrink-0 text-emerald"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="surface-card rounded-[26px] p-6 sm:p-8">
-              <div className="flex items-center gap-3">
-                <IconFrame icon={Clock3} />
-                <div>
-                  <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-                    Après l&apos;envoi
-                  </span>
-                  <h3 className="mt-1 font-display text-xl font-semibold">
-                    Un traitement simple.
-                  </h3>
-                </div>
-              </div>
-
-              <div className="mt-6 grid gap-3">
-                {afterSubmitSteps.map((item, index) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 rounded-xl border border-white/[0.07] px-4 py-3"
-                    style={{ background: "rgba(26,26,29,0.45)" }}
-                  >
-                    <span
-                      className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-white"
-                      style={{ background: "var(--grad)" }}
-                    >
-                      {index + 1}
+              <div className="surface-card rounded-[26px] p-6 sm:p-8">
+                <div className="flex items-center gap-3">
+                  <IconFrame icon={ShieldCheck} />
+                  <div>
+                    <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+                      Ce qu&apos;il faut préparer
                     </span>
-                    <span className="text-sm font-medium text-mut">{item}</span>
+                    <h3 className="mt-1 font-display text-xl font-semibold">
+                      Quelques éléments utiles.
+                    </h3>
                   </div>
-                ))}
+                </div>
+
+                <ul className="mt-6 grid gap-3 text-sm font-medium text-mut">
+                  {preparationItems.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0"
+                    >
+                      <Check
+                        size={16}
+                        strokeWidth={2.3}
+                        className="shrink-0 text-emerald"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-          </aside>
+
+              <div className="surface-card rounded-[26px] p-6 sm:p-8">
+                <div className="flex items-center gap-3">
+                  <IconFrame icon={Clock3} />
+                  <div>
+                    <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+                      Après l&apos;envoi
+                    </span>
+                    <h3 className="mt-1 font-display text-xl font-semibold">
+                      Un traitement simple.
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid gap-3">
+                  {afterSubmitSteps.map((item, index) => (
+                    <div
+                      key={item}
+                      className="flex items-center gap-3 rounded-xl border border-white/[0.07] px-4 py-3"
+                      style={{ background: "rgba(26,26,29,0.45)" }}
+                    >
+                      <span
+                        className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-white"
+                        style={{ background: "var(--grad)" }}
+                      >
+                        {index + 1}
+                      </span>
+                      <span className="text-sm font-medium text-mut">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </MotionReveal>
         </div>
       </section>
 

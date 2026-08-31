@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
+import { isPublicOfferCode } from "@/lib/offers/public-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -179,6 +180,10 @@ export async function POST(request: Request) {
       return jsonError(
         "Une demande provenant de la page Tarifs doit contenir une offre.",
       );
+    }
+
+    if (requestSource === "tarifs" && offerCode && !isPublicOfferCode(offerCode)) {
+      return jsonError("L’offre choisie ne fait pas partie du catalogue public.");
     }
 
     if (!consentRgpd) {

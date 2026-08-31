@@ -38,11 +38,11 @@ pages:
         notes: Présenter le workflow par contexte.
   - id: pricing
     blocks:
-      - message: Huit offres actuelles réparties par audience.
-        source_ids: [src-live-site, src-repository]
-        state: pending_offer_revision
-        proof_requirement: montants et inclusions lus depuis une source unique
-        notes: Conserver les prix actuels jusqu'à décision explicite.
+      - message: Cinq offres publiques réparties entre commerce, TPE-PME et startup.
+        source_ids: [src-owner-correction, src-repository]
+        state: approved
+        proof_requirement: noms et montants lus depuis la table offres ; inclusions maintenues dans le frontend
+        notes: Aucun prix de secours codé en dur ; accompagnement mensuel facultatif.
   - id: contact
     blocks:
       - message: Décrivez votre contexte afin que la demande soit qualifiée et orientée.

@@ -73,6 +73,7 @@ type MotionRevealProps = {
   presetId?: MotionPresetId;
   delay?: "none" | "short" | "medium";
   once?: boolean;
+  style?: CSSProperties;
 };
 
 export function MotionReveal({
@@ -82,6 +83,7 @@ export function MotionReveal({
   presetId,
   delay = "none",
   once = true,
+  style,
 }: MotionRevealProps) {
   const { reference, state } = useMotionVisibility(once);
 
@@ -93,6 +95,7 @@ export function MotionReveal({
       data-motion-preset-id={presetId}
       data-motion-state={state}
       ref={reference as RefObject<HTMLDivElement>}
+      style={style}
     >
       {children}
     </div>

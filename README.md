@@ -18,9 +18,11 @@ humaine et d'autorisation de mise en production.
 - showroom interne : `/showroom` ;
 - Quality Gate : `.github/workflows/quality.yml`.
 
-Le transfert installe les fondations. Les pages publiques existantes ne sont
-pas encore remplacées : elles seront migrées route par route à partir de
-`docs/refonte-v2/page-composition.yaml`.
+Les pages publiques principales consomment désormais ces fondations. Les trois visuels de
+la refonte sont utilisés sur l’accueil, les services et le contact. La page Tarifs publie
+cinq codes d’offres et lit leurs noms et montants depuis Supabase, sans prix de secours.
+Le dashboard client a été retiré du parcours : `/espace-client` mène directement au
+support authentifié.
 
 ## Installation
 

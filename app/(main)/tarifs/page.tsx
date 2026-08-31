@@ -1,12 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { AnimateIn } from "@/components/AnimateIn";
-import NeuralBackground from "@/components/fx/NeuralBackground";
 import { parsePhoneNumber } from "react-phone-number-input";
 import Link from "next/link";
 import { BadgeCheck, Check, CreditCard, FileText, RefreshCw, X } from "lucide-react";
 import { PremiumPhoneField } from "@/components/forms/PremiumFormFields";
+import { MotionGroup, MotionItem, MotionReveal } from "@/components/motion";
+import {
+  formatDatabasePrice,
+  isPublicOfferCode,
+  type PublicDatabaseOffer,
+} from "@/lib/offers/public-catalog";
 
 type PricingPack = {
   code: string;
@@ -14,23 +18,14 @@ type PricingPack = {
   category: string;
   subtitle: string;
   target?: string;
-  setupPrice: string;
-  monthlyPrice: string;
+  setupPrice: string | null;
+  monthlyPrice: string | null;
+  isAvailable?: boolean;
   highlighted?: boolean;
   setupIncludes: string[];
   monthlyIncludes: string[];
   result: string;
   cta?: string;
-};
-
-type DatabaseOffer = {
-  code: string;
-  nom_offre: string;
-  client_type: string;
-  prix: number | string | null;
-  prix_abonnement: number | string | null;
-  is_active: boolean;
-  created_at?: string;
 };
 
 type OfferRequestForm = {
@@ -57,8 +52,8 @@ const baseCommercePacks: PricingPack[] = [
       "Pour les commerces qui veulent être mieux trouvés, répondre plus vite et obtenir plus d'avis.",
     target:
       "Coiffeur, restaurant, serrurier, menuisier, vendeur, artisan, institut, garage...",
-    setupPrice: "590 € ",
-    monthlyPrice: "129 € / mois",
+    setupPrice: null,
+    monthlyPrice: null,
     highlighted: true,
     setupIncludes: [
       "Audit de la présence digitale actuelle",
@@ -94,8 +89,8 @@ const baseCommercePacks: PricingPack[] = [
       "Pour les commerces qui veulent mieux organiser leurs demandes clients et réduire les opportunités perdues.",
     target:
       "Commerces avec beaucoup d'appels, réservations, demandes de devis, urgences ou secrétariat.",
-    setupPrice: "990 € ",
-    monthlyPrice: "249 € / mois",
+    setupPrice: null,
+    monthlyPrice: null,
     highlighted: false,
     setupIncludes: [
       "Tout ce qui est inclus dans Commerce Intelligent",
@@ -125,45 +120,16 @@ const baseCommercePacks: PricingPack[] = [
 
 const baseTpePmePacks: PricingPack[] = [
   {
-    code: "tpe_pme_essentiel",
-    name: "Présence Pro",
-    category: "TPE / PME",
-    subtitle: "Pour une petite entreprise qui veut une image sérieuse et un site clair.",
-    setupPrice: "890 € ",
-    monthlyPrice: "99 € / mois",
-    highlighted: false,
-    setupIncludes: [
-      "Analyse du besoin et de l'activité",
-      "Optimisation ou création de la fiche Google Business",
-      "Création d'un site web professionnel simple",
-      "Présentation claire de l'entreprise",
-      "Pages services essentielles",
-      "Formulaire de contact",
-      "Bouton d'appel ou de contact rapide",
-      "Chatbot inclus",
-      "Configuration de base",
-    ],
-    monthlyIncludes: [
-      "Maintenance légère du site",
-      "Petites modifications de contenu",
-      "Suivi simple des demandes",
-      "Ajustements mineurs du parcours de contact",
-      "Rapport mensuel simple",
-    ],
-    result:
-      "Une image plus professionnelle et un site capable de recevoir les premières demandes clients.",
-  },
-  {
     code: "tpe_pme_croissance",
     name: "Croissance",
     category: "TPE / PME",
     subtitle:
       "Pour une entreprise qui veut générer et suivre ses prospects plus sérieusement.",
-    setupPrice: "1 490 € ",
-    monthlyPrice: "179 € / mois",
+    setupPrice: null,
+    monthlyPrice: null,
     highlighted: true,
     setupIncludes: [
-      "Tout ce qui est inclus dans Présence Pro",
+      "Cadrage de l'offre, du positionnement et du parcours de demande",
       "Pages services plus détaillées",
       "Demande de devis ou formulaire avancé",
       "Prise de rendez-vous en ligne si nécessaire",
@@ -189,8 +155,8 @@ const baseTpePmePacks: PricingPack[] = [
     category: "TPE / PME",
     subtitle:
       "Pour une PME qui veut mieux structurer son acquisition et son suivi commercial.",
-    setupPrice: "2 490 € ",
-    monthlyPrice: "349 € / mois",
+    setupPrice: null,
+    monthlyPrice: null,
     highlighted: false,
     setupIncludes: [
       "Tout ce qui est inclus dans Croissance",
@@ -218,42 +184,16 @@ const baseTpePmePacks: PricingPack[] = [
 
 const baseStartupPacks: PricingPack[] = [
   {
-    code: "startup_validation",
-    name: "Validation",
-    category: "Startup",
-    subtitle: "Pour tester rapidement une idée et mesurer l'intérêt du marché.",
-    setupPrice: "790 € ",
-    monthlyPrice: "99 € / mois",
-    highlighted: false,
-    setupIncludes: [
-      "Clarification de la proposition de valeur",
-      "Landing page simple",
-      "Présentation du problème, de la solution et des bénéfices",
-      "Formulaire d'inscription",
-      "Waitlist",
-      "E-mail automatique de confirmation",
-      "Analytics de base",
-    ],
-    monthlyIncludes: [
-      "Suivi des inscriptions",
-      "Ajustements du message",
-      "Petites modifications de la landing page",
-      "Rapport simple sur la traction",
-      "Recommandations d'amélioration",
-    ],
-    result: "Une première présence pour tester si le marché montre de l'intérêt.",
-  },
-  {
     code: "startup_launch",
     name: "Launch",
     category: "Startup",
     subtitle:
       "Pour lancer une bêta, générer des demandes de démo et suivre les premiers leads.",
-    setupPrice: "1 490 € ",
-    monthlyPrice: "199 € / mois",
+    setupPrice: null,
+    monthlyPrice: null,
     highlighted: true,
     setupIncludes: [
-      "Tout ce qui est inclus dans Validation",
+      "Cadrage de la proposition de valeur et des signaux à mesurer",
       "Landing page plus complète",
       "Inscription bêta ou waitlist avancée",
       "Demande de démo",
@@ -274,36 +214,6 @@ const baseStartupPacks: PricingPack[] = [
     result:
       "Un système de lancement pour générer des leads, mesurer l'intérêt et préparer la croissance.",
   },
-  {
-    code: "startup_growth",
-    name: "Growth",
-    category: "Startup",
-    subtitle:
-      "Pour une startup qui veut optimiser son acquisition et améliorer ses conversions.",
-    setupPrice: "2 990 € ",
-    monthlyPrice: "399 € / mois",
-    highlighted: false,
-    setupIncludes: [
-      "Tout ce qui est inclus dans Launch",
-      "A/B testing",
-      "Segmentation des prospects",
-      "Séquences e-mail",
-      "Pitch digital",
-      "Pages cas d'usage",
-      "Suivi structuré des signaux et opportunités",
-      "Optimisation du tunnel de conversion",
-    ],
-    monthlyIncludes: [
-      "Analyse des performances",
-      "Optimisation des messages",
-      "Suivi des conversions",
-      "Amélioration du tunnel d'acquisition",
-      "Recommandations growth",
-      "Reporting mensuel avancé",
-    ],
-    result:
-      "Une acquisition plus mesurable, des messages plus clairs et une meilleure conversion des prospects.",
-  },
 ];
 
 const paymentSteps = [
@@ -317,7 +227,7 @@ const paymentSteps = [
     step: "02",
     title: "Proposition claire",
     description:
-      "Vous recevez une formule recommandée avec le détail de la mise en place et de l'abonnement.",
+      "Vous recevez une formule recommandée avec le détail de la mise en place et de l'accompagnement facultatif.",
   },
   {
     step: "03",
@@ -327,17 +237,17 @@ const paymentSteps = [
   },
   {
     step: "04",
-    title: "Livraison & suivi mensuel",
+    title: "Livraison & accompagnement au choix",
     description:
-      "Après la mise en place, l'abonnement permet de maintenir, suivre et améliorer le système.",
+      "La solution livrée reste utilisable seule. Un accompagnement mensuel peut être ajouté pour la maintenir et l'améliorer.",
   },
 ];
 
 const faqs = [
   {
-    question: "Pourquoi une mise en place et un abonnement mensuel ?",
+    question: "L'accompagnement mensuel est-il obligatoire ?",
     answer:
-      "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou suivi des demandes. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps.",
+      "Non. La mise en place sert à construire un système directement utilisable : fiche Google, site, landing page, outils, automatisations ou suivi des demandes. L'accompagnement mensuel est facultatif et sert à maintenir, mesurer et améliorer ce système dans le temps.",
   },
   {
     question: "Les tarifs sont-ils définitifs ?",
@@ -355,18 +265,6 @@ const faqs = [
       "Oui. L'objectif est de commencer avec une base utile, puis d'ajouter progressivement des fonctionnalités selon les résultats et les besoins.",
   },
 ];
-
-function formatSetupPrice(value: number | string | null) {
-  const price = Number(value);
-  if (!Number.isFinite(price)) return "Sur devis";
-  return `${new Intl.NumberFormat("fr-FR").format(price)} € `;
-}
-
-function formatMonthlyPrice(value: number | string | null) {
-  const price = Number(value);
-  if (!Number.isFinite(price)) return "Sur devis";
-  return `${new Intl.NumberFormat("fr-FR").format(price)} € / mois`;
-}
 
 function cleanOptionalText(value: string) {
   const cleaned = value.trim();
@@ -423,8 +321,9 @@ function PremiumCheck({
 }
 
 export default function TarifsPage() {
-  const [databaseOffers, setDatabaseOffers] = useState<DatabaseOffer[]>([]);
+  const [databaseOffers, setDatabaseOffers] = useState<PublicDatabaseOffer[]>([]);
   const [offersError, setOffersError] = useState<string | null>(null);
+  const [isLoadingOffers, setIsLoadingOffers] = useState(true);
 
   const [selectedPack, setSelectedPack] = useState<PricingPack | null>(null);
   const [formSent, setFormSent] = useState(false);
@@ -468,12 +367,19 @@ export default function TarifsPage() {
         const result = await response.json();
         if (!response.ok)
           throw new Error(result.error || "Impossible de charger les offres.");
-        setDatabaseOffers(result.offres ?? []);
+        const publicOffers = (result.offres ?? []).filter(
+          (offer: PublicDatabaseOffer) =>
+            typeof offer?.code === "string" && isPublicOfferCode(offer.code),
+        );
+        setDatabaseOffers(publicOffers);
+        setOffersError(null);
       } catch (error) {
         console.error("Erreur chargement offres :", error);
         setOffersError(
           error instanceof Error ? error.message : "Impossible de charger les offres.",
         );
+      } finally {
+        setIsLoadingOffers(false);
       }
     }
     loadOffers();
@@ -481,16 +387,23 @@ export default function TarifsPage() {
 
   const applyDatabaseOffer = useCallback(
     (pack: PricingPack): PricingPack => {
+      if (isLoadingOffers) {
+        return { ...pack, setupPrice: null, monthlyPrice: null, isAvailable: undefined };
+      }
+
       const matchingOffer = databaseOffers.find((offer) => offer.code === pack.code);
-      if (!matchingOffer) return pack;
+      if (!matchingOffer) {
+        return { ...pack, setupPrice: null, monthlyPrice: null, isAvailable: false };
+      }
       return {
         ...pack,
         name: matchingOffer.nom_offre,
-        setupPrice: formatSetupPrice(matchingOffer.prix),
-        monthlyPrice: formatMonthlyPrice(matchingOffer.prix_abonnement),
+        setupPrice: formatDatabasePrice(matchingOffer.prix),
+        monthlyPrice: formatDatabasePrice(matchingOffer.prix_abonnement, "month"),
+        isAvailable: true,
       };
     },
-    [databaseOffers],
+    [databaseOffers, isLoadingOffers],
   );
 
   const commercePacks = useMemo(
@@ -522,6 +435,7 @@ export default function TarifsPage() {
   }
 
   function openOfferModal(pack: PricingPack) {
+    if (!pack.isAvailable) return;
     setSelectedPack(pack);
     setFormSent(false);
     setIsSubmitting(false);
@@ -621,6 +535,7 @@ export default function TarifsPage() {
 
     return (
       <article
+        aria-busy={isLoadingOffers}
         className={`relative flex h-full flex-col overflow-hidden rounded-[28px] p-6 transition-all duration-300 hover:-translate-y-1 sm:p-7 ${
           featured ? "border border-white/40" : "surface-card"
         }`}
@@ -658,7 +573,7 @@ export default function TarifsPage() {
               Mise en place
             </p>
             <p className="mt-3 font-display text-[28px] font-semibold leading-none">
-              {pack.setupPrice}
+              {pack.setupPrice ?? (isLoadingOffers ? "Chargement…" : "Prix indisponible")}
             </p>
             <p className="mt-2 text-[10px] text-mut-2">paiement projet</p>
           </div>
@@ -667,12 +582,12 @@ export default function TarifsPage() {
             style={{ background: "rgba(26,26,29,0.62)" }}
           >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              Suivi mensuel
+              Accompagnement facultatif
             </p>
             <p className="mt-3 font-display text-[28px] font-semibold leading-none">
-              {pack.monthlyPrice}
+              {pack.monthlyPrice ?? (isLoadingOffers ? "Chargement…" : "Non renseigné")}
             </p>
-            <p className="mt-2 text-[10px] text-mut-2">maintenance & amélioration</p>
+            <p className="mt-2 text-[10px] text-mut-2">maintenance &amp; amélioration</p>
           </div>
         </div>
 
@@ -701,7 +616,7 @@ export default function TarifsPage() {
         >
           <div className="mb-4 flex items-center justify-between gap-3">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              Suivi mensuel
+              Accompagnement facultatif
             </p>
             <span className="rounded-full border border-white/[0.1] px-2.5 py-1 text-[10px] text-mut-2">
               continuité
@@ -728,11 +643,16 @@ export default function TarifsPage() {
           <button
             type="button"
             onClick={() => openOfferModal(pack)}
-            className={`inline-flex w-full justify-center rounded-full px-5 py-3 text-sm font-semibold ${
+            disabled={!pack.isAvailable}
+            className={`inline-flex w-full justify-center rounded-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50 ${
               featured ? "btn-grad" : "btn-ghost"
             }`}
           >
-            {pack.cta || "Demander cette formule"}
+            {pack.isAvailable
+              ? pack.cta || "Demander cette formule"
+              : isLoadingOffers
+                ? "Chargement de l’offre…"
+                : "Offre momentanément indisponible"}
           </button>
           <p className="mt-3 text-center text-[11px] leading-5 text-mut-2">
             Aucun paiement maintenant. La demande sert à préparer un devis clair.
@@ -746,7 +666,6 @@ export default function TarifsPage() {
     <main className="relative">
       {/* HERO */}
       <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
-        <NeuralBackground />
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -755,7 +674,11 @@ export default function TarifsPage() {
           }}
         />
 
-        <AnimateIn className="relative z-[2] mx-auto max-w-[1240px]">
+        <MotionReveal
+          className="relative z-[2] mx-auto max-w-[1240px]"
+          preset="rise"
+          presetId="reveal-copy"
+        >
           <span
             className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
             style={{ background: "var(--grad-soft)" }}
@@ -770,8 +693,8 @@ export default function TarifsPage() {
                 <span className="grad-text"> en demandes concrètes.</span>
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-mut">
-                Chaque offre combine mise en place, outils adaptés et suivi mensuel pour
-                aider votre activité à être trouvée, comprise, choisie et mieux suivie.
+                Chaque offre associe une mise en place concrète à des outils adaptés.
+                L&apos;accompagnement mensuel reste facultatif, selon vos besoins.
               </p>
 
               <div className="mt-10 flex flex-wrap gap-3">
@@ -820,8 +743,8 @@ export default function TarifsPage() {
                   className="mt-6 rounded-xl border border-amber-300/30 px-5 py-3 text-xs font-medium text-amber-200"
                   style={{ background: "rgba(251,191,36,0.08)" }}
                 >
-                  Les prix affichés utilisent les valeurs par défaut, car les offres
-                  n&apos;ont pas pu être chargées.
+                  Les prix ne peuvent pas être chargés depuis la base de données. Aucun
+                  montant de remplacement n&apos;est affiché.
                 </div>
               )}
             </div>
@@ -839,7 +762,7 @@ export default function TarifsPage() {
                     Comment lire les prix ?
                   </p>
                   <p className="mt-1 font-display text-xl font-semibold">
-                    Un projet + un suivi
+                    Un projet + un accompagnement au choix
                   </p>
                 </div>
               </div>
@@ -882,17 +805,18 @@ export default function TarifsPage() {
                   <div className="mb-3 flex items-center gap-2 text-white">
                     <RefreshCw size={18} strokeWidth={1.8} />
                     <p className="font-display text-lg font-semibold text-ink">
-                      Suivi mensuel
+                      Accompagnement facultatif
                     </p>
                   </div>
                   <p className="text-sm leading-6 text-mut">
-                    Maintenance, amélioration, reporting et accompagnement dans le temps.
+                    Maintenance, amélioration et suivi dans le temps, uniquement si vous
+                    choisissez cet accompagnement.
                   </p>
                 </div>
               </div>
             </div>
           </div>
-        </AnimateIn>
+        </MotionReveal>
       </section>
 
       {/* Commerce */}
@@ -911,11 +835,18 @@ export default function TarifsPage() {
               physiques.
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-2">
-            {commercePacks.map((pack) => (
-              <PricingCard key={pack.code} pack={pack} />
+          <MotionGroup
+            className="grid gap-6 lg:grid-cols-2"
+            label="Offres pour commerces locaux"
+            preset="rise"
+            presetId="reveal-group"
+          >
+            {commercePacks.map((pack, index) => (
+              <MotionItem key={pack.code} order={index}>
+                <PricingCard pack={pack} />
+              </MotionItem>
             ))}
-          </div>
+          </MotionGroup>
         </div>
       </section>
 
@@ -935,11 +866,18 @@ export default function TarifsPage() {
               automatisations simples.
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {tpePmePacks.map((pack) => (
-              <PricingCard key={pack.code} pack={pack} />
+          <MotionGroup
+            className="grid gap-6 lg:grid-cols-2"
+            label="Offres pour TPE et PME"
+            preset="rise"
+            presetId="reveal-group"
+          >
+            {tpePmePacks.map((pack, index) => (
+              <MotionItem key={pack.code} order={index}>
+                <PricingCard pack={pack} />
+              </MotionItem>
             ))}
-          </div>
+          </MotionGroup>
         </div>
       </section>
 
@@ -954,16 +892,23 @@ export default function TarifsPage() {
               Pour lancer, tester et mesurer la traction
             </h2>
             <p className="mt-5 text-base leading-7 text-mut">
-              Ces formules aident les startups à clarifier leur offre, attirer les
-              premiers utilisateurs, générer des demandes de démo et suivre les signaux de
+              Cette formule aide les startups à clarifier leur offre, attirer les premiers
+              utilisateurs, générer des demandes de démo et suivre les signaux de
               traction.
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
-            {startupPacks.map((pack) => (
-              <PricingCard key={pack.code} pack={pack} />
+          <MotionGroup
+            className="grid max-w-[610px] gap-6"
+            label="Offre pour startups"
+            preset="rise"
+            presetId="reveal-group"
+          >
+            {startupPacks.map((pack, index) => (
+              <MotionItem key={pack.code} order={index}>
+                <PricingCard pack={pack} />
+              </MotionItem>
             ))}
-          </div>
+          </MotionGroup>
         </div>
       </section>
 
@@ -982,9 +927,14 @@ export default function TarifsPage() {
               lancer un système clair et suivi.
             </p>
           </div>
-          <div className="grid gap-4 md:grid-cols-4">
+          <MotionGroup
+            className="grid gap-4 md:grid-cols-4"
+            label="Étapes du lancement"
+            preset="rise"
+            presetId="flow-progress"
+          >
             {paymentSteps.map((item, i) => (
-              <AnimateIn key={item.step} delay={i * 90}>
+              <MotionItem key={item.step} order={i}>
                 <div
                   className="rounded-2xl border border-white/[0.07] p-5"
                   style={{ background: "rgba(26,26,29,0.5)" }}
@@ -1000,9 +950,9 @@ export default function TarifsPage() {
                   </h3>
                   <p className="mt-3 text-xs leading-5 text-mut">{item.description}</p>
                 </div>
-              </AnimateIn>
+              </MotionItem>
             ))}
-          </div>
+          </MotionGroup>
         </div>
       </section>
 
@@ -1019,16 +969,21 @@ export default function TarifsPage() {
               Comprendre nos formules
             </h2>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
+          <MotionGroup
+            className="grid gap-4 md:grid-cols-2"
+            label="Questions fréquentes"
+            preset="rise"
+            presetId="reveal-group"
+          >
             {faqs.map((faq, i) => (
-              <AnimateIn key={faq.question} delay={i * 80}>
+              <MotionItem key={faq.question} order={i}>
                 <div className="surface-card rounded-[24px] p-6 sm:p-8">
                   <h3 className="font-display text-xl font-semibold">{faq.question}</h3>
                   <p className="mt-4 text-sm leading-7 text-mut">{faq.answer}</p>
                 </div>
-              </AnimateIn>
+              </MotionItem>
             ))}
-          </div>
+          </MotionGroup>
         </div>
       </section>
 
@@ -1091,7 +1046,7 @@ export default function TarifsPage() {
                 </h3>
                 <p className="mt-1 text-sm font-medium text-mut">
                   {selectedPack.category} · Mise en place {selectedPack.setupPrice} ·
-                  Abonnement {selectedPack.monthlyPrice}
+                  Accompagnement facultatif {selectedPack.monthlyPrice ?? "non renseigné"}
                 </p>
               </div>
               <button

@@ -48,7 +48,7 @@ import styles from "./showroom.module.css";
 
 // Le showroom est un outil interne et ne doit jamais apparaître dans Google.
 export const metadata: Metadata = {
-  title: "OptimalLogic — Showroom des blocs",
+  title: { absolute: "OptimalLogic — Showroom des blocs" },
   robots: {
     index: false,
     follow: false,

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 
 import {
@@ -10,6 +11,15 @@ import {
 } from "@/components/blocks";
 import marketingStyles from "@/components/marketing/marketing.module.css";
 import { MotionReveal } from "@/components/motion";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = createPageMetadata({
+  title: "Services IA & gestion des demandes",
+  description:
+    "Découvrez comment OptimalLogic améliore votre positionnement en ligne, qualifie vos demandes avec l’IA et transmet les cas utiles à votre équipe.",
+  path: "/services",
+  image: "/images/refonte-v2/context-system-v1.webp",
+});
 
 const contexts = [
   {
@@ -141,7 +151,7 @@ export default function ServicesPage() {
         />
       </MotionReveal>
 
-      <MotionReveal preset="rise" presetId="flow-progress">
+      <MotionReveal preset="clip" presetId="flow-progress">
         <WorkflowPipeline
           id="parcours"
           eyebrow="Chaîne de traitement"

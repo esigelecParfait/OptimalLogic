@@ -1,13 +1,13 @@
 # OptimalLogic V2 — dossier directeur
 
-Révision : `2026-08-29.1`
+Révision : `2026-08-30.2`
 Statut : `ready` pour la conception et la construction, jamais `approved` sans
 validation humaine.
 
-Ce dossier conserve toutes les pages fonctionnelles du site actuel, renforce le
-positionnement autour de la gestion et du suivi des demandes par l'IA et les
-outils OptimalLogic, et maintient les huit offres actuelles dans l'état
-`current_pending_revision` jusqu'à la future décision commerciale.
+Ce dossier conserve les parcours fonctionnels utiles du site actuel, renforce le
+positionnement autour de la gestion des demandes par l'IA et les outils OptimalLogic,
+et fixe le catalogue public à cinq codes existants. Les noms et montants viennent de
+Supabase ; aucun prix de secours n'est codé dans l'interface.
 
 ## Ordre de lecture
 
@@ -26,9 +26,9 @@ outils OptimalLogic, et maintient les huit offres actuelles dans l'état
 - `assets/context-system-v1.webp` — trois contextes de services reliés ;
 - `assets/contact-signal-v1.webp` — signal de contact et qualification.
 
-Les PNG sont conservés comme sources de travail. Les WebP sont les versions
-optimisées pour l'intégration. Une sélection humaine et des tests de recadrage
-restent nécessaires.
+Les PNG sont conservés comme sources de travail. Les WebP sont les versions optimisées
+et consommées sur `/`, `/services` et `/contact`. Une validation visuelle humaine reste
+nécessaire.
 
 ## Validation exécutée
 

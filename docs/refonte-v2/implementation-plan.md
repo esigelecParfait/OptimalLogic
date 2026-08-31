@@ -29,8 +29,8 @@ contraste, sans changement backend.
 
 - reconstruire `/`, `/services`, `/tarifs`, `/contact`, `/prise-de-rdv` et
   `/aide` depuis `page-composition.yaml` ;
-- brancher les huit offres actuelles depuis la source typée
-  `current_pending_revision` ;
+- brancher les cinq codes d'offres validés depuis Supabase, avec nom et prix issus
+  de la BDD et sans montant de remplacement ;
 - relier les CTA aux destinations réelles ;
 - intégrer uniquement les images sélectionnées et optimisées ;
 - appliquer `page-motion-map.yaml` avec les fallbacks documentés.
@@ -76,8 +76,8 @@ Critère : rapport QA `PASS` ou `PASS AVEC RÉSERVES` sans réserve bloquante.
 
 ## Dépendances et décisions différées
 
-- La nouvelle grille tarifaire n'empêche pas les lots 0–4 : les données
-  actuelles restent remplaçables.
+- La grille publique est fixée à cinq codes existants. Toute modification de nom
+  ou de montant se fait dans la table `offres`.
 - Les captures produit attendent des données réelles anonymisées.
 - Une capacité IA n'entre dans le contenu définitif qu'après test technique de
   son flux, de son repli et de sa traçabilité.

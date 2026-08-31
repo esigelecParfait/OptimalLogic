@@ -23,12 +23,12 @@ import {
   X,
 } from "lucide-react";
 
-import NeuralBackground from "@/components/fx/NeuralBackground";
 import {
   ObjectiveSelectField,
   PremiumPhoneField,
   PremiumSelectControl,
 } from "@/components/forms/PremiumFormFields";
+import { MotionGroup, MotionItem, MotionReveal } from "@/components/motion";
 
 type Slot = {
   start: string;
@@ -556,18 +556,16 @@ export default function PriseDeRdvPage() {
     <main className="relative overflow-hidden">
       {/* HERO */}
       <section className="relative overflow-hidden px-7 pb-14 pt-44 lg:pt-52">
-        <NeuralBackground />
-
         <div
           className="pointer-events-none absolute inset-0 z-[1]"
           style={{
             background:
-              "linear-gradient(180deg, rgba(4,5,11,0.3) 0%, rgba(4,5,11,0.76) 70%, rgba(4,5,11,1) 100%)",
+              "radial-gradient(circle at 76% 16%, rgba(103,242,160,0.12), transparent 34%), linear-gradient(180deg, rgba(8,10,9,0.24) 0%, rgba(8,10,9,0.92) 100%)",
           }}
         />
 
         <div className="relative z-[2] mx-auto grid max-w-[1240px] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
-          <div>
+          <MotionReveal preset="rise" presetId="reveal-copy">
             <div
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-2 text-sm font-medium text-ink"
               style={{ background: "var(--grad-soft)" }}
@@ -587,21 +585,32 @@ export default function PriseDeRdvPage() {
               conversion, suivi ou automatisation.
             </p>
 
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {diagnosticBenefits.map((benefit) => (
-                <div
-                  key={benefit.label}
-                  className="surface-card group rounded-2xl p-4 transition hover:-translate-y-1 hover:border-white/[0.13]"
-                >
-                  <IconFrame icon={benefit.icon} compact />
-                  <p className="mt-4 text-sm font-semibold text-ink">{benefit.label}</p>
-                  <p className="mt-2 text-xs leading-5 text-mut">{benefit.description}</p>
-                </div>
+            <MotionGroup
+              className="mt-8 grid gap-3 sm:grid-cols-3"
+              label="Bénéfices du diagnostic"
+              preset="rise"
+              presetId="reveal-group"
+            >
+              {diagnosticBenefits.map((benefit, index) => (
+                <MotionItem key={benefit.label} order={index}>
+                  <div className="surface-card group h-full rounded-2xl p-4 transition hover:-translate-y-1 hover:border-white/[0.13]">
+                    <IconFrame icon={benefit.icon} compact />
+                    <p className="mt-4 text-sm font-semibold text-ink">{benefit.label}</p>
+                    <p className="mt-2 text-xs leading-5 text-mut">
+                      {benefit.description}
+                    </p>
+                  </div>
+                </MotionItem>
               ))}
-            </div>
-          </div>
+            </MotionGroup>
+          </MotionReveal>
 
-          <div className="surface-card rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(255,255,255,0.42)]">
+          <MotionReveal
+            className="surface-card rounded-[30px] p-5 shadow-[0_30px_120px_-70px_rgba(103,242,160,0.24)]"
+            delay="short"
+            preset="scale"
+            presetId="surface-lift"
+          >
             <div
               className="relative overflow-hidden rounded-[24px] border border-white/[0.07] p-6"
               style={{
@@ -652,14 +661,18 @@ export default function PriseDeRdvPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </MotionReveal>
         </div>
       </section>
 
       {/* BOOKING */}
       <section className="relative z-[2] px-7 py-12">
         <div className="mx-auto max-w-[1240px]">
-          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <MotionReveal
+            className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between"
+            preset="rise"
+            presetId="reveal-copy"
+          >
             <div>
               <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
                 Réservation
@@ -672,9 +685,13 @@ export default function PriseDeRdvPage() {
               Les créneaux affichés sont actualisés automatiquement pour éviter les
               doubles réservations.
             </p>
-          </div>
+          </MotionReveal>
 
-          <div className="surface-card overflow-hidden rounded-[32px] shadow-[0_35px_120px_-90px_rgba(255,255,255,0.34)]">
+          <MotionReveal
+            className="surface-card overflow-hidden rounded-[32px] shadow-[0_35px_120px_-90px_rgba(103,242,160,0.24)]"
+            preset="scale"
+            presetId="surface-lift"
+          >
             <div className="grid lg:grid-cols-[0.76fr_1.08fr_0.82fr]">
               {/* Left panel */}
               <aside
@@ -804,6 +821,7 @@ export default function PriseDeRdvPage() {
 
                 {slotsError && (
                   <div
+                    role="alert"
                     className="mt-8 rounded-2xl border border-[rgba(255,77,109,0.4)] p-5 text-sm font-medium text-[#ff9db1]"
                     style={{ background: "rgba(255,77,109,0.1)" }}
                   >
@@ -896,33 +914,12 @@ export default function PriseDeRdvPage() {
                 )}
 
                 {selectedDate && selectedDateSlots.length === 0 && (
-                  <p className="hidden" style={{ background: "rgba(26,26,29,0.5)" }}>
+                  <p
+                    className="mt-6 rounded-2xl border border-white/[0.07] p-4 text-sm leading-6 text-mut"
+                    style={{ background: "rgba(26,26,29,0.5)" }}
+                  >
                     Aucun créneau disponible pour cette date.
                   </p>
-                )}
-
-                {false && (
-                  <div className="mt-6 grid gap-2 hidden">
-                    {selectedDateSlots.map((slot) => (
-                      <button
-                        key={slot.start}
-                        type="button"
-                        onClick={() => setSelectedSlot(slot.start)}
-                        className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
-                          selectedSlot === slot.start
-                            ? "border-transparent text-white shadow-[0_10px_24px_-10px_rgba(255,255,255,0.45)]"
-                            : "border-white/[0.13] bg-white/[0.03] text-ink hover:border-white/30 hover:bg-[rgba(255,255,255,0.1)]"
-                        }`}
-                        style={
-                          selectedSlot === slot.start
-                            ? { background: "var(--grad)" }
-                            : undefined
-                        }
-                      >
-                        {formatTimeLabel(slot.start)}
-                      </button>
-                    ))}
-                  </div>
                 )}
 
                 {selectedSlot && (
@@ -931,10 +928,10 @@ export default function PriseDeRdvPage() {
                     style={{ background: "var(--grad-soft)" }}
                   >
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mut-2">
-                      Rendez-vous sélectionner
+                      Rendez-vous sélectionné
                     </p>
                     <p className="mt-3 text-sm font-bold capitalize text-ink">
-                      {formatDateLabel(selectedSlot.slice(0, 10))} A{" "}
+                      {formatDateLabel(selectedSlot.slice(0, 10))} à{" "}
                       {formatTimeLabel(selectedSlot)}
                     </p>
                   </div>
@@ -943,7 +940,7 @@ export default function PriseDeRdvPage() {
                 <button
                   ref={slotModalOpenButtonRef}
                   type="button"
-                  disabled={!selectedDate}
+                  disabled={!selectedDate || selectedDateSlots.length === 0}
                   onClick={openSlotModal}
                   className="btn-grad mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
                 >
@@ -977,13 +974,13 @@ export default function PriseDeRdvPage() {
                 </div>
               </section>
             </div>
-          </div>
+          </MotionReveal>
 
           {isSlotModalOpen && (
             <div className="fixed inset-0 z-[200] flex items-end justify-center px-4 py-4 sm:items-center sm:py-6">
               <button
                 type="button"
-                aria-label="Fermer la fenÃªtre des horaires"
+                aria-label="Fermer la fenêtre des horaires"
                 onClick={closeSlotModal}
                 className="absolute inset-0 bg-black/75 backdrop-blur-sm"
               />
@@ -1061,7 +1058,7 @@ export default function PriseDeRdvPage() {
                       Horaire actuellement choisi
                     </p>
                     <p className="mt-2 text-sm font-bold capitalize text-ink">
-                      {formatDateLabel(selectedSlot.slice(0, 10))} A{" "}
+                      {formatDateLabel(selectedSlot.slice(0, 10))} à{" "}
                       {formatTimeLabel(selectedSlot)}
                     </p>
                   </div>
@@ -1113,25 +1110,29 @@ export default function PriseDeRdvPage() {
               </div>
 
               {bookingSuccess ? (
-                <div
+                <MotionReveal
                   className="rounded-[24px] border border-white/[0.13] p-8 text-center"
+                  preset="scale"
+                  presetId="feedback-success"
                   style={{ background: "var(--grad-soft)" }}
                 >
-                  <div
-                    className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full text-white"
-                    style={{ background: "var(--grad)" }}
-                  >
-                    <CheckCircle2 size={30} strokeWidth={2.5} />
+                  <div aria-live="polite">
+                    <div
+                      className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full text-white"
+                      style={{ background: "var(--grad)" }}
+                    >
+                      <CheckCircle2 size={30} strokeWidth={2.5} />
+                    </div>
+                    <h3 className="font-display text-2xl font-semibold">
+                      Rendez-vous confirmé
+                    </h3>
+                    <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-mut">
+                      Votre diagnostic a bien été réservé. Vous recevrez une confirmation
+                      par email, et votre demande est enregistrée dans notre système de
+                      suivi.
+                    </p>
                   </div>
-                  <h3 className="font-display text-2xl font-semibold">
-                    Rendez-vous confirmé
-                  </h3>
-                  <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-mut">
-                    Votre diagnostic a bien été réservé. Vous recevrez une confirmation
-                    par email, et votre demande est enregistrée dans notre système de
-                    suivi.
-                  </p>
-                </div>
+                </MotionReveal>
               ) : (
                 <form onSubmit={handleBookingSubmit} className="grid gap-7">
                   <div
@@ -1238,10 +1239,15 @@ export default function PriseDeRdvPage() {
                     </div>
                   </div>
 
-                  {/*  <div className="rounded-2xl border border-white/[0.07] p-5" style={{ background: "rgba(26,26,29,0.38)" }}>
+                  <div
+                    className="rounded-2xl border border-white/[0.07] p-5"
+                    style={{ background: "rgba(26,26,29,0.38)" }}
+                  >
                     <div className="mb-5 flex items-center gap-3">
                       <IconFrame icon={MousePointer2} compact />
-                      <h3 className="font-display text-lg font-semibold">Présence digitale actuelle</h3>
+                      <h3 className="font-display text-lg font-semibold">
+                        Présence digitale actuelle
+                      </h3>
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
@@ -1249,7 +1255,9 @@ export default function PriseDeRdvPage() {
                         <span className={labelTextClass}>Site web actuel</span>
                         <input
                           value={form.businessWebsiteUrl}
-                          onChange={(e) => updateField("businessWebsiteUrl", e.target.value)}
+                          onChange={(e) =>
+                            updateField("businessWebsiteUrl", e.target.value)
+                          }
                           placeholder="https://www.votre-site.com"
                           className={fieldClass}
                         />
@@ -1258,13 +1266,15 @@ export default function PriseDeRdvPage() {
                         <span className={labelTextClass}>Lien Google Business</span>
                         <input
                           value={form.googleBusinessUrl}
-                          onChange={(e) => updateField("googleBusinessUrl", e.target.value)}
+                          onChange={(e) =>
+                            updateField("googleBusinessUrl", e.target.value)
+                          }
                           placeholder="Lien vers votre fiche Google Business"
                           className={fieldClass}
                         />
                       </label>
                     </div>
-                  </div>*/}
+                  </div>
 
                   <div
                     className="rounded-2xl border border-white/[0.07] p-5"
@@ -1297,6 +1307,7 @@ export default function PriseDeRdvPage() {
 
                   {bookingError && (
                     <div
+                      role="alert"
                       className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]"
                       style={{ background: "rgba(255,77,109,0.1)" }}
                     >

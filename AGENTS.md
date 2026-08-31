@@ -15,9 +15,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
    visual tokens and run `npm run tokens` after changing it.
 4. Generic primitives and blocks must not contain OptimalLogic copy, prices,
    testimonials or business rules.
-5. Offers and prices remain data-driven and
-   `current_pending_revision` until the owner validates a new commercial
-   structure.
+5. The public catalogue contains exactly five approved database codes:
+   `commerce_intelligent`, `commerce_premium`, `tpe_pme_croissance`,
+   `tpe_pme_performance` and `startup_launch`. Read `nom_offre`, `prix` and
+   `prix_abonnement` from Supabase; never add a hard-coded price fallback.
 6. Preserve API routes, Supabase access, authentication, admin pages, client
    spaces and integrations unless the task explicitly changes them.
 7. Do not invent customers, results, certifications, screenshots or product

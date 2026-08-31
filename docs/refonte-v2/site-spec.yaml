@@ -49,67 +49,48 @@ business:
   offers:
     - {
         id: commerce-intelligent,
+        database_code: commerce_intelligent,
         audience: commerce,
-        name: Commerce Intelligent,
-        setup_ht: 590,
-        monthly_ht: 129,
-        state: current_pending_revision,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
       }
     - {
         id: commerce-premium,
+        database_code: commerce_premium,
         audience: commerce,
-        name: Commerce Premium,
-        setup_ht: 990,
-        monthly_ht: 249,
-        state: current_pending_revision,
-      }
-    - {
-        id: presence-pro,
-        audience: tpe_pme,
-        name: Présence Pro,
-        setup_ht: 890,
-        monthly_ht: 99,
-        state: current_pending_revision,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
       }
     - {
         id: croissance,
+        database_code: tpe_pme_croissance,
         audience: tpe_pme,
-        name: Croissance,
-        setup_ht: 1490,
-        monthly_ht: 179,
-        state: current_pending_revision,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
       }
     - {
         id: performance,
+        database_code: tpe_pme_performance,
         audience: tpe_pme,
-        name: Performance,
-        setup_ht: 2490,
-        monthly_ht: 349,
-        state: current_pending_revision,
-      }
-    - {
-        id: startup-validation,
-        audience: startup,
-        name: Startup Validation,
-        setup_ht: 790,
-        monthly_ht: 99,
-        state: current_pending_revision,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
       }
     - {
         id: startup-launch,
+        database_code: startup_launch,
         audience: startup,
-        name: Launch,
-        setup_ht: 1490,
-        monthly_ht: 199,
-        state: current_pending_revision,
-      }
-    - {
-        id: startup-growth,
-        audience: startup,
-        name: Growth,
-        setup_ht: 2990,
-        monthly_ht: 399,
-        state: current_pending_revision,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
       }
   proofs: []
 
@@ -120,7 +101,7 @@ conversion:
     destination: /prise-de-rdv
   secondary_goals:
     - découvrir les services
-    - comparer les offres actuelles
+    - comparer les cinq offres publiées
     - contacter OptimalLogic
   critical_journeys:
     - id: marketing-to-booking
@@ -237,7 +218,7 @@ content:
   provided:
     - contenus publiés du site actuel
     - arborescence et parcours du dépôt audité
-    - offres et prix actuels à conserver provisoirement
+    - cinq codes d'offres validés ; noms et prix lus depuis Supabase
     - logo OptimalLogic existant
   to_create:
     - narration premium page par page
@@ -258,7 +239,7 @@ brand:
   typography: [sans-serif géométrique, sans-serif lisible]
   visual_references:
     - site actuel pour la continuité sombre et technologique
-    - interfaces de pilotage sobres pour matérialiser le suivi des demandes
+    - cartes de flux sobres pour matérialiser le traitement des demandes sans dashboard public
   avoid:
     - esthétique SaaS générique bleu-violet
     - surcharge de glassmorphism
@@ -295,7 +276,7 @@ legal:
   professional_review_required: true
 
 seo:
-  production_domain: https://optimallogic.fr
+  production_domain: https://optimal-logic.com
   target_queries:
     - solutions digitales et IA pour TPE PME
     - gestion et suivi des demandes clients
@@ -327,15 +308,11 @@ delivery:
 
 assumptions:
   - Les routes de comparaison et preview restent des références internes pendant la refonte.
-  - Les offres actuelles sont affichées depuis des données remplaçables jusqu'à leur révision.
+  - Les cinq offres publiques sont filtrées par code ; nom et prix viennent de la table offres.
+  - Aucun prix de remplacement n'est affiché en cas d'indisponibilité de Supabase.
   - L'implémentation des nouveaux canaux de demande sera vérifiée avant toute promesse de disponibilité.
 
 open_questions:
-  - id: offer-revision
-    question: Quelles offres et quels prix remplaceront la grille actuelle ?
-    owner: OptimalLogic
-    blocking: false
-    due_before: révision finale de la page tarifs
   - id: operational-channels
     question: Quels canaux et automatismes de gestion des demandes sont déjà opérationnels en production ?
     owner: OptimalLogic
