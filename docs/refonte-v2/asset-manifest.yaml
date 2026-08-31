@@ -13,6 +13,8 @@ assets:
     priority: critical
     source_type: generated
     status: ready
+    public_path: /images/refonte-v2/hero-signal-house-v1.webp
+    consumer: app/(main)/page.tsx
     brief: brief-hero-signal-house
     aspect_ratio: "16:10"
     desktop_size: 1600x1000
@@ -34,6 +36,8 @@ assets:
     priority: high
     source_type: generated
     status: ready
+    public_path: /images/refonte-v2/context-system-v1.webp
+    consumer: app/(main)/services/page.tsx
     brief: brief-context-system
     aspect_ratio: "4:3"
     desktop_size: 1400x1050
@@ -55,6 +59,8 @@ assets:
     priority: medium
     source_type: generated
     status: ready
+    public_path: /images/refonte-v2/contact-signal-v1.webp
+    consumer: app/(main)/contact/page.tsx
     brief: brief-contact-signal
     aspect_ratio: "3:4"
     desktop_size: 1050x1400

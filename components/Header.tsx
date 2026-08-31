@@ -7,10 +7,8 @@ import { useEffect, useState } from "react";
 const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Tarifs", href: "/tarifs" },
-
   { label: "Contact", href: "/contact" },
-]; // rhrhrhrhrhrhr
-//jrhrhrhrhhrhrhhr
+];
 export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,12 +37,14 @@ export default function Header() {
   };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-[100] transition-transform duration-300 ${
-        scrolled && !isMenuOpen ? "-translate-y-full" : "translate-y-0"
-      }`}
-    >
-      <nav className="relative mx-4 mt-4 flex items-center justify-between px-4 py-3 transition-all duration-300 sm:px-7">
+    <header className="fixed inset-x-0 top-0 z-[100]">
+      <nav
+        className={`relative mx-4 mt-4 flex items-center justify-between rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-7 ${
+          scrolled || isMenuOpen
+            ? "border-white/[0.12] bg-[#0b0e0c]/90 shadow-[0_18px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+            : "border-transparent bg-transparent"
+        }`}
+      >
         {/* Logo */}
         <Link
           href="/"
@@ -84,12 +84,6 @@ export default function Header() {
 
         {/* CTA desktop */}
         <div className="hidden items-center gap-[10px] lg:flex">
-          <Link
-            href="/espace-client"
-            className="btn-ghost rounded-full px-[22px] py-3 text-sm font-semibold"
-          >
-            Espace client
-          </Link>
           <Link
             href="/prise-de-rdv"
             className="btn-grad inline-flex items-center gap-2 rounded-full px-[22px] py-3 text-sm font-semibold"
@@ -194,13 +188,6 @@ export default function Header() {
                 Aide
               </Link>
               <div className="mt-[10px] flex flex-col gap-[10px]">
-                <Link
-                  href="/espace-client"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="btn-ghost rounded-full px-5 py-[14px] text-center text-sm font-semibold"
-                >
-                  Espace client
-                </Link>
                 <Link
                   href="/prise-de-rdv"
                   onClick={() => setIsMenuOpen(false)}

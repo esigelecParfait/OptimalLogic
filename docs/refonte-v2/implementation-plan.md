@@ -1,6 +1,6 @@
 # Plan d'implémentation frontend OptimalLogic V2
 
-Statut : `proposed` — aucun déploiement autorisé par ce document.
+Statut : `in_progress` — validation locale sur `feat/refonte-premium-v2`, sans déploiement.
 
 ## Lot 0 — Sécuriser la migration
 
@@ -38,18 +38,17 @@ contraste, sans changement backend.
 Critère : contenu sans preuve inventée, parcours au clavier et sans JavaScript
 non essentiel, aucun débordement aux cinq viewports.
 
-## Lot 3 — Authentification et espaces connectés
+## Lot 3 — Authentification et surfaces internes préservées
 
 - restyler les écrans de connexion, activation et réinitialisation sans changer
   leurs protocoles ;
-- faire évoluer les espaces client et admin par petites tranches ;
-- rendre canal, statut, responsable et prochaine action visibles dans le suivi
-  des prospects et du support lorsque les données existent ;
+- supprimer le dashboard client du parcours et rediriger `/espace-client` vers le support ;
+- conserver support, compte et administration hors de la refonte marketing ;
 - utiliser l'IA uniquement selon les garde-fous du `conversion-map.yaml` ;
 - préserver la livraison Délices de Léon et les règles spécifiques.
 
-Critère : contrôle de rôle serveur, RLS, isolation client et scénarios d'échec
-inchangés ou renforcés.
+Critère : aucun dashboard dans le parcours client, contrôle de rôle serveur, RLS,
+isolation client et scénarios d'échec inchangés ou renforcés.
 
 ## Lot 4 — Pages légales et références
 

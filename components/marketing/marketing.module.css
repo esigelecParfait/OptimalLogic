@@ -1,0 +1,222 @@
+.mediaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroImage {
+  filter: saturate(0.9) contrast(1.04);
+}
+
+.heroOffset > section {
+  padding-top: clamp(9rem, 14vw, 12rem);
+}
+
+.iconBadge {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  color: var(--color-action);
+}
+
+.flowSection {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--space-section);
+  border-block: 1px solid var(--color-border);
+  background:
+    radial-gradient(circle at 50% 48%, rgb(103 242 160 / 0.09), transparent 27rem),
+    var(--color-surface);
+}
+
+.flowInner {
+  width: min(calc(100% - 2.5rem), 90rem);
+  margin-inline: auto;
+}
+
+.flowHeader {
+  display: grid;
+  max-width: 52rem;
+  gap: 1.25rem;
+}
+
+.eyebrow {
+  color: var(--color-action);
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.flowHeader h2 {
+  max-width: 13ch;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+}
+
+.flowHeader > p:last-child {
+  max-width: 48rem;
+  color: var(--color-text-muted);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.flowMap {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(3rem, 7vw, 6rem);
+}
+
+.sourceColumn,
+.outcomeColumn {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.sourceNode,
+.outcomeNode,
+.decisionNode {
+  position: relative;
+  z-index: 2;
+  border: 1px solid var(--color-border);
+  background: rgb(8 10 9 / 0.78);
+  box-shadow: var(--shadow-inset);
+}
+
+.sourceNode {
+  display: flex;
+  min-height: 3.35rem;
+  align-items: center;
+  gap: 0.85rem;
+  border-radius: 999px;
+  padding-inline: 1.1rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.sourceNode svg {
+  color: var(--color-action);
+}
+
+.decisionNode {
+  display: grid;
+  min-height: 15rem;
+  align-content: center;
+  gap: 0.85rem;
+  border-color: var(--color-border-strong);
+  border-radius: 1.75rem;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 75% 18%, rgb(103 242 160 / 0.18), transparent 8rem), #101711;
+}
+
+.decisionNode svg {
+  color: var(--color-action);
+}
+
+.decisionNode p {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 600;
+}
+
+.decisionNode span,
+.outcomeNode span {
+  color: var(--color-text-muted);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.decisionNode strong {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.55rem 0.8rem;
+  background: var(--color-action);
+  color: var(--color-action-contrast);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.outcomeNode {
+  display: flex;
+  min-height: 5.2rem;
+  align-items: center;
+  gap: 0.9rem;
+  border-radius: 1.1rem;
+  padding: 1rem;
+}
+
+.outcomeNode svg {
+  flex: 0 0 auto;
+  color: var(--color-action);
+}
+
+.outcomeNode p {
+  margin-bottom: 0.2rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.flowLines {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .flowMap {
+    grid-template-columns: minmax(9rem, 0.72fr) minmax(16rem, 1fr) minmax(14rem, 0.9fr);
+    gap: clamp(4rem, 8vw, 8rem);
+    align-items: center;
+  }
+
+  .flowLines {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: none;
+    stroke: rgb(103 242 160 / 0.58);
+    stroke-width: 1.25;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .sourceNode {
+    max-width: 11rem;
+  }
+
+  .decisionNode {
+    min-height: 19rem;
+  }
+}
+
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .flowMap {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .decisionNode {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flowLines path {
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}

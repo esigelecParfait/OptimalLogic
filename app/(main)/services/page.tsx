@@ -1,575 +1,184 @@
-import Link from "next/link";
-import { AnimateIn } from "@/components/AnimateIn";
-import NeuralBackground from "@/components/fx/NeuralBackground";
-import type { ReactNode } from "react";
-import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
+
 import {
-  ArrowRight,
-  BarChart3,
-  Building2,
-  CalendarCheck,
-  Check,
-  ClipboardList,
-  Compass,
-  MapPin,
-  MessageCircle,
-  Rocket,
-  Route,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Store,
-  Target,
-  UsersRound,
-  Wrench,
-} from "lucide-react";
+  CtaBand,
+  FaqColumns,
+  HeroCentered,
+  HeroSplit,
+  NarrativeMosaic,
+  WorkflowPipeline,
+} from "@/components/blocks";
+import marketingStyles from "@/components/marketing/marketing.module.css";
+import { MotionReveal } from "@/components/motion";
 
-type Service = {
-  label: string;
-  number: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  glow: string;
-  objective: string;
-  levers: string[];
-  result: string;
-};
-
-type MethodStep = {
-  step: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-};
-
-const services: Service[] = [
+const contexts = [
   {
-    label: "Commerces locaux",
-    number: "01",
-    title: "Être trouvé, rassurer et être choisi rapidement",
+    label: "Commerce local",
+    title: "Ne plus perdre une demande quand l’équipe est occupée",
     description:
-      "Pour un commerce, le digital doit aider le client à vous trouver au bon moment, comprendre ce que vous proposez et passer à l’action sans hésiter.",
-    icon: Store,
-    glow: "var(--ink)",
-    objective: "Transformer la recherche locale en appel, réservation ou visite.",
-    levers: [
-      "Google Business optimisé",
-      "Photos, horaires et services clairs",
-      "Avis clients mieux valorisés",
-      "Contact ou réservation simplifiés",
-      "Messagerie IA pour les questions fréquentes",
-    ],
-    result:
-      "Une présence locale plus claire, plus rassurante et plus efficace au moment où vos clients cherchent.",
+      "Réception des appels et SMS, qualification initiale, réponse aux questions simples et transfert humain lorsque la demande l’exige.",
+    featured: true,
   },
   {
     label: "TPE / PME",
-    number: "02",
-    title: "Générer des prospects et mieux suivre les demandes",
+    title: "Transformer les demandes dispersées en travail priorisé",
     description:
-      "Pour une TPE ou une PME, la présence digitale doit renforcer la crédibilité, présenter les services et éviter que les demandes intéressantes se perdent.",
-    icon: Building2,
-    glow: "var(--ink)",
-    objective: "Transformer votre site et vos formulaires en vrai système commercial.",
-    levers: [
-      "Site web professionnel",
-      "Formulaire ou demande de devis",
-      "Prise de rendez-vous si nécessaire",
-      "Assistant IA pour qualifier les demandes",
-      "Tableau de suivi prospects et relances",
-    ],
-    result:
-      "Une entreprise plus crédible en ligne, avec un meilleur suivi des opportunités commerciales.",
+      "Formulaires, devis, messages et rendez-vous suivent des règles communes pour que la prochaine action soit claire.",
   },
   {
-    label: "Startups",
-    number: "03",
-    title: "Clarifier l’offre, lancer vite et prouver la traction",
+    label: "Startup",
+    title: "Faire émerger les vrais signaux du marché",
     description:
-      "Pour une startup, le digital doit permettre de tester une proposition de valeur, mesurer l’intérêt et créer des premiers signaux de traction.",
-    icon: Rocket,
-    glow: "var(--pink)",
-    objective: "Valider l’intérêt du marché avec un parcours simple et mesurable.",
-    levers: [
-      "Landing page orientée conversion",
-      "Waitlist, bêta ou demande de démo",
-      "Qualification des leads",
-      "Séquences de relance",
-      "Analytics et dashboard de traction",
-    ],
-    result:
-      "Un système de lancement qui aide à comprendre le marché, convaincre les prospects et suivre la traction.",
+      "Les demandes de démo, inscriptions et retours sont qualifiés pour distinguer curiosité, intention et opportunité à traiter.",
   },
 ];
 
-const method: MethodStep[] = [
+const workflow = [
   {
-    step: "01",
-    title: "Comprendre votre activité",
+    label: "01 · Recevoir",
+    title: "Conserver les canaux familiers",
     description:
-      "On identifie votre type de client, votre manière de vendre et l’action qui compte vraiment : appel, rendez-vous, devis, réservation ou inscription.",
-    icon: Compass,
+      "Le prospect continue d’appeler, d’écrire ou de réserver comme il en a l’habitude.",
   },
   {
-    step: "02",
-    title: "Construire le bon parcours",
+    label: "02 · Comprendre",
+    title: "Qualifier selon votre activité",
     description:
-      "On définit le chemin le plus simple pour passer d’un visiteur intéressé à une demande concrète et qualifiée.",
-    icon: Route,
+      "Motif, urgence, disponibilité et informations utiles sont extraits selon des règles validées.",
   },
   {
-    step: "03",
-    title: "Mettre en place les bons outils",
+    label: "03 · Décider",
+    title: "Filtrer ou transférer",
     description:
-      "Google Business, site web, assistant IA, prise de rendez-vous, CRM ou automatisations : chaque outil sert un objectif précis.",
-    icon: Wrench,
+      "L’IA traite le cadre prévu ; l’humain reprend la main dès qu’une réponse ou décision l’engage.",
   },
   {
-    step: "04",
-    title: "Suivre et améliorer",
+    label: "04 · Continuer",
+    title: "Garder la prochaine action",
     description:
-      "On suit les demandes, rendez-vous, avis, relances et points de blocage pour améliorer progressivement les résultats.",
-    icon: BarChart3,
+      "Notification, relance ou transmission évitent que la demande disparaisse après le premier contact.",
   },
 ];
 
-const summary = [
+const faq = [
   {
-    t: "Visibilité locale",
-    h: "Être trouvé et choisi",
-    d: "Google Business, avis, photos, horaires, contact et réservation.",
-    icon: MapPin,
+    question: "Faut-il changer notre numéro de téléphone ?",
+    answer:
+      "Non par principe. Le fonctionnement privilégié conserve le numéro actuel et transfère vers l’IA lorsque personne ne répond, sous réserve de compatibilité technique.",
   },
   {
-    t: "Acquisition & suivi",
-    h: "Ne plus perdre les demandes",
-    d: "Site, formulaire, prise de rendez-vous, qualification et relances.",
-    icon: ClipboardList,
+    question: "L’IA répond-elle toujours seule ?",
+    answer:
+      "Non. Elle intervient d’abord sur le périmètre défini, puis transfère à un humain dès qu’une demande sort des règles, devient sensible ou nécessite une décision.",
   },
   {
-    t: "Validation marché",
-    h: "Prouver l’intérêt rapidement",
-    d: "Landing page, waitlist, démo, CRM, analytics et traction.",
-    icon: Target,
-  },
-];
-
-const heroProofs = [
-  {
-    label: "Être trouvé",
-    description: "Google Business, référencement local et clarté de l’offre.",
-    icon: Search,
+    question: "Sommes-nous obligés de prendre un abonnement ?",
+    answer:
+      "L’installation est conçue pour rester utilisable après la livraison. Le suivi est facultatif et sert aux mises à jour, contrôles et optimisations continues.",
   },
   {
-    label: "Inspirer confiance",
-    description: "Site moderne, avis, preuves, messages simples et cohérents.",
-    icon: ShieldCheck,
-  },
-  {
-    label: "Déclencher l’action",
-    description: "RDV, formulaire, appel, devis, inscription ou demande de démo.",
-    icon: CalendarCheck,
-  },
-  {
-    label: "Suivre les demandes",
-    description: "Prospects centralisés, relances, notifications et visibilité.",
-    icon: MessageCircle,
+    question: "Installez-vous forcément un nouveau site ?",
+    answer:
+      "Non. Pour la gestion des demandes d’un commerce, le site n’est pas le point de départ. Nous partons des canaux déjà utilisés et n’ajoutons un outil que s’il résout un problème réel.",
   },
 ];
-
-function IconFrame({
-  icon: Icon,
-  tone = "default",
-}: {
-  icon: LucideIcon;
-  tone?: "default" | "soft";
-}) {
-  const styles = {
-    default: {
-      color: "var(--ink)",
-      background: "rgba(255,255,255,0.1)",
-      borderColor: "rgba(255,255,255,0.13)",
-    },
-    soft: {
-      color: "var(--ink)",
-      background: "var(--grad-soft)",
-      borderColor: "rgba(255,255,255,0.14)",
-    },
-  };
-
-  return (
-    <div
-      className="grid h-[58px] w-[58px] shrink-0 place-items-center rounded-[18px] border transition-transform duration-300 group-hover:scale-105"
-      style={styles[tone]}
-    >
-      <Icon size={25} strokeWidth={1.7} />
-    </div>
-  );
-}
-
-function CheckItem({ children }: { children: ReactNode }) {
-  return (
-    <li className="flex items-start gap-3 text-sm font-medium leading-6 text-mut">
-      <span
-        className="mt-1 grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full text-[10px] text-white"
-        style={{ background: "rgba(46,230,168,0.16)", color: "var(--emerald)" }}
-      >
-        <Check size={13} strokeWidth={3} />
-      </span>
-      <span>{children}</span>
-    </li>
-  );
-}
-
-function Arrow() {
-  return <ArrowRight size={17} strokeWidth={2} />;
-}
 
 export default function ServicesPage() {
   return (
-    <main className="relative overflow-hidden">
-      {/* HERO */}
-      <section className="relative isolate overflow-hidden px-7 pb-20 pt-44 lg:pt-52">
-        <div className="pointer-events-none absolute inset-0 z-0 min-h-full opacity-60 sm:opacity-75 lg:opacity-80">
-          <NeuralBackground />
-        </div>
-
-        <div
-          className="pointer-events-none absolute left-1/2 top-24 z-0 h-[min(72vw,520px)] w-[min(72vw,520px)] -translate-x-1/2 rounded-full opacity-25 blur-[90px] sm:top-28 sm:opacity-30 sm:blur-[120px]"
-          style={{ background: "var(--grad)" }}
+    <main>
+      <MotionReveal
+        className={marketingStyles.heroOffset}
+        preset="rise"
+        presetId="reveal-copy"
+      >
+        <HeroCentered
+          id="services"
+          eyebrow="Services OptimalLogic"
+          title="Le problème n’est pas de recevoir plus de notifications. C’est de mieux traiter les demandes."
+          description="Nous intervenons sur deux continuités : être clairement choisi en ligne, puis recevoir, qualifier et transmettre chaque demande sans ajouter de complexité inutile."
+          primaryAction={{ label: "Voir le parcours", href: "#gestion-demandes" }}
+          secondaryAction={{
+            label: "Parler de mon activité",
+            href: "/prise-de-rdv",
+            variant: "secondary",
+          }}
         />
+      </MotionReveal>
 
-        <div className="relative z-[2] mx-auto max-w-[1240px]">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-            <AnimateIn>
-              <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-                Services digitaux · IA · acquisition client
-              </span>
+      <MotionReveal preset="fade" presetId="reveal-copy">
+        <HeroSplit
+          id="gestion-demandes"
+          headingAs="h2"
+          eyebrow="Une base commune, trois contextes"
+          title="Le système s’adapte au métier ; il ne force pas le métier à s’adapter au système."
+          description="Commerce, entreprise et startup n’ont pas les mêmes signaux, les mêmes urgences ni les mêmes personnes à mobiliser. Les règles de traitement restent donc propres à chaque contexte."
+          primaryAction={{ label: "Décrire mon besoin", href: "/contact" }}
+          media={{
+            ratio: "landscape",
+            content: (
+              <Image
+                alt="Trois structures abstraites distinctes reliées à un même réseau de traitement."
+                className={marketingStyles.mediaImage}
+                height={1086}
+                loading="lazy"
+                sizes="(min-width: 80rem) 42rem, (min-width: 64rem) 44vw, 100vw"
+                src="/images/refonte-v2/context-system-v1.webp"
+                width={1448}
+              />
+            ),
+          }}
+          tone="surface"
+        />
+      </MotionReveal>
 
-              <h1 className="mt-6 text-[clamp(38px,5vw,64px)] font-semibold leading-[0.98] tracking-[-0.04em]">
-                Le bon service n’est pas forcément le plus complet.
-                <span className="grad-text">
-                  {" "}
-                  C’est celui qui aide vos clients à vous choisir.
-                </span>
-              </h1>
+      <MotionReveal preset="rise" presetId="reveal-group">
+        <NarrativeMosaic
+          id="positionnement"
+          eyebrow="Selon votre activité"
+          title="Le point douloureux change. La méthode reste traçable."
+          description="Chaque service relie un problème observable à un parcours, une règle de traitement et une sortie humaine."
+          items={contexts}
+        />
+      </MotionReveal>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
-                OptimalLogic construit des systèmes digitaux adaptés à votre activité :
-                visibilité Google, site web, prise de rendez-vous, assistant IA, suivi des
-                prospects et automatisations utiles.
-              </p>
+      <MotionReveal preset="rise" presetId="flow-progress">
+        <WorkflowPipeline
+          id="parcours"
+          eyebrow="Chaîne de traitement"
+          title="Recevoir n’est que la première étape."
+          description="La valeur vient de la continuité entre le premier signal et l’action suivante."
+          steps={workflow}
+          outcome={{
+            label: "Résultat attendu",
+            title: "Une demande exploitable",
+            description:
+              "Le bon interlocuteur reçoit le contexte nécessaire, sans que le prospect doive tout recommencer.",
+          }}
+        />
+      </MotionReveal>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/prise-de-rdv"
-                  className="btn-grad inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold"
-                >
-                  Demander un diagnostic gratuit <Arrow />
-                </Link>
-                <Link
-                  href="#services"
-                  className="btn-ghost inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold"
-                >
-                  Voir les services
-                </Link>
-              </div>
-            </AnimateIn>
+      <MotionReveal preset="fade" presetId="reveal-copy">
+        <FaqColumns
+          id="questions"
+          eyebrow="Questions fréquentes"
+          title="Ce que le système change — et ce qu’il ne change pas."
+          items={faq}
+        />
+      </MotionReveal>
 
-            <AnimateIn delay={140}>
-              <div className="surface-card relative overflow-hidden rounded-[28px] p-7 sm:p-8">
-                <div
-                  className="absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-40 blur-[90px]"
-                  style={{ background: "var(--ink)" }}
-                />
-
-                <div className="relative">
-                  <div className="mb-6 flex items-center gap-4">
-                    <IconFrame icon={Sparkles} tone="soft" />
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
-                        Notre logique
-                      </p>
-                      <p className="mt-1 font-display text-xl font-semibold leading-snug">
-                        Activité d’abord. Outil ensuite.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-3">
-                    {heroProofs.map(({ label, description, icon: Icon }) => (
-                      <div
-                        key={label}
-                        className="group flex items-start gap-4 rounded-2xl border border-white/[0.07] p-4 transition-all hover:border-white/[0.13]"
-                        style={{ background: "rgba(26,26,29,0.52)" }}
-                      >
-                        <div
-                          className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/[0.1]"
-                          style={{
-                            background: "rgba(255,255,255,0.1)",
-                            color: "var(--ink)",
-                          }}
-                        >
-                          <Icon size={20} strokeWidth={1.8} />
-                        </div>
-                        <div>
-                          <p className="font-display text-sm font-semibold text-ink">
-                            {label}
-                          </p>
-                          <p className="mt-1 text-sm leading-6 text-mut">{description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </AnimateIn>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section id="services" className="relative z-[2] px-7 py-16">
-        <div className="mx-auto max-w-[1240px]">
-          <AnimateIn className="mb-12 max-w-3xl">
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Nos services
-            </span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold tracking-[-0.03em]">
-              Trois contextes différents, trois systèmes adaptés
-            </h2>
-            <p className="mt-4 text-base leading-7 text-mut">
-              Nous ne vous imposons pas une pile d’outils. Nous partons du blocage réel :
-              visibilité, conversion, suivi commercial ou validation marché.
-            </p>
-          </AnimateIn>
-
-          <div className="grid gap-6">
-            {services.map((service, i) => (
-              <AnimateIn key={service.label} delay={i * 80}>
-                <article className="surface-card group relative overflow-hidden rounded-[30px] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.13] sm:p-9 lg:p-10">
-                  <div
-                    className="absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-35 blur-[95px]"
-                    style={{ background: service.glow }}
-                  />
-
-                  <div className="relative grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-                    <div>
-                      <div className="mb-7 flex items-center gap-5">
-                        <span className="font-display text-4xl font-semibold text-mut-2">
-                          {service.number}
-                        </span>
-                        <span
-                          className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-                          style={{ background: "var(--grad-soft)" }}
-                        >
-                          <service.icon size={15} strokeWidth={1.8} />
-                          {service.label}
-                        </span>
-                      </div>
-
-                      <IconFrame icon={service.icon} />
-
-                      <h3 className="mt-6 text-[clamp(24px,2.8vw,34px)] font-semibold leading-tight tracking-[-0.03em]">
-                        {service.title}
-                      </h3>
-
-                      <p className="mt-4 max-w-2xl text-base leading-7 text-mut">
-                        {service.description}
-                      </p>
-                    </div>
-
-                    <div className="grid gap-4">
-                      <div
-                        className="rounded-3xl border border-white/[0.08] p-6"
-                        style={{ background: "rgba(26,26,29,0.52)" }}
-                      >
-                        <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
-                          Objectif
-                        </p>
-                        <p className="mt-3 font-display text-xl font-semibold leading-snug text-ink">
-                          {service.objective}
-                        </p>
-                      </div>
-
-                      <div
-                        className="rounded-3xl border border-white/[0.08] p-6"
-                        style={{ background: "rgba(26,26,29,0.42)" }}
-                      >
-                        <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
-                          Leviers principaux
-                        </p>
-                        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                          {service.levers.map((lever) => (
-                            <CheckItem key={lever}>{lever}</CheckItem>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div
-                        className="rounded-3xl border border-white/[0.13] p-6"
-                        style={{ background: "var(--grad-soft)" }}
-                      >
-                        <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
-                          Résultat attendu
-                        </p>
-                        <p className="mt-3 text-sm leading-6 text-mut">
-                          {service.result}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* MÉTHODE */}
-      <section className="relative z-[2] px-7 py-16">
-        <div className="mx-auto grid max-w-[1240px] gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <AnimateIn>
-            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Méthode
-            </span>
-            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold tracking-[-0.03em]">
-              Du résultat,
-              <br />
-              <span className="grad-text">pas seulement du design</span>
-            </h2>
-            <p className="mt-4 max-w-md text-base leading-7 text-mut">
-              La bonne question n’est pas “quel outil faut-il ajouter ?”, mais “quelle
-              action le client doit-il faire après vous avoir trouvé ?”.
-            </p>
-          </AnimateIn>
-
-          <div className="grid gap-4">
-            {method.map((item, i) => (
-              <AnimateIn key={item.step} delay={i * 80}>
-                <div
-                  className="group flex gap-5 rounded-3xl border border-white/[0.07] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.13]"
-                  style={{ background: "rgba(18,18,20,0.62)" }}
-                >
-                  <div className="flex shrink-0 flex-col items-center gap-3">
-                    <span
-                      className="grid h-12 w-12 place-items-center rounded-2xl font-display text-sm font-bold text-white"
-                      style={{ background: "var(--grad)" }}
-                    >
-                      {item.step}
-                    </span>
-                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/[0.1]">
-                      <item.icon size={19} strokeWidth={1.8} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="font-display text-lg font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-mut">{item.description}</p>
-                  </div>
-                </div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* RÉSUMÉ */}
-      <section className="relative z-[2] px-7 py-16">
-        <AnimateIn className="mx-auto max-w-[1240px]">
-          <div className="surface-card rounded-[30px] p-7 sm:p-10">
-            <div className="max-w-2xl">
-              <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-                Résumé
-              </span>
-              <h2 className="mt-3 text-[clamp(26px,3.2vw,38px)] font-semibold tracking-[-0.03em]">
-                Le bon service dépend du vrai besoin
-              </h2>
-              <p className="mt-4 text-base leading-7 text-mut">
-                Un commerce, une PME et une startup n’ont pas le même enjeu. Notre rôle
-                est de choisir le système qui sert votre objectif réel.
-              </p>
-            </div>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {summary.map(({ t, h, d, icon: Icon }) => (
-                <div
-                  key={t}
-                  className="group rounded-3xl border border-white/[0.07] p-6 transition-all hover:-translate-y-1 hover:border-white/[0.13]"
-                  style={{ background: "rgba(26,26,29,0.5)" }}
-                >
-                  <IconFrame icon={Icon} />
-                  <span className="mt-5 block grad-text font-display text-sm font-semibold uppercase tracking-wider">
-                    {t}
-                  </span>
-                  <p className="mt-3 font-display text-lg font-semibold">{h}</p>
-                  <p className="mt-2 text-sm leading-6 text-mut">{d}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </AnimateIn>
-      </section>
-
-      {/* CTA */}
-      <section className="relative z-[2] px-7 pb-24 pt-8">
-        <AnimateIn className="mx-auto max-w-[1240px]">
-          <div
-            className="relative overflow-hidden rounded-[32px] border border-white/[0.13] p-8 sm:p-12"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-35 blur-[100px]"
-              style={{ background: "var(--ink)" }}
-            />
-
-            <div className="relative grid gap-10 lg:grid-cols-[1fr_0.72fr] lg:items-center">
-              <div>
-                <span
-                  className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-                  style={{ background: "var(--grad-soft)" }}
-                >
-                  <span className="h-2 w-2 rounded-full bg-emerald" /> Diagnostic gratuit
-                </span>
-
-                <h2 className="mt-5 text-[clamp(28px,4vw,46px)] font-semibold leading-tight tracking-[-0.03em]">
-                  Vous ne savez pas encore quel système correspond à votre activité ?
-                </h2>
-
-                <p className="mt-4 max-w-2xl text-lg leading-8 text-mut">
-                  On analyse votre présence actuelle, vos objectifs et vos points de
-                  blocage pour vous orienter vers la solution la plus utile.
-                </p>
-              </div>
-
-              <div className="surface-card rounded-[24px] p-7">
-                <div className="mb-5 flex items-center gap-4">
-                  <IconFrame icon={UsersRound} tone="soft" />
-                  <div>
-                    <p className="font-display text-xl font-semibold">
-                      Parlons de votre projet
-                    </p>
-                    <p className="mt-1 text-sm text-mut">
-                      Un échange simple pour identifier les priorités.
-                    </p>
-                  </div>
-                </div>
-
-                <Link
-                  href="/prise-de-rdv"
-                  className="btn-grad inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold"
-                >
-                  Demander un diagnostic gratuit <Arrow />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </AnimateIn>
-      </section>
+      <MotionReveal preset="fade" presetId="reveal-copy">
+        <CtaBand
+          eyebrow="Diagnostic"
+          title="Partons de trois demandes que vous avez réellement reçues."
+          description="Elles suffisent souvent à révéler les pertes, les règles manquantes et le bon périmètre d’installation."
+          primaryAction={{ label: "Prendre rendez-vous", href: "/prise-de-rdv" }}
+          secondaryAction={{
+            label: "Nous écrire",
+            href: "/contact",
+            variant: "secondary",
+          }}
+        />
+      </MotionReveal>
     </main>
   );
 }

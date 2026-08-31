@@ -11,7 +11,7 @@ pages:
       - {
           section_id: home-hero,
           block_family: hero,
-          variant: HeroEditorial,
+          variant: HeroSplit,
           decision: reuse,
           content_source: content-map.home,
           media_id: img-hero-signal-house,
@@ -252,7 +252,7 @@ pages:
           accessibility: focus initial et erreurs non énumérantes,
           acceptance: Redirections et rôles restent identiques,
         }
-  - page_id: connected-spaces
+  - page_id: internal-legacy-spaces
     paths:
       [
         /espace-client,
@@ -266,15 +266,14 @@ pages:
         /admin/google-setup,
         /admin/metrics,
       ]
-    layout: RoleAwareApplicationShell
+    layout: ExistingInternalShells
     sections:
       - {
           section_id: app-shells,
           block_family: application-shell,
           variant: ExistingClientAndAdminShells,
-          decision: extend,
-          justification: Appliquer navigation,
-          tokens et responsive premium sans fusionner les règles de rôles,
+          decision: reuse,
+          justification: Hors périmètre de la refonte marketing; conserver les contrôles d'accès existants sans exposer ces routes dans la navigation publique,
           content_source: live-navigation,
           media_id: null,
           motion_preset: route-transition,
@@ -286,8 +285,8 @@ pages:
           section_id: demand-operations,
           block_family: workflow,
           variant: WorkflowRouting,
-          decision: extend,
-          justification: Adapter le bloc générique aux données réelles de prospects et support sans les dupliquer,
+          decision: reuse,
+          justification: Hors périmètre de la refonte marketing,
           content_source: live-demand-data,
           media_id: null,
           motion_preset: route-transition,
@@ -298,7 +297,7 @@ pages:
       - {
           section_id: live-metrics,
           block_family: metrics,
-          variant: MetricsDashboard,
+          variant: ExistingAdminMetrics,
           decision: reuse,
           content_source: live-metrics,
           media_id: null,

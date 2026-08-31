@@ -99,7 +99,7 @@ const baseCommercePacks: PricingPack[] = [
     highlighted: false,
     setupIncludes: [
       "Tout ce qui est inclus dans Commerce Intelligent",
-      "Mise en place d'un tableau de suivi des demandes clients",
+      "Mise en place du suivi des demandes clients",
       "Classement des demandes par type : appel, rendez-vous, devis, urgence ou renseignement",
       "Création de modèles de réponses pour les demandes fréquentes",
       "Mise en place d'un processus clair pour transmettre les demandes importantes à l'équipe",
@@ -111,7 +111,7 @@ const baseCommercePacks: PricingPack[] = [
       "Suivi régulier des avis, messages et demandes entrantes",
       "Mise à jour des informations utiles si l'activité évolue",
       "Amélioration continue des scénarios IA selon les vraies questions des clients",
-      "Suivi du tableau des demandes clients",
+      "Suivi des demandes clients",
       "Analyse mensuelle des appels, réservations, devis, visites et avis",
       "Recommandations concrètes pour réduire les demandes perdues",
       "Accompagnement plus régulier pour ajuster l'organisation digitale",
@@ -168,7 +168,7 @@ const baseTpePmePacks: PricingPack[] = [
       "Demande de devis ou formulaire avancé",
       "Prise de rendez-vous en ligne si nécessaire",
       "Chatbot de qualification des prospects",
-      "Tableau de suivi clients/prospects",
+      "Suivi structuré des clients et prospects",
       "Automatisation de confirmation après une demande",
       "Notification lorsqu'une nouvelle demande arrive",
     ],
@@ -176,7 +176,7 @@ const baseTpePmePacks: PricingPack[] = [
       "Suivi des prospects entrants",
       "Amélioration des pages et appels à l'action",
       "Ajustement du chatbot",
-      "Suivi du tableau clients/prospects",
+      "Suivi des clients et prospects",
       "Optimisations des formulaires ou prises de rendez-vous",
       "Rapport mensuel sur les demandes et rendez-vous",
     ],
@@ -195,7 +195,7 @@ const baseTpePmePacks: PricingPack[] = [
     setupIncludes: [
       "Tout ce qui est inclus dans Croissance",
       "Parcours client plus complet",
-      "CRM ou tableau de suivi avancé",
+      "Suivi commercial avancé dans vos outils",
       "Automatisations de relance",
       "Segmentation des prospects",
       "Reporting plus détaillé",
@@ -205,7 +205,7 @@ const baseTpePmePacks: PricingPack[] = [
     monthlyIncludes: [
       "Analyse des performances",
       "Optimisation continue du parcours client",
-      "Suivi CRM ou tableau avancé",
+      "Suivi commercial et recommandations",
       "Amélioration des contenus",
       "Recommandations commerciales",
       "Rapport mensuel détaillé",
@@ -261,7 +261,7 @@ const baseStartupPacks: PricingPack[] = [
       "Chatbot IA de qualification",
       "CRM simple",
       "E-mails automatiques",
-      "Dashboard de traction",
+      "Synthèse des inscriptions et demandes",
     ],
     monthlyIncludes: [
       "Suivi des leads et inscriptions",
@@ -290,7 +290,7 @@ const baseStartupPacks: PricingPack[] = [
       "Séquences e-mail",
       "Pitch digital",
       "Pages cas d'usage",
-      "Dashboard avancé",
+      "Suivi structuré des signaux et opportunités",
       "Optimisation du tunnel de conversion",
     ],
     monthlyIncludes: [
@@ -337,7 +337,7 @@ const faqs = [
   {
     question: "Pourquoi une mise en place et un abonnement mensuel ?",
     answer:
-      "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou tableau de suivi. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps.",
+      "La mise en place sert à construire le système : fiche Google, site, landing page, outils, automatisations ou suivi des demandes. L'abonnement sert à maintenir, suivre, améliorer et faire évoluer ce système dans le temps.",
   },
   {
     question: "Les tarifs sont-ils définitifs ?",

@@ -7,14 +7,14 @@ import "./globals.css";
 // fonctionne sur tout réseau, y compris hors-ligne ou derrière un proxy.
 const inter = localFont({
   src: "./fonts/Inter-variable.woff2",
-  variable: "--font-body",
+  variable: "--font-inter",
   display: "swap",
   weight: "100 900",
 });
 
 const display = localFont({
   src: "./fonts/SpaceGrotesk-variable.woff2",
-  variable: "--font-display",
+  variable: "--font-space-grotesk",
   display: "swap",
   weight: "300 700",
 });

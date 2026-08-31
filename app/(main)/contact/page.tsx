@@ -2,8 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { parsePhoneNumber } from "react-phone-number-input";
-import NeuralBackground from "@/components/fx/NeuralBackground";
 import {
   ObjectiveSelectField,
   PremiumPhoneField,
@@ -17,14 +17,10 @@ import {
   CheckCircle2,
   ClipboardList,
   Clock3,
-  Globe2,
   Mail,
-  MessageCircle,
-  MousePointerClick,
   Send,
   ShieldCheck,
   Sparkles,
-  Target,
   UserRound,
 } from "lucide-react";
 
@@ -46,12 +42,6 @@ type FormState = {
 type ObjectiveOption = { value: string; label: string };
 type TypeClientOption = { value: string; label: string };
 
-type Reason = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-};
-
 const labelClass = "grid gap-2";
 const labelTextClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
 const fieldClass =
@@ -72,33 +62,6 @@ const objectiveOptions: ObjectiveOption[] = [
   { value: "lancer_offre", label: "Lancer ou tester une offre" },
   { value: "automatiser_reponses", label: "Automatiser les réponses aux clients" },
   { value: "incertain", label: "Je ne sais pas encore" },
-];
-
-const contactReasons: Reason[] = [
-  {
-    icon: Globe2,
-    title: "Visibilité locale",
-    description:
-      "Comprendre comment être mieux trouvé sur Google et convertir plus de recherches en contacts.",
-  },
-  {
-    icon: MousePointerClick,
-    title: "Parcours de contact",
-    description:
-      "Clarifier les appels, formulaires et rendez-vous pour réduire les abandons.",
-  },
-  {
-    icon: MessageCircle,
-    title: "Réponses & suivi",
-    description:
-      "Structurer les demandes entrantes pour relancer les bons prospects au bon moment.",
-  },
-  {
-    icon: Target,
-    title: "Offre adaptée",
-    description:
-      "Identifier ce qui est vraiment utile avant de parler site, IA ou automatisation.",
-  },
 ];
 
 const preparationItems = [
@@ -283,8 +246,10 @@ export default function ContactPage() {
   return (
     <main className="relative overflow-hidden">
       {/* HERO */}
-      <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
-        <NeuralBackground />
+      <section
+        className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52"
+        data-motion-preset-id="reveal-copy"
+      >
         <div className="relative z-[2] mx-auto max-w-[1240px]">
           <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
             <div>
@@ -323,43 +288,29 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="surface-card relative overflow-hidden rounded-[28px] p-6 sm:p-7">
-              <div
-                className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full opacity-60 blur-[70px]"
-                style={{ background: "var(--ink)" }}
+            <figure className="surface-card relative min-h-[420px] overflow-hidden rounded-[28px] sm:min-h-[520px]">
+              <Image
+                alt="Signal lumineux isolé entrant dans une grille de traitement sombre."
+                className="absolute inset-0 h-full w-full object-cover"
+                height={1448}
+                loading="lazy"
+                sizes="(min-width: 64rem) 38vw, 100vw"
+                src="/images/refonte-v2/contact-signal-v1.webp"
+                width={1086}
               />
-              <div className="relative">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">
-                      Pourquoi nous contacter ?
-                    </p>
-                    <h2 className="mt-2 text-2xl font-semibold">
-                      Un diagnostic avant la solution.
-                    </h2>
-                  </div>
-                  <IconFrame icon={Sparkles} />
-                </div>
-
-                <div className="mt-7 grid gap-3">
-                  {contactReasons.map(({ icon: Icon, title, description }) => (
-                    <div
-                      key={title}
-                      className="flex gap-4 rounded-2xl border border-white/[0.07] p-4"
-                      style={{ background: "rgba(26,26,29,0.48)" }}
-                    >
-                      <IconFrame icon={Icon} />
-                      <div>
-                        <p className="text-sm font-semibold text-ink">{title}</p>
-                        <p className="mt-1 text-[13.5px] leading-6 text-mut">
-                          {description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+              <figcaption className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/[0.12] bg-[#0b0e0c]/85 p-5 backdrop-blur-xl sm:inset-x-7 sm:bottom-7">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald">
+                  Une demande reçue
+                </p>
+                <p className="mt-2 text-xl font-semibold text-ink">
+                  Le contexte avant la solution.
+                </p>
+                <p className="mt-2 text-sm leading-6 text-mut">
+                  Nous cherchons d’abord où la demande se perd, qui doit la recevoir et ce
+                  qui peut être traité automatiquement.
+                </p>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>

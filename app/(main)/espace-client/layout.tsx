@@ -8,7 +8,6 @@ import NeuralBackground from "@/components/fx/NeuralBackground";
 export const dynamic = "force-dynamic";
 
 const navItems = [
-  { href: "/espace-client", label: "Tableau de bord" },
   { href: "/espace-client/support", label: "Support" },
   { href: "/espace-client/mon-compte", label: "Mes informations" },
 ];

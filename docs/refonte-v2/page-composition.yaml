@@ -10,7 +10,7 @@ pages:
       - {
           id: home-hero,
           role: proposition,
-          block: HeroEditorial,
+          block: HeroSplit,
           content: content-map.home.0,
           media: img-hero-signal-house,
         }
@@ -219,7 +219,8 @@ pages:
         }
   - page_id: client-space
     paths: [/espace-client, /espace-client/mon-compte, /espace-client/support]
-    silhouette: navigation stable, état courant, prochaine action
+    status: legacy_internal_out_of_scope
+    silhouette: support et compte historiques préservés hors navigation publique; aucun dashboard
     sections:
       - {
           id: client-shell,
@@ -230,8 +231,8 @@ pages:
         }
       - {
           id: client-content,
-          role: opérationnel,
-          block: ExistingClientFeatures,
+          role: support,
+          block: ExistingClientSupportAndAccount,
           content: live-client-data,
           media: none,
         }
@@ -246,7 +247,8 @@ pages:
         /admin/google-setup,
         /admin/metrics,
       ]
-    silhouette: cockpit dense, statuts lisibles, actions traçables
+    status: internal_out_of_scope
+    silhouette: interface interne préservée
     sections:
       - {
           id: admin-shell,

@@ -17,6 +17,11 @@ sources:
     title: Décisions de refonte données dans cette conversation
     location: conversation-2026-08-29
     observed_at: "2026-08-29"
+  - id: src-owner-correction
+    type: user_decision
+    title: Corrections de périmètre après revue locale
+    location: conversation-2026-08-30
+    observed_at: "2026-08-30"
 
 project:
   client_name: OptimalLogic
@@ -117,7 +122,6 @@ conversion:
     - découvrir les services
     - comparer les offres actuelles
     - contacter OptimalLogic
-    - accéder à l'espace client
   critical_journeys:
     - id: marketing-to-booking
       trigger: CTA depuis une page marketing
@@ -127,13 +131,9 @@ conversion:
       trigger: besoin de conseil ou demande spécifique
       steps: [formulaire, validation, transmission, accusé de réception]
       success: demande enregistrée et orientable
-    - id: client-authentication
-      trigger: accès à un service ou suivi existant
-      steps: [connexion, authentification, tableau de bord]
-      success: accès au bon espace selon le rôle
 
 site:
-  profile: authenticated
+  profile: marketing_public
   pages:
     - { id: home, slug: accueil, path: /, access: public }
     - { id: services, slug: services, path: /services, access: public }
@@ -229,7 +229,6 @@ site:
     - { label: Services, destination: /services }
     - { label: Tarifs, destination: /tarifs }
     - { label: Contact, destination: /contact }
-    - { label: Espace client, destination: /espace-client }
     - { label: Prendre rendez-vous, destination: /prise-de-rdv }
   footer_links: [/mentions-legales, /confidentialite, /cookies]
   languages: [fr]

@@ -14,6 +14,13 @@ import { cx } from "@/lib/cx";
 import styles from "./motion.module.css";
 
 export type MotionPreset = "fade" | "rise" | "scale" | "clip";
+export type MotionPresetId =
+  | "reveal-copy"
+  | "reveal-group"
+  | "flow-progress"
+  | "surface-lift"
+  | "feedback-success"
+  | "route-transition";
 
 type MotionState = "hidden" | "visible";
 
@@ -63,6 +70,7 @@ type MotionRevealProps = {
   children: ReactNode;
   className?: string;
   preset?: MotionPreset;
+  presetId?: MotionPresetId;
   delay?: "none" | "short" | "medium";
   once?: boolean;
 };
@@ -71,6 +79,7 @@ export function MotionReveal({
   children,
   className,
   preset = "rise",
+  presetId,
   delay = "none",
   once = true,
 }: MotionRevealProps) {
@@ -81,6 +90,7 @@ export function MotionReveal({
       className={cx(styles.reveal, className)}
       data-motion-delay={delay}
       data-motion-preset={preset}
+      data-motion-preset-id={presetId}
       data-motion-state={state}
       ref={reference as RefObject<HTMLDivElement>}
     >
@@ -93,6 +103,7 @@ type MotionGroupProps = {
   children: ReactNode;
   className?: string;
   preset?: MotionPreset;
+  presetId?: MotionPresetId;
   as?: "div" | "ul" | "ol";
   once?: boolean;
   label?: string;
@@ -102,6 +113,7 @@ export function MotionGroup({
   children,
   className,
   preset = "rise",
+  presetId,
   as: Component = "div",
   once = true,
   label,
@@ -113,6 +125,7 @@ export function MotionGroup({
       aria-label={label}
       className={cx(styles.group, className)}
       data-motion-preset={preset}
+      data-motion-preset-id={presetId}
       data-motion-state={state}
       ref={reference as RefObject<HTMLDivElement & HTMLUListElement & HTMLOListElement>}
     >
