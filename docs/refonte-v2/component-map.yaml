@@ -1,5 +1,5 @@
 map_version: "1.0"
-status: proposed
+status: implemented
 template_revision: feat/premium-frontend-system-v2
 directive_pack_revision: "2026-08-29.1"
 
@@ -337,6 +337,3 @@ gaps:
   - id: real-product-capture
     blocking: false
     resolution: Remplacer le workflow en code par une capture réelle anonymisée uniquement après validation.
-  - id: offers-v2
-    blocking: false
-    resolution: Remplacer la source de données lorsque la nouvelle grille commerciale est approuvée.

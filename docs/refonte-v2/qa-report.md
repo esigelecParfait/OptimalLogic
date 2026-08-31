@@ -58,33 +58,33 @@ typographie, couleurs, images, spécificité, mouvement, crédibilité et mobile
 
 ## Tests exécutés
 
-| Commande ou contrôle                                          | Résultat  | Preuve                                                                   |
-| ------------------------------------------------------------- | --------- | ------------------------------------------------------------------------ |
-| Validateurs rebuild, composants, mouvement, actifs et backend | PASS      | Cinq validateurs terminés avec code 0.                                   |
-| `npm run format:check`                                        | PASS      | Tous les fichiers correspondent au format Prettier.                      |
-| `npm run lint`                                                | PASS      | ESLint terminé avec code 0.                                              |
-| `npm run typecheck`                                           | PASS      | TypeScript terminé avec code 0.                                          |
-| `npm run build`                                               | PASS      | Build Next.js 16.3.3, 32 pages, code 0.                                  |
-| `npm run test:unit`                                           | PASS      | 3 fichiers, 9 tests.                                                     |
-| `npm audit --omit=dev`                                        | PASS      | 0 vulnérabilité.                                                         |
-| Fumée HTTP locale                                             | PASS      | 8 routes publiques en HTTP 200.                                          |
-| En-têtes de sécurité                                          | PASS      | `nosniff`, `SAMEORIGIN`, référent strict et Permissions-Policy présents. |
-| Indexation interne                                            | PASS      | Showroom, comparateur et preview en `noindex,nofollow`.                  |
-| `npx playwright test --list --project=functional`             | PASS      | 7 scénarios reconnus dans 2 fichiers.                                    |
-| `npm run test:functional`                                     | NON TESTÉ | Les 7 workers échouent avant navigation faute d'exécutable Chromium.     |
-| Responsive, accessibilité et Lighthouse                       | NON TESTÉ | Chromium indisponible.                                                   |
+| Commande ou contrôle                                 | Résultat  | Preuve                                                                   |
+| ---------------------------------------------------- | --------- | ------------------------------------------------------------------------ |
+| Validateurs rebuild, composants, mouvement et actifs | PASS      | Quatre validateurs terminés avec code 0.                                 |
+| `npm run format:check`                               | PASS      | Tous les fichiers correspondent au format Prettier.                      |
+| `npm run lint`                                       | PASS      | ESLint terminé avec code 0.                                              |
+| `npm run typecheck`                                  | PASS      | TypeScript terminé avec code 0.                                          |
+| `npm run build`                                      | PASS      | Build Next.js 16.3.3, 32 pages, code 0.                                  |
+| `npm run test:unit`                                  | PASS      | 3 fichiers, 9 tests.                                                     |
+| `npm audit --omit=dev`                               | PASS      | 0 vulnérabilité.                                                         |
+| Fumée HTTP locale                                    | PASS      | 8 routes publiques en HTTP 200.                                          |
+| En-têtes de sécurité                                 | PASS      | `nosniff`, `SAMEORIGIN`, référent strict et Permissions-Policy présents. |
+| Indexation interne                                   | PASS      | Showroom, comparateur et preview en `noindex,nofollow`.                  |
+| `npx playwright test --list --project=functional`    | PASS      | 7 scénarios reconnus dans 2 fichiers.                                    |
+| `npm run test:functional`                            | NON TESTÉ | Les 7 workers échouent avant navigation faute d'exécutable Chromium.     |
+| Responsive, accessibilité et Lighthouse              | NON TESTÉ | Chromium indisponible.                                                   |
 
 ## Livrables et validations
 
-| Élément                       | État              | Preuve                                                         |
-| ----------------------------- | ----------------- | -------------------------------------------------------------- |
-| Code source                   | Présent           | Commit `15b9013`.                                              |
-| Dossier directeur V2          | Présent et valide | `docs/refonte-v2/`.                                            |
-| Plan backend                  | Présent et valide | `docs/refonte-v2/backend-plan.yaml`.                           |
-| Rapport frontend et mouvement | Présents          | `frontend-build-report.md`, `motion-implementation-report.md`. |
-| Rollback                      | Disponible        | `main@af4dc00` reste intact.                                   |
-| Validation visuelle client    | Absente           | Revue locale encore à effectuer.                               |
-| Autorisation de production    | Absente           | Aucun déploiement demandé.                                     |
+| Élément                       | État                                | Preuve                                                                         |
+| ----------------------------- | ----------------------------------- | ------------------------------------------------------------------------------ |
+| Code source                   | Présent                             | Commit `15b9013`.                                                              |
+| Dossier directeur V2          | Présent et valide                   | `docs/refonte-v2/`.                                                            |
+| Plan backend                  | Présent, non validé automatiquement | `docs/refonte-v2/backend-plan.yaml` ; aucun validateur backend n'est installé. |
+| Rapport frontend et mouvement | Présents                            | `frontend-build-report.md`, `motion-implementation-report.md`.                 |
+| Rollback                      | Disponible                          | `main@af4dc00` reste intact.                                                   |
+| Validation visuelle client    | Absente                             | Revue locale encore à effectuer.                                               |
+| Autorisation de production    | Absente                             | Aucun déploiement demandé.                                                     |
 
 ## Autorisation de production
 

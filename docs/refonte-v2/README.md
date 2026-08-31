@@ -41,3 +41,14 @@ nécessaire.
 Le dépôt modèle correspondant est disponible sur la branche
 `feat/premium-frontend-system-v2` du dépôt privé
 `esigelecParfait/optimallogic-site-template`.
+
+## Séparation des phases
+
+- le dépôt modèle V2 fournit l'atelier réutilisable ;
+- les skills indiquent à Codex et Claude comment travailler ;
+- ce dossier directeur décrit le cas OptimalLogic ;
+- le code dans `app/`, `components/`, `lib/` et `features/` est l'exécution de ces
+  contrats sur le véritable site.
+
+Une installation du système seule n'est jamais une refonte terminée. La refonte n'est
+livrable qu'après exécution route par route et validation du Quality Gate.

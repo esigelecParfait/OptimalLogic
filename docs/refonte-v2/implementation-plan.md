@@ -1,6 +1,9 @@
 # Plan d'implémentation frontend OptimalLogic V2
 
-Statut : `in_progress` — validation locale sur `feat/refonte-premium-v2`, sans déploiement.
+Statut : `implemented_pending_human_review` — les lots de code ont été exécutés par
+Codex depuis le pack V2 sur `feat/refonte-premium-v2`. La validation navigateur,
+Supabase et humaine reste requise avant toute production. Aucun déploiement n'a été
+effectué.
 
 ## Lot 0 — Sécuriser la migration
 
@@ -81,3 +84,17 @@ Critère : rapport QA `PASS` ou `PASS AVEC RÉSERVES` sans réserve bloquante.
 - Les captures produit attendent des données réelles anonymisées.
 - Une capacité IA n'entre dans le contenu définitif qu'après test technique de
   son flux, de son repli et de sa traçabilité.
+
+## Trace d'exécution Codex
+
+| Contrat utilisé                                 | Exécution dans le dépôt                                              | Preuve principale                                          |
+| ----------------------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `site-spec.yaml` et `page-inventory.yaml`       | Conservation des routes et reconstruction des six surfaces publiques | `app/(main)`, `app/(assistant)`                            |
+| `page-composition.yaml` et `component-map.yaml` | Assemblage avec les blocs V2 et les shells existants                 | pages publiques et `components/marketing`                  |
+| `asset-manifest.yaml`                           | Consommation des trois WebP prévus                                   | `/`, `/services`, `/contact`                               |
+| `motion-spec.yaml` et `page-motion-map.yaml`    | Presets reliés à de petits composants clients                        | `components/motion`, `components/marketing/DemandFlow.tsx` |
+| `site-spec.business.offers`                     | Cinq codes autorisés ; nom et prix lus depuis Supabase               | `lib/offers`, `app/api/offres`, `/tarifs`                  |
+| `conversion-map.yaml`                           | Formulaire, réservation et aide conservés puis recomposés            | `/contact`, `/prise-de-rdv`, `/aide`                       |
+
+Cette trace décrit l'origine des changements. Elle ne transforme pas les livrables
+`proposed` en décisions approuvées par l'utilisateur.
