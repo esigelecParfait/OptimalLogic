@@ -1,4 +1,0 @@
-interface:
-  display_name: "OptimalLogic Frontend Builder"
-  short_description: "Assembler un frontend OptimalLogic premium"
-  default_prompt: "Use $optimallogic-frontend-builder to map the validated directive pack to the template and implement the premium frontend."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "OptimalLogic Motion Design"
-  short_description: "Concevoir les animations premium"
-  default_prompt: "Use $optimallogic-motion-design to define and implement an accessible premium motion system from the approved page composition."

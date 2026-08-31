@@ -1,9 +1,0 @@
-content_version: "1.0"
-status: needs_input
-positioning:
-  existing_core: null
-  added_demand_management: null
-pages: []
-claims_policy:
-  prohibited: []
-  requires_source: []

@@ -1,4 +1,0 @@
-interface:
-  display_name: "OptimalLogic Visual Assets"
-  short_description: "Planifier les visuels de la refonte"
-  default_prompt: "Use $optimallogic-visual-assets to turn the approved art direction into a production-ready asset manifest and image briefs."
