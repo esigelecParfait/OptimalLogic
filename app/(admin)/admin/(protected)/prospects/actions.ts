@@ -8,7 +8,7 @@ export type ConvertState = { error: string | null; success: boolean };
 
 export async function convertProspectToClient(
   _prev: ConvertState,
-  formData: FormData
+  formData: FormData,
 ): Promise<ConvertState> {
   const user = await requireAdmin();
   if (!user) return { error: "Non autorisé.", success: false };
@@ -36,7 +36,8 @@ export async function convertProspectToClient(
       })
       .select("id_client")
       .single();
-    if (error || !created) return { error: "Erreur lors de la création du client.", success: false };
+    if (error || !created)
+      return { error: "Erreur lors de la création du client.", success: false };
     clientId = created.id_client;
   }
 
@@ -46,7 +47,8 @@ export async function convertProspectToClient(
     service_status: "en_cours",
     payment_status: "paye",
   });
-  if (serviceErr) return { error: "Erreur lors de la création du service.", success: false };
+  if (serviceErr)
+    return { error: "Erreur lors de la création du service.", success: false };
 
   revalidatePath("/admin/prospects");
   revalidatePath("/admin/clients");
@@ -58,7 +60,7 @@ export type StatusState = { error: string | null; success: boolean };
 
 export async function updateDemandeStatus(
   _prev: StatusState,
-  formData: FormData
+  formData: FormData,
 ): Promise<StatusState> {
   const user = await requireAdmin();
   if (!user) return { error: "Non autorisé.", success: false };

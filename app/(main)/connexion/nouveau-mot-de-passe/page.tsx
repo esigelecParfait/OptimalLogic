@@ -23,20 +23,41 @@ export default function NouveauMotDePassePage() {
       <form action={formAction} className="grid gap-5">
         <label className={labelClass}>
           <span className={labelTextClass}>Nouveau mot de passe</span>
-          <input type="password" name="password" required minLength={8} placeholder="Minimum 8 caractères" className={fieldClass} />
+          <input
+            type="password"
+            name="password"
+            required
+            minLength={8}
+            placeholder="Minimum 8 caractères"
+            className={fieldClass}
+          />
         </label>
         <label className={labelClass}>
           <span className={labelTextClass}>Confirmer le mot de passe</span>
-          <input type="password" name="confirmPassword" required minLength={8} placeholder="Retapez votre mot de passe" className={fieldClass} />
+          <input
+            type="password"
+            name="confirmPassword"
+            required
+            minLength={8}
+            placeholder="Retapez votre mot de passe"
+            className={fieldClass}
+          />
         </label>
 
         {state.error && (
-          <div className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]" style={{ background: "rgba(255,77,109,0.1)" }}>
+          <div
+            className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]"
+            style={{ background: "rgba(255,77,109,0.1)" }}
+          >
             {state.error}
           </div>
         )}
 
-        <button type="submit" disabled={isPending} className="btn-grad mt-2 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="btn-grad mt-2 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+        >
           {isPending ? "Enregistrement..." : "Enregistrer le mot de passe"}
         </button>
       </form>

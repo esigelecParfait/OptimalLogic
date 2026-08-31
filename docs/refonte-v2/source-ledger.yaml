@@ -1,0 +1,32 @@
+ledger_version: "1.0"
+sources:
+  - id: src-live-site
+    type: website
+    title: Site public OptimalLogic actuel
+    location: https://optimallogic.fr
+    observed_at: "2026-08-29"
+    scope: Positionnement, navigation, contenus publics, offres affichées et parcours visibles.
+  - id: src-repository
+    type: git_repository
+    title: Dépôt OptimalLogic — main
+    location: esigelecParfait/OptimalLogic@af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
+    observed_at: "2026-08-29"
+    scope: Routes, composants, backend, authentification, administration et actifs existants.
+  - id: src-owner-decision
+    type: user_decision
+    title: Décisions de refonte
+    location: conversation-2026-08-29
+    observed_at: "2026-08-29"
+    scope: Conservation de toutes les pages, ajout du suivi IA des demandes, report de la refonte des offres.
+  - id: src-owner-correction
+    type: user_decision
+    title: Corrections de périmètre et grille à cinq offres
+    location: conversation-2026-08-30
+    observed_at: "2026-08-30"
+    scope: Cinq offres publiques, prix issus de la BDD, aucun dashboard client public et reprise de la refonte depuis le système V2.
+  - id: src-template-v2
+    type: git_repository
+    title: Branche premium du dépôt modèle
+    location: esigelecParfait/optimallogic-site-template@feat/premium-frontend-system-v2
+    observed_at: "2026-08-29"
+    scope: Tokens, primitives, blocs, mouvement et contrats de construction génériques.

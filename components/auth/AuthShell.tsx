@@ -47,7 +47,9 @@ export default function AuthShell({
 
             <div className="mt-8">{children}</div>
 
-            {footer ? <div className="mt-6 text-center text-sm text-mut">{footer}</div> : null}
+            {footer ? (
+              <div className="mt-6 text-center text-sm text-mut">{footer}</div>
+            ) : null}
           </div>
         </section>
       </div>

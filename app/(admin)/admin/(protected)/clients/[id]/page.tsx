@@ -8,7 +8,11 @@ import AddMemberForm from "./AddMemberForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ClientDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   const { data: prospect } = await supabaseAdmin
@@ -37,7 +41,9 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
     .select("code, nom_offre, client_type")
     .eq("is_active", true);
 
-  const matchingOffers = (offers ?? []).filter((o) => o.client_type === prospect.type_client);
+  const matchingOffers = (offers ?? []).filter(
+    (o) => o.client_type === prospect.type_client,
+  );
 
   // Membres ayant accès à cet espace client
   const { data: members } = client
@@ -47,7 +53,9 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         .eq("id_client", client.id_client)
     : { data: [] };
 
-  const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
+  const {
+    data: { users: authUsers },
+  } = await supabaseAdmin.auth.admin.listUsers();
   const authUserMap = new Map(authUsers.map((u) => [u.id, u]));
 
   const membersWithEmail = (members ?? []).map((m) => ({
@@ -59,37 +67,58 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
   return (
     <div className="p-8 space-y-8 max-w-3xl">
       <div>
-        <Link href="/admin/clients" className="text-xs text-mut hover:text-ink transition-colors">← Retour aux clients</Link>
-        <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-mut-2">Fiche client</p>
+        <Link
+          href="/admin/clients"
+          className="text-xs text-mut hover:text-ink transition-colors"
+        >
+          ← Retour aux clients
+        </Link>
+        <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-mut-2">
+          Fiche client
+        </p>
         <h1 className="mt-1 font-display text-2xl font-semibold text-ink">
-          {prospect.business_name || `${prospect.contact_first_name ?? ""} ${prospect.contact_last_name ?? ""}`.trim()}
+          {prospect.business_name ||
+            `${prospect.contact_first_name ?? ""} ${prospect.contact_last_name ?? ""}`.trim()}
         </h1>
       </div>
 
       {client && (
         <section className="surface-card rounded-2xl p-6">
           <h2 className="text-sm font-semibold text-ink mb-1">Statut du compte client</h2>
-          <p className="text-xs text-mut mb-4">Client depuis le {new Date(client.became_client_at).toLocaleDateString("fr-FR")}</p>
+          <p className="text-xs text-mut mb-4">
+            Client depuis le{" "}
+            {new Date(client.became_client_at).toLocaleDateString("fr-FR")}
+          </p>
           <ClientStatusForm clientId={client.id_client} status={client.status} />
         </section>
       )}
 
       <section className="surface-card rounded-2xl p-6">
         <h2 className="text-sm font-semibold text-ink mb-1">Informations</h2>
-        <p className="text-xs text-mut mb-5">Modifie n&apos;importe quelle donnée du client — utile s&apos;il n&apos;arrive pas à le faire lui-même depuis son espace.</p>
+        <p className="text-xs text-mut mb-5">
+          Modifie n&apos;importe quelle donnée du client — utile s&apos;il n&apos;arrive
+          pas à le faire lui-même depuis son espace.
+        </p>
         <EditClientForm prospect={prospect} />
       </section>
 
       {client && (
         <section className="surface-card rounded-2xl p-6 space-y-6">
           <div>
-            <h2 className="text-sm font-semibold text-ink mb-1">Accès à l&apos;espace client</h2>
-            <p className="text-xs text-mut mb-4">Personnes pouvant se connecter à l&apos;espace de cette entreprise.</p>
+            <h2 className="text-sm font-semibold text-ink mb-1">
+              Accès à l&apos;espace client
+            </h2>
+            <p className="text-xs text-mut mb-4">
+              Personnes pouvant se connecter à l&apos;espace de cette entreprise.
+            </p>
 
             {membersWithEmail.length > 0 && (
               <div className="mb-5 divide-y divide-white/[0.05] rounded-xl border border-white/[0.08] overflow-hidden">
                 {membersWithEmail.map((m) => (
-                  <div key={m.id} className="flex items-center justify-between px-4 py-3 gap-4">
+                  <div
+                    key={m.id}
+                    className="flex items-center justify-between px-4 py-3 gap-4"
+                  >
                     <div>
                       <p className="text-sm text-ink">{m.email}</p>
                       <p className="text-xs text-mut-2 mt-0.5 capitalize">{m.role}</p>
@@ -115,7 +144,9 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
       {client && (
         <section className="surface-card rounded-2xl p-6">
           <h2 className="text-sm font-semibold text-ink mb-1">Services</h2>
-          <p className="text-xs text-mut mb-5">Offre, statut du service et statut de paiement.</p>
+          <p className="text-xs text-mut mb-5">
+            Offre, statut du service et statut de paiement.
+          </p>
           <div className="space-y-3">
             {(services ?? []).map((s) => (
               <ServiceEditForm key={s.id_service} service={s} offers={matchingOffers} />

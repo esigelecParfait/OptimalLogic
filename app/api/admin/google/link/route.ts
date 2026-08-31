@@ -30,7 +30,10 @@ export async function POST(request: Request) {
 
   const { clientId, locationName, performanceName } = body;
   if (!clientId || !locationName || !performanceName) {
-    return Response.json({ error: "clientId, locationName et performanceName sont requis." }, { status: 400 });
+    return Response.json(
+      { error: "clientId, locationName et performanceName sont requis." },
+      { status: 400 },
+    );
   }
   if (!UUID_RE.test(clientId)) {
     return Response.json({ error: "clientId invalide." }, { status: 400 });
@@ -39,14 +42,14 @@ export async function POST(request: Request) {
   const db = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
+    { auth: { persistSession: false } },
   );
 
   const { error } = await db
     .from("client_prospects")
     .update({
-      google_location_name:          performanceName,
-      google_account_location_name:  locationName,
+      google_location_name: performanceName,
+      google_account_location_name: locationName,
     })
     .eq("id_client", clientId);
 

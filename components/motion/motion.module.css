@@ -1,0 +1,53 @@
+.reveal,
+.item {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-entrance) var(--motion-ease),
+    transform var(--motion-entrance) var(--motion-ease),
+    clip-path var(--motion-entrance-strong) var(--motion-ease);
+}
+
+.reveal[data-motion-delay="short"] {
+  transition-delay: var(--ol-motion-stagger-quick);
+}
+
+.reveal[data-motion-delay="medium"] {
+  transition-delay: calc(var(--ol-motion-stagger-standard) * 2);
+}
+
+.reveal[data-motion-state="hidden"],
+.group[data-motion-state="hidden"] .item {
+  opacity: 0;
+}
+
+.reveal[data-motion-state="hidden"][data-motion-preset="rise"],
+.group[data-motion-state="hidden"][data-motion-preset="rise"] .item {
+  transform: translateY(var(--motion-distance-medium));
+}
+
+.reveal[data-motion-state="hidden"][data-motion-preset="scale"],
+.group[data-motion-state="hidden"][data-motion-preset="scale"] .item {
+  transform: scale(0.97);
+}
+
+.reveal[data-motion-state="hidden"][data-motion-preset="clip"],
+.group[data-motion-state="hidden"][data-motion-preset="clip"] .item {
+  clip-path: inset(0 0 100% 0 round var(--radius-surface));
+}
+
+.group .item {
+  transition-delay: calc(var(--ol-motion-order, 0) * var(--motion-stagger));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .item,
+  .reveal[data-motion-state="hidden"],
+  .group[data-motion-state="hidden"] .item {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "brand_version": "2026-08-29.1",
+  "status": "proposed",
+  "concept": "Signal House",
+  "color": {
+    "canvas": "#080A09",
+    "surface": "#111411",
+    "surfaceMuted": "#171B17",
+    "surfaceElevated": "#1C211C",
+    "surfaceGlass": "rgb(17 20 17 / 0.78)",
+    "text": "#F5F3EA",
+    "textMuted": "#A7AEA5",
+    "border": "rgb(245 243 234 / 0.12)",
+    "borderStrong": "rgb(103 242 160 / 0.35)",
+    "action": "#67F2A0",
+    "actionHover": "#8AF7B6",
+    "actionContrast": "#07130C",
+    "focus": "#67F2A0",
+    "warning": "#F2B66D"
+  },
+  "typography": {
+    "display": "Space Grotesk, Inter, sans-serif",
+    "body": "Inter, Arial, sans-serif",
+    "code": "SFMono-Regular, Consolas, monospace",
+    "hero": "clamp(3.5rem, 9vw, 7rem)",
+    "displaySize": "clamp(2.5rem, 6vw, 5rem)",
+    "bodySize": "clamp(1rem, 1.2vw, 1.125rem)"
+  },
+  "space": {
+    "section": "clamp(5rem, 10vw, 10rem)",
+    "sectionCompact": "clamp(3.5rem, 7vw, 7rem)",
+    "gutterMobile": "1.25rem",
+    "gutterDesktop": "2.5rem"
+  },
+  "radius": {
+    "control": "999px",
+    "surface": "0.875rem",
+    "panel": "1.5rem",
+    "hero": "2rem"
+  },
+  "shadow": {
+    "floating": "0 36px 100px -52px rgb(0 0 0 / 0.9)",
+    "ambient": "0 30px 100px -60px rgb(103 242 160 / 0.42)",
+    "inset": "inset 0 1px 0 rgb(255 255 255 / 0.07)"
+  },
+  "motion": {
+    "interactive": "220ms",
+    "entrance": "520ms",
+    "entranceStrong": "680ms",
+    "ease": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "distanceSmall": "0.5rem",
+    "distanceMedium": "1.25rem",
+    "stagger": "70ms"
+  },
+  "mapping_note": "Map these semantic values to the template token source; do not copy OptimalLogic brand values into the generic template."
+}

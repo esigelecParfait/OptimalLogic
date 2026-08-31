@@ -1,0 +1,64 @@
+.splitLayout {
+  display: grid;
+  grid-template-areas:
+    "copy"
+    "media";
+  gap: clamp(var(--space-7), 7vw, var(--space-9));
+  align-items: center;
+}
+
+.splitCopy {
+  grid-area: copy;
+  min-width: 0;
+}
+
+.splitMedia {
+  grid-area: media;
+  min-width: 0;
+}
+
+.centered {
+  text-align: center;
+}
+
+.centeredActions {
+  display: flex;
+  justify-content: center;
+}
+
+.centeredMedia {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.editorialLayout {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.editorialAside {
+  max-width: 28rem;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.editorialMedia {
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 64rem) {
+  .splitLayout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-areas: "copy media";
+  }
+
+  /* Inverse seulement l'ordre visuel ; le texte reste premier dans le DOM. */
+  .splitMediaLeft {
+    grid-template-areas: "media copy";
+  }
+
+  .editorialLayout {
+    grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.55fr);
+    align-items: end;
+  }
+}

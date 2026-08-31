@@ -15,7 +15,7 @@ export default async function SupportPage() {
     const { client } = await getPaidClientForUser(
       supabase,
       user.id,
-      "id_client, contact_first_name"
+      "id_client, contact_first_name",
     );
     firstName = client?.contact_first_name ?? null;
   }
@@ -23,9 +23,15 @@ export default async function SupportPage() {
   return (
     <div>
       <div className="mb-6">
-        <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Support</p>
-        <h2 className="mt-2 font-display text-2xl font-semibold">Assistant OptimalLogic</h2>
-        <p className="mt-1 text-sm text-mut">Posez vos questions sur votre offre, votre compte ou nos services.</p>
+        <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+          Support
+        </p>
+        <h2 className="mt-2 font-display text-2xl font-semibold">
+          Assistant OptimalLogic
+        </h2>
+        <p className="mt-1 text-sm text-mut">
+          Posez vos questions sur votre offre, votre compte ou nos services.
+        </p>
       </div>
       <ChatInterface firstName={firstName} />
     </div>

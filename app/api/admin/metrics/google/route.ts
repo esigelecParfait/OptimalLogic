@@ -18,7 +18,7 @@ function supabaseAdmin() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } }
+    { auth: { persistSession: false, autoRefreshToken: false } },
   );
 }
 
@@ -32,7 +32,8 @@ async function run(weekStart: Date) {
     .not("google_location_name", "is", null);
 
   if (clientErr) throw new Error(`Supabase clients: ${clientErr.message}`);
-  if (!clients?.length) return { updated: 0, message: "Aucun client avec google_location_name configuré." };
+  if (!clients?.length)
+    return { updated: 0, message: "Aucun client avec google_location_name configuré." };
 
   const mois = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, "0")}`;
   let updated = 0;
@@ -43,24 +44,25 @@ async function run(weekStart: Date) {
       const metrics = await fetchWeeklyGBPMetrics(
         client.google_location_name,
         client.google_account_location_name ?? client.google_location_name,
-        weekStart
+        weekStart,
       );
 
-      const { error: upsertErr } = await db
-        .from("client_metrics")
-        .upsert({
-          id_client:       client.id_client,
+      const { error: upsertErr } = await db.from("client_metrics").upsert(
+        {
+          id_client: client.id_client,
           mois,
-          nb_vues_google:  metrics.nb_vues_google,
+          nb_vues_google: metrics.nb_vues_google,
           nb_clics_google: metrics.nb_clics_google,
-          nb_avis_google:  metrics.nb_avis_google,
-          note_google:     metrics.note_google,
-          updated_at:      new Date().toISOString(),
-        }, {
+          nb_avis_google: metrics.nb_avis_google,
+          note_google: metrics.note_google,
+          updated_at: new Date().toISOString(),
+        },
+        {
           onConflict: "id_client,mois",
           // Ne remplace que les colonnes Google — laisse nb_rdv, nb_demandes etc. intacts
           ignoreDuplicates: false,
-        });
+        },
+      );
 
       if (upsertErr) {
         errors.push(`Client ${client.id_client}: ${upsertErr.message}`);
@@ -68,7 +70,9 @@ async function run(weekStart: Date) {
         updated++;
       }
     } catch (e) {
-      errors.push(`Client ${client.id_client}: ${e instanceof Error ? e.message : String(e)}`);
+      errors.push(
+        `Client ${client.id_client}: ${e instanceof Error ? e.message : String(e)}`,
+      );
     }
   }
 
@@ -97,7 +101,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
     if (body?.weekStart) weekStart = new Date(body.weekStart);
-  } catch { /* ok */ }
+  } catch {
+    /* ok */
+  }
 
   const result = await run(weekStart);
   return Response.json({ success: true, ...result });

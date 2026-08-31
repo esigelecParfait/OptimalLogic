@@ -1,0 +1,41 @@
+register_version: "1.0"
+status: concepts_ready
+source_policy: Les PNG de génération non optimisés ne sont pas versionnés ; le dépôt conserve les dérivés WebP contrôlés et prêts à intégrer.
+assets:
+  - id: img-hero-signal-house
+    source_file: not_versioned
+    final_file: assets/hero-signal-house-v1.webp
+    sha256: 6d1f88149ca201f54a26e67d1630dfc81f5553c1ed7e684c5beba7ce286774ab
+    dimensions: 1586x992
+    bytes: 18484
+    format: webp
+    provenance: generated with built-in image generation from brief-hero-signal-house
+    rights_status: not_applicable
+    consumers: [home-hero]
+    review: Visual inspection passed; final stakeholder selection remains required.
+  - id: img-context-system
+    source_file: not_versioned
+    final_file: assets/context-system-v1.webp
+    sha256: cf795be36ec7bbdc6f4fcd59a88cfbdc0f0a5c5c806cadc656b4a728fa0118c5
+    dimensions: 1448x1086
+    bytes: 53780
+    format: webp
+    provenance: generated with built-in image generation from brief-context-system
+    rights_status: not_applicable
+    consumers: [home-contexts, services-contexts]
+    review: Visual inspection passed; card crops must be tested during implementation.
+  - id: img-contact-signal
+    source_file: not_versioned
+    final_file: assets/contact-signal-v1.webp
+    sha256: 2fee7d24d0a3e40107955fd8dd0271730384884f2dc80d065e30a0346ebd8bc4
+    dimensions: 1086x1448
+    bytes: 20402
+    format: webp
+    provenance: generated with built-in image generation from brief-contact-signal
+    rights_status: not_applicable
+    consumers: [contact-hero]
+    review: Visual inspection passed; remove on mobile if it pushes the form too low.
+rules:
+  - Aucun fichier n'est marqué ready avant sélection humaine et contrôle du recadrage.
+  - Une capture produit doit être réelle, anonymisée et autorisée.
+  - Les actifs finaux sont stockés dans le dépôt OptimalLogic, jamais dans le dépôt modèle.

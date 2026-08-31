@@ -26,9 +26,16 @@ const lostReasonOptions = [
   { value: "autre", label: "Autre" },
 ];
 
-const selectCls = "h-8 rounded-lg border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-2 text-[11px] text-ink outline-none focus:border-white/30";
+const selectCls =
+  "h-8 rounded-lg border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-2 text-[11px] text-ink outline-none focus:border-white/30";
 
-export default function StatusForm({ demandeId, status }: { demandeId: string; status: string | null }) {
+export default function StatusForm({
+  demandeId,
+  status,
+}: {
+  demandeId: string;
+  status: string | null;
+}) {
   const [state, action, pending] = useActionState(updateDemandeStatus, initial);
   const [localStatus, setLocalStatus] = useState(status ?? "nouveau");
 
@@ -42,18 +49,26 @@ export default function StatusForm({ demandeId, status }: { demandeId: string; s
         className={selectCls}
       >
         {statusOptions.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
         ))}
       </select>
       {localStatus === "perdu" && (
         <select name="lostReason" defaultValue="" className={selectCls}>
           <option value="">Raison…</option>
           {lostReasonOptions.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
           ))}
         </select>
       )}
-      <button type="submit" disabled={pending} className="rounded-full border border-white/[0.13] px-2.5 py-1 text-[11px] text-ink hover:bg-white/[0.05] disabled:opacity-50">
+      <button
+        type="submit"
+        disabled={pending}
+        className="rounded-full border border-white/[0.13] px-2.5 py-1 text-[11px] text-ink hover:bg-white/[0.05] disabled:opacity-50"
+      >
         {pending ? "…" : "OK"}
       </button>
       {state.success && <span className="text-[11px] text-emerald-400">✓</span>}

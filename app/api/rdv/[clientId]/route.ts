@@ -5,7 +5,7 @@ import { getClientConfig } from "@/lib/clients/registry";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 );
 
 function sanitize(value: unknown): string {
@@ -39,7 +39,7 @@ type CommandeType = (typeof VALID_TYPES)[number];
 
 export async function GET(
   request: NextRequest,
-  ctx: RouteContext<"/api/rdv/[clientId]">
+  ctx: { params: Promise<{ clientId: string }> },
 ) {
   const ip = getClientIp(request);
   const rl = rateLimit(`rdv-slots:${ip}`, 60, 60 * 1000);
@@ -58,12 +58,29 @@ export async function GET(
     .order("day_of_week");
 
   if (error) {
-    return Response.json({ error: "Impossible de charger les créneaux." }, { status: 500 });
+    return Response.json(
+      { error: "Impossible de charger les créneaux." },
+      { status: 500 },
+    );
   }
 
   const today = new Date();
-  const dayNames = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-  const availableSlots: Array<{ date: string; day: string; startTime: string; endTime: string; slotId: string }> = [];
+  const dayNames = [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+  ];
+  const availableSlots: Array<{
+    date: string;
+    day: string;
+    startTime: string;
+    endTime: string;
+    slotId: string;
+  }> = [];
 
   for (let week = 0; week < 4; week++) {
     for (const slot of slots ?? []) {
@@ -101,7 +118,7 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  ctx: RouteContext<"/api/rdv/[clientId]">
+  ctx: { params: Promise<{ clientId: string }> },
 ) {
   const ip = getClientIp(request);
   const rl = rateLimit(`rdv-book:${ip}`, 3, 60 * 60 * 1000);
@@ -125,16 +142,30 @@ export async function POST(
   const typeCommande = sanitize(body.typeCommande) as CommandeType;
   const dateSouhaitee = sanitize(body.dateSouhaitee);
   const heureRdv = body.heureRdv ? sanitize(body.heureRdv as string) : null;
-  const nbPersonnes = typeof body.nbPersonnes === "number" ? Math.min(Math.max(body.nbPersonnes, 1), 10000) : null;
+  const nbPersonnes =
+    typeof body.nbPersonnes === "number"
+      ? Math.min(Math.max(body.nbPersonnes, 1), 10000)
+      : null;
   const details = sanitize(body.details).slice(0, 1000);
   const budgetRange = body.budgetRange ? sanitize(body.budgetRange as string) : null;
   const consentementRgpd = body.consentementRgpd === true;
 
-  if (!prospectNom || prospectNom.length < 2) return Response.json({ error: "Le nom est obligatoire." }, { status: 400 });
-  if (!isValidEmail(prospectEmail)) return Response.json({ error: "Email invalide." }, { status: 400 });
-  if (!VALID_TYPES.includes(typeCommande)) return Response.json({ error: "Type de commande invalide." }, { status: 400 });
-  if (!dateSouhaitee || !isValidDate(dateSouhaitee)) return Response.json({ error: "La date doit être au minimum 48h à l'avance." }, { status: 400 });
-  if (!consentementRgpd) return Response.json({ error: "Le consentement RGPD est obligatoire." }, { status: 400 });
+  if (!prospectNom || prospectNom.length < 2)
+    return Response.json({ error: "Le nom est obligatoire." }, { status: 400 });
+  if (!isValidEmail(prospectEmail))
+    return Response.json({ error: "Email invalide." }, { status: 400 });
+  if (!VALID_TYPES.includes(typeCommande))
+    return Response.json({ error: "Type de commande invalide." }, { status: 400 });
+  if (!dateSouhaitee || !isValidDate(dateSouhaitee))
+    return Response.json(
+      { error: "La date doit être au minimum 48h à l'avance." },
+      { status: 400 },
+    );
+  if (!consentementRgpd)
+    return Response.json(
+      { error: "Le consentement RGPD est obligatoire." },
+      { status: 400 },
+    );
 
   const { data, error } = await supabase
     .from("commerce_rdv")
@@ -156,8 +187,14 @@ export async function POST(
     .single();
 
   if (error || !data) {
-    return Response.json({ error: "Impossible d'enregistrer votre demande. Veuillez réessayer." }, { status: 500 });
+    return Response.json(
+      { error: "Impossible d'enregistrer votre demande. Veuillez réessayer." },
+      { status: 500 },
+    );
   }
 
-  return Response.json({ success: true, id: data.id, message: "Demande enregistrée." }, { status: 201 });
+  return Response.json(
+    { success: true, id: data.id, message: "Demande enregistrée." },
+    { status: 201 },
+  );
 }

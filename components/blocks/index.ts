@@ -1,0 +1,23 @@
+// Point d'entrée public de toute la bibliothèque de blocs.
+export { CtaBand, CtaCentered, CtaSplit } from "./cta";
+export { FaqColumns, FaqList } from "./faq";
+export type { FaqItem } from "./faq";
+export { GalleryGrid, GallerySpotlight } from "./gallery";
+export type { GalleryItem } from "./gallery";
+export { HeroCentered, HeroEditorial, HeroSplit } from "./hero";
+export { MetricsDashboard, MetricsStrip } from "./metrics";
+export type { MetricItem } from "./metrics";
+export { NarrativeManifesto, NarrativeMosaic } from "./narrative";
+export type { NarrativeItem } from "./narrative";
+export { PricingCards, PricingFeatured } from "./pricing";
+export type { PricingPlan } from "./pricing";
+export { ProcessSteps, ProcessTimeline } from "./process";
+export type { ProcessItem } from "./process";
+export { ProofLogoCloud, ProofQuote, ProofStats } from "./proof";
+export { ServicesEditorial, ServicesFeatured, ServicesGrid } from "./services";
+export type { ServiceItem } from "./services";
+export { TeamGrid, TeamSpotlight } from "./team";
+export type { TeamMember } from "./team";
+export { WorkflowPipeline, WorkflowRouting } from "./workflow";
+export type { WorkflowNode } from "./workflow";
+export type { BlockAction, BlockIntroContent, BlockMedia, BlockTone } from "./types";

@@ -14,8 +14,8 @@
  *   5. Copier le refresh_token reçu dans les variables d'environnement Vercel
  */
 
-const TOKEN_URL  = "https://oauth2.googleapis.com/token";
-const PERF_API   = "https://businessprofileperformance.googleapis.com/v1";
+const TOKEN_URL = "https://oauth2.googleapis.com/token";
+const PERF_API = "https://businessprofileperformance.googleapis.com/v1";
 const REVIEW_API = "https://mybusiness.googleapis.com/v4";
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
@@ -25,10 +25,10 @@ export async function getGoogleAccessToken(): Promise<string> {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      client_id:     process.env.GOOGLE_CLIENT_ID!,
+      client_id: process.env.GOOGLE_CLIENT_ID!,
       client_secret: process.env.GOOGLE_CLIENT_SECRET!,
       refresh_token: process.env.GOOGLE_REFRESH_TOKEN!,
-      grant_type:    "refresh_token",
+      grant_type: "refresh_token",
     }),
   });
 
@@ -45,10 +45,10 @@ export async function getGoogleAccessToken(): Promise<string> {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type GBPMetrics = {
-  nb_vues_google:  number;
+  nb_vues_google: number;
   nb_clics_google: number;
-  nb_avis_google:  number;
-  note_google:     number | null;
+  nb_avis_google: number;
+  note_google: number | null;
 };
 
 // ── Performance (vues + clics) ────────────────────────────────────────────────
@@ -56,43 +56,50 @@ export type GBPMetrics = {
 export async function fetchLocationPerformance(
   locationName: string, // format : "locations/12345678901234567"
   startDate: { year: number; month: number; day: number },
-  endDate:   { year: number; month: number; day: number },
-  token: string
+  endDate: { year: number; month: number; day: number },
+  token: string,
 ): Promise<{ vues: number; clics: number }> {
-
   const params = new URLSearchParams({
-    "dailyMetrics":                           "BUSINESS_IMPRESSIONS_DESKTOP_MAPS",
-    "dailyRange.start_date.year":             String(startDate.year),
-    "dailyRange.start_date.month":            String(startDate.month),
-    "dailyRange.start_date.day":              String(startDate.day),
-    "dailyRange.end_date.year":               String(endDate.year),
-    "dailyRange.end_date.month":              String(endDate.month),
-    "dailyRange.end_date.day":                String(endDate.day),
+    dailyMetrics: "BUSINESS_IMPRESSIONS_DESKTOP_MAPS",
+    "dailyRange.start_date.year": String(startDate.year),
+    "dailyRange.start_date.month": String(startDate.month),
+    "dailyRange.start_date.day": String(startDate.day),
+    "dailyRange.end_date.year": String(endDate.year),
+    "dailyRange.end_date.month": String(endDate.month),
+    "dailyRange.end_date.day": String(endDate.day),
   });
 
   // Deux appels : vues (impressions) et clics
   const [vuesRes, clicsRes] = await Promise.all([
-    fetch(`${PERF_API}/${locationName}:getDailyMetricsTimeSeries?${params}&dailyMetrics=BUSINESS_IMPRESSIONS_DESKTOP_MAPS&dailyMetrics=BUSINESS_IMPRESSIONS_MOBILE_MAPS`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-    fetch(`${PERF_API}/${locationName}:getDailyMetricsTimeSeries?${params}&dailyMetrics=WEBSITE_CLICKS&dailyMetrics=CALL_CLICKS`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
+    fetch(
+      `${PERF_API}/${locationName}:getDailyMetricsTimeSeries?${params}&dailyMetrics=BUSINESS_IMPRESSIONS_DESKTOP_MAPS&dailyMetrics=BUSINESS_IMPRESSIONS_MOBILE_MAPS`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    ),
+    fetch(
+      `${PERF_API}/${locationName}:getDailyMetricsTimeSeries?${params}&dailyMetrics=WEBSITE_CLICKS&dailyMetrics=CALL_CLICKS`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    ),
   ]);
 
   const sumTimeSeries = (data: Record<string, unknown>): number => {
     if (!data?.timeSeries) return 0;
-    const series = (data.timeSeries as { dailyValues?: { value?: number }[] }[]);
+    const series = data.timeSeries as { dailyValues?: { value?: number }[] }[];
     return series.reduce((total: number, s) => {
-      return total + (s.dailyValues ?? []).reduce((sum: number, v) => sum + (v.value ?? 0), 0);
+      return (
+        total + (s.dailyValues ?? []).reduce((sum: number, v) => sum + (v.value ?? 0), 0)
+      );
     }, 0);
   };
 
-  const vuesData  = vuesRes.ok  ? await vuesRes.json()  : {};
+  const vuesData = vuesRes.ok ? await vuesRes.json() : {};
   const clicsData = clicsRes.ok ? await clicsRes.json() : {};
 
   return {
-    vues:  sumTimeSeries(vuesData),
+    vues: sumTimeSeries(vuesData),
     clics: sumTimeSeries(clicsData),
   };
 }
@@ -101,9 +108,8 @@ export async function fetchLocationPerformance(
 
 export async function fetchLocationReviews(
   locationName: string, // format : "accounts/123/locations/456"
-  token: string
+  token: string,
 ): Promise<{ count: number; rating: number | null }> {
-
   const res = await fetch(`${REVIEW_API}/${locationName}/reviews?pageSize=1`, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -112,27 +118,27 @@ export async function fetchLocationReviews(
 
   const data = await res.json();
   return {
-    count:  data.totalReviewCount  ?? 0,
-    rating: data.averageRating     ?? null,
+    count: data.totalReviewCount ?? 0,
+    rating: data.averageRating ?? null,
   };
 }
 
 // ── Lister les comptes et fiches gérés ───────────────────────────────────────
 
 export type GBPAccount = {
-  name: string;        // "accounts/123456789"
+  name: string; // "accounts/123456789"
   accountName: string; // Nom affiché
   type: string;
 };
 
 export type GBPLocation = {
-  name: string;           // "accounts/123/locations/456"
-  locationName: string;   // Nom de l'établissement
+  name: string; // "accounts/123/locations/456"
+  locationName: string; // Nom de l'établissement
   primaryPhone?: string;
   websiteUri?: string;
   primaryCategory?: string;
-  locationId: string;     // Juste le numéro final
-  accountId: string;      // Juste le numéro du compte
+  locationId: string; // Juste le numéro final
+  accountId: string; // Juste le numéro du compte
   // Format pour l'API Performance
   performanceName: string; // "locations/456"
 };
@@ -148,11 +154,11 @@ export async function fetchManagedAccounts(token: string): Promise<GBPAccount[]>
 
 export async function fetchLocationsForAccount(
   accountName: string, // "accounts/123456789"
-  token: string
+  token: string,
 ): Promise<GBPLocation[]> {
   const res = await fetch(
     `${REVIEW_API}/${accountName}/locations?readMask=name,title,phoneNumbers,websiteUri,categories`,
-    { headers: { Authorization: `Bearer ${token}` } }
+    { headers: { Authorization: `Bearer ${token}` } },
   );
   if (!res.ok) return [];
   const data = await res.json();
@@ -161,14 +167,25 @@ export async function fetchLocationsForAccount(
     const name = loc.name as string; // "accounts/123/locations/456"
     const parts = name.split("/");
     const locationId = parts[parts.length - 1];
-    const accountId  = parts[1];
+    const accountId = parts[1];
     return {
       name,
-      locationName:    (loc.title as string) ?? name,
-      primaryPhone:    (loc as Record<string, unknown>)?.phoneNumbers ? String((loc as Record<string, Record<string, unknown>>).phoneNumbers?.primaryPhone ?? "") : undefined,
-      websiteUri:      loc.websiteUri as string | undefined,
-      primaryCategory: (loc as Record<string, Record<string, unknown>>)?.categories?.primaryCategory
-        ? String(((loc as Record<string, Record<string, unknown>>).categories.primaryCategory as Record<string, unknown>).displayName ?? "")
+      locationName: (loc.title as string) ?? name,
+      primaryPhone: (loc as Record<string, unknown>)?.phoneNumbers
+        ? String(
+            (loc as Record<string, Record<string, unknown>>).phoneNumbers?.primaryPhone ??
+              "",
+          )
+        : undefined,
+      websiteUri: loc.websiteUri as string | undefined,
+      primaryCategory: (loc as Record<string, Record<string, unknown>>)?.categories
+        ?.primaryCategory
+        ? String(
+            (
+              (loc as Record<string, Record<string, unknown>>).categories
+                .primaryCategory as Record<string, unknown>
+            ).displayName ?? "",
+          )
         : undefined,
       locationId,
       accountId,
@@ -177,46 +194,52 @@ export async function fetchLocationsForAccount(
   });
 }
 
-export async function fetchAllManagedLocations(): Promise<{ account: GBPAccount; locations: GBPLocation[] }[]> {
-  const token    = await getGoogleAccessToken();
+export async function fetchAllManagedLocations(): Promise<
+  { account: GBPAccount; locations: GBPLocation[] }[]
+> {
+  const token = await getGoogleAccessToken();
   const accounts = await fetchManagedAccounts(token);
-  const results  = await Promise.all(
+  const results = await Promise.all(
     accounts.map(async (account) => ({
       account,
       locations: await fetchLocationsForAccount(account.name, token),
-    }))
+    })),
   );
-  return results.filter(r => r.locations.length > 0);
+  return results.filter((r) => r.locations.length > 0);
 }
 
 // ── Fonction principale : toutes les métriques d'une semaine ──────────────────
 
 export async function fetchWeeklyGBPMetrics(
-  locationName: string,        // "locations/12345678901234567"
+  locationName: string, // "locations/12345678901234567"
   accountLocationName: string, // "accounts/123/locations/456"  (pour les avis)
-  weekStart: Date
+  weekStart: Date,
 ): Promise<GBPMetrics> {
-
   const token = await getGoogleAccessToken();
 
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekEnd.getDate() + 6);
 
   const toDateParts = (d: Date) => ({
-    year:  d.getFullYear(),
+    year: d.getFullYear(),
     month: d.getMonth() + 1,
-    day:   d.getDate(),
+    day: d.getDate(),
   });
 
   const [perf, reviews] = await Promise.all([
-    fetchLocationPerformance(locationName, toDateParts(weekStart), toDateParts(weekEnd), token),
+    fetchLocationPerformance(
+      locationName,
+      toDateParts(weekStart),
+      toDateParts(weekEnd),
+      token,
+    ),
     fetchLocationReviews(accountLocationName, token),
   ]);
 
   return {
-    nb_vues_google:  perf.vues,
+    nb_vues_google: perf.vues,
     nb_clics_google: perf.clics,
-    nb_avis_google:  reviews.count,
-    note_google:     reviews.rating,
+    nb_avis_google: reviews.count,
+    note_google: reviews.rating,
   };
 }

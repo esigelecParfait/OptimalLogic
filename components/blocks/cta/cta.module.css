@@ -1,0 +1,46 @@
+.panel {
+  padding: clamp(var(--space-6), 6vw, var(--space-9));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.centered {
+  text-align: center;
+}
+
+.split {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.band {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+.inverseSection {
+  --color-text: var(--color-inverse-text, var(--ol-white));
+  --color-text-muted: var(--color-inverse-text-muted, var(--ol-neutral-200));
+  --color-border: rgb(255 255 255 / 0.2);
+
+  background: var(--color-inverse-surface, var(--ol-neutral-900));
+  color: var(--color-text);
+}
+
+.note {
+  max-width: 28rem;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 64rem) {
+  .split {
+    grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+  }
+
+  .band {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}

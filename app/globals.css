@@ -22,6 +22,8 @@
 }
 
 :root {
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), "Space Grotesk", sans-serif;
   --bg: #050505;
   --bg-2: #0d0d0f;
   --surface: #121214;
@@ -38,7 +40,11 @@
   --emerald: #2ee6a8;
   --grad: linear-gradient(110deg, #f2f2f2 0%, #9f9f9f 100%);
   --grad-2: linear-gradient(120deg, #ffffff, #8f8f8f);
-  --grad-soft: linear-gradient(120deg, rgba(255, 255, 255, 0.12), rgba(180, 180, 180, 0.08));
+  --grad-soft: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(180, 180, 180, 0.08)
+  );
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -56,7 +62,11 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, .font-display {
+h1,
+h2,
+h3,
+h4,
+.font-display {
   font-family: var(--font-display), "Space Grotesk", sans-serif;
   letter-spacing: -0.02em;
   line-height: 1.06;
@@ -68,15 +78,28 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar { width: 11px; height: 11px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #2b2b30; border-radius: 10px; border: 3px solid var(--bg); }
-::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #2b2b30;
+  border-radius: 10px;
+  border: 3px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a42;
+}
 
 /* Hide default cursor when custom cursor is active (fine pointers only) */
 @media (pointer: fine) {
   html[style*="cursor: none"] *,
-  html[style*="cursor: none"] { cursor: none !important; }
+  html[style*="cursor: none"] {
+    cursor: none !important;
+  }
 }
 
 /* ===================================================================
@@ -118,7 +141,9 @@ h1, h2, h3, h4, .font-display {
   background-size: 100% 100%;
   color: #050505;
   box-shadow: 0 14px 36px -18px rgba(255, 255, 255, 0.72);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 .btn-grad:hover {
   transform: translateY(-2px);
@@ -128,7 +153,9 @@ h1, h2, h3, h4, .font-display {
   color: var(--ink);
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.06);
-  transition: transform 0.3s var(--ease), background 0.3s;
+  transition:
+    transform 0.3s var(--ease),
+    background 0.3s;
 }
 .btn-ghost:hover {
   background: rgba(255, 255, 255, 0.12);
@@ -138,28 +165,137 @@ h1, h2, h3, h4, .font-display {
 /* ===================================================================
    Animations
    =================================================================== */
-@keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-@keyframes flow { to { background-position: 250% center; } }
-@keyframes gradMove { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-@keyframes orb { 0%, 100% { transform: scale(1) translateY(0); } 50% { transform: scale(1.12) translateY(-10px); } }
-@keyframes shine { 0%, 60% { transform: translateX(-120%); } 80%, 100% { transform: translateX(120%); } }
-@keyframes wheel { 0% { opacity: 0; transform: translate(-50%, 0); } 40% { opacity: 1; } 80%, 100% { opacity: 0; transform: translate(-50%, 12px); } }
-@keyframes grainShift { 0% { transform: translate(0, 0); } 100% { transform: translate(-8%, 6%); } }
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes flow {
+  to {
+    background-position: 250% center;
+  }
+}
+@keyframes gradMove {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes orb {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.12) translateY(-10px);
+  }
+}
+@keyframes shine {
+  0%,
+  60% {
+    transform: translateX(-120%);
+  }
+  80%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+@keyframes wheel {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  40% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+}
+@keyframes grainShift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-8%, 6%);
+  }
+}
 
-.animate-fade-in-up { animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.animate-fade-in { animation: fade-in 0.6s ease-out both; }
-.animate-marquee { animation: marquee 28s linear infinite; }
-.animate-marquee-rev { animation: marquee-rev 32s linear infinite; }
-.animate-floaty { animation: floaty 4s ease-in-out infinite; }
-.animate-orb { animation: orb 5s ease-in-out infinite; }
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+.animate-marquee-rev {
+  animation: marquee-rev 32s linear infinite;
+}
+.animate-floaty {
+  animation: floaty 4s ease-in-out infinite;
+}
+.animate-orb {
+  animation: orb 5s ease-in-out infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -186,7 +322,9 @@ h1, h2, h3, h4, .font-display {
   padding-right: 0.75rem;
   border-right: 1px solid var(--line-2);
 }
-.phone-input-custom .PhoneInputCountrySelect { cursor: pointer; }
+.phone-input-custom .PhoneInputCountrySelect {
+  cursor: pointer;
+}
 .phone-input-custom .PhoneInputCountryIcon {
   width: 1.6rem;
   height: 1.1rem;
@@ -212,7 +350,10 @@ h1, h2, h3, h4, .font-display {
   font-weight: 500;
   outline: none;
 }
-.phone-input-custom .PhoneInputInput::placeholder { color: var(--mut-2); font-weight: 400; }
+.phone-input-custom .PhoneInputInput::placeholder {
+  color: var(--mut-2);
+  font-weight: 400;
+}
 
 .premium-control {
   position: relative;
@@ -224,7 +365,12 @@ h1, h2, h3, h4, .font-display {
   position: absolute;
   inset: 1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(180, 180, 180, 0.08), transparent 58%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(180, 180, 180, 0.08),
+    transparent 58%
+  );
   opacity: 0.72;
 }
 
@@ -246,7 +392,9 @@ h1, h2, h3, h4, .font-display {
   width: 1.85rem;
   height: 1.25rem;
   border-radius: 0.35rem;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 8px 22px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 8px 22px rgba(0, 0, 0, 0.18);
 }
 
 .premium-phone-field .PhoneInputInput {

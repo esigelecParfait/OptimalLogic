@@ -3,5 +3,8 @@ import { authenticatedNotImplemented } from "@/lib/security/routes/authenticated
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  return authenticatedNotImplemented(request, "La recuperation d'audit n'est pas encore implementee.");
+  return authenticatedNotImplemented(
+    request,
+    "La recuperation d'audit n'est pas encore implementee.",
+  );
 }

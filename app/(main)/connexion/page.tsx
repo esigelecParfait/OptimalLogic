@@ -21,7 +21,10 @@ export default function ConnexionPage() {
       title="Connexion"
       description="Connectez-vous pour suivre l'avancement de votre service et contacter notre support."
       footer={
-        <Link href="/connexion/mot-de-passe-oublie" className="font-semibold text-white underline-offset-4 hover:underline">
+        <Link
+          href="/connexion/mot-de-passe-oublie"
+          className="font-semibold text-white underline-offset-4 hover:underline"
+        >
           Mot de passe oublié ?
         </Link>
       }
@@ -29,20 +32,39 @@ export default function ConnexionPage() {
       <form action={formAction} className="grid gap-5">
         <label className={labelClass}>
           <span className={labelTextClass}>E-mail</span>
-          <input type="email" name="email" required placeholder="vous@email.com" className={fieldClass} />
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="vous@email.com"
+            className={fieldClass}
+          />
         </label>
         <label className={labelClass}>
           <span className={labelTextClass}>Mot de passe</span>
-          <input type="password" name="password" required placeholder="********" className={fieldClass} />
+          <input
+            type="password"
+            name="password"
+            required
+            placeholder="********"
+            className={fieldClass}
+          />
         </label>
 
         {state.error && (
-          <div className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]" style={{ background: "rgba(255,77,109,0.1)" }}>
+          <div
+            className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]"
+            style={{ background: "rgba(255,77,109,0.1)" }}
+          >
             {state.error}
           </div>
         )}
 
-        <button type="submit" disabled={isPending} className="btn-grad mt-2 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="btn-grad mt-2 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+        >
           {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>
       </form>

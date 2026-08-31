@@ -24,28 +24,48 @@ export async function POST(request: Request) {
 
   const auditRequest = validateAuditRequest(body);
   if (!auditRequest.valid || !auditRequest.data) {
-    return errorResponse("INVALID_REQUEST", auditRequest.error ?? "La requete est invalide.", 400);
+    return errorResponse(
+      "INVALID_REQUEST",
+      auditRequest.error ?? "La requete est invalide.",
+      400,
+    );
   }
 
   const target = validateTargetUrl(auditRequest.data.target_url);
   if (!target.valid || !target.url) {
-    return errorResponse("INVALID_REQUEST", target.error ?? "L'URL cible est invalide.", 400);
+    return errorResponse(
+      "INVALID_REQUEST",
+      target.error ?? "L'URL cible est invalide.",
+      400,
+    );
   }
 
   const domain = verifyAllowedDomain(target.url);
   if (!domain.allowed) {
-    return errorResponse("FORBIDDEN_DOMAIN", domain.message ?? "Le domaine cible n'est pas autorise.", 403);
+    return errorResponse(
+      "FORBIDDEN_DOMAIN",
+      domain.message ?? "Le domaine cible n'est pas autorise.",
+      403,
+    );
   }
 
   const ssrf = await preventSsrf(target.url);
   if (!ssrf.safe) {
-    return errorResponse("SSRF_BLOCKED", "La cible a ete refusee par la protection SSRF.", 400);
+    return errorResponse(
+      "SSRF_BLOCKED",
+      "La cible a ete refusee par la protection SSRF.",
+      400,
+    );
   }
 
   try {
     const result = await checkSecurityHeaders(target.url);
     return successResponse(result);
   } catch {
-    return errorResponse("CHECK_FAILED", "Le controle des headers n'a pas pu etre execute.", 502);
+    return errorResponse(
+      "CHECK_FAILED",
+      "Le controle des headers n'a pas pu etre execute.",
+      502,
+    );
   }
 }

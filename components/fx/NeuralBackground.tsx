@@ -137,5 +137,7 @@ export default function NeuralBackground({ className = "" }: { className?: strin
     };
   }, []);
 
-  return <canvas ref={canvasRef} aria-hidden className={`absolute inset-0 ${className}`} />;
+  return (
+    <canvas ref={canvasRef} aria-hidden className={`absolute inset-0 ${className}`} />
+  );
 }

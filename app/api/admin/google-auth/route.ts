@@ -13,9 +13,7 @@ export const dynamic = "force-dynamic";
  *    → Affiche le refresh_token à copier dans les variables Vercel
  */
 
-const SCOPES = [
-  "https://www.googleapis.com/auth/business.manage",
-].join(" ");
+const SCOPES = ["https://www.googleapis.com/auth/business.manage"].join(" ");
 
 export async function GET() {
   const admin = await requireAdmin();
@@ -23,20 +21,23 @@ export async function GET() {
     return Response.json({ error: "Non autorisé." }, { status: 401 });
   }
 
-  const clientId    = process.env.GOOGLE_CLIENT_ID;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
   const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/api/admin/google-auth/callback`;
 
   if (!clientId) {
-    return Response.json({ error: "GOOGLE_CLIENT_ID manquant dans les variables d'environnement." }, { status: 500 });
+    return Response.json(
+      { error: "GOOGLE_CLIENT_ID manquant dans les variables d'environnement." },
+      { status: 500 },
+    );
   }
 
   const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-  authUrl.searchParams.set("client_id",     clientId);
-  authUrl.searchParams.set("redirect_uri",  redirectUri);
+  authUrl.searchParams.set("client_id", clientId);
+  authUrl.searchParams.set("redirect_uri", redirectUri);
   authUrl.searchParams.set("response_type", "code");
-  authUrl.searchParams.set("scope",         SCOPES);
-  authUrl.searchParams.set("access_type",   "offline");
-  authUrl.searchParams.set("prompt",         "consent"); // force le refresh_token
+  authUrl.searchParams.set("scope", SCOPES);
+  authUrl.searchParams.set("access_type", "offline");
+  authUrl.searchParams.set("prompt", "consent"); // force le refresh_token
 
   return Response.redirect(authUrl.toString());
 }

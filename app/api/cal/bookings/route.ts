@@ -250,9 +250,7 @@ export async function POST(request: Request) {
         {
           success: false,
           error:
-            calData?.message ||
-            calData?.error ||
-            "Impossible de créer le rendez-vous.",
+            calData?.message || calData?.error || "Impossible de créer le rendez-vous.",
           details: calData,
         },
         { status: calResponse.status },
@@ -260,11 +258,7 @@ export async function POST(request: Request) {
     }
 
     const calBookingId =
-      calData?.data?.id ||
-      calData?.data?.uid ||
-      calData?.id ||
-      calData?.uid ||
-      null;
+      calData?.data?.id || calData?.data?.uid || calData?.id || calData?.uid || null;
 
     const appointmentStartAt =
       normalizeDateTime(calData?.data?.startTime) ||
@@ -371,27 +365,26 @@ export async function POST(request: Request) {
       ? `Rendez-vous Cal.com créé. ID Cal.com : ${calBookingId}. Début : ${appointmentStartAt}. Fuseau : ${timeZone}`
       : `Rendez-vous Cal.com créé. Début : ${appointmentStartAt}. Fuseau : ${timeZone}`;
 
-    const { data: insertedDemande, error: insertDemandeError } =
-      await supabaseAdmin
-        .from("demandes")
-        .insert({
-          id_client: clientProspectId,
+    const { data: insertedDemande, error: insertDemandeError } = await supabaseAdmin
+      .from("demandes")
+      .insert({
+        id_client: clientProspectId,
 
-          request_source: "prise_de_rdv",
-          offer_code: null,
-          objective_type: objective,
-          need_description: message,
-          consent_rgpd: consentRgpd,
+        request_source: "prise_de_rdv",
+        offer_code: null,
+        objective_type: objective,
+        need_description: message,
+        consent_rgpd: consentRgpd,
 
-          appointment_start_at: appointmentStartAt,
-          appointment_timezone: timeZone,
+        appointment_start_at: appointmentStartAt,
+        appointment_timezone: timeZone,
 
-          request_status: "rdv_planifie",
-          priority: "normale",
-          internal_notes: internalNotes,
-        })
-        .select("id")
-        .single();
+        request_status: "rdv_planifie",
+        priority: "normale",
+        internal_notes: internalNotes,
+      })
+      .select("id")
+      .single();
 
     if (insertDemandeError || !insertedDemande) {
       console.error("Erreur création demande :", insertDemandeError);
@@ -464,12 +457,16 @@ export async function POST(request: Request) {
           }),
         });
         // Apps Script répond toujours 200 (ContentService) : le vrai statut est dans le body
-        const resBody = (await res.json().catch(() => null)) as
-          | { success?: boolean; error?: string }
-          | null;
+        const resBody = (await res.json().catch(() => null)) as {
+          success?: boolean;
+          error?: string;
+        } | null;
         adminNotifSent = res.ok && resBody?.success === true;
         if (!adminNotifSent) {
-          console.error("Apps Script notification_admin en erreur :", resBody?.error ?? res.status);
+          console.error(
+            "Apps Script notification_admin en erreur :",
+            resBody?.error ?? res.status,
+          );
         }
       } catch {
         // Apps Script non disponible — non bloquant
@@ -515,8 +512,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error:
-          "Erreur serveur lors de la création du rendez-vous.",
+        error: "Erreur serveur lors de la création du rendez-vous.",
       },
       { status: 500 },
     );

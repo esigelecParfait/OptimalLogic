@@ -1,0 +1,339 @@
+map_version: "1.0"
+status: implemented
+template_revision: feat/premium-frontend-system-v2
+directive_pack_revision: "2026-08-29.1"
+
+pages:
+  - page_id: home
+    path: /
+    layout: MarketingShell
+    sections:
+      - {
+          section_id: home-hero,
+          block_family: hero,
+          variant: HeroSplit,
+          decision: reuse,
+          content_source: content-map.home,
+          media_id: img-hero-signal-house,
+          motion_preset: reveal-copy,
+          mobile_behavior: texte puis média vertical,
+          accessibility: H1 unique et média avec alt,
+          acceptance: Proposition et CTA visibles sans animation,
+        }
+      - {
+          section_id: home-demand-flow,
+          block_family: workflow,
+          variant: WorkflowRouting,
+          decision: reuse,
+          content_source: conversion-map.channels,
+          media_id: null,
+          motion_preset: flow-progress,
+          mobile_behavior: progression verticale statique d'abord,
+          accessibility: ordre sources-décision-résultats dans le DOM,
+          acceptance: Les cinq canaux et leur issue sont compréhensibles sans mouvement,
+        }
+      - {
+          section_id: home-contexts,
+          block_family: services,
+          variant: ServicesFeatured,
+          decision: reuse,
+          content_source: site-spec.business.audiences,
+          media_id: img-context-system,
+          motion_preset: reveal-group,
+          mobile_behavior: cartes empilées avec contexte principal en premier,
+          accessibility: titres de cartes cohérents,
+          acceptance: Commerce,
+          TPE-PME et startup restent distingués,
+        }
+      - {
+          section_id: home-manifesto,
+          block_family: narrative,
+          variant: NarrativeManifesto,
+          decision: reuse,
+          content_source: site-spec.business.differentiators,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: titre puis principes,
+          accessibility: liste ordonnée sémantique,
+          acceptance: Chaque principe est factuel ou proposé,
+        }
+      - {
+          section_id: home-process,
+          block_family: process,
+          variant: ProcessTimeline,
+          decision: reuse,
+          content_source: method-data,
+          media_id: null,
+          motion_preset: reveal-group,
+          mobile_behavior: chronologie verticale,
+          accessibility: liste ordonnée,
+          acceptance: Responsabilités et étapes sont explicites,
+        }
+      - {
+          section_id: home-cta,
+          block_family: cta,
+          variant: CtaSplit,
+          decision: reuse,
+          content_source: site-spec.conversion,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: actions pleine largeur,
+          accessibility: liens explicites,
+          acceptance: Le CTA principal mène à /prise-de-rdv,
+        }
+  - page_id: services
+    path: /services
+    layout: MarketingShell
+    sections:
+      - {
+          section_id: services-hero,
+          block_family: hero,
+          variant: HeroCentered,
+          decision: reuse,
+          content_source: content-map.services,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: composition centrée compacte,
+          accessibility: H1 unique,
+          acceptance: La méthode activité d'abord reste explicite,
+        }
+      - {
+          section_id: services-contexts,
+          block_family: narrative,
+          variant: NarrativeMosaic,
+          decision: reuse,
+          content_source: services-by-audience,
+          media_id: img-context-system,
+          motion_preset: reveal-group,
+          mobile_behavior: élément principal puis alternatives,
+          accessibility: pas de dépendance à la couleur,
+          acceptance: Chaque contexte présente besoin et solution,
+        }
+      - {
+          section_id: services-workflow,
+          block_family: workflow,
+          variant: WorkflowPipeline,
+          decision: reuse,
+          content_source: conversion-map,
+          media_id: null,
+          motion_preset: flow-progress,
+          mobile_behavior: chronologie verticale,
+          accessibility: liste ordonnée,
+          acceptance: Visibilité,
+          qualification et suivi forment une chaîne observable,
+        }
+      - {
+          section_id: services-faq,
+          block_family: faq,
+          variant: FaqColumns,
+          decision: reuse,
+          content_source: services-faq,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: une colonne,
+          accessibility: details-summary natifs,
+          acceptance: FAQ au clavier,
+        }
+      - {
+          section_id: services-cta,
+          block_family: cta,
+          variant: CtaBand,
+          decision: reuse,
+          content_source: site-spec.conversion.primary_cta,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: CTA empilé,
+          accessibility: contraste AA,
+          acceptance: Destination valide,
+        }
+  - page_id: pricing
+    path: /tarifs
+    layout: MarketingShell
+    sections:
+      - {
+          section_id: pricing-hero,
+          block_family: hero,
+          variant: HeroCentered,
+          decision: reuse,
+          content_source: pricing-intro,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: compact,
+          accessibility: H1 unique,
+          acceptance: Le statut provisoire ne crée pas de formulation trompeuse,
+        }
+      - {
+          section_id: pricing-plans,
+          block_family: pricing,
+          variant: PricingCards,
+          decision: extend,
+          justification: Ajouter un filtre d'audience data-driven sans placer les prix dans le composant,
+          content_source: Supabase offres + site-spec.business.offers,
+          media_id: null,
+          motion_preset: reveal-group,
+          mobile_behavior: filtres défilables et cartes verticales,
+          accessibility: contrôle de filtre au clavier et relations explicites,
+          acceptance: Les cinq offres autorisées conservent un ordre stable et leurs noms et prix viennent de Supabase sans valeur de secours,
+        }
+      - {
+          section_id: pricing-faq,
+          block_family: faq,
+          variant: FaqList,
+          decision: reuse,
+          content_source: pricing-faq,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: une colonne,
+          accessibility: details-summary natifs,
+          acceptance: Conditions confirmées uniquement,
+        }
+      - {
+          section_id: pricing-cta,
+          block_family: cta,
+          variant: CtaSplit,
+          decision: reuse,
+          content_source: site-spec.conversion,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: empilé,
+          accessibility: liens explicites,
+          acceptance: CTA rendez-vous et contact fonctionnels,
+        }
+  - page_id: conversion
+    paths: [/contact, /prise-de-rdv, /aide]
+    layout: ConversionShell
+    sections:
+      - {
+          section_id: conversion-intro,
+          block_family: hero,
+          variant: HeroEditorial,
+          decision: reuse,
+          content_source: content-map,
+          media_id: img-contact-signal,
+          motion_preset: reveal-copy,
+          mobile_behavior: texte avant formulaire,
+          accessibility: H1 unique,
+          acceptance: Contexte et repli humain visibles,
+        }
+      - {
+          section_id: existing-conversion-features,
+          block_family: forms,
+          variant: ExistingFormsAndAssistant,
+          decision: extend,
+          justification: Préserver la logique actuelle en l'adaptant aux nouveaux tokens et statuts accessibles,
+          content_source: live-schemas,
+          media_id: null,
+          motion_preset: feedback-success,
+          mobile_behavior: champs et actions pleine largeur,
+          accessibility: labels erreurs aria-live et focus,
+          acceptance: Chaque parcours conserve succès et échec sans perte de données,
+        }
+  - page_id: auth
+    paths:
+      [
+        /connexion,
+        /connexion/activer,
+        /connexion/mot-de-passe-oublie,
+        /connexion/nouveau-mot-de-passe,
+        /admin/connexion,
+      ]
+    layout: AuthShell
+    sections:
+      - {
+          section_id: auth-shell,
+          block_family: auth,
+          variant: AuthShellExisting,
+          decision: extend,
+          justification: Harmoniser l'enveloppe visuelle sans toucher aux protocoles d'authentification,
+          content_source: live-auth-copy,
+          media_id: img-auth-ambient,
+          motion_preset: route-transition,
+          mobile_behavior: panneau plein écran,
+          accessibility: focus initial et erreurs non énumérantes,
+          acceptance: Redirections et rôles restent identiques,
+        }
+  - page_id: internal-legacy-spaces
+    paths:
+      [
+        /espace-client,
+        /espace-client/mon-compte,
+        /espace-client/support,
+        /admin,
+        /admin/clients,
+        "/admin/clients/[id]",
+        /admin/prospects,
+        "/admin/prospects/[id]",
+        /admin/google-setup,
+        /admin/metrics,
+      ]
+    layout: ExistingInternalShells
+    sections:
+      - {
+          section_id: app-shells,
+          block_family: application-shell,
+          variant: ExistingClientAndAdminShells,
+          decision: reuse,
+          justification: Hors périmètre de la refonte marketing; conserver les contrôles d'accès existants sans exposer ces routes dans la navigation publique,
+          content_source: live-navigation,
+          media_id: null,
+          motion_preset: route-transition,
+          mobile_behavior: navigation compacte accessible,
+          accessibility: skip-link focus et repères actifs,
+          acceptance: Les contrôles d'accès restent côté serveur,
+        }
+      - {
+          section_id: demand-operations,
+          block_family: workflow,
+          variant: WorkflowRouting,
+          decision: reuse,
+          justification: Hors périmètre de la refonte marketing,
+          content_source: live-demand-data,
+          media_id: null,
+          motion_preset: route-transition,
+          mobile_behavior: statut et prochaine action avant détails,
+          accessibility: tableaux transformés sans perdre en-têtes et relations,
+          acceptance: Canal état responsable et prochaine action visibles quand disponibles,
+        }
+      - {
+          section_id: live-metrics,
+          block_family: metrics,
+          variant: ExistingAdminMetrics,
+          decision: reuse,
+          content_source: live-metrics,
+          media_id: null,
+          motion_preset: route-transition,
+          mobile_behavior: grille deux puis une colonne,
+          accessibility: dl sémantique avec source visible,
+          acceptance: Aucun chiffre sans source et période,
+        }
+  - page_id: legal-reference-delivery
+    paths:
+      [
+        /mentions-legales,
+        /confidentialite,
+        /cookies,
+        /commandes/delices-de-leon,
+        /comparer,
+        /preview/modele-1,
+        /preview/modele-2,
+      ]
+    layout: ExistingSpecializedLayouts
+    sections:
+      - {
+          section_id: preserve-specialized,
+          block_family: specialized,
+          variant: ExistingPages,
+          decision: extend,
+          justification: Appliquer les fondations visuelles sans modifier le contenu légal les livraisons client ou les références,
+          content_source: live-page-content,
+          media_id: null,
+          motion_preset: reveal-copy,
+          mobile_behavior: préserver le comportement actuel puis corriger les écarts,
+          accessibility: revue page par page,
+          acceptance: Toutes les routes restent disponibles et les références hors navigation,
+        }
+
+gaps:
+  - id: real-product-capture
+    blocking: false
+    resolution: Remplacer le workflow en code par une capture réelle anonymisée uniquement après validation.
