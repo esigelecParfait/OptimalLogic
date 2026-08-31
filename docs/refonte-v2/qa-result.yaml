@@ -1,0 +1,181 @@
+version: "1.0"
+site_spec:
+  path: docs/refonte-v2/site-spec.yaml
+  status: ready
+release:
+  repository: esigelecParfait/OptimalLogic
+  revision: 15b9013
+  preview_url: http://127.0.0.1:3103
+  production_url: https://optimal-logic.com
+  audited_at: "2026-08-31"
+profiles: [marketing_public, dynamic_backend, authenticated, booking, assistant_ai]
+decision: FAIL
+release_ready: false
+summary:
+  pass: 14
+  fail: 0
+  not_tested: 10
+  not_applicable: 1
+gates:
+  - id: directive-pack
+    level: C
+    status: pass
+    evidence: >-
+      Les validateurs rebuild, component-map, motion et asset-manifest déclarent le
+      dossier docs/refonte-v2 valide sur la révision 15b9013.
+  - id: code-quality
+    level: C
+    status: pass
+    evidence: npm run format:check, npm run lint et npm run typecheck terminés avec code 0.
+  - id: production-build
+    level: B
+    status: pass
+    evidence: npm run build terminé avec code 0 et 32 pages générées.
+  - id: unit-tests
+    level: C
+    status: pass
+    evidence: Vitest 4.1.11 — 3 fichiers et 9 tests réussis.
+  - id: route-smoke
+    level: B
+    status: pass
+    evidence: >-
+      Requêtes HTTP locales sur /, /services, /tarifs, /contact, /prise-de-rdv,
+      /aide, /robots.txt et /sitemap.xml : huit réponses HTTP 200.
+  - id: public-offer-contract
+    level: B
+    status: pass
+    evidence: >-
+      Tests unitaires sur cinq codes uniques, rejet de startup_growth et absence de
+      conversion d'un prix null en 0 € ; API filtrée et validée avec Zod.
+  - id: seo-metadata
+    level: C
+    status: pass
+    evidence: >-
+      Titres par route, descriptions, canoniques, Open Graph, robots.txt et sitemap.xml
+      générés par Next.js 16 et contrôlés par requêtes locales.
+  - id: internal-indexation
+    level: B
+    status: pass
+    evidence: >-
+      /showroom, /comparer et /preview/modele-1 rendent meta robots noindex,nofollow ;
+      les chemins internes sont aussi exclus de robots.txt.
+  - id: dependency-audit
+    level: B
+    status: pass
+    evidence: npm audit --omit=dev — 0 vulnérabilité.
+  - id: secret-scan
+    level: B
+    status: pass
+    evidence: >-
+      Recherche locale des préfixes de clés Anthropic, Supabase, GitHub et AWS : aucun
+      secret détecté dans les fichiers du dépôt actif.
+  - id: server-boundaries
+    level: B
+    status: pass
+    evidence: >-
+      server-only protège lib/supabase-admin.ts et le schéma Zod serveur ; la clé
+      service_role n'est pas importée par le catalogue client.
+  - id: security-headers
+    level: C
+    status: pass
+    evidence: >-
+      Le serveur local renvoie nosniff, SAMEORIGIN, strict-origin-when-cross-origin et
+      la Permissions-Policy définie dans next.config.ts.
+  - id: motion-contract
+    level: C
+    status: pass
+    evidence: >-
+      Validateur de mouvement vert ; composants MotionReveal/MotionGroup et DemandFlow
+      respectent prefers-reduced-motion dans le code audité.
+  - id: media-contract
+    level: C
+    status: pass
+    evidence: >-
+      Trois WebP dimensionnés sont inscrits au manifeste et consommés avec next/image
+      sur l'accueil, les services et le contact.
+  - id: browser-functional
+    level: B
+    status: not_tested
+    note: >-
+      Les sept scénarios Playwright sont listés mais Chromium est absent. Son téléchargement
+      depuis cdn.playwright.dev expire après 30 secondes dans cet environnement.
+  - id: responsive-viewports
+    level: C
+    status: not_tested
+    note: Aucun navigateur disponible pour 320, 390, 768, 1024 et 1440 px.
+  - id: accessibility-manual
+    level: C
+    status: not_tested
+    note: Clavier, zoom 200 %, contraste rendu et lecteur d'écran exigent une preview navigateur.
+  - id: visual-premium
+    level: C
+    status: not_tested
+    note: Aucun rendu navigateur ni validation visuelle humaine de la révision 15b9013.
+  - id: lighthouse-budgets
+    level: C
+    status: not_tested
+    note: Lighthouse ne peut pas démarrer sans Chromium.
+  - id: production-supabase-rls
+    level: B
+    status: not_tested
+    note: >-
+      Le dépôt ne contient pas de migrations Supabase reconstructibles et aucun accès
+      distant de production n'a été autorisé pour tester RLS ou les cinq lignes offres.
+  - id: live-integrations
+    level: B
+    status: not_tested
+    note: Cal, emails, assistant IA et écritures Supabase n'ont pas été sollicités avec des comptes réels.
+  - id: privacy-consent
+    level: C
+    status: not_tested
+    note: Le comportement avant/après consentement doit être observé dans un navigateur.
+  - id: authorization-roles
+    level: B
+    status: not_tested
+    note: Les scénarios anonyme, client propriétaire, autre client et administrateur exigent des comptes de test.
+  - id: client-preview-approval
+    level: C
+    status: not_tested
+    note: La révision n'a pas encore été validée visuellement par le propriétaire.
+  - id: database-migration
+    level: C
+    status: not_applicable
+    reason: >-
+      Cette révision ne modifie aucun schéma ni aucune donnée distante ; elle filtre cinq
+      codes déjà existants dans public.offres.
+visual_review:
+  applicable: true
+  scores:
+    positioning: 0
+    hierarchy: 0
+    grid: 0
+    typography: 0
+    colors: 0
+    images: 0
+    specificity: 0
+    motion: 0
+    credibility: 0
+    mobile: 0
+  total: 0
+approvals:
+  client_preview:
+    approved: false
+    approved_by: null
+    approved_at: null
+  production:
+    authorized: false
+    authorized_by: null
+    authorized_at: null
+delivery_artifacts:
+  - { name: code-source, status: present, path: repository@15b9013 }
+  - {
+      name: frontend-report,
+      status: present,
+      path: docs/refonte-v2/frontend-build-report.md,
+    }
+  - { name: backend-plan, status: present, path: docs/refonte-v2/backend-plan.yaml }
+  - { name: rollback, status: present, path: main@af4dc00 }
+reservations:
+  - Chromium, responsive, accessibilité, Lighthouse et revue visuelle restent non testés.
+  - Supabase/RLS et intégrations réelles doivent être validés dans un environnement de test autorisé.
+  - Aucune autorisation de production ni de fusion dans main n'a été donnée.
