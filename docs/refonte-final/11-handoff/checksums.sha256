@@ -1,4 +1,4 @@
-91790c74345b453d20704f94d37079aee180d42d147cc4c7dabbf405cfb14199  docs/refonte-final/00-governance/decision-log.md
+06ffab7b38c73752c618d84e4751fa1121b40b23d21a3eb2a23d7a6050bcee30  docs/refonte-final/00-governance/decision-log.md
 d240ce80f97964ec40d6ad00bd246bc2f19c190591044b00ac6437952740a7c9  docs/refonte-final/00-governance/skill-register.yaml
 6364cecaec3d119ded61c9a9eca63bce625706423b11e976ea3c6a82a5251274  docs/refonte-final/00-governance/workflow-state.yaml
 86ab368be1094f952d7d005809c054c42ef2284a28535c9d1da20c8ce20d6d97  docs/refonte-final/01-audit/cleanup-plan.md
@@ -44,7 +44,7 @@ de578af6e2086110da895c50552e0f4a4f343efcf2628170451ab3744ec27108  docs/refonte-f
 a2d88121ca9dc69a498fca8b1674a1b8bdb740b6f3ab99a78e2f2a1c3fefb45b  docs/refonte-final/09-implementation/acceptance-checklist.md
 b283fb6b61dbcf61ec635ace9b731db74ae8861814442d84faac2bd150c28a14  docs/refonte-final/09-implementation/component-map.yaml
 249a76b42228434bb1dfce6994a7f15d3f4e0a6dfa98e7f1e9d05c43acfd6d5f  docs/refonte-final/09-implementation/data-contracts.yaml
-e3ea76a20c82053b495c35ec770e7f56118586b543c6bca8e0fe8aa668121b06  docs/refonte-final/09-implementation/dependency-plan.yaml
+4e1689e0d60be62428864c9f1a273a6fa4764eb21d56d0d990562d0f3537d39e  docs/refonte-final/09-implementation/dependency-plan.yaml
 3f466b078d1b3fc54c04cf61bcdfe2c75e73cbc84daf121f4362fce56b090643  docs/refonte-final/09-implementation/implementation-plan.md
 4dd5465952c34fe38cf29c43e529afdb6b16ad2aa6d2049bca36af89eabc3c34  docs/refonte-final/09-implementation/migration-plan.md
 a07de8ae199926d95ec202653611f8cc39d15a7ad297a86b1fb3b5ef10d0d752  docs/refonte-final/09-implementation/protected-scope.yaml
@@ -52,7 +52,7 @@ a07de8ae199926d95ec202653611f8cc39d15a7ad297a86b1fb3b5ef10d0d752  docs/refonte-f
 766ae56372a2dfe8b4fe404e030a5389dd288dd4bbdb5f3ae5004ec2427b31e9  docs/refonte-final/09-implementation/test-plan.yaml
 6c3414bc1e96614ee3bd8372c6a3e06f443c5f17175319fa12d2f5af68442bbb  docs/refonte-final/10-validation/qa-report.md
 d3a5aa56a9ff3cb3cf6438deb917d2a8c98206f3abfdf7557ea4c14d453da34d  docs/refonte-final/10-validation/qa-result.yaml
-cfc9c811a03d7b819a7f62df4dc2212d17e9d4011bd03abf4b6dd6fec2269400  docs/refonte-final/10-validation/validation-checklist.md
+fd42bc93e23c1b9c9f9107ae6ae666618ee18846dac27aecf8962d6f373df9ed  docs/refonte-final/10-validation/validation-checklist.md
 14b685eba45481ef4c1115118cca8f9982d29b429dd7ae22cdf44cfbdec01564  docs/refonte-final/11-handoff/CODEX_PROMPT.md
 43dfa80afaa341a816d35f26ad73eeb3b1935993b9c8373268519dd0fea682d5  docs/refonte-final/11-handoff/acceptance-matrix.yaml
 f798bd9a5b5969d435aabcca06f356a25d05c7f07176c6368f09577546971f0f  docs/refonte-final/11-handoff/codex-implementation-brief.md

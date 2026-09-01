@@ -1,56 +1,210 @@
 schema_version: 1
-status: ready_for_review
-policy: Aucun paquet n'est installé avant approbation de ce plan.
-runtime:
+status: approved
+approved_at: 2026-09-01
+approved_by: user
+policy: Seuls les paquets listés dans ce document sont autorisés pour la refonte.
+node_runtime:
+  target: 24
+  evidence: .github/workflows/quality.yml
+
+framework:
+  - package: next
+    decision: approved_security_upgrade
+    target_version: 16.3.4
+    reason: Remplacer la version 16.2.6 après détection de vulnérabilités élevées par npm audit; mise à niveau explicitement autorisée par l'utilisateur.
+    native_features:
+      [
+        App_Router,
+        Server_Components,
+        next_font,
+        Metadata_API,
+        ImageResponse,
+        robots_ts,
+        sitemap_ts,
+      ]
+  - package: react
+    decision: keep
+    target_version: 19.2.4
+    reason: Version utilisée par la référence saine et compatible avec Next.js et Motion.
+  - package: react-dom
+    decision: keep
+    target_version: 19.2.4
+    reason: Doit rester strictement aligné sur React.
+
+existing_runtime:
+  - package: "@supabase/supabase-js"
+    decision: keep_and_align
+    target_version: ^2.108.1
+    problem: Accès aux données, authentification, administration et espace client.
+    native_limit: fetch ne remplace pas les contrats Supabase Auth, Data API et les clients existants.
+    usage: [lib/supabase, lib/security, app/api/admin, app/api/auth]
+    bundle_control: Les clients administrateurs restent server-only; le client navigateur est limité aux parcours authentifiés.
+    compatibility: Compatible avec le peer ^2.108.0 requis par @supabase/ssr 0.12.0.
+    alternatives_rejected: [fetch_manual, provider_change]
+  - package: "@supabase/ssr"
+    decision: keep
+    target_version: ^0.12.0
+    problem: Sessions Supabase dans les cookies entre serveur, proxy et navigateur.
+    native_limit: Next.js ne fournit pas le client Supabase SSR ni la synchronisation de session.
+    usage: [lib/supabase/client.ts, lib/supabase/server.ts, lib/supabase/middleware.ts]
+    bundle_control: Le helper navigateur est importé seulement par les parcours qui utilisent une session.
+    compatibility: Requiert @supabase/supabase-js ^2.108.0.
+    alternatives_rejected: [auth_cookie_implementation_manual]
+  - package: "@anthropic-ai/sdk"
+    decision: keep
+    target_version: ^0.104.2
+    problem: Appels et streaming des assistants public et privés existants.
+    native_limit: fetch imposerait de réimplémenter le streaming, les erreurs fournisseur et les types déjà utilisés.
+    usage: [app/api/chat/public, app/api/chat/client, "app/api/chat/[clientId]"]
+    bundle_control: Import server-only; zéro coût dans le bundle client.
+    compatibility: Accepte Zod 4 comme peer optionnel.
+    alternatives_rejected: [fetch_manual, provider_change]
+  - package: lucide-react
+    decision: keep
+    target_version: ^1.21.0
+    problem: Icônes des formulaires, aides et parcours fonctionnels existants.
+    native_limit: Des SVG écrits un à un dupliqueraient des actifs utilitaires sans renforcer la marque.
+    usage: [components/forms, components/chat, public_pages]
+    bundle_control: Imports nommés seulement; nombre d'icônes contrôlé lors de la revue de bundle.
+    compatibility: Compatible React 19.
+    alternatives_rejected: [second_icon_library, duplicated_inline_icons]
+  - package: react-phone-number-input
+    decision: keep
+    target_version: ^3.4.17
+    problem: Saisie, indicatifs et validation internationale des numéros.
+    native_limit: input type=tel ne valide ni ne normalise les numéros internationaux.
+    usage: [components/forms, contact, pricing_request, booking]
+    bundle_control: Limité aux îlots formulaires; métadonnées et drapeaux à mesurer lors du build.
+    compatibility: Compatible React 19.
+    alternatives_rejected: [input_tel_without_validation]
+
+approved_runtime_additions:
   - package: motion
-    decision: add
+    decision: approved_add
     target_version: ^13.1.1
     problem: Séquences SVG et états accessibles dans de petits îlots.
     native_limit: CSS couvre les transitions simples mais pas l'orchestration sémantique prévue.
     usage: [components/motion, components/visuals]
-    bundle_control: Imports motion/react ciblés et chargement différé sous la ligne de flottaison.
-    alternatives_rejected: [gsap, lenis]
+    bundle_control: Utiliser LazyMotion et motion/react-m; charger sous la ligne de flottaison quand possible.
+    compatibility: Compatible React 19.
+    cost: Environ 4.6 Ko initiaux avec LazyMotion et m; budget contrôlé au build.
+    alternatives_rejected: [gsap, lenis, orchestration_css_dupliquee]
     visual_strategy_constraint: Les états HTML/SVG complets sont rendus côté serveur; Motion ne crée aucune information.
   - package: class-variance-authority
-    decision: add
+    decision: approved_add
     target_version: ^0.7.1
     problem: Variantes typées des primitives sans chaînes de classes fragiles.
+    native_limit: Des tables TypeScript manuelles répéteraient typage et composition dans chaque primitive.
     usage: [components/ui]
+    bundle_control: Principalement évalué dans les Server Components; usage client limité aux contrôles interactifs.
+    compatibility: Compatible avec Tailwind CSS et CSS Modules.
+    cost: Faible; à confirmer par l'analyse du bundle.
+    alternatives_rejected: [manual_variant_maps, full_ui_library]
   - package: clsx
-    decision: add
+    decision: approved_add
     target_version: ^2.1.1
     problem: Composition conditionnelle lisible des classes.
+    native_limit: Les concaténations natives deviennent fragiles avec plusieurs conditions et valeurs facultatives.
     usage: [lib/cx.ts, components/ui]
+    bundle_control: Helper minimal; zéro dépendance lourde ajoutée.
+    compatibility: Dépendance directe car lib/cx.ts l'importe directement.
+    cost: Faible; à confirmer par l'analyse du bundle.
+    alternatives_rejected: [string_concatenation]
   - package: tailwind-merge
-    decision: add
+    decision: approved_add
     target_version: ^3.6.0
     problem: Résolution des conflits de classes Tailwind dans les variantes.
+    native_limit: La concaténation conserve simultanément des utilitaires contradictoires.
     usage: [lib/cx.ts]
+    bundle_control: Appelé uniquement lors de la composition des primitives.
+    compatibility: Compatible Tailwind CSS 4.0 à 4.3.
+    cost: Faible à modéré pour les rares primitives clientes; à mesurer.
+    alternatives_rejected: [conflicting_class_contract, tailwind_variants]
   - package: zod
-    decision: add
+    decision: approved_add
     target_version: ^4.5.4
     problem: Validation des réponses Supabase, formulaires et configuration serveur.
+    native_limit: TypeScript ne valide pas les valeurs reçues à l'exécution.
     usage: [lib/offers, app/api]
-    bundle_control: Schémas serveur exclus du graphe client.
+    bundle_control: Schémas métier côté serveur; aucun schéma lourd dans les pages publiques.
+    compatibility: Compatible avec le peer Zod 4 de @anthropic-ai/sdk.
+    cost: Zéro dans le bundle client pour les contrats serveur prévus.
+    alternatives_rejected: [manual_validation, duplicate_route_validation]
   - package: server-only
-    decision: add
+    decision: approved_add
     target_version: ^0.0.1
     problem: Empêcher l'import accidentel de secrets dans le graphe client.
-    usage: [lib/offers/server.ts, lib/supabase-admin.ts]
-development:
-  - {package: "@playwright/test", decision: add, target_version: ^1.62.1, problem: Tests fonctionnels responsive clavier et mouvement réduit}
-  - {package: vitest, decision: add, target_version: ^4.1.11, problem: Tests unitaires rapides des contrats et helpers}
-  - {package: "@lhci/cli", decision: add, target_version: ^0.15.1, problem: Budgets reproductibles performance accessibilité et SEO}
-  - {package: prettier, decision: add, target_version: ^3.9.6, problem: Formatage déterministe}
-built_in_next_features:
-  - {feature: next/font/local, replaces: external_font_loader}
-  - {feature: next/image, replaces: image_optimization_package}
-  - {feature: Metadata_API, replaces: seo_package}
-  - {feature: ImageResponse, replaces: generated_social_card_master}
-  - {feature: robots.ts_and_sitemap.ts, replaces: sitemap_plugin}
+    native_limit: La convention de nommage seule ne produit pas d'erreur de frontière.
+    usage: [lib/offers/server.ts, lib/supabase-admin.ts, lib/security]
+    bundle_control: Marqueur de compilation; zéro coût client.
+    compatibility: Prévu pour les frontières Server Components de Next.js.
+    cost: Zéro dans le bundle client.
+    alternatives_rejected: [naming_convention_only]
+
+approved_development_additions:
+  - package: "@playwright/test"
+    decision: approved_add
+    target_version: ^1.62.1
+    problem: Tests fonctionnels, responsive, clavier, JavaScript désactivé et mouvement réduit dans de vrais navigateurs.
+    production_cost: none
+  - package: "@axe-core/playwright"
+    decision: approved_add
+    target_version: ^4.13.0
+    problem: Détection automatisée des violations d'accessibilité dans les états testés par Playwright.
+    native_limit: Playwright pilote le navigateur mais ne fournit pas seul le moteur de règles WCAG.
+    production_cost: none
+  - package: vitest
+    decision: approved_add
+    target_version: ^4.1.11
+    problem: Tests unitaires rapides des contrats, schémas et helpers TypeScript.
+    production_cost: none
+  - package: "@lhci/cli"
+    decision: approved_add
+    target_version: ^0.15.1
+    problem: Budgets reproductibles de performance, accessibilité et SEO.
+    production_cost: none
+  - package: prettier
+    decision: approved_add
+    target_version: ^3.9.6
+    problem: Formatage déterministe et vérifiable dans le Quality Gate.
+    production_cost: none
+
+removed:
+  - package: "@calcom/embed-react"
+    decision: approved_remove
+    previous_version: ^1.5.3
+    reason: Aucun import observé; la réservation utilise l'interface OptimalLogic et les routes API Cal.com fondées sur fetch.
+    preserved_integration: [/api/cal/slots, /api/cal/bookings]
+
 rejected:
-  - {packages: [gsap, lenis, three], reason: Complexité et poids sans besoin approuvé}
-  - {packages: [shadcn, material-ui, chakra-ui], reason: Bibliothèque complète incompatible avec le système spécifique}
-  - {packages: [next-seo], reason: Les API natives Next.js couvrent le besoin}
-  - {packages: [three, react-three-fiber, lottie-react], reason: Aucun besoin 3D ou raster animé dans la direction code-native validée}
-future_install_command: npm install motion class-variance-authority clsx tailwind-merge zod server-only && npm install -D @playwright/test vitest @lhci/cli prettier
+  - {
+      packages: [gsap, lenis, three, "@react-three/fiber", lottie-react],
+      reason: Complexité et poids sans besoin approuvé,
+    }
+  - {
+      packages: [shadcn, material-ui, chakra-ui],
+      reason: Bibliothèque complète incompatible avec le système spécifique,
+    }
+  - { packages: [next-seo], reason: Les API natives Next.js couvrent le besoin }
+  - {
+      packages: [jest, "@testing-library/react"],
+      reason: Vitest couvre les contrats unitaires et Playwright les interfaces réelles,
+    }
+
+applied_commands:
+  - npm install
+  - npm ci
+  - npm audit --omit=dev
+  - npm audit fix
+installation_state:
+  package_manifest_updated: true
+  lockfile_updated: true
+  installed_versions_verified: true
+  production_audit:
+    status: pass
+    vulnerabilities: 0
+  development_audit:
+    status: reservations
+    remaining: 10
+    scope: Dépendances transitives des outils de développement, principalement @lhci/cli.
+    forced_fix_rejected: npm propose une rétrogradation incompatible de @lhci/cli vers 0.1.0.

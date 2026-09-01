@@ -13,6 +13,6 @@
 - [ ] Confirmer le lien discret ou l'absence de lien vers la connexion privée.
 - [ ] Fournir ou planifier la vérification du schéma Supabase et des RLS.
 - [ ] Faire relire les durées de conservation et les pages légales.
-- [ ] Valider ou corriger la liste des paquets Node.js.
+- [x] Valider ou corriger la liste des paquets Node.js — approuvée par `DEC-012`.
 
 Une case non cochée reste une décision ouverte ; elle ne peut pas être transformée en approbation par l'agent.
