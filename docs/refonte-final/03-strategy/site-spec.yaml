@@ -1,0 +1,138 @@
+spec_version: "1.0"
+status: ready
+sources:
+  - {id: SRC-001, type: repository, title: "OptimalLogic main@af4dc00", date: 2026-09-01}
+  - {id: SRC-002, type: repository, title: "feat/refonte-final@ed260a4", date: 2026-09-01}
+  - {id: SRC-003, type: user_decision, title: "Protocole de refonte et cinq offres", date: 2026-09-01}
+  - {id: SRC-004, type: website, title: "Span Framer template and demo", date: 2026-08-31}
+  - {id: SRC-005, type: website, title: "Sevora Framer template and demo", date: 2026-08-31}
+project:
+  client_name: OptimalLogic
+  legal_name: OptimalLogic
+  project_name: Refonte premium finale
+  slug: optimallogic-refonte-final
+  sector: Services numériques et automatisation des demandes
+  locations: [France]
+  languages: [fr]
+business:
+  audiences:
+    - {id: commerce, name: Commerces locaux, problem: Présence peu claire et demandes difficiles à qualifier}
+    - {id: tpe-pme, name: TPE et PME, problem: Demandes dispersées et suivi commercial irrégulier}
+    - {id: startup, name: Startups, problem: Décisions produit prises avec trop peu de signaux exploitables}
+  value_proposition: Clarifier la présence en ligne et transformer chaque demande utile en contexte, priorité et prochaine action humaine.
+  offers:
+    - {code: commerce_intelligent, audience: commerce, count_in_category: 1, pricing_authority: Supabase}
+    - {code: tpe_pme_croissance, audience: tpe-pme, count_in_category: 1, pricing_authority: Supabase}
+    - {code: tpe_pme_performance, audience: tpe-pme, count_in_category: 2, pricing_authority: Supabase}
+    - {code: startup_validation, audience: startup, count_in_category: 1, pricing_authority: Supabase}
+    - {code: startup_launch, audience: startup, count_in_category: 2, pricing_authority: Supabase}
+  differentiators:
+    - Installation adaptée au parcours existant du client.
+    - Qualification et transmission orientées vers une décision humaine.
+    - Accompagnement mensuel facultatif.
+  proofs: []
+conversion:
+  primary_goal: Obtenir une prise de rendez-vous qualifiée.
+  primary_cta: {label: Prendre rendez-vous, destination: /prise-de-rdv}
+  secondary_goals:
+    - Envoyer une demande contextualisée via /contact.
+    - Comprendre l'offre adaptée via /tarifs.
+  critical_journeys:
+    - {id: JOURNEY-001, start: /, steps: [/services, /tarifs, /prise-de-rdv], result: Créneau confirmé}
+    - {id: JOURNEY-002, start: /services, steps: [/contact], result: Demande enregistrée et confirmation affichée}
+    - {id: JOURNEY-003, start: /aide, steps: [/contact], result: Reprise humaine proposée}
+site:
+  profile: authenticated
+  pages:
+    - {id: home, title: Accueil, slug: /, purpose: Positionner et orienter, primary_cta: Prendre rendez-vous, sections: [hero, principles, problem, system, audiences, method, handoff, final-cta]}
+    - {id: services, title: Services, slug: /services, purpose: Expliquer les capacités et parcours, primary_cta: Voir les offres, sections: [hero, presence, demand-system, audiences, installation, support, faq, final-cta]}
+    - {id: pricing, title: Tarifs, slug: /tarifs, purpose: Comparer cinq offres avec données Supabase, primary_cta: Choisir une offre, sections: [hero, data-state, audience-tabs, offer-detail, support, process, faq, request]}
+    - {id: contact, title: Contact, slug: /contact, purpose: Collecter une demande contextualisée, primary_cta: Envoyer la demande, sections: [hero, expectations, form, alternatives, privacy]}
+    - {id: booking, title: Prise de rendez-vous, slug: /prise-de-rdv, purpose: Réserver un échange, primary_cta: Confirmer le créneau, sections: [hero, preparation, calendar, summary, fallback]}
+    - {id: help, title: Aide, slug: /aide, purpose: Répondre puis orienter vers un humain, primary_cta: Contacter l'équipe, sections: [context, conversation, human-fallback]}
+    - {id: legal-notice, title: Mentions légales, slug: /mentions-legales, purpose: Information légale, primary_cta: null, sections: [document]}
+    - {id: privacy, title: Confidentialité, slug: /confidentialite, purpose: Information sur les données, primary_cta: null, sections: [document]}
+    - {id: cookies, title: Cookies, slug: /cookies, purpose: Information et choix, primary_cta: null, sections: [document]}
+  navigation: [/services, /tarifs, /contact, /prise-de-rdv]
+  footer_links: [/mentions-legales, /confidentialite, /cookies]
+  languages: [fr]
+content:
+  provided:
+    - Logo et palette présents sur main.
+    - Routes, intégrations et anciens documents commerciaux du dépôt.
+    - Décisions sur le catalogue et les prix Supabase.
+  to_create:
+    - Contenus publics complets.
+    - Microcopy des états et erreurs.
+    - Métadonnées SEO par route.
+    - Visuels abstraits et schémas sémantiques.
+  prohibited_claims:
+    - Chiffres, résultats, clients, témoignages ou certifications non sourcés.
+    - Dashboard public.
+    - Téléphone ou SMS sans intégration prouvée.
+    - Prix ou noms d'offres codés en dur.
+brand:
+  assets:
+    - {id: logo, status: available, source: repository}
+    - {id: inter-font, status: available, source: app/fonts}
+    - {id: space-grotesk-font, status: available, source: app/fonts}
+  logo_status: locked
+  palette: ["#050505", "#FFFFFF", "#2EE6A8"]
+  typography: [Inter, Space Grotesk, Lora proposed]
+  visual_references: [Span, Sevora]
+  avoid: [generic_saas_dashboard, fake_proof, excessive_glow, custom_cursor, scroll_jacking]
+backend:
+  modules: [lead-capture, booking-cal, client-auth, client-portal, email-brevo, assistant-ai, analytics-consent]
+  integrations:
+    - {id: supabase, purpose: database_and_auth, owner: OptimalLogic, readiness: existing_unverified}
+    - {id: cal-com, purpose: booking, owner: OptimalLogic, readiness: existing_unverified}
+    - {id: anthropic, purpose: assistant, owner: OptimalLogic, readiness: existing_unverified}
+    - {id: brevo, purpose: transactional_email, owner: OptimalLogic, readiness: existing_unverified}
+  roles: [public, authenticated_client, admin]
+data:
+  collected_fields:
+    - {name: nom, purpose: identifier_le_contact, required: true, sensitive: false}
+    - {name: email, purpose: repondre_a_la_demande, required: true, sensitive: true}
+    - {name: telephone, purpose: recontact_si_fourni, required: false, sensitive: true}
+    - {name: entreprise, purpose: contextualiser_la_demande, required: false, sensitive: false}
+    - {name: message, purpose: qualifier_le_besoin, required: true, sensitive: true}
+    - {name: offer_code, purpose: rattacher_loffre, required: false, sensitive: false}
+  controller: OptimalLogic
+  retention:
+    - {data: demandes, duration: À confirmer juridiquement, action: O-005}
+    - {data: conversations, duration: À confirmer selon configuration réelle, action: O-005}
+  sensitive_data: true
+legal:
+  jurisdiction: France
+  legal_pages: [/mentions-legales, /confidentialite, /cookies]
+  cookie_tracking: consent_required_for_non_essential_trackers
+  professional_review_required: true
+seo:
+  production_domain: https://optimal-logic.com
+  target_queries: [automatisation demandes entreprise, qualification prospects, présence en ligne commerce]
+  local_locations: [France]
+quality:
+  accessibility_target: WCAG 2.2 AA
+  supported_browsers: [chromium, firefox, webkit]
+  viewports: [320, 390, 768, 1024, 1440]
+  performance_budget:
+    lighthouse_performance_min: 90
+    lcp_lab_ms_max: 2500
+    cls_max: 0.1
+    tbt_lab_ms_max: 200
+    initial_transfer_kb_max: 2048
+  exceptions: []
+delivery:
+  repository_owner: esigelecParfait
+  deployment_owner: OptimalLogic
+  domain_owner: OptimalLogic
+  account_owners: [OptimalLogic]
+  approvals:
+    brief: {approved: false, approved_by: null, approved_at: null}
+assumptions:
+  - {id: A-001, statement: Lora est proposée comme serif éditoriale et doit être validée, source: design_proposal}
+  - {id: A-002, statement: Le détail éditorial des offres peut rester dans le code s'il est indexé par code BDD, source: architecture_proposal}
+open_questions:
+  - {id: Q-001, question: Confirmer le détail exact des inclusions TPE/PME et Startup, blocking: false, owner: user}
+  - {id: Q-002, question: Confirmer la durée de conservation des demandes et conversations, blocking: false, owner: user_and_legal_review}
+  - {id: Q-003, question: Fournir des preuves ou cas clients réels si une section de preuve doit être ajoutée, blocking: false, owner: user}

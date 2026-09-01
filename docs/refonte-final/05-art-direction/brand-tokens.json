@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "version": "1.0",
+    "status": "proposed",
+    "concept": "Maison des signaux"
+  },
+  "color": {
+    "background": {"canvas": "#050505", "deep": "#000000", "soft": "#111312"},
+    "surface": {"base": "#151816", "raised": "#1C211E", "ivory": "#F2F0E8"},
+    "text": {"primary": "#FFFFFF", "muted": "#A7AEA9", "onIvory": "#151715"},
+    "border": {"subtle": "#2A302C", "onIvory": "#D8D4C7", "focus": "#2EE6A8"},
+    "accent": {"primary": "#2EE6A8", "primarySoft": "#163C30", "cool": "#789BFF"},
+    "state": {"success": "#2EE6A8", "warning": "#F3C969", "danger": "#FF786E"}
+  },
+  "typography": {
+    "fontDisplay": "Lora, Georgia, serif",
+    "fontBody": "Inter, Arial, sans-serif",
+    "fontUtility": "Space Grotesk, Inter, sans-serif",
+    "weights": {"regular": 400, "medium": 500, "semibold": 600},
+    "sizes": {"xs": "0.75rem", "sm": "0.875rem", "body": "1rem", "lead": "1.25rem", "h4": "1.5rem", "h3": "2rem", "h2": "clamp(2.25rem, 5vw, 4.5rem)", "h1": "clamp(3rem, 8vw, 7.5rem)"},
+    "lineHeights": {"tight": 0.94, "heading": 1.05, "body": 1.6},
+    "tracking": {"tight": "-0.04em", "normal": "0", "label": "0.12em"}
+  },
+  "space": {"1": "0.25rem", "2": "0.5rem", "3": "0.75rem", "4": "1rem", "6": "1.5rem", "8": "2rem", "12": "3rem", "16": "4rem", "24": "6rem", "32": "8rem"},
+  "radius": {"control": "0.75rem", "panel": "1.5rem", "hero": "2rem", "pill": "999px"},
+  "shadow": {"panel": "0 24px 80px rgba(0,0,0,0.18)", "focus": "0 0 0 3px rgba(46,230,168,0.35)"},
+  "layout": {
+    "containers": {"content": "72rem", "wide": "80rem", "reading": "46rem"},
+    "gutters": {"mobile": "1rem", "tablet": "1.5rem", "desktop": "2rem"},
+    "breakpoints": {"sm": "30rem", "md": "48rem", "lg": "64rem", "xl": "90rem"}
+  },
+  "motion": {
+    "durations": {"feedback": 120, "fast": 180, "standard": 260, "chapter": 420, "narrative": 700},
+    "easings": {"enter": [0.16, 1, 0.3, 1], "standard": [0.2, 0, 0, 1], "exit": [0.4, 0, 1, 1]},
+    "reducedMotion": "show final state immediately and remove non-essential movement"
+  },
+  "media": {
+    "ratios": {"hero": "8/5", "chapter": "3/2", "card": "4/3", "social": "1200/630"},
+    "treatment": "architectural dark and ivory masters with restrained emerald signal, no embedded text"
+  },
+  "provenance": {
+    "locked": ["color.background.canvas", "color.text.primary", "color.accent.primary", "brand.logo"],
+    "proposed": ["color.surface.ivory", "color.accent.cool", "typography.fontDisplay", "layout", "motion", "media"]
+  }
+}

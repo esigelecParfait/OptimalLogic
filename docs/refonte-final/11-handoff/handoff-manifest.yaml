@@ -1,0 +1,22 @@
+schema_version: 1
+status: BLOCKED
+project: OptimalLogic
+branch: feat/refonte-final
+baseline: af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
+directories:
+  - {path: 00-governance, purpose: état du workflow et décisions, status: ready_for_review}
+  - {path: 01-audit, purpose: conservation et nettoyage conceptuel, status: ready_for_review}
+  - {path: 02-references, purpose: analyse Span et Sevora, status: ready_for_review}
+  - {path: 03-strategy, purpose: site-spec architecture audiences conversions, status: ready_for_review}
+  - {path: 04-content, purpose: messages offres pages interface SEO preuves, status: ready_for_review}
+  - {path: 05-art-direction, purpose: concepts tokens compositions, status: ready_for_review}
+  - {path: 06-assets, purpose: masters briefs et manifeste, status: ready_for_review}
+  - {path: 07-motion, purpose: principes presets pages états et réduction, status: ready_for_review}
+  - {path: 08-backend, purpose: modules frontières et risques de données, status: ready_for_review}
+  - {path: 09-implementation, purpose: blueprint dépendances et tests, status: ready_for_review}
+  - {path: 10-validation, purpose: QA documentaire et checklist de revue, status: ready_for_review}
+  - {path: 11-handoff, purpose: handoff bloqué avant approbation, status: blocked}
+required_approvals: [brief, offer_copy, art_direction, assets, motion, backend_boundaries, dependencies]
+blocking_decisions: [O-002, O-005, O-006, O-007]
+codex_prompt_executable: false
+integrity_file: docs/refonte-final/11-handoff/checksums.sha256

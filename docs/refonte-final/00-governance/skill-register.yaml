@@ -1,0 +1,16 @@
+schema_version: 1
+status: ready_for_review
+skills:
+  - {name: optimallogic-refonte-orchestrator, role: Imposer le protocole et les points d'arrêt, installed: true}
+  - {name: optimallogic-repository-audit, role: Définir conserver/réécrire/retirer/protéger, installed: true}
+  - {name: optimallogic-reference-analysis, role: Extraire les principes de Span et Sevora sans copie, installed: true}
+  - {name: optimallogic-site-intake, role: Structurer le brief et le site-spec, installed: true}
+  - {name: optimallogic-site-strategy, role: Définir audiences offres architecture et conversions, installed: true}
+  - {name: optimallogic-content-design, role: Produire contenus SEO microcopy et preuves, installed: true}
+  - {name: optimallogic-art-direction, role: Définir concept tokens et compositions, installed: true}
+  - {name: optimallogic-visual-assets, role: Produire images briefs et manifeste d'actifs, installed: true}
+  - {name: optimallogic-motion-specification, role: Définir animations états et mouvement réduit, installed: true}
+  - {name: optimallogic-backend-recipes, role: Contractualiser les modules backend préservés, installed: true}
+  - {name: optimallogic-implementation-blueprint, role: Préparer composants données dépendances et tests, installed: true}
+  - {name: optimallogic-qa-release, role: Contrôler le dossier avec preuves et décision, installed: true}
+  - {name: optimallogic-codex-handoff, role: Assembler le prompt final après validation, installed: true}

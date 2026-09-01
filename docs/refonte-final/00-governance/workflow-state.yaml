@@ -1,0 +1,37 @@
+schema_version: 1
+project: OptimalLogic
+generated_at: 2026-09-01
+branch: feat/refonte-final
+baseline_revision: af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
+preparation_revision: ed260a45558242a02ea06ca57f13567ef4af8860
+source_of_truth: docs/refonte-final
+current_stage: user_review
+approval_policy:
+  producer_can_approve: false
+  user_approval_required: true
+  implementation_allowed: false
+  deployment_allowed: false
+stages:
+  - {id: 01-audit, skill: optimallogic-repository-audit, status: ready_for_review}
+  - {id: 02-references, skill: optimallogic-reference-analysis, status: ready_for_review}
+  - {id: 03-intake, skill: optimallogic-site-intake, status: ready_for_review}
+  - {id: 04-strategy, skill: optimallogic-site-strategy, status: ready_for_review}
+  - {id: 05-content, skill: optimallogic-content-design, status: ready_for_review}
+  - {id: 06-art-direction, skill: optimallogic-art-direction, status: ready_for_review}
+  - {id: 07-assets, skill: optimallogic-visual-assets, status: ready_for_review}
+  - {id: 08-motion, skill: optimallogic-motion-specification, status: ready_for_review}
+  - {id: 09-backend, skill: optimallogic-backend-recipes, status: ready_for_review}
+  - {id: 10-blueprint, skill: optimallogic-implementation-blueprint, status: ready_for_review}
+  - {id: 11-validation, skill: optimallogic-qa-release, status: ready_for_review}
+  - {id: 12-handoff, skill: optimallogic-codex-handoff, status: blocked}
+blockers:
+  - id: user_approval_missing
+    description: Les livrables de conception ne sont pas encore approuvés par l'utilisateur.
+    affects: [implementation, final_codex_prompt]
+  - id: database_contract_unverified
+    description: Le schéma Supabase et les politiques RLS ne sont pas versionnés dans le dépôt.
+    affects: [backend_validation]
+notes:
+  - Aucun fichier applicatif ni paquet Node.js n'est modifié pendant la production des livrables.
+  - docs/refonte-v2 est une source historique et non une autorité pour la refonte finale.
+  - Toutes les skills ont été exécutées; le handoff reste bloqué jusqu'à validation utilisateur.

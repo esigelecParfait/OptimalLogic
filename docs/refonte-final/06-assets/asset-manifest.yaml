@@ -1,0 +1,61 @@
+schema_version: 1
+status: ready_for_review
+rules:
+  source_format: png_master
+  production_formats: [avif, webp]
+  no_fake_interface_or_proof: true
+  exact_information_is_code_native: true
+assets:
+  - id: asset-home-signal-hero
+    type: generated_raster
+    source: docs/refonte-final/06-assets/generated/home-signal-hero-v1.png
+    sha256: 38c30c6b430d575b4c7ebead1c7b504b0a2f9f641cbaf1e047cf9ff02a51cce9
+    dimensions: 1586x992
+    sections: [home-hero, home-final-cta]
+    purpose: Plusieurs signaux convergent vers un seuil puis une action lisible.
+    focal_point: center_right
+    mobile_crop: center
+    alt: Plusieurs lignes convergent vers un seuil vert puis un passage lumineux.
+    future_target: public/images/refonte-final/home-signal-hero.avif
+    next_image: {priority: home-hero-only, sizes: "(max-width: 767px) 100vw, 50vw"}
+  - id: asset-services-context
+    type: generated_raster
+    source: docs/refonte-final/06-assets/generated/services-context-v1.png
+    sha256: e0b1df9267712b2b40c1aa198fe700ee3213e56043391dadf1a772bb92af1574
+    dimensions: 1536x1024
+    sections: [services-presence]
+    purpose: Des entrées dispersées deviennent trois trajectoires structurées.
+    focal_point: center
+    mobile_crop: center
+    alt: Des fragments dispersés convergent puis se répartissent en trois trajectoires claires.
+    future_target: public/images/refonte-final/services-context.avif
+    next_image: {priority: false, sizes: "(max-width: 767px) 100vw, 58vw"}
+  - id: asset-contact-threshold
+    type: generated_raster
+    source: docs/refonte-final/06-assets/generated/contact-threshold-v1.png
+    sha256: 0dc355dc78701012d4cec65f010acf96edc62d5ecd79e67462ec537ba901c6a7
+    dimensions: 1536x1024
+    sections: [contact-hero]
+    purpose: Une ligne franchit un seuil sombre et ouvre un échange utile.
+    focal_point: center
+    mobile_crop: center
+    alt: Une ligne verte traverse un seuil sombre vers un espace ivoire lumineux.
+    future_target: public/images/refonte-final/contact-threshold.avif
+    next_image: {priority: false, sizes: "(max-width: 767px) 100vw, 42vw"}
+  - id: asset-social-card
+    type: derived_raster
+    source: docs/refonte-final/06-assets/generated/social-card-v1.png
+    derived_from: asset-home-signal-hero
+    sha256: 9a977534cf0550bd3b8b480dfd5074001bba4e51470fe12d8fc604785e58bd05
+    dimensions: 1200x630
+    sections: [global-metadata]
+    alt: Plusieurs signaux convergent vers une prochaine action.
+    future_target: app/opengraph-image.png
+code_native_media:
+  - {id: coded-flow-diagram, sections: [home-system-flow], labels: [Présence, Demande, Qualification, Transmission, Décision humaine]}
+  - {id: coded-handoff-diagram, sections: [home-human-handoff], labels: [Contexte, Priorité, Prochaine action, Décision humaine]}
+  - {id: coded-channel-flow, sections: [services-hero], labels: [Site, Formulaire, Rendez-vous, Assistant, Équipe]}
+  - {id: coded-qualification-sequence, sections: [services-demand-system], labels: [Collecter, Qualifier, Transmettre, Suivre]}
+  - {id: coded-commerce-signal, sections: [services-audience-commerce], labels: [Demande locale, Intention, Coordonnées, Reprise humaine]}
+  - {id: coded-request-pipeline, sections: [services-audience-tpe], labels: [Entrée, Contexte, Priorité, Responsable, Suivi]}
+  - {id: coded-startup-evidence-map, sections: [services-audience-startup], labels: [Hypothèse, Signal, Entretien, Décision]}

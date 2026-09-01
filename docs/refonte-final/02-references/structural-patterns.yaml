@@ -1,0 +1,33 @@
+schema_version: 1
+status: ready_for_review
+patterns:
+  - id: compact-navigation-strong-cta
+    observed_in: [Span]
+    solves: Garder l'action prioritaire visible sans alourdir le header.
+    adaptation: Navigation OptimalLogic conservée avec un seul CTA rendez-vous.
+    candidates: [global_header]
+  - id: hero-copy-plus-system-media
+    observed_in: [Span, Sevora]
+    solves: Faire comprendre le positionnement et la méthode dès le premier écran.
+    adaptation: Promesse à gauche et convergence de signaux originale à droite.
+    candidates: [home-hero]
+  - id: problem-to-outcome-chapters
+    observed_in: [Span]
+    solves: Transformer une liste de services en narration métier.
+    adaptation: Demandes dispersées vers contexte, priorité et prochaine action.
+    candidates: [home-problem, home-system-flow, services-demand-system]
+  - id: asymmetric-editorial-panels
+    observed_in: [Sevora]
+    solves: Créer de la respiration et une hiérarchie sans grille répétitive.
+    adaptation: Panneaux 7/5 avec surfaces OptimalLogic et médias abstraits.
+    candidates: [services-presence, contact-hero, booking-hero]
+  - id: chapter-surface-shift
+    observed_in: [Span, Sevora]
+    solves: Signaler un changement de question dans une page longue.
+    adaptation: Alternance noir profond, ivoire et gris doux avec tokens propres.
+    candidates: [home-method, services-audience-tpe, pricing-installation-vs-support]
+  - id: contained-faq
+    observed_in: [Span, Sevora]
+    solves: Traiter les objections sans diluer le message principal.
+    adaptation: Accordéon étroit, accessible, sans animation spectaculaire.
+    candidates: [services-faq, pricing-faq]

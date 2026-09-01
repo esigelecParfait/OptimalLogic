@@ -1,0 +1,39 @@
+schema_version: 1
+status: ready_for_review
+components:
+  button:
+    states: [idle, hover, focus_visible, pressed, disabled, loading]
+    preset: button-feedback
+    requirements: [independent_focus_ring, stable_loading_width]
+  accordion:
+    states: [collapsed, expanded, focus_visible]
+    preset: accordion
+    requirements: [aria_expanded, aria_controls, keyboard_activation]
+  audience_tabs:
+    states: [idle, selected, focus_visible]
+    preset: segmented-control
+    requirements: [arrow_key_navigation, roving_tabindex, active_offer_visible]
+  form_field:
+    states: [empty, focused, valid, invalid, disabled]
+    preset: form-state
+    requirements: [persistent_label, described_error, no_color_only_error]
+  form_submission:
+    states: [idle, submitting, success, server_error]
+    preset: form-state
+    requirements: [aria_live_result, preserve_values_on_error, duplicate_submit_guard]
+  offer_data:
+    states: [loading, available, partial, unavailable]
+    preset: form-state
+    requirements: [never_convert_missing_price_to_zero, contact_recovery]
+  booking_slot:
+    states: [available, selected, unavailable, submitting, confirmed, failed]
+    preset: booking-selection
+    requirements: [keyboard_selection, persistent_summary, explicit_timezone]
+  assistant_message:
+    states: [queued, streaming, complete, failed]
+    preset: assistant-stream
+    requirements: [aria_live_polite, stop_control, human_fallback]
+  mobile_navigation:
+    states: [closed, open, item_focus]
+    preset: panel-reveal
+    requirements: [focus_trap, escape_closes, restore_focus, body_scroll_lock]

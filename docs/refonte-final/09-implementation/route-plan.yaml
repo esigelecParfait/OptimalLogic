@@ -1,0 +1,22 @@
+schema_version: 1
+status: ready_for_review
+routes:
+  - {path: /, rendering: static_server, data: none, index: true}
+  - {path: /services, rendering: static_server, data: none, index: true}
+  - {path: /tarifs, rendering: dynamic_server, data: public_offers, index: true}
+  - {path: /contact, rendering: static_shell_client_form, data: demandes_api, index: true}
+  - {path: /prise-de-rdv, rendering: static_shell_client_booking, data: cal_api, index: true}
+  - {path: /aide, rendering: static_shell_client_stream, data: public_chat_api, index: true}
+  - {path: legal_pages, rendering: static_server, data: none, index: true}
+  - {path: /connexion/**, rendering: server_and_form, data: supabase_auth, index: false}
+  - {path: /espace-client, rendering: private_gateway, data: supabase_auth, index: false}
+  - {path: /espace-client/support, rendering: authenticated, data: private_chat, index: false}
+  - {path: /espace-client/mon-compte, rendering: authenticated, data: supabase_auth, index: false}
+  - {path: /admin/**, rendering: authenticated_admin, data: protected_integrations, index: false}
+  - {path: /commandes/**, rendering: preserved_client_specific, data: client_registry, index: false}
+  - {path: /preview/**, rendering: remove, data: none, index: false}
+  - {path: /comparer, rendering: remove, data: none, index: false}
+  - {path: /showroom, rendering: remove, data: none, index: false}
+seo:
+  source: docs/refonte-final/04-content/seo-content.yaml
+  native_files: [app/robots.ts, app/sitemap.ts, app/opengraph-image.png]

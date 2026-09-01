@@ -1,0 +1,39 @@
+schema_version: 1
+status: ready_for_review
+decisions:
+  - id: O-001
+    question: Faut-il annoncer ou construire des parcours téléphone/SMS ?
+    blocking: false
+    evidence: Aucune intégration versionnée observée.
+    temporary_rule: Ne pas annoncer et ne pas construire.
+    owner: user
+  - id: O-002
+    question: Quel est le détail définitif des inclusions des deux offres TPE/PME et des deux offres Startup ?
+    blocking: true_for_final_copy
+    temporary_rule: Conserver le contenu comme proposition à valider.
+    owner: user
+  - id: O-003
+    question: Des photos, cas clients, logos ou témoignages réels seront-ils fournis ?
+    blocking: false
+    temporary_rule: Aucun emplacement de preuve fictive; utiliser seulement des médias abstraits.
+    owner: user
+  - id: O-004
+    question: Le lien de connexion privée doit-il apparaître dans le footer public ?
+    blocking: false
+    temporary_rule: Autoriser un lien discret de footer, jamais dans la navigation principale.
+    owner: user
+  - id: O-005
+    question: Quelles durées de conservation et formulations légales doivent être validées ?
+    blocking: true_for_production
+    temporary_rule: Préserver les pages existantes et demander une revue juridique.
+    owner: user_and_legal_reviewer
+  - id: O-006
+    question: Où sont le schéma Supabase, les migrations et les politiques RLS réelles ?
+    blocking: true_for_backend_release
+    temporary_rule: Préserver le backend et interdire toute migration inventée.
+    owner: repository_owner
+  - id: O-007
+    question: La proposition typographique Lora est-elle acceptée ?
+    blocking: true_for_art_approval
+    temporary_rule: Marquer Lora comme proposed.
+    owner: user

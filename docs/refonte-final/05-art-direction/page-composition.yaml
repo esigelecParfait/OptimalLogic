@@ -1,0 +1,91 @@
+version: "1.0"
+status: proposed
+concept: Maison des signaux
+pages:
+  - id: home
+    route: /
+    objective: Positionner OptimalLogic et orienter vers le bon parcours.
+    primary_cta: /prise-de-rdv
+    sections:
+      - {id: home-hero, role: promise_and_mechanism, variant: rounded_panel_7_5, mobile: media_below_copy, media: asset-home-signal-hero, proof: none}
+      - {id: home-signal-strip, role: operational_principles, variant: three_inline_statements, mobile: vertical_list, media: none, proof: sourced_principles}
+      - {id: home-problem, role: reframe_problem, variant: ivory_editorial_statement, mobile: single_column, media: none, proof: none}
+      - {id: home-system-flow, role: explain_system, variant: sticky_copy_plus_flow, mobile: vertical_flow, media: coded-flow-diagram, proof: repository_channels_only}
+      - {id: home-audience-paths, role: route_audiences, variant: one_large_two_stacked, mobile: vertical_panels, media: derived_crops, proof: none}
+      - {id: home-method, role: explain_installation, variant: oversized_numbering, mobile: compact_numbered_list, media: none, proof: none}
+      - {id: home-human-handoff, role: clarify_human_role, variant: copy_5_diagram_7, mobile: copy_then_diagram, media: coded-handoff-diagram, proof: none}
+      - {id: home-final-cta, role: convert, variant: centered_signal_panel, mobile: full_width_actions, media: asset-home-signal-hero, proof: none}
+  - id: services
+    route: /services
+    objective: Expliquer les capacités et leur adaptation par audience.
+    primary_cta: /tarifs
+    sections:
+      - {id: services-hero, role: overview, variant: centered_copy_wide_flow, mobile: vertical_flow, media: coded-channel-flow, proof: repository_channels_only}
+      - {id: services-presence, role: explain_presence, variant: editorial_5_7, mobile: copy_then_media, media: asset-services-context, proof: none}
+      - {id: services-demand-system, role: explain_qualification, variant: media_7_copy_5, mobile: flow_then_copy, media: coded-qualification-sequence, proof: none}
+      - {id: services-audience-commerce, role: commerce_chapter, variant: featured_dark_panel, mobile: vertical, media: coded-commerce-signal, proof: none}
+      - {id: services-audience-tpe, role: tpe_chapter, variant: offset_ivory_panel, mobile: vertical, media: coded-request-pipeline, proof: none}
+      - {id: services-audience-startup, role: startup_chapter, variant: featured_cool_panel, mobile: vertical, media: coded-startup-evidence-map, proof: none}
+      - {id: services-installation, role: process, variant: horizontal_steps, mobile: numbered_vertical, media: none, proof: none}
+      - {id: services-optional-support, role: separate_installation_and_support, variant: two_decision_panels, mobile: stacked, media: none, proof: none}
+      - {id: services-faq, role: objections, variant: narrow_accordion, mobile: full_width, media: none, proof: none}
+      - {id: services-final-cta, role: convert, variant: wide_cta_panel, mobile: stacked_actions, media: none, proof: none}
+  - id: pricing
+    route: /tarifs
+    objective: Comparer cinq offres avec prix vérifiés depuis Supabase.
+    primary_cta: /contact
+    sections:
+      - {id: pricing-hero, role: pricing_context, variant: centered_8_columns, mobile: single_column, media: none, proof: database_authority}
+      - {id: pricing-data-state, role: data_transparency, variant: compact_status, mobile: same, media: none, proof: api_state}
+      - {id: pricing-audience-tabs, role: filter_category, variant: sticky_segmented_control, mobile: horizontally_scrollable_tabs, media: none, proof: none}
+      - {id: pricing-offer-detail, role: compare_offers, variant: master_detail_4_8, mobile: category_and_offer_accordions, media: none, proof: Supabase_offres}
+      - {id: pricing-installation-vs-support, role: explain_optional_support, variant: ivory_two_columns, mobile: stacked, media: none, proof: user_decision}
+      - {id: pricing-process, role: reduce_uncertainty, variant: editorial_timeline, mobile: numbered_vertical, media: none, proof: none}
+      - {id: pricing-faq, role: pricing_objections, variant: narrow_accordion, mobile: full_width, media: none, proof: none}
+      - {id: pricing-request, role: convert_selected_offer, variant: inline_form_panel, mobile: full_width, media: none, proof: none}
+  - id: contact
+    route: /contact
+    objective: Collecter une demande contextualisée.
+    primary_cta: submit_form
+    sections:
+      - {id: contact-hero, role: set_context, variant: title_7_media_5_ivory, mobile: copy_then_media, media: asset-contact-threshold, proof: none}
+      - {id: contact-expectations, role: prepare_input, variant: four_inline_prompts, mobile: two_by_two, media: none, proof: none}
+      - {id: contact-form, role: capture_request, variant: form_7_reassurance_5_dark, mobile: form_then_reassurance, media: none, proof: privacy_copy}
+      - {id: contact-alternatives, role: alternative_actions, variant: dual_action_band, mobile: stacked, media: none, proof: none}
+      - {id: contact-privacy, role: privacy_notice, variant: compact_note, mobile: same, media: none, proof: legal_page}
+  - id: booking
+    route: /prise-de-rdv
+    objective: Réserver et confirmer un créneau.
+    primary_cta: confirm_booking
+    sections:
+      - {id: booking-hero, role: set_expectation, variant: title_7_preparation_5, mobile: stacked, media: none, proof: none}
+      - {id: booking-preparation, role: prepare_meeting, variant: numbered_ivory_card, mobile: same, media: none, proof: none}
+      - {id: booking-calendar, role: choose_slot, variant: calendar_8_context_4, mobile: calendar_then_context, media: none, proof: Cal.com}
+      - {id: booking-summary, role: confirm_context, variant: sticky_summary, mobile: inline_summary, media: none, proof: selected_slot}
+      - {id: booking-fallback, role: recover_provider_failure, variant: compact_action_band, mobile: stacked, media: none, proof: none}
+  - id: help
+    route: /aide
+    objective: Répondre et permettre une reprise humaine.
+    primary_cta: /contact
+    sections:
+      - {id: help-context, role: orient_conversation, variant: compact_header, mobile: same, media: none, proof: none}
+      - {id: help-conversation, role: assistant_exchange, variant: full_height_readable_conversation, mobile: full_screen, media: none, proof: assistant_limits}
+      - {id: help-human-fallback, role: human_handoff, variant: persistent_non_modal_footer, mobile: sticky_safe_area, media: none, proof: route_contact}
+  - id: legal
+    routes: [/mentions-legales, /confidentialite, /cookies]
+    objective: Rendre l'information légale lisible.
+    primary_cta: null
+    sections:
+      - {id: legal-document, role: legal_content, variant: ivory_reading_column, mobile: single_column, media: none, proof: legal_review_required}
+  - id: authentication
+    routes: [/connexion, /connexion/activer, /connexion/mot-de-passe-oublie, /connexion/nouveau-mot-de-passe]
+    objective: Accéder aux parcours privés.
+    primary_cta: submit_auth
+    sections:
+      - {id: auth-panel, role: authentication, variant: centered_dark_panel, mobile: full_width, media: none, proof: Supabase_Auth}
+rejected_options:
+  - Dashboard ou fausse interface produit.
+  - Accumulation de cartes génériques et de statistiques.
+  - Héros portrait copié de Sevora.
+  - Palette bleue et parcours produit copiés de Span.
+open_decisions: [O-002, O-003, O-005, O-007]

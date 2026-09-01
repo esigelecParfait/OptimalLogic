@@ -1,0 +1,23 @@
+schema_version: 1
+status: ready_for_review
+audiences:
+  - id: commerce
+    core_problem: Une présence peu claire et des demandes locales qui se perdent ou arrivent sans contexte.
+    desired_outcome: Être compris et transformer les demandes utiles en relances humaines préparées.
+    offers: [commerce_intelligent]
+    boundary: Une seule offre publique; aucun site web complet inclus par défaut.
+  - id: tpe-pme
+    core_problem: Des demandes dispersées entre outils et un suivi commercial dépendant de la mémoire des équipes.
+    desired_outcome: Structurer contexte, priorité, responsable et prochaine action sans imposer un nouveau dashboard.
+    offers: [tpe_pme_croissance, tpe_pme_performance]
+    boundary: Performance ajoute orchestration et relances; inclusions exactes à valider.
+  - id: startup
+    core_problem: Trop de décisions de produit ou de lancement sont prises avec des signaux faibles non organisés.
+    desired_outcome: Transformer hypothèses, intentions, entretiens et retours en décisions vérifiables.
+    offers: [startup_validation, startup_launch]
+    boundary: Validation teste le problème et le message; Launch structure le parcours de lancement; inclusions exactes à valider.
+pricing:
+  authority: Supabase.offres
+  display_fields: [nom_offre, prix, prix_abonnement]
+  fallback: forbidden
+  monthly_support: optional

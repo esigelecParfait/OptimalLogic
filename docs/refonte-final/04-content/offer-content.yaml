@@ -1,0 +1,77 @@
+schema_version: 1
+status: ready_for_review
+pricing_authority: Supabase.offres
+database_fields: [nom_offre, prix, prix_abonnement]
+fallback_price: forbidden
+monthly_support: optional
+offers:
+  commerce_intelligent:
+    audience: commerce
+    status: proposed_copy
+    promise: Clarifier la présence locale et préparer chaque demande utile pour une reprise humaine.
+    installation:
+      - Diagnostic du positionnement et des points de contact existants.
+      - Clarification de l'offre et des actions principales en ligne.
+      - Parcours de collecte et de qualification des demandes.
+      - Transmission du contexte utile à la personne responsable.
+      - Mise en place des messages et états de reprise.
+    optional_follow_up:
+      - Analyse des demandes reçues.
+      - Ajustement des questions et messages.
+      - Optimisation du positionnement et des parcours.
+    exclusions:
+      - Création d'un site complet incluse par défaut.
+      - Centre d'appels, SMS ou téléphonie sans intégration validée.
+      - Dashboard public.
+  tpe_pme_croissance:
+    audience: tpe-pme
+    status: proposed_copy
+    promise: Transformer des demandes dispersées en opportunités contextualisées et attribuées.
+    installation:
+      - Cartographie des entrées de demandes et responsabilités.
+      - Qualification par besoin, priorité et correspondance.
+      - Transmission vers les outils et équipes existants.
+      - États de suivi et relance clairement définis.
+    optional_follow_up:
+      - Revue de qualité des demandes et ajustement des règles.
+      - Amélioration des messages et points de friction.
+    validation_needed: Détail définitif des canaux et livrables inclus.
+  tpe_pme_performance:
+    audience: tpe-pme
+    status: proposed_copy
+    promise: Orchestrer qualification, attribution et relances pour réduire les demandes sans suite.
+    installation:
+      - Tout le socle Croissance.
+      - Règles de priorité et segmentation plus fines.
+      - Orchestration des relances dans les outils existants.
+      - Indicateurs opérationnels définis avec l'équipe, sans imposer de dashboard public.
+    optional_follow_up:
+      - Revue régulière des règles, délais et points de blocage.
+      - Expérimentations documentées sur les parcours.
+    validation_needed: Périmètre exact des indicateurs et intégrations.
+  startup_validation:
+    audience: startup
+    status: proposed_copy
+    promise: Transformer une hypothèse de marché en signaux exploitables avant d'accélérer.
+    installation:
+      - Cadrage du problème, de l'audience et du message à tester.
+      - Parcours de collecte d'intérêt et de contexte.
+      - Qualification des entretiens ou demandes de démonstration.
+      - Synthèse des signaux pour décider de poursuivre, ajuster ou arrêter.
+    optional_follow_up:
+      - Itérations sur le message et les questions.
+      - Revue des signaux collectés.
+    validation_needed: Volume, durée et format exacts de la phase de validation.
+  startup_launch:
+    audience: startup
+    status: proposed_copy
+    promise: Structurer le passage de l'intérêt au lancement, avec des retours reliés à une décision.
+    installation:
+      - Cadrage du parcours de lancement et des actions attendues.
+      - Collecte et qualification des demandes de démonstration ou d'accès.
+      - Organisation de l'onboarding et des retours initiaux dans les outils existants.
+      - Boucle de décision entre signaux, priorités et prochaine itération.
+    optional_follow_up:
+      - Ajustement du parcours et des messages.
+      - Revue des frictions et retours récurrents.
+    validation_needed: Outils, durée et limites précises de l'accompagnement au lancement.

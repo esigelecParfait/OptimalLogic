@@ -1,0 +1,9 @@
+schema_version: 1
+status: ready_for_review
+risks:
+  - {id: DATA-001, data: offers, risk: null_or_invalid_price_displayed_as_zero, mitigation: zod_server_validation_and_unavailable_state, test: missing_price_is_not_zero}
+  - {id: DATA-002, data: requests, risk: personal_data_logged_or_lost_on_error, mitigation: minimal_logs_and_preserved_form_state, test: server_error_preserves_input}
+  - {id: DATA-003, data: client_support, risk: cross_client_access, mitigation: membership_check_and_rls, test: other_client_denied}
+  - {id: DATA-004, data: bookings, risk: duplicate_or_conflicting_booking, mitigation: provider_conflict_handling_and_submit_guard, test: duplicate_booking_guard}
+  - {id: DATA-005, data: assistant_context, risk: private_information_in_public_answer, mitigation: separated_routes_sources_and_prompts, test: public_private_context_isolation}
+  - {id: DATA-006, data: analytics, risk: nonessential_tracking_before_consent, mitigation: consent_gate, test: no_tracker_before_choice}

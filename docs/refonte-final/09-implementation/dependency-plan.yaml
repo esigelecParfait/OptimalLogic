@@ -1,0 +1,53 @@
+schema_version: 1
+status: ready_for_review
+policy: Aucun paquet n'est installé avant approbation de ce plan.
+runtime:
+  - package: motion
+    decision: add
+    target_version: ^13.1.1
+    problem: Séquences SVG et états accessibles dans de petits îlots.
+    native_limit: CSS couvre les transitions simples mais pas l'orchestration sémantique prévue.
+    usage: [components/motion, components/visuals]
+    bundle_control: Imports motion/react ciblés et chargement différé sous la ligne de flottaison.
+    alternatives_rejected: [gsap, lenis]
+  - package: class-variance-authority
+    decision: add
+    target_version: ^0.7.1
+    problem: Variantes typées des primitives sans chaînes de classes fragiles.
+    usage: [components/ui]
+  - package: clsx
+    decision: add
+    target_version: ^2.1.1
+    problem: Composition conditionnelle lisible des classes.
+    usage: [lib/cx.ts, components/ui]
+  - package: tailwind-merge
+    decision: add
+    target_version: ^3.6.0
+    problem: Résolution des conflits de classes Tailwind dans les variantes.
+    usage: [lib/cx.ts]
+  - package: zod
+    decision: add
+    target_version: ^4.5.4
+    problem: Validation des réponses Supabase, formulaires et configuration serveur.
+    usage: [lib/offers, app/api]
+    bundle_control: Schémas serveur exclus du graphe client.
+  - package: server-only
+    decision: add
+    target_version: ^0.0.1
+    problem: Empêcher l'import accidentel de secrets dans le graphe client.
+    usage: [lib/offers/server.ts, lib/supabase-admin.ts]
+development:
+  - {package: "@playwright/test", decision: add, target_version: ^1.62.1, problem: Tests fonctionnels responsive clavier et mouvement réduit}
+  - {package: vitest, decision: add, target_version: ^4.1.11, problem: Tests unitaires rapides des contrats et helpers}
+  - {package: "@lhci/cli", decision: add, target_version: ^0.15.1, problem: Budgets reproductibles performance accessibilité et SEO}
+  - {package: prettier, decision: add, target_version: ^3.9.6, problem: Formatage déterministe}
+built_in_next_features:
+  - {feature: next/font/local, replaces: external_font_loader}
+  - {feature: next/image, replaces: image_optimization_package}
+  - {feature: Metadata_API, replaces: seo_package}
+  - {feature: robots.ts_and_sitemap.ts, replaces: sitemap_plugin}
+rejected:
+  - {packages: [gsap, lenis, three], reason: Complexité et poids sans besoin approuvé}
+  - {packages: [shadcn, material-ui, chakra-ui], reason: Bibliothèque complète incompatible avec le système spécifique}
+  - {packages: [next-seo], reason: Les API natives Next.js couvrent le besoin}
+future_install_command: npm install motion class-variance-authority clsx tailwind-merge zod server-only && npm install -D @playwright/test vitest @lhci/cli prettier

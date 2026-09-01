@@ -1,0 +1,17 @@
+schema_version: 1
+status: ready_for_review
+summary:
+  original_generated_masters: 3
+  derived_rasters: 1
+  code_native_media: 7
+  stock_assets_required: 0
+review:
+  asset-home-signal-hero: {producer_assessment: usable_for_review, user_approved: false, notes: [Convergence claire, Crop mobile possible, Aucune fausse interface]}
+  asset-services-context: {producer_assessment: usable_for_review, user_approved: false, notes: [Transformation lisible, Trois voies métaphoriques, Densité gauche à préserver]}
+  asset-contact-threshold: {producer_assessment: usable_for_review, user_approved: false, notes: [Composition calme, Seuil lisible, Aucun portrait fictif]}
+  asset-social-card: {producer_assessment: usable_for_review, user_approved: false, notes: [Ratio correct, Dérivation traçable]}
+constraints:
+  - Ne pas copier les PNG dans public sans conversion et mesure de poids.
+  - Ne pas transformer les diagrammes exacts en images raster.
+  - Ne pas ajouter de portrait, logo ou preuve sans source validée.
+  - Ne pas réutiliser un même master comme remplissage répétitif.

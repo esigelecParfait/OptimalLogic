@@ -1,0 +1,13 @@
+schema_version: 1
+status: ready_for_review
+requirements:
+  - {id: REQ-001, requirement: Cinq codes publics exacts, source: DEC-006, proof: unit_test_and_api_response}
+  - {id: REQ-002, requirement: Noms et prix Supabase sans fallback, source: DEC-007, proof: unit_and_failure_state}
+  - {id: REQ-003, requirement: Accompagnement mensuel facultatif, source: DEC-009, proof: content_review}
+  - {id: REQ-004, requirement: Aucun dashboard public, source: DEC-008, proof: route_and_navigation_review}
+  - {id: REQ-005, requirement: Support compte et admin préservés, source: preservation_manifest, proof: authenticated_e2e}
+  - {id: REQ-006, requirement: Span et Sevora non copiés, source: anti_copy_register, proof: human_visual_review}
+  - {id: REQ-007, requirement: Masters consommés par les sections prévues, source: asset_manifest, proof: rendered_pages_and_network}
+  - {id: REQ-008, requirement: Mouvement réduit complet, source: reduced_motion_contract, proof: playwright_reduced_motion}
+  - {id: REQ-009, requirement: Petits îlots clients seulement, source: component_map, proof: code_review_and_bundle}
+  - {id: REQ-010, requirement: Quality Gate complet, source: test_plan, proof: command_logs_and_reports}

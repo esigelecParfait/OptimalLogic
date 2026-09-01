@@ -1,0 +1,61 @@
+schema_version: 1
+status: ready_for_review
+pages:
+  /:
+    strong_sequences: [home-hero, home-system-flow]
+    sections:
+      home-hero: [signal-converge, reveal-copy]
+      home-signal-strip: [list-stagger]
+      home-problem: [reveal-copy]
+      home-system-flow: [flow-progress]
+      home-audience-paths: [panel-reveal]
+      home-method: [list-stagger]
+      home-human-handoff: [flow-progress]
+      home-final-cta: [reveal-copy]
+  /services:
+    strong_sequences: [services-hero, services-demand-system]
+    sections:
+      services-hero: [flow-progress, reveal-copy]
+      services-presence: [panel-reveal]
+      services-demand-system: [flow-progress]
+      services-audience-commerce: [section-shift]
+      services-audience-tpe: [section-shift]
+      services-audience-startup: [section-shift]
+      services-installation: [list-stagger]
+      services-optional-support: [panel-reveal]
+      services-faq: [accordion]
+      services-final-cta: [reveal-copy]
+  /tarifs:
+    strong_sequences: []
+    sections:
+      pricing-hero: [reveal-copy]
+      pricing-data-state: [form-state]
+      pricing-audience-tabs: [segmented-control]
+      pricing-offer-detail: [panel-reveal]
+      pricing-installation-vs-support: [reveal-copy]
+      pricing-process: [list-stagger]
+      pricing-faq: [accordion]
+      pricing-request: [form-state]
+  /contact:
+    strong_sequences: [contact-hero]
+    sections:
+      contact-hero: [panel-reveal]
+      contact-expectations: [list-stagger]
+      contact-form: [form-state]
+      contact-alternatives: [reveal-copy]
+      contact-privacy: []
+  /prise-de-rdv:
+    strong_sequences: []
+    sections:
+      booking-hero: [reveal-copy]
+      booking-preparation: [list-stagger]
+      booking-calendar: [booking-selection, form-state]
+      booking-summary: [form-state]
+      booking-fallback: [reveal-copy]
+  /aide:
+    strong_sequences: []
+    sections:
+      help-context: []
+      help-conversation: [assistant-stream, form-state]
+      help-human-fallback: [reveal-copy]
+global: {navigation: [button-feedback], primary_actions: [button-feedback], route_transition: none}

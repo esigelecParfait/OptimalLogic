@@ -1,0 +1,59 @@
+schema_version: 1
+status: ready_for_review
+roots:
+  ui: components/ui
+  marketing: components/marketing
+  visuals: components/visuals
+  domain: components/domain
+  motion: components/motion
+primitives:
+  - {id: container, target: components/ui/Container.tsx, rendering: server}
+  - {id: section, target: components/ui/Section.tsx, rendering: server}
+  - {id: stack, target: components/ui/Stack.tsx, rendering: server}
+  - {id: cluster, target: components/ui/Cluster.tsx, rendering: server}
+  - {id: surface, target: components/ui/Surface.tsx, rendering: server}
+  - {id: button, target: components/ui/Button.tsx, rendering: server_by_default}
+  - {id: heading, target: components/ui/Heading.tsx, rendering: server}
+  - {id: media-frame, target: components/ui/MediaFrame.tsx, rendering: server}
+sections:
+  home-hero: {component: HomeHero, rendering: server_plus_motion_island, media: asset-home-signal-hero}
+  home-signal-strip: {component: SignalPrinciples, rendering: server_plus_motion_island, media: none}
+  home-problem: {component: EditorialStatement, rendering: server, media: none}
+  home-system-flow: {component: SignalFlow, rendering: server_plus_motion_island, media: coded-flow-diagram}
+  home-audience-paths: {component: AudiencePaths, rendering: server_plus_motion_island, media: derived_crops}
+  home-method: {component: ProcessList, rendering: server_plus_motion_island, media: none}
+  home-human-handoff: {component: HumanHandoff, rendering: server_plus_motion_island, media: coded-handoff-diagram}
+  home-final-cta: {component: FinalCta, rendering: server, media: asset-home-signal-hero}
+  services-hero: {component: ServicesHero, rendering: server_plus_motion_island, media: coded-channel-flow}
+  services-presence: {component: PresenceChapter, rendering: server, media: asset-services-context}
+  services-demand-system: {component: QualificationSequence, rendering: server_plus_motion_island, media: coded-qualification-sequence}
+  services-audience-commerce: {component: AudienceChapter, rendering: server_plus_motion_island, media: coded-commerce-signal}
+  services-audience-tpe: {component: AudienceChapter, rendering: server_plus_motion_island, media: coded-request-pipeline}
+  services-audience-startup: {component: AudienceChapter, rendering: server_plus_motion_island, media: coded-startup-evidence-map}
+  services-installation: {component: ProcessList, rendering: server_plus_motion_island, media: none}
+  services-optional-support: {component: SupportChoice, rendering: server, media: none}
+  services-faq: {component: FaqAccordion, rendering: client, media: none}
+  services-final-cta: {component: FinalCta, rendering: server, media: none}
+  pricing-hero: {component: PricingHero, rendering: server, media: none}
+  pricing-data-state: {component: OfferDataStatus, rendering: server, media: none}
+  pricing-audience-tabs: {component: OfferAudienceTabs, rendering: client, media: none}
+  pricing-offer-detail: {component: OfferExplorer, rendering: client, media: none}
+  pricing-installation-vs-support: {component: SupportExplanation, rendering: server, media: none}
+  pricing-process: {component: ProcessList, rendering: server_plus_motion_island, media: none}
+  pricing-faq: {component: FaqAccordion, rendering: client, media: none}
+  pricing-request: {component: ProjectRequestForm, rendering: client, media: none}
+  contact-hero: {component: ContactHero, rendering: server, media: asset-contact-threshold}
+  contact-expectations: {component: ContactExpectations, rendering: server_plus_motion_island, media: none}
+  contact-form: {component: ProjectRequestForm, rendering: client, media: none}
+  contact-alternatives: {component: ContactAlternatives, rendering: server, media: none}
+  contact-privacy: {component: PrivacyNote, rendering: server, media: none}
+  booking-hero: {component: BookingHero, rendering: server, media: none}
+  booking-preparation: {component: BookingPreparation, rendering: server_plus_motion_island, media: none}
+  booking-calendar: {component: BookingCalendar, rendering: client, media: none}
+  booking-summary: {component: BookingSummary, rendering: client, media: none}
+  booking-fallback: {component: BookingFallback, rendering: server, media: none}
+  help-context: {component: AssistantContext, rendering: server, media: none}
+  help-conversation: {component: PublicAssistant, rendering: client, media: none}
+  help-human-fallback: {component: HumanFallback, rendering: server, media: none}
+  legal-document: {component: LegalDocument, rendering: server, media: none}
+  auth-panel: {component: AuthPanel, rendering: server_plus_form_island, media: none}

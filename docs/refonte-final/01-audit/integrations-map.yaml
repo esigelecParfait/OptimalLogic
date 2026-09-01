@@ -1,0 +1,38 @@
+schema_version: 1
+status: ready_for_review
+integrations:
+  - id: supabase
+    roles: [database, authentication]
+    observed_routes: [/api/offres, /api/demandes, /connexion/**, /espace-client/**, /admin/**]
+    evidence: Code serveur et clients Supabase présents
+    gaps: [schema_not_versioned, migrations_absent, rls_not_proven]
+    action: protect_and_contract
+  - id: cal-com
+    roles: [availability, booking]
+    observed_routes: [/api/cal/slots, /api/cal/bookings, /prise-de-rdv]
+    evidence: Routes et paquet @calcom/embed-react présents
+    gaps: [real_account_not_tested]
+    action: preserve_and_regression_test
+  - id: anthropic
+    roles: [public_assistant, private_assistant]
+    observed_routes: [/api/chat/public, /api/chat/client, "/api/chat/[clientId]"]
+    evidence: SDK et routes présents
+    gaps: [real_provider_not_tested, public_prompt_outdated]
+    action: protect_private_rewrite_public_context
+  - id: brevo
+    roles: [transactional_email]
+    observed_files: [lib/brevo.ts, lib/mail-templates.ts]
+    evidence: Service serveur présent
+    gaps: [account_and_delivery_not_tested]
+    action: protect
+  - id: google-business
+    roles: [business_metrics, admin_setup]
+    observed_routes: [/api/admin/google/**, /api/admin/metrics/google]
+    evidence: Routes administratives et service présents
+    gaps: [real_account_not_tested]
+    action: protect
+  - id: telephony_sms
+    roles: [unconfirmed]
+    evidence: Aucune intégration versionnée observée
+    gaps: [provider, account, routes, consent, costs]
+    action: do_not_claim_or_build

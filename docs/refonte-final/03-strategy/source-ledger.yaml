@@ -1,0 +1,12 @@
+schema_version: 1
+status: ready_for_review
+sources:
+  SRC-001: {type: repository, authority: functional_baseline, reliability: high}
+  SRC-002: {type: repository, authority: evidence_of_failed_rebuild, reliability: high}
+  SRC-003: {type: user_decision, authority: business_and_workflow, reliability: highest}
+  SRC-004: {type: public_reference, authority: visual_observation_only, reliability: medium}
+  SRC-005: {type: public_reference, authority: visual_observation_only, reliability: medium}
+rules:
+  - Les décisions de SRC-003 prévalent sur les documents V2 et AGENTS.md contradictoires.
+  - SRC-004 et SRC-005 ne peuvent pas justifier une offre, une preuve ou une fonctionnalité.
+  - Une information Supabase non versionnée reste à vérifier dans le projet réel.

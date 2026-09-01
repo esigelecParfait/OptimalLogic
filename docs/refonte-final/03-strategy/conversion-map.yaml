@@ -1,0 +1,32 @@
+schema_version: 1
+status: ready_for_review
+journeys:
+  - id: JOURNEY-001
+    audience: all
+    intent: comprendre_puis_reserver
+    entry: /
+    steps: [/services, /tarifs, /prise-de-rdv]
+    success: booking_confirmed
+    failures: [offers_unavailable, no_slots, provider_error]
+    recovery: [/contact]
+  - id: JOURNEY-002
+    audience: [commerce, tpe-pme, startup]
+    intent: envoyer_un_besoin
+    entry: [/services, /tarifs]
+    steps: [/contact]
+    success: demande_persisted_and_confirmation_visible
+    failures: [validation_error, rate_limited, storage_or_email_error]
+    recovery: preserve_input_and_offer_booking
+  - id: JOURNEY-003
+    audience: all
+    intent: obtenir_une_reponse
+    entry: /aide
+    steps: [/aide, /contact]
+    success: answer_or_human_handoff
+    failures: [assistant_timeout, provider_error, rate_limited]
+    recovery: persistent_human_contact_action
+cta_rules:
+  primary_label: Prendre rendez-vous
+  secondary_label: Nous parler de votre situation
+  no_dead_end: true
+  preserve_user_context_across_offer_to_contact: true

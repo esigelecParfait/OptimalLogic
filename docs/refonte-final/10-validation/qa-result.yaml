@@ -1,0 +1,36 @@
+version: "1.0"
+site_spec:
+  path: docs/refonte-final/03-strategy/site-spec.yaml
+  status: ready
+release:
+  repository: esigelecParfait/OptimalLogic
+  revision: working_tree_before_deliverables_commit
+  preview_url: null
+  production_url: https://optimal-logic.com
+  audited_at: 2026-09-01
+profiles: [documentation, dynamic, authenticated]
+decision: DRAFT
+release_ready: false
+summary: {pass: 4, fail: 0, not_tested: 6, not_applicable: 0}
+gates:
+  - {id: DOC-001, level: B, status: pass, evidence: "Inventaire docs/refonte-final vérifié localement"}
+  - {id: DOC-002, level: B, status: pass, evidence: "Parsing YAML et JSON exécuté localement"}
+  - {id: DOC-003, level: C, status: pass, evidence: "Identifiants de sections, offres, médias et motion contrôlés"}
+  - {id: DOC-004, level: C, status: pass, evidence: "Quatre rasters présents avec dimensions et SHA-256"}
+  - {id: APP-001, level: C, status: not_tested, evidence: null, note: Approbation utilisateur des livrables absente}
+  - {id: BIZ-001, level: C, status: not_tested, evidence: null, note: Inclusions définitives TPE/PME et Startup à valider}
+  - {id: LEG-001, level: B, status: not_tested, evidence: null, note: Conservation des données et textes légaux à revoir}
+  - {id: BCK-001, level: B, status: not_tested, evidence: null, note: Schéma Supabase et RLS non versionnés}
+  - {id: IMP-001, level: C, status: not_tested, evidence: null, note: Refonte non implémentée par conception à cette étape}
+  - {id: VIS-001, level: C, status: not_tested, evidence: null, note: Concepts, tokens et images attendent la revue humaine}
+visual_review:
+  applicable: true
+  scores: {}
+  total: null
+approvals:
+  client_preview: {approved: false, approved_by: null, approved_at: null}
+  production: {authorized: false, authorized_by: null, authorized_at: null}
+delivery_artifacts: []
+reservations:
+  - Le résultat concerne la cohérence du dossier, pas la qualité d'un site non implémenté.
+  - Toute décision de release restera FAIL tant que les contrôles B et C ne passent pas.
