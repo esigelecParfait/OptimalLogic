@@ -13,9 +13,10 @@ decisions:
     temporary_rule: Conserver le contenu comme proposition à valider.
     owner: user
   - id: O-003
-    question: Des photos, cas clients, logos ou témoignages réels seront-ils fournis ?
+    question: Des médias de preuve authentiques seront-ils fournis ultérieurement ?
     blocking: false
-    temporary_rule: Aucun emplacement de preuve fictive; utiliser seulement des médias abstraits.
+    evidence: DEC-011 exclut les images décoratives mais autorise les preuves authentiques sourcées.
+    temporary_rule: Ne réserver aucun emplacement factice; l'identité visuelle reste entièrement code-native en leur absence.
     owner: user
   - id: O-004
     question: Le lien de connexion privée doit-il apparaître dans le footer public ?

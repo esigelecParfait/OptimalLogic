@@ -14,5 +14,6 @@ Statut : `ready_for_review`
 | DEC-008 | Aucun dashboard public ; le support et le compte privés restent protégés. | Instruction utilisateur | Confirmée |
 | DEC-009 | L'accompagnement mensuel est facultatif. | Décision commerciale utilisateur | Confirmée |
 | DEC-010 | Les livrables sont produits et poussés avant tout prompt d'implémentation. | Protocole utilisateur | Confirmée |
+| DEC-011 | La direction visuelle d’OptimalLogic repose sur la typographie expressive, les compositions d’interfaces, les schémas sémantiques et un mouvement propre à la marque. Les photographies décoratives et rasters générés sont exclus ; un média authentique reste possible uniquement comme preuve sourcée. | Instruction utilisateur du 1er septembre 2026 | Confirmée |
 
 Une ligne confirmée ne peut être modifiée par une skill. Toute nouvelle décision structurante doit être ajoutée ici puis validée par l'utilisateur.

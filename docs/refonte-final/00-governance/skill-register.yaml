@@ -8,7 +8,7 @@ skills:
   - {name: optimallogic-site-strategy, role: Définir audiences offres architecture et conversions, installed: true}
   - {name: optimallogic-content-design, role: Produire contenus SEO microcopy et preuves, installed: true}
   - {name: optimallogic-art-direction, role: Définir concept tokens et compositions, installed: true}
-  - {name: optimallogic-visual-assets, role: Produire images briefs et manifeste d'actifs, installed: true}
+  - {name: optimallogic-visual-assets, role: Produire le manifeste des compositions code-native et consigner les médias rejetés, installed: true}
   - {name: optimallogic-motion-specification, role: Définir animations états et mouvement réduit, installed: true}
   - {name: optimallogic-backend-recipes, role: Contractualiser les modules backend préservés, installed: true}
   - {name: optimallogic-implementation-blueprint, role: Préparer composants données dépendances et tests, installed: true}

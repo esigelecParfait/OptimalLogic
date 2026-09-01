@@ -4,22 +4,23 @@ gates:
   static:
     commands: [npm_run_format_check, npm_run_lint, npm_run_typecheck, npm_run_build]
   unit:
-    cases: [exact_five_offer_order, commerce_premium_excluded, missing_price_not_zero, invalid_database_payload_rejected, editorial_content_joined_by_code, assistant_exact_offer_codes]
+    cases: [exact_five_offer_order, commerce_premium_excluded, missing_price_not_zero, invalid_database_payload_rejected, editorial_content_joined_by_code, assistant_exact_offer_codes, visual_ids_match_manifest, rejected_rasters_have_no_consumers]
   functional:
     tool: playwright
     flows: [public_navigation, offers_success_partial_failure, request_form_states, booking_states, assistant_handoff, anonymous_private_redirect, authenticated_support_account, admin_auth_smoke]
   responsive:
     viewports: [320x800, 390x844, 768x1024, 1024x768, 1440x900]
-    checks: [no_overflow, readable_type, touch_targets, media_crop, sticky_elements, form_keyboard]
+    checks: [no_overflow, readable_type, touch_targets, diagram_recomposition, sticky_elements, form_keyboard]
   accessibility:
-    checks: [keyboard_flows, visible_focus, landmarks, heading_order, labels_errors_live_regions, contrast, reduced_motion, no_color_only_meaning]
+    checks: [keyboard_flows, visible_focus, landmarks, heading_order, labels_errors_live_regions, contrast, reduced_motion, svg_names_and_descriptions, no_motion_only_information, no_color_only_meaning]
   visual:
     pages: [/, /services, /tarifs, /contact, /prise-de-rdv, /aide]
-    states: [desktop_default, mobile_default, data_error]
+    states: [desktop_default, mobile_default, reduced_motion, javascript_disabled, data_error]
     approval: user_required
   performance:
     tool: lighthouse_ci
     budgets: {performance: 90, accessibility: 95, best_practices: 95, seo: 95, lcp_ms_max: 2500, cls_max: 0.1, inp_ms_max: 200}
+    additional_checks: [initial_raster_transfer_zero, motion_runtime_gzip_target_45kb, no_layout_shift_from_svg]
   security:
     checks: [no_secret_in_client_bundle, rate_limits, auth_guards, security_headers, real_supabase_rls, safe_error_payload]
 evidence_destination: docs/refonte-final/10-validation/evidence

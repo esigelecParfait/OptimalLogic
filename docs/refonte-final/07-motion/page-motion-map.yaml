@@ -1,61 +1,74 @@
 schema_version: 1
 status: ready_for_review
+motion_spec: docs/refonte-final/07-motion/motion-spec.yaml
+strong_moments_per_page_max: 2
 pages:
   /:
     strong_sequences: [home-hero, home-system-flow]
     sections:
-      home-hero: [signal-converge, reveal-copy]
-      home-signal-strip: [list-stagger]
-      home-problem: [reveal-copy]
-      home-system-flow: [flow-progress]
-      home-audience-paths: [panel-reveal]
-      home-method: [list-stagger]
-      home-human-handoff: [flow-progress]
-      home-final-cta: [reveal-copy]
+      home-hero: {presets: [signal-converge, reveal-copy], purpose: introduire_le_mecanisme, priority: strong, mobile_override: vertical_convergence_once, reduced_override: complete_static_diagram, fallback: diagramme_complet}
+      home-signal-strip: {presets: [reveal-copy], purpose: renforcer_la_hierarchie, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: liste_visible}
+      home-problem: {presets: [], purpose: respiration_editoriale, priority: none, mobile_override: none, reduced_override: same, fallback: contenu_visible}
+      home-system-flow: {presets: [context-assemble], purpose: expliquer_le_systeme, priority: strong, mobile_override: vertical_nodes_once, reduced_override: complete_static_composition, fallback: cinq_panneaux_visibles}
+      home-audience-paths: {presets: [reveal-structure], purpose: orienter_les_audiences, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: trois_parcours_visibles}
+      home-method: {presets: [reveal-copy], purpose: rythmer_la_methode, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: etapes_visibles}
+      home-human-handoff: {presets: [human-handoff], purpose: clarifier_la_decision_humaine, priority: medium, mobile_override: vertical_handoff_once, reduced_override: complete_static_handoff, fallback: frontiere_humaine_visible}
+      home-final-cta: {presets: [], purpose: laisser_le_cta_stable, priority: none, mobile_override: none, reduced_override: same, fallback: actions_visibles}
   /services:
     strong_sequences: [services-hero, services-demand-system]
     sections:
-      services-hero: [flow-progress, reveal-copy]
-      services-presence: [panel-reveal]
-      services-demand-system: [flow-progress]
-      services-audience-commerce: [section-shift]
-      services-audience-tpe: [section-shift]
-      services-audience-startup: [section-shift]
-      services-installation: [list-stagger]
-      services-optional-support: [panel-reveal]
-      services-faq: [accordion]
-      services-final-cta: [reveal-copy]
+      services-hero: {presets: [signal-converge, reveal-copy], purpose: relier_canaux_et_equipe, priority: strong, mobile_override: vertical_channels_once, reduced_override: complete_static_diagram, fallback: canaux_visibles}
+      services-presence: {presets: [context-assemble], purpose: montrer_la_clarification, priority: medium, mobile_override: stacked_panels_once, reduced_override: complete_static_composition, fallback: panneaux_organises}
+      services-demand-system: {presets: [context-assemble], purpose: expliquer_la_qualification, priority: strong, mobile_override: vertical_steps_once, reduced_override: complete_static_composition, fallback: quatre_etapes_visibles}
+      services-audience-commerce: {presets: [reveal-structure], purpose: contextualiser_commerce, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: flux_visible}
+      services-audience-tpe: {presets: [reveal-structure], purpose: contextualiser_tpe_pme, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: pipeline_visible}
+      services-audience-startup: {presets: [reveal-structure], purpose: contextualiser_startup, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: carte_visible}
+      services-installation: {presets: [reveal-copy], purpose: rythmer_le_processus, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: etapes_visibles}
+      services-optional-support: {presets: [], purpose: comparer_sans_distraction, priority: none, mobile_override: none, reduced_override: same, fallback: panneaux_visibles}
+      services-faq: {presets: [accordion], purpose: ouvrir_les_reponses, priority: interaction, mobile_override: same, reduced_override: immediate_open_close, fallback: controles_visibles}
+      services-final-cta: {presets: [], purpose: laisser_le_cta_stable, priority: none, mobile_override: none, reduced_override: same, fallback: actions_visibles}
   /tarifs:
     strong_sequences: []
     sections:
-      pricing-hero: [reveal-copy]
-      pricing-data-state: [form-state]
-      pricing-audience-tabs: [segmented-control]
-      pricing-offer-detail: [panel-reveal]
-      pricing-installation-vs-support: [reveal-copy]
-      pricing-process: [list-stagger]
-      pricing-faq: [accordion]
-      pricing-request: [form-state]
+      pricing-hero: {presets: [], purpose: presenter_le_contexte, priority: none, mobile_override: none, reduced_override: same, fallback: contenu_visible}
+      pricing-data-state: {presets: [form-state], purpose: signaler_etat_des_donnees, priority: feedback, mobile_override: same, reduced_override: immediate_state, fallback: statut_lisible}
+      pricing-audience-tabs: {presets: [segmented-control], purpose: confirmer_la_selection, priority: interaction, mobile_override: scrollable_tabs, reduced_override: immediate_indicator, fallback: onglet_actif_lisible}
+      pricing-offer-detail: {presets: [reveal-structure], purpose: changer_offre_sans_rupture, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: offre_active_visible}
+      pricing-installation-vs-support: {presets: [], purpose: expliquer_le_choix, priority: none, mobile_override: none, reduced_override: same, fallback: deux_options_visibles}
+      pricing-process: {presets: [reveal-copy], purpose: rythmer_le_processus, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: etapes_visibles}
+      pricing-faq: {presets: [accordion], purpose: ouvrir_les_reponses, priority: interaction, mobile_override: same, reduced_override: immediate_open_close, fallback: controles_visibles}
+      pricing-request: {presets: [form-state], purpose: confirmer_les_etats_formulaire, priority: feedback, mobile_override: same, reduced_override: immediate_state, fallback: formulaire_visible}
   /contact:
     strong_sequences: [contact-hero]
     sections:
-      contact-hero: [panel-reveal]
-      contact-expectations: [list-stagger]
-      contact-form: [form-state]
-      contact-alternatives: [reveal-copy]
-      contact-privacy: []
+      contact-hero: {presets: [threshold-cross, reveal-copy], purpose: montrer_le_passage_vers_echange, priority: strong, mobile_override: vertical_threshold_once, reduced_override: complete_static_threshold, fallback: seuil_complet}
+      contact-expectations: {presets: [reveal-copy], purpose: preparer_la_saisie, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: attentes_visibles}
+      contact-form: {presets: [form-state], purpose: confirmer_les_etats_formulaire, priority: feedback, mobile_override: same, reduced_override: immediate_state, fallback: formulaire_visible}
+      contact-alternatives: {presets: [], purpose: actions_alternatives_stables, priority: none, mobile_override: none, reduced_override: same, fallback: actions_visibles}
+      contact-privacy: {presets: [], purpose: information_legale_stable, priority: none, mobile_override: none, reduced_override: same, fallback: note_visible}
   /prise-de-rdv:
     strong_sequences: []
     sections:
-      booking-hero: [reveal-copy]
-      booking-preparation: [list-stagger]
-      booking-calendar: [booking-selection, form-state]
-      booking-summary: [form-state]
-      booking-fallback: [reveal-copy]
+      booking-hero: {presets: [], purpose: presenter_la_reservation, priority: none, mobile_override: none, reduced_override: same, fallback: contenu_visible}
+      booking-preparation: {presets: [reveal-copy], purpose: rythmer_la_preparation, priority: low, mobile_override: simple_fade, reduced_override: immediate, fallback: etapes_visibles}
+      booking-calendar: {presets: [booking-selection, form-state], purpose: confirmer_selection_et_etats, priority: interaction, mobile_override: same, reduced_override: immediate_state, fallback: calendrier_ou_repli_visible}
+      booking-summary: {presets: [form-state], purpose: actualiser_le_resume, priority: feedback, mobile_override: same, reduced_override: immediate_state, fallback: resume_visible}
+      booking-fallback: {presets: [], purpose: recuperation_stable, priority: none, mobile_override: none, reduced_override: same, fallback: action_visible}
   /aide:
     strong_sequences: []
     sections:
-      help-context: []
-      help-conversation: [assistant-stream, form-state]
-      help-human-fallback: [reveal-copy]
-global: {navigation: [button-feedback], primary_actions: [button-feedback], route_transition: none}
+      help-context: {presets: [], purpose: orienter_la_conversation, priority: none, mobile_override: none, reduced_override: same, fallback: contexte_visible}
+      help-conversation: {presets: [assistant-stream, form-state], purpose: afficher_le_flux_et_les_erreurs, priority: feedback, mobile_override: same, reduced_override: same_behavior, fallback: interface_visible}
+      help-human-fallback: {presets: [], purpose: garder_la_reprise_humaine_visible, priority: none, mobile_override: none, reduced_override: same, fallback: action_visible}
+  legal-pages:
+    strong_sequences: []
+    sections:
+      legal-document: {presets: [], purpose: lecture_stable, priority: none, mobile_override: none, reduced_override: same, fallback: document_visible}
+  /connexion/**:
+    strong_sequences: []
+    sections:
+      auth-panel: {presets: [form-state], purpose: confirmer_les_etats_auth, priority: feedback, mobile_override: same, reduced_override: immediate_state, fallback: formulaire_visible}
+global:
+  navigation: [button-feedback]
+  primary_actions: [button-feedback]
+  route_transition: none

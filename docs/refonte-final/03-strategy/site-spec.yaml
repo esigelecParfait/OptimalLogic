@@ -1,4 +1,4 @@
-spec_version: "1.0"
+spec_version: "1.1"
 status: ready
 sources:
   - {id: SRC-001, type: repository, title: "OptimalLogic main@af4dc00", date: 2026-09-01}
@@ -6,6 +6,7 @@ sources:
   - {id: SRC-003, type: user_decision, title: "Protocole de refonte et cinq offres", date: 2026-09-01}
   - {id: SRC-004, type: website, title: "Span Framer template and demo", date: 2026-08-31}
   - {id: SRC-005, type: website, title: "Sevora Framer template and demo", date: 2026-08-31}
+  - {id: SRC-006, type: user_decision, title: "Direction typographique, interfaces, schémas et mouvement code-native", date: 2026-09-01}
 project:
   client_name: OptimalLogic
   legal_name: OptimalLogic
@@ -65,7 +66,7 @@ content:
     - Contenus publics complets.
     - Microcopy des états et erreurs.
     - Métadonnées SEO par route.
-    - Visuels abstraits et schémas sémantiques.
+    - Compositions d’interfaces, schémas sémantiques et décorations code-native.
   prohibited_claims:
     - Chiffres, résultats, clients, témoignages ou certifications non sourcés.
     - Dashboard public.
@@ -80,7 +81,17 @@ brand:
   palette: ["#050505", "#FFFFFF", "#2EE6A8"]
   typography: [Inter, Space Grotesk, Lora proposed]
   visual_references: [Span, Sevora]
-  avoid: [generic_saas_dashboard, fake_proof, excessive_glow, custom_cursor, scroll_jacking]
+  avoid: [generic_saas_dashboard, fake_proof, decorative_photography, generated_raster, excessive_glow, custom_cursor, scroll_jacking]
+  visual_strategy:
+    mode: code_native_motion
+    decorative_photography: forbidden
+    generated_raster: forbidden
+    authentic_evidence_media: allowed
+    visual_languages: [expressive_typography, interface_compositions, semantic_diagrams, svg_css_motion]
+    motion:
+      role: explain_progression_state_and_human_handoff
+      static_fallback_required: true
+      strong_sequences_per_page_max: 2
 backend:
   modules: [lead-capture, booking-cal, client-auth, client-portal, email-brevo, assistant-ai, analytics-consent]
   integrations:

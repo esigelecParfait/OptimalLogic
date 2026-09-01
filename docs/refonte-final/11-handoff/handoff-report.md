@@ -6,7 +6,7 @@
 
 ## Motif
 
-Les skills ont produit le dossier nécessaire à la revue, mais l'utilisateur ne l'a pas encore approuvé. La QA n'a pas de preuve d'implémentation, de rendu, d'intégrations réelles ou de RLS.
+Les livrables ont été adaptés à la direction code-native, mais l'utilisateur ne les a pas encore approuvés. La QA n'a pas de preuve d'implémentation, de rendu statique et animé, d'intégrations réelles ou de RLS.
 
 ## Ce qui peut être fait maintenant
 

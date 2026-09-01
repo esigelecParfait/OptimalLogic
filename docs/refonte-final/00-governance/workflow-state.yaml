@@ -3,9 +3,15 @@ project: OptimalLogic
 generated_at: 2026-09-01
 branch: feat/refonte-final
 baseline_revision: af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
-preparation_revision: ed260a45558242a02ea06ca57f13567ef4af8860
+preparation_revision: 4c66ecad7ee63c9bc601b58d5c9a4d3a7f5cba14
 source_of_truth: docs/refonte-final
 current_stage: user_review
+visual_revision:
+  decision: DEC-011
+  parent_revision: 4c66ecad7ee63c9bc601b58d5c9a4d3a7f5cba14
+  mode: code_native_motion
+  affected_stages: [01-audit, 02-references, 03-intake, 06-art-direction, 07-assets, 08-motion, 10-blueprint, 11-validation, 12-handoff]
+  preserved_stages: [04-strategy, 05-content, 09-backend]
 approval_policy:
   producer_can_approve: false
   user_approval_required: true
@@ -34,4 +40,4 @@ blockers:
 notes:
   - Aucun fichier applicatif ni paquet Node.js n'est modifié pendant la production des livrables.
   - docs/refonte-v2 est une source historique et non une autorité pour la refonte finale.
-  - Toutes les skills ont été exécutées; le handoff reste bloqué jusqu'à validation utilisateur.
+  - La chaîne visuelle a été réexécutée selon DEC-011; le handoff reste bloqué jusqu'à validation utilisateur.

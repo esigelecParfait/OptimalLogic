@@ -1,45 +1,135 @@
 schema_version: 1
 status: ready_for_review
-system: {name: signal_to_decision, preferred_runtime: motion, css_fallback_required: true}
+visual_strategy:
+  decision: DEC-011
+  mode: code_native_motion
+  static_first: true
+system:
+  name: signal_to_human_decision
+  preferred_runtime: motion
+  css_fallback_required: true
+  identity_presets: [signal-converge, context-assemble, threshold-cross, human-handoff]
 tokens:
   duration_ms: {instant: 0, feedback: 120, fast: 180, standard: 260, chapter: 420, narrative: 700}
   easing:
     enter: [0.16, 1, 0.3, 1]
     standard: [0.2, 0, 0, 1]
     exit: [0.4, 0, 1, 1]
-  distance_px: {micro: 4, reveal: 16, chapter: 28}
+  distance_px: {micro: 4, reveal: 12, chapter: 20}
 presets:
   reveal-copy:
+    category: entrance
+    identity: false
+    purpose: Renforcer une hiérarchie déjà visible.
     trigger: intersection_once
-    from: {opacity: 0, translate_y: 16}
+    from: {opacity: 0.72, translate_y: 12}
     to: {opacity: 1, translate_y: 0}
     duration: standard
     easing: enter
-  panel-reveal:
+    reduced: final_state_immediate
+  reveal-structure:
+    category: entrance
+    identity: false
+    purpose: Introduire sobrement une composition secondaire.
     trigger: intersection_once
-    from: {opacity: 0, translate_y: 28}
+    from: {opacity: 0.82, translate_y: 12}
     to: {opacity: 1, translate_y: 0}
     duration: chapter
     easing: enter
-  list-stagger: {trigger: intersection_once, child: reveal-copy, max_children: 5, interval_ms: 55}
+    reduced: final_state_immediate
   signal-converge:
+    category: demonstration
+    identity: true
+    purpose: Montrer plusieurs signaux rejoignant un contexte commun.
     trigger: after_first_paint_once
     sequence:
       - {target: signal_paths, effect: stroke_dashoffset_to_zero, duration: narrative}
-      - {target: decision_threshold, effect: opacity_and_scale_to_one, duration: standard}
+      - {target: context_panel, effect: opacity_to_one, duration: standard}
+      - {target: next_action, effect: border_and_signal_emphasis, duration: standard}
     loop: false
-  flow-progress: {trigger: intersection_once, effect: activate_nodes_in_order, max_nodes: 5, duration_per_node_ms: 180, loop: false}
-  section-shift:
+    reduced: complete_static_diagram
+  context-assemble:
+    category: demonstration
+    identity: true
+    purpose: Montrer des informations déjà présentes se structurant en contexte lisible.
     trigger: intersection_once
-    from: {opacity: 0, translate_x: 20}
-    to: {opacity: 1, translate_x: 0}
-    duration: chapter
-  button-feedback: {trigger: hover_focus_press, hover_translate_y: -1, press_scale: 0.98, duration: feedback}
-  segmented-control: {trigger: user_selection, effect: active_indicator_translate, duration: fast, preserve_focus: true}
-  accordion: {trigger: user_selection, effect: height_and_opacity, duration: standard, aria_expanded_required: true}
-  form-state: {trigger: async_state_change, effect: opacity_crossfade_without_layout_shift, duration: fast}
-  booking-selection: {trigger: user_selection, effect: border_background_and_summary_update, duration: fast, preserve_focus: true}
-  assistant-stream: {trigger: response_stream, effect: append_without_typing_animation, duration: instant}
+    sequence:
+      - {target: context_items, effect: short_transform_to_final_positions, duration: chapter}
+      - {target: relation_lines, effect: opacity_to_one, duration: standard}
+    loop: false
+    reduced: complete_static_composition
+  threshold-cross:
+    category: demonstration
+    identity: true
+    purpose: Montrer le passage d’une situation brute vers un échange contextualisé.
+    trigger: after_first_paint_once
+    sequence:
+      - {target: signal, effect: translate_to_threshold, duration: chapter}
+      - {target: destination_panel, effect: surface_emphasis, duration: standard}
+    loop: false
+    reduced: complete_static_threshold
+  human-handoff:
+    category: demonstration
+    identity: true
+    purpose: Montrer la transmission du contexte à une décision humaine.
+    trigger: intersection_once
+    sequence:
+      - {target: prepared_context, effect: translate_to_handoff_boundary, duration: chapter}
+      - {target: human_decision, effect: border_and_label_emphasis, duration: standard}
+    loop: false
+    reduced: complete_static_handoff
+  button-feedback:
+    category: interaction
+    identity: false
+    purpose: Confirmer hover, focus et pression sans effet magnétique.
+    trigger: hover_focus_press
+    hover_translate_y: -1
+    press_scale: 0.98
+    duration: feedback
+    reduced: color_and_border_only
+  segmented-control:
+    category: interaction
+    identity: false
+    purpose: Confirmer la sélection d’une audience.
+    trigger: user_selection
+    effect: active_indicator_translate
+    duration: fast
+    preserve_focus: true
+    reduced: immediate_indicator
+  accordion:
+    category: interaction
+    identity: false
+    purpose: Ouvrir une réponse tout en conservant l’état ARIA.
+    trigger: user_selection
+    effect: height_and_opacity
+    duration: standard
+    aria_expanded_required: true
+    reduced: immediate_open_close
+  form-state:
+    category: feedback
+    identity: false
+    purpose: Confirmer un changement asynchrone sans déplacer la mise en page.
+    trigger: async_state_change
+    effect: opacity_crossfade_without_layout_shift
+    duration: fast
+    reduced: immediate_state
+  booking-selection:
+    category: interaction
+    identity: false
+    purpose: Confirmer un créneau et actualiser le résumé.
+    trigger: user_selection
+    effect: border_background_and_summary_update
+    duration: fast
+    preserve_focus: true
+    reduced: immediate_state
+  assistant-stream:
+    category: feedback
+    identity: false
+    purpose: Afficher le flux réel sans animation de frappe.
+    trigger: response_stream
+    effect: append_without_typing_animation
+    duration: instant
+    reduced: same_behavior
 budget:
   strong_sequences_per_page: 2
   simultaneous_elements: 5
@@ -52,3 +142,10 @@ performance:
   lazy_load_runtime_below_fold: true
   shared_intersection_observer: true
   will_change_only_during_animation: true
+  initial_motion_runtime_gzip_kb_target: 45
+reduced_motion:
+  translation: none
+  scale: none
+  path_drawing: disabled
+  loops: disabled
+  feedback_duration_ms_max: 100

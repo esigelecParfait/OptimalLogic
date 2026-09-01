@@ -10,13 +10,13 @@ directories:
   - {path: 03-strategy, purpose: site-spec architecture audiences conversions, status: ready_for_review}
   - {path: 04-content, purpose: messages offres pages interface SEO preuves, status: ready_for_review}
   - {path: 05-art-direction, purpose: concepts tokens compositions, status: ready_for_review}
-  - {path: 06-assets, purpose: masters briefs et manifeste, status: ready_for_review}
+  - {path: 06-assets, purpose: actifs code-native, rasters rejetés et contrats de consommation, status: ready_for_review}
   - {path: 07-motion, purpose: principes presets pages états et réduction, status: ready_for_review}
   - {path: 08-backend, purpose: modules frontières et risques de données, status: ready_for_review}
   - {path: 09-implementation, purpose: blueprint dépendances et tests, status: ready_for_review}
   - {path: 10-validation, purpose: QA documentaire et checklist de revue, status: ready_for_review}
   - {path: 11-handoff, purpose: handoff bloqué avant approbation, status: blocked}
-required_approvals: [brief, offer_copy, art_direction, assets, motion, backend_boundaries, dependencies]
+required_approvals: [brief, offer_copy, art_direction, code_native_assets, motion, backend_boundaries, dependencies]
 blocking_decisions: [O-002, O-005, O-006, O-007]
 codex_prompt_executable: false
 integrity_file: docs/refonte-final/11-handoff/checksums.sha256

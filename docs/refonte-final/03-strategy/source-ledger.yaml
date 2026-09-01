@@ -6,7 +6,9 @@ sources:
   SRC-003: {type: user_decision, authority: business_and_workflow, reliability: highest}
   SRC-004: {type: public_reference, authority: visual_observation_only, reliability: medium}
   SRC-005: {type: public_reference, authority: visual_observation_only, reliability: medium}
+  SRC-006: {type: user_decision, authority: visual_strategy, reliability: highest}
 rules:
   - Les décisions de SRC-003 prévalent sur les documents V2 et AGENTS.md contradictoires.
+  - SRC-006 impose le mode code-native et l'absence de raster décoratif consommé.
   - SRC-004 et SRC-005 ne peuvent pas justifier une offre, une preuve ou une fonctionnalité.
   - Une information Supabase non versionnée reste à vérifier dans le projet réel.

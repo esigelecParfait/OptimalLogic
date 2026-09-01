@@ -10,6 +10,7 @@ runtime:
     usage: [components/motion, components/visuals]
     bundle_control: Imports motion/react ciblés et chargement différé sous la ligne de flottaison.
     alternatives_rejected: [gsap, lenis]
+    visual_strategy_constraint: Les états HTML/SVG complets sont rendus côté serveur; Motion ne crée aucune information.
   - package: class-variance-authority
     decision: add
     target_version: ^0.7.1
@@ -45,9 +46,11 @@ built_in_next_features:
   - {feature: next/font/local, replaces: external_font_loader}
   - {feature: next/image, replaces: image_optimization_package}
   - {feature: Metadata_API, replaces: seo_package}
+  - {feature: ImageResponse, replaces: generated_social_card_master}
   - {feature: robots.ts_and_sitemap.ts, replaces: sitemap_plugin}
 rejected:
   - {packages: [gsap, lenis, three], reason: Complexité et poids sans besoin approuvé}
   - {packages: [shadcn, material-ui, chakra-ui], reason: Bibliothèque complète incompatible avec le système spécifique}
   - {packages: [next-seo], reason: Les API natives Next.js couvrent le besoin}
+  - {packages: [three, react-three-fiber, lottie-react], reason: Aucun besoin 3D ou raster animé dans la direction code-native validée}
 future_install_command: npm install motion class-variance-authority clsx tailwind-merge zod server-only && npm install -D @playwright/test vitest @lhci/cli prettier

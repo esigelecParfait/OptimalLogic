@@ -1,10 +1,14 @@
 schema_version: 1
 status: ready_for_review
 components:
+  code_native_visual:
+    states: [static_complete, enhancing, complete]
+    presets: [signal-converge, context-assemble, threshold-cross, human-handoff, reveal-structure]
+    requirements: [server_rendered_final_information, accessible_name, no_motion_only_information, reduced_state_immediate]
   button:
     states: [idle, hover, focus_visible, pressed, disabled, loading]
     preset: button-feedback
-    requirements: [independent_focus_ring, stable_loading_width]
+    requirements: [independent_focus_ring, stable_loading_width, no_magnetic_effect]
   accordion:
     states: [collapsed, expanded, focus_visible]
     preset: accordion
@@ -32,8 +36,8 @@ components:
   assistant_message:
     states: [queued, streaming, complete, failed]
     preset: assistant-stream
-    requirements: [aria_live_polite, stop_control, human_fallback]
+    requirements: [aria_live_polite, stop_control, human_fallback, no_typing_animation]
   mobile_navigation:
     states: [closed, open, item_focus]
-    preset: panel-reveal
+    preset: reveal-structure
     requirements: [focus_trap, escape_closes, restore_focus, body_scroll_lock]

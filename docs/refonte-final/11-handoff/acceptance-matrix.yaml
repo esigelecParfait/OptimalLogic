@@ -7,7 +7,9 @@ requirements:
   - {id: REQ-004, requirement: Aucun dashboard public, source: DEC-008, proof: route_and_navigation_review}
   - {id: REQ-005, requirement: Support compte et admin préservés, source: preservation_manifest, proof: authenticated_e2e}
   - {id: REQ-006, requirement: Span et Sevora non copiés, source: anti_copy_register, proof: human_visual_review}
-  - {id: REQ-007, requirement: Masters consommés par les sections prévues, source: asset_manifest, proof: rendered_pages_and_network}
+  - {id: REQ-007, requirement: Douze actifs code-native consommés par les sections prévues, source: asset_manifest, proof: rendered_pages_code_review_and_accessibility_tree}
+  - {id: REQ-011, requirement: Aucun raster historique consommé, source: DEC-011, proof: import_search_public_inventory_and_network}
+  - {id: REQ-012, requirement: État statique complet sans JavaScript, source: asset_manifest, proof: playwright_javascript_disabled}
   - {id: REQ-008, requirement: Mouvement réduit complet, source: reduced_motion_contract, proof: playwright_reduced_motion}
   - {id: REQ-009, requirement: Petits îlots clients seulement, source: component_map, proof: code_review_and_bundle}
   - {id: REQ-010, requirement: Quality Gate complet, source: test_plan, proof: command_logs_and_reports}

@@ -1,5 +1,10 @@
 schema_version: 1
 status: ready_for_review
+visual_strategy:
+  decision: DEC-011
+  mode: code_native_motion
+  static_first: true
+  legacy_raster_consumption: forbidden
 roots:
   ui: components/ui
   marketing: components/marketing
@@ -14,46 +19,65 @@ primitives:
   - {id: surface, target: components/ui/Surface.tsx, rendering: server}
   - {id: button, target: components/ui/Button.tsx, rendering: server_by_default}
   - {id: heading, target: components/ui/Heading.tsx, rendering: server}
-  - {id: media-frame, target: components/ui/MediaFrame.tsx, rendering: server}
+  - {id: visual-frame, target: components/ui/VisualFrame.tsx, rendering: server}
+  - {id: diagram-label, target: components/ui/DiagramLabel.tsx, rendering: server}
+visual_components:
+  - {id: visual-home-convergence, component: SignalConvergence, target: components/visuals/SignalConvergence.tsx, base_rendering: server_svg, enhancement: motion_island}
+  - {id: visual-home-system-flow, component: SystemFlow, target: components/visuals/SystemFlow.tsx, base_rendering: server_html, enhancement: motion_island}
+  - {id: visual-home-audience-constellation, component: AudienceConstellation, target: components/visuals/AudienceConstellation.tsx, base_rendering: server_svg, enhancement: optional_motion_island}
+  - {id: visual-home-handoff, component: HumanHandoffDiagram, target: components/visuals/HumanHandoffDiagram.tsx, base_rendering: server_svg, enhancement: motion_island}
+  - {id: visual-services-channel-flow, component: ChannelFlow, target: components/visuals/ChannelFlow.tsx, base_rendering: server_svg, enhancement: motion_island}
+  - {id: visual-services-context-clarifier, component: ContextClarifier, target: components/visuals/ContextClarifier.tsx, base_rendering: server_html, enhancement: motion_island}
+  - {id: visual-services-qualification, component: QualificationSequence, target: components/visuals/QualificationSequence.tsx, base_rendering: server_html, enhancement: motion_island}
+  - {id: visual-commerce-signal, component: CommerceSignal, target: components/visuals/CommerceSignal.tsx, base_rendering: server_svg, enhancement: optional_motion_island}
+  - {id: visual-tpe-request-pipeline, component: RequestPipeline, target: components/visuals/RequestPipeline.tsx, base_rendering: server_html, enhancement: optional_motion_island}
+  - {id: visual-startup-evidence-map, component: EvidenceMap, target: components/visuals/EvidenceMap.tsx, base_rendering: server_svg, enhancement: optional_motion_island}
+  - {id: visual-contact-threshold, component: ContactThreshold, target: components/visuals/ContactThreshold.tsx, base_rendering: server_svg, enhancement: motion_island}
+  - {id: visual-social-card, component: OpenGraphImage, target: app/opengraph-image.tsx, base_rendering: next_image_response, enhancement: none}
 sections:
-  home-hero: {component: HomeHero, rendering: server_plus_motion_island, media: asset-home-signal-hero}
-  home-signal-strip: {component: SignalPrinciples, rendering: server_plus_motion_island, media: none}
-  home-problem: {component: EditorialStatement, rendering: server, media: none}
-  home-system-flow: {component: SignalFlow, rendering: server_plus_motion_island, media: coded-flow-diagram}
-  home-audience-paths: {component: AudiencePaths, rendering: server_plus_motion_island, media: derived_crops}
-  home-method: {component: ProcessList, rendering: server_plus_motion_island, media: none}
-  home-human-handoff: {component: HumanHandoff, rendering: server_plus_motion_island, media: coded-handoff-diagram}
-  home-final-cta: {component: FinalCta, rendering: server, media: asset-home-signal-hero}
-  services-hero: {component: ServicesHero, rendering: server_plus_motion_island, media: coded-channel-flow}
-  services-presence: {component: PresenceChapter, rendering: server, media: asset-services-context}
-  services-demand-system: {component: QualificationSequence, rendering: server_plus_motion_island, media: coded-qualification-sequence}
-  services-audience-commerce: {component: AudienceChapter, rendering: server_plus_motion_island, media: coded-commerce-signal}
-  services-audience-tpe: {component: AudienceChapter, rendering: server_plus_motion_island, media: coded-request-pipeline}
-  services-audience-startup: {component: AudienceChapter, rendering: server_plus_motion_island, media: coded-startup-evidence-map}
-  services-installation: {component: ProcessList, rendering: server_plus_motion_island, media: none}
-  services-optional-support: {component: SupportChoice, rendering: server, media: none}
-  services-faq: {component: FaqAccordion, rendering: client, media: none}
-  services-final-cta: {component: FinalCta, rendering: server, media: none}
-  pricing-hero: {component: PricingHero, rendering: server, media: none}
-  pricing-data-state: {component: OfferDataStatus, rendering: server, media: none}
-  pricing-audience-tabs: {component: OfferAudienceTabs, rendering: client, media: none}
-  pricing-offer-detail: {component: OfferExplorer, rendering: client, media: none}
-  pricing-installation-vs-support: {component: SupportExplanation, rendering: server, media: none}
-  pricing-process: {component: ProcessList, rendering: server_plus_motion_island, media: none}
-  pricing-faq: {component: FaqAccordion, rendering: client, media: none}
-  pricing-request: {component: ProjectRequestForm, rendering: client, media: none}
-  contact-hero: {component: ContactHero, rendering: server, media: asset-contact-threshold}
-  contact-expectations: {component: ContactExpectations, rendering: server_plus_motion_island, media: none}
-  contact-form: {component: ProjectRequestForm, rendering: client, media: none}
-  contact-alternatives: {component: ContactAlternatives, rendering: server, media: none}
-  contact-privacy: {component: PrivacyNote, rendering: server, media: none}
-  booking-hero: {component: BookingHero, rendering: server, media: none}
-  booking-preparation: {component: BookingPreparation, rendering: server_plus_motion_island, media: none}
-  booking-calendar: {component: BookingCalendar, rendering: client, media: none}
-  booking-summary: {component: BookingSummary, rendering: client, media: none}
-  booking-fallback: {component: BookingFallback, rendering: server, media: none}
-  help-context: {component: AssistantContext, rendering: server, media: none}
-  help-conversation: {component: PublicAssistant, rendering: client, media: none}
-  help-human-fallback: {component: HumanFallback, rendering: server, media: none}
-  legal-document: {component: LegalDocument, rendering: server, media: none}
-  auth-panel: {component: AuthPanel, rendering: server_plus_form_island, media: none}
+  home-hero: {component: HomeHero, rendering: server_plus_motion_island, visual: {id: visual-home-convergence, kind: semantic_diagram, static_fallback: complete}, motion: [signal-converge, reveal-copy]}
+  home-signal-strip: {component: SignalPrinciples, rendering: server_plus_small_motion_island, visual: {id: none, kind: none, static_fallback: complete}, motion: [reveal-copy]}
+  home-problem: {component: EditorialStatement, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  home-system-flow: {component: SystemChapter, rendering: server_plus_motion_island, visual: {id: visual-home-system-flow, kind: interface_composition, static_fallback: complete}, motion: [context-assemble]}
+  home-audience-paths: {component: AudiencePaths, rendering: server_plus_optional_motion_island, visual: {id: visual-home-audience-constellation, kind: semantic_diagram, static_fallback: complete}, motion: [reveal-structure]}
+  home-method: {component: ProcessList, rendering: server_plus_small_motion_island, visual: {id: none, kind: none, static_fallback: complete}, motion: [reveal-copy]}
+  home-human-handoff: {component: HumanHandoff, rendering: server_plus_motion_island, visual: {id: visual-home-handoff, kind: semantic_diagram, static_fallback: complete}, motion: [human-handoff]}
+  home-final-cta: {component: FinalCta, rendering: server, visual: {id: visual-home-convergence, kind: semantic_diagram_static_variant, static_fallback: complete}, motion: []}
+  services-hero: {component: ServicesHero, rendering: server_plus_motion_island, visual: {id: visual-services-channel-flow, kind: semantic_diagram, static_fallback: complete}, motion: [signal-converge, reveal-copy]}
+  services-presence: {component: PresenceChapter, rendering: server_plus_motion_island, visual: {id: visual-services-context-clarifier, kind: interface_composition, static_fallback: complete}, motion: [context-assemble]}
+  services-demand-system: {component: DemandSystemChapter, rendering: server_plus_motion_island, visual: {id: visual-services-qualification, kind: interface_composition, static_fallback: complete}, motion: [context-assemble]}
+  services-audience-commerce: {component: AudienceChapter, rendering: server_plus_optional_motion_island, visual: {id: visual-commerce-signal, kind: semantic_diagram, static_fallback: complete}, motion: [reveal-structure]}
+  services-audience-tpe: {component: AudienceChapter, rendering: server_plus_optional_motion_island, visual: {id: visual-tpe-request-pipeline, kind: interface_composition, static_fallback: complete}, motion: [reveal-structure]}
+  services-audience-startup: {component: AudienceChapter, rendering: server_plus_optional_motion_island, visual: {id: visual-startup-evidence-map, kind: semantic_diagram, static_fallback: complete}, motion: [reveal-structure]}
+  services-installation: {component: ProcessList, rendering: server_plus_small_motion_island, visual: {id: none, kind: none, static_fallback: complete}, motion: [reveal-copy]}
+  services-optional-support: {component: SupportChoice, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  services-faq: {component: FaqAccordion, rendering: client_interaction, visual: {id: none, kind: none, static_fallback: complete}, motion: [accordion]}
+  services-final-cta: {component: FinalCta, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  pricing-hero: {component: PricingHero, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  pricing-data-state: {component: OfferDataStatus, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: [form-state]}
+  pricing-audience-tabs: {component: OfferAudienceTabs, rendering: client_interaction, visual: {id: none, kind: none, static_fallback: complete}, motion: [segmented-control]}
+  pricing-offer-detail: {component: OfferExplorer, rendering: client_interaction, visual: {id: none, kind: functional_interface, static_fallback: selected_offer_visible}, motion: [reveal-structure]}
+  pricing-installation-vs-support: {component: SupportExplanation, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  pricing-process: {component: ProcessList, rendering: server_plus_small_motion_island, visual: {id: none, kind: none, static_fallback: complete}, motion: [reveal-copy]}
+  pricing-faq: {component: FaqAccordion, rendering: client_interaction, visual: {id: none, kind: none, static_fallback: complete}, motion: [accordion]}
+  pricing-request: {component: ProjectRequestForm, rendering: client_interaction, visual: {id: none, kind: functional_interface, static_fallback: form_visible}, motion: [form-state]}
+  contact-hero: {component: ContactHero, rendering: server_plus_motion_island, visual: {id: visual-contact-threshold, kind: semantic_diagram, static_fallback: complete}, motion: [threshold-cross, reveal-copy]}
+  contact-expectations: {component: ContactExpectations, rendering: server_plus_small_motion_island, visual: {id: none, kind: none, static_fallback: complete}, motion: [reveal-copy]}
+  contact-form: {component: ProjectRequestForm, rendering: client_interaction, visual: {id: none, kind: functional_interface, static_fallback: form_visible}, motion: [form-state]}
+  contact-alternatives: {component: ContactAlternatives, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  contact-privacy: {component: PrivacyNote, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  booking-hero: {component: BookingHero, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  booking-preparation: {component: BookingPreparation, rendering: server_plus_small_motion_island, visual: {id: none, kind: none, static_fallback: complete}, motion: [reveal-copy]}
+  booking-calendar: {component: BookingCalendar, rendering: client_interaction, visual: {id: none, kind: functional_interface, static_fallback: provider_fallback_visible}, motion: [booking-selection, form-state]}
+  booking-summary: {component: BookingSummary, rendering: client_interaction, visual: {id: none, kind: functional_interface, static_fallback: empty_state_visible}, motion: [form-state]}
+  booking-fallback: {component: BookingFallback, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  help-context: {component: AssistantContext, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  help-conversation: {component: PublicAssistant, rendering: client_interaction, visual: {id: none, kind: functional_interface, static_fallback: initial_prompt_visible}, motion: [assistant-stream, form-state]}
+  help-human-fallback: {component: HumanFallback, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  legal-document: {component: LegalDocument, rendering: server, visual: {id: none, kind: none, static_fallback: complete}, motion: []}
+  auth-panel: {component: AuthPanel, rendering: server_plus_form_island, visual: {id: none, kind: functional_interface, static_fallback: form_visible}, motion: [form-state]}
+forbidden_imports:
+  - docs/refonte-final/06-assets/generated/home-signal-hero-v1.png
+  - docs/refonte-final/06-assets/generated/services-context-v1.png
+  - docs/refonte-final/06-assets/generated/contact-threshold-v1.png
+  - docs/refonte-final/06-assets/generated/social-card-v1.png

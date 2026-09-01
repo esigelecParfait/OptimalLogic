@@ -1,8 +1,11 @@
 # Checklist de revue utilisateur
 
-- [ ] Valider ou rejeter le concept « Maison des signaux ».
+- [ ] Valider ou rejeter le concept détaillé « Maison des signaux code-native ».
 - [ ] Valider l'ivoire, l'accent bleu Startup et Lora.
-- [ ] Valider les trois masters d'images.
+- [ ] Valider la grammaire des lignes, nœuds, panneaux et interfaces.
+- [ ] Valider la densité des douze compositions code-native.
+- [ ] Valider l'intensité des quatre mouvements identitaires.
+- [ ] Confirmer que les quatre PNG historiques restent rejetés et non consommés.
 - [ ] Valider la promesse principale et le ton.
 - [ ] Valider les contenus proposés pour les deux offres TPE/PME.
 - [ ] Valider les contenus proposés pour les deux offres Startup.

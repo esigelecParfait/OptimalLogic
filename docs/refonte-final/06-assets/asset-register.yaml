@@ -1,17 +1,36 @@
 schema_version: 1
 status: ready_for_review
 summary:
-  original_generated_masters: 3
-  derived_rasters: 1
-  code_native_media: 7
+  active_rasters: 0
+  active_code_native_media: 12
+  historical_generated_masters: 3
+  historical_derived_rasters: 1
+  authentic_evidence_media: 0
   stock_assets_required: 0
-review:
-  asset-home-signal-hero: {producer_assessment: usable_for_review, user_approved: false, notes: [Convergence claire, Crop mobile possible, Aucune fausse interface]}
-  asset-services-context: {producer_assessment: usable_for_review, user_approved: false, notes: [Transformation lisible, Trois voies métaphoriques, Densité gauche à préserver]}
-  asset-contact-threshold: {producer_assessment: usable_for_review, user_approved: false, notes: [Composition calme, Seuil lisible, Aucun portrait fictif]}
-  asset-social-card: {producer_assessment: usable_for_review, user_approved: false, notes: [Ratio correct, Dérivation traçable]}
+
+active_contracts:
+  - {id: visual-home-convergence, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-home-system-flow, implementation: semantic_html, status: specified, user_approved: false}
+  - {id: visual-home-audience-constellation, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-home-handoff, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-services-channel-flow, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-services-context-clarifier, implementation: semantic_html, status: specified, user_approved: false}
+  - {id: visual-services-qualification, implementation: semantic_html, status: specified, user_approved: false}
+  - {id: visual-commerce-signal, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-tpe-request-pipeline, implementation: semantic_html, status: specified, user_approved: false}
+  - {id: visual-startup-evidence-map, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-contact-threshold, implementation: inline_svg, status: specified, user_approved: false}
+  - {id: visual-social-card, implementation: next_image_response, status: specified, user_approved: false}
+
+legacy_review:
+  asset-home-signal-hero: {status: rejected_not_consumed, user_approved: false}
+  asset-services-context: {status: rejected_not_consumed, user_approved: false}
+  asset-contact-threshold: {status: rejected_not_consumed, user_approved: false}
+  asset-social-card: {status: rejected_not_consumed, user_approved: false}
+
 constraints:
-  - Ne pas copier les PNG dans public sans conversion et mesure de poids.
-  - Ne pas transformer les diagrammes exacts en images raster.
-  - Ne pas ajouter de portrait, logo ou preuve sans source validée.
-  - Ne pas réutiliser un même master comme remplissage répétitif.
+  - Aucun fichier de generated/ ne doit être copié dans public ou importé.
+  - Les diagrammes informatifs restent du HTML/SVG accessible.
+  - L’état statique complet précède toute animation.
+  - Une interface illustrative ne doit pas être présentée comme un produit existant.
+  - Un média de preuve futur exige une source, des droits et une validation explicite.

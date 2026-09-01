@@ -19,4 +19,4 @@ routes:
   - {path: /showroom, rendering: remove, data: none, index: false}
 seo:
   source: docs/refonte-final/04-content/seo-content.yaml
-  native_files: [app/robots.ts, app/sitemap.ts, app/opengraph-image.png]
+  native_files: [app/robots.ts, app/sitemap.ts, app/opengraph-image.tsx]

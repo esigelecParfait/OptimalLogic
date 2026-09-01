@@ -7,7 +7,8 @@ Le futur Codex devra reconstruire le frontend public d'OptimalLogic à partir de
 ## Périmètre futur
 
 - Reconstruire les six pages publiques principales et harmoniser les pages légales/authentification.
-- Intégrer les trois masters et sept schémas code-native.
+- Construire les douze actifs code-native en HTML, SVG, CSS ou `ImageResponse`.
+- Ne copier, importer ou utiliser aucun des quatre rasters historiques, y compris comme fallback.
 - Appliquer les contrats de mouvement accessibles.
 - Afficher cinq offres dont nom et prix viennent de Supabase.
 - Préserver toutes les frontières privées et intégrations.

@@ -1,61 +1,200 @@
 schema_version: 1
 status: ready_for_review
+visual_strategy:
+  decision: DEC-011
+  mode: code_native_motion
+  decorative_photography: forbidden
+  generated_raster: forbidden
+  authentic_evidence_media: allowed_if_sourced
+  static_fallback_required: true
+
 rules:
-  source_format: png_master
-  production_formats: [avif, webp]
-  no_fake_interface_or_proof: true
   exact_information_is_code_native: true
-assets:
+  no_fake_interface_or_proof: true
+  no_visual_information_motion_only: true
+  mobile_diagrams_are_recomposed_not_cropped: true
+  generated_directory_is_historical_only: true
+
+assets: []
+
+legacy_assets:
   - id: asset-home-signal-hero
     type: generated_raster
     source: docs/refonte-final/06-assets/generated/home-signal-hero-v1.png
     sha256: 38c30c6b430d575b4c7ebead1c7b504b0a2f9f641cbaf1e047cf9ff02a51cce9
-    dimensions: 1586x992
-    sections: [home-hero, home-final-cta]
-    purpose: Plusieurs signaux convergent vers un seuil puis une action lisible.
-    focal_point: center_right
-    mobile_crop: center
-    alt: Plusieurs lignes convergent vers un seuil vert puis un passage lumineux.
-    future_target: public/images/refonte-final/home-signal-hero.avif
-    next_image: {priority: home-hero-only, sizes: "(max-width: 767px) 100vw, 50vw"}
+    status: rejected_not_consumed
+    sections: []
+    reason: DEC-011 interdit les rasters générés décoratifs.
   - id: asset-services-context
     type: generated_raster
     source: docs/refonte-final/06-assets/generated/services-context-v1.png
     sha256: e0b1df9267712b2b40c1aa198fe700ee3213e56043391dadf1a772bb92af1574
-    dimensions: 1536x1024
-    sections: [services-presence]
-    purpose: Des entrées dispersées deviennent trois trajectoires structurées.
-    focal_point: center
-    mobile_crop: center
-    alt: Des fragments dispersés convergent puis se répartissent en trois trajectoires claires.
-    future_target: public/images/refonte-final/services-context.avif
-    next_image: {priority: false, sizes: "(max-width: 767px) 100vw, 58vw"}
+    status: rejected_not_consumed
+    sections: []
+    reason: Remplacé par une composition d’interface sémantique.
   - id: asset-contact-threshold
     type: generated_raster
     source: docs/refonte-final/06-assets/generated/contact-threshold-v1.png
     sha256: 0dc355dc78701012d4cec65f010acf96edc62d5ecd79e67462ec537ba901c6a7
-    dimensions: 1536x1024
-    sections: [contact-hero]
-    purpose: Une ligne franchit un seuil sombre et ouvre un échange utile.
-    focal_point: center
-    mobile_crop: center
-    alt: Une ligne verte traverse un seuil sombre vers un espace ivoire lumineux.
-    future_target: public/images/refonte-final/contact-threshold.avif
-    next_image: {priority: false, sizes: "(max-width: 767px) 100vw, 42vw"}
+    status: rejected_not_consumed
+    sections: []
+    reason: Remplacé par un diagramme SVG accessible.
   - id: asset-social-card
     type: derived_raster
     source: docs/refonte-final/06-assets/generated/social-card-v1.png
-    derived_from: asset-home-signal-hero
     sha256: 9a977534cf0550bd3b8b480dfd5074001bba4e51470fe12d8fc604785e58bd05
-    dimensions: 1200x630
-    sections: [global-metadata]
-    alt: Plusieurs signaux convergent vers une prochaine action.
-    future_target: app/opengraph-image.png
+    status: rejected_not_consumed
+    sections: []
+    reason: Remplacé par une carte sociale construite avec ImageResponse.
+
 code_native_media:
-  - {id: coded-flow-diagram, sections: [home-system-flow], labels: [Présence, Demande, Qualification, Transmission, Décision humaine]}
-  - {id: coded-handoff-diagram, sections: [home-human-handoff], labels: [Contexte, Priorité, Prochaine action, Décision humaine]}
-  - {id: coded-channel-flow, sections: [services-hero], labels: [Site, Formulaire, Rendez-vous, Assistant, Équipe]}
-  - {id: coded-qualification-sequence, sections: [services-demand-system], labels: [Collecter, Qualifier, Transmettre, Suivre]}
-  - {id: coded-commerce-signal, sections: [services-audience-commerce], labels: [Demande locale, Intention, Coordonnées, Reprise humaine]}
-  - {id: coded-request-pipeline, sections: [services-audience-tpe], labels: [Entrée, Contexte, Priorité, Responsable, Suivi]}
-  - {id: coded-startup-evidence-map, sections: [services-audience-startup], labels: [Hypothèse, Signal, Entretien, Décision]}
+  - id: visual-home-convergence
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [home-hero, home-final-cta]
+    purpose: Montrer plusieurs signaux convergeant vers une prochaine action lisible.
+    labels: [Signal, Contexte, Priorité, Prochaine action]
+    content_source: docs/refonte-final/04-content/page-content.yaml#home-hero
+    informative: true
+    accessible_name: Des signaux dispersés convergent vers une prochaine action.
+    static_fallback: Diagramme complet avec tous les chemins et libellés visibles.
+    mobile: Quatre étapes verticales reliées ; aucune dépendance au survol.
+    motion_preset: signal-converge
+  - id: visual-home-system-flow
+    type: interface_composition
+    implementation: semantic_html
+    sections: [home-system-flow]
+    purpose: Expliquer le mécanisme complet d’OptimalLogic.
+    labels: [Présence, Demande, Qualification, Transmission, Décision humaine]
+    content_source: docs/refonte-final/04-content/page-content.yaml#home-system-flow
+    informative: true
+    accessible_name: Cinq étapes de la présence à la décision humaine.
+    static_fallback: Cinq panneaux ordonnés avec relations explicites.
+    mobile: Panneaux verticaux numérotés.
+    motion_preset: context-assemble
+  - id: visual-home-audience-constellation
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [home-audience-paths]
+    purpose: Relier Commerce, TPE/PME et Startup au même mécanisme sans les confondre.
+    labels: [Commerce, TPE/PME, Startup, Contexte, Décision]
+    content_source: docs/refonte-final/04-content/page-content.yaml#home-audience-paths
+    informative: true
+    accessible_name: Trois audiences reliées à un même système de contexte et décision.
+    static_fallback: Trois branches visibles autour d’un noyau commun.
+    mobile: Trois parcours empilés partageant un même en-tête.
+    motion_preset: reveal-structure
+  - id: visual-home-handoff
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [home-human-handoff]
+    purpose: Distinguer la préparation automatique de la décision humaine.
+    labels: [Contexte, Priorité, Prochaine action, Décision humaine]
+    content_source: docs/refonte-final/04-content/page-content.yaml#home-human-handoff
+    informative: true
+    accessible_name: Le contexte préparé est transmis à une personne qui décide.
+    static_fallback: Les quatre états et la frontière humaine sont immédiatement visibles.
+    mobile: Transmission verticale vers un panneau humain final.
+    motion_preset: human-handoff
+  - id: visual-services-channel-flow
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [services-hero]
+    purpose: Montrer les points de contact réellement couverts par les contenus approuvés.
+    labels: [Site, Formulaire, Rendez-vous, Assistant, Équipe]
+    content_source: docs/refonte-final/04-content/page-content.yaml#services-hero
+    informative: true
+    accessible_name: Les points de contact transmettent leur contexte à l’équipe.
+    static_fallback: Tous les canaux et la destination équipe sont visibles.
+    mobile: Liste verticale des canaux vers une destination commune.
+    motion_preset: signal-converge
+  - id: visual-services-context-clarifier
+    type: interface_composition
+    implementation: semantic_html
+    sections: [services-presence]
+    purpose: Montrer comment une présentation dispersée devient une proposition lisible.
+    labels: [Activité, Offre, Pour qui, Prochaine action]
+    content_source: docs/refonte-final/04-content/page-content.yaml#services-presence
+    informative: true
+    accessible_name: Quatre informations structurent la présence en ligne.
+    static_fallback: Les informations sont déjà organisées dans quatre panneaux.
+    mobile: Panneaux empilés dans l’ordre de lecture.
+    motion_preset: context-assemble
+  - id: visual-services-qualification
+    type: interface_composition
+    implementation: semantic_html
+    sections: [services-demand-system]
+    purpose: Expliquer la préparation d’une demande avant reprise humaine.
+    labels: [Collecter, Qualifier, Transmettre, Suivre]
+    content_source: docs/refonte-final/04-content/page-content.yaml#services-demand-system
+    informative: true
+    accessible_name: Une demande est collectée, qualifiée, transmise puis suivie.
+    static_fallback: Les quatre étapes et leurs relations sont visibles.
+    mobile: Quatre panneaux verticaux.
+    motion_preset: context-assemble
+  - id: visual-commerce-signal
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [services-audience-commerce]
+    purpose: Contextualiser une demande locale avant la reprise humaine.
+    labels: [Demande locale, Intention, Coordonnées, Reprise humaine]
+    content_source: docs/refonte-final/04-content/page-content.yaml#services-audience-commerce
+    informative: true
+    accessible_name: Une demande locale transmet intention et coordonnées à une personne.
+    static_fallback: Flux complet visible.
+    mobile: Étapes verticales compactes.
+    motion_preset: reveal-structure
+  - id: visual-tpe-request-pipeline
+    type: interface_composition
+    implementation: semantic_html
+    sections: [services-audience-tpe]
+    purpose: Montrer le routage d’une demande avec responsabilité et suivi.
+    labels: [Entrée, Contexte, Priorité, Responsable, Suivi]
+    content_source: docs/refonte-final/04-content/page-content.yaml#services-audience-tpe
+    informative: true
+    accessible_name: Une demande reçoit un contexte, une priorité, un responsable et un suivi.
+    static_fallback: Les cinq colonnes de l’interface illustrative sont complètes.
+    mobile: Pipeline vertical avec responsable explicite.
+    motion_preset: reveal-structure
+  - id: visual-startup-evidence-map
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [services-audience-startup]
+    purpose: Relier une hypothèse à des signaux avant décision.
+    labels: [Hypothèse, Signal, Entretien, Décision]
+    content_source: docs/refonte-final/04-content/page-content.yaml#services-audience-startup
+    informative: true
+    accessible_name: Une hypothèse est confrontée à un signal et un entretien avant décision.
+    static_fallback: Les quatre nœuds sont visibles avec leurs relations.
+    mobile: Ligne verticale de quatre étapes.
+    motion_preset: reveal-structure
+  - id: visual-contact-threshold
+    type: semantic_diagram
+    implementation: inline_svg
+    sections: [contact-hero]
+    purpose: Présenter le contact comme un passage vers un échange contextualisé.
+    labels: [Situation actuelle, Contexte, Échange utile]
+    content_source: docs/refonte-final/04-content/page-content.yaml#contact-hero
+    informative: true
+    accessible_name: La situation actuelle franchit un seuil vers un échange contextualisé.
+    static_fallback: Les deux espaces et le seuil sont visibles immédiatement.
+    mobile: Seuil horizontal remplacé par une progression verticale.
+    motion_preset: threshold-cross
+  - id: visual-social-card
+    type: social_card
+    implementation: next_image_response
+    sections: [global-metadata]
+    purpose: Produire la carte sociale à partir du logo, de la typographie et du motif de convergence.
+    labels: [OptimalLogic, Chaque demande mérite une prochaine action.]
+    content_source: docs/refonte-final/04-content/seo-content.yaml
+    informative: true
+    accessible_name: OptimalLogic — Chaque demande mérite une prochaine action.
+    static_fallback: ImageResponse produit une composition fixe 1200 × 630.
+    mobile: not_applicable
+    motion_preset: none
+
+budget:
+  initial_raster_transfer_kb_max: 0
+  initial_motion_runtime_gzip_kb_target: 45
+  strong_sequences_per_page_max: 2
+  inline_svg_nodes_per_visual_max: 24

@@ -6,7 +6,7 @@ patterns:
     solves: Garder l'action prioritaire visible sans alourdir le header.
     adaptation: Navigation OptimalLogic conservée avec un seul CTA rendez-vous.
     candidates: [global_header]
-  - id: hero-copy-plus-system-media
+  - id: hero-copy-plus-visual-system
     observed_in: [Span, Sevora]
     solves: Faire comprendre le positionnement et la méthode dès le premier écran.
     adaptation: Promesse à gauche et convergence de signaux originale à droite.
@@ -19,7 +19,7 @@ patterns:
   - id: asymmetric-editorial-panels
     observed_in: [Sevora]
     solves: Créer de la respiration et une hiérarchie sans grille répétitive.
-    adaptation: Panneaux 7/5 avec surfaces OptimalLogic et médias abstraits.
+    adaptation: Panneaux 7/5 avec surfaces OptimalLogic et compositions HTML/SVG/CSS.
     candidates: [services-presence, contact-hero, booking-hero]
   - id: chapter-surface-shift
     observed_in: [Span, Sevora]

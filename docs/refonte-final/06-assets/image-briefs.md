@@ -1,36 +1,51 @@
-# Briefs des images finales
+# Décision relative aux images et briefs code-native
 
 Statut : `ready_for_review`
 
-## Ligne visuelle commune
+## Décision
 
-Les trois masters utilisent une architecture noire, une matière ivoire et un signal vert limité. Ils soutiennent la narration sans simuler de produit. Aucun texte, écran, chiffre, logo client ou portrait n'est intégré.
+Aucune image photographique ou générée n’est requise pour les pages de la refonte. Les quatre PNG déjà produits sont conservés uniquement comme historique et portent le statut `rejected_not_consumed` dans le manifeste.
 
-## Accueil — `asset-home-signal-hero`
+La perception premium repose sur :
 
-- Rôle : matérialiser la convergence de plusieurs demandes vers une prochaine action.
-- Lecture : lignes dispersées → convergence → seuil vert → passage ivoire.
-- Cadrage : point focal au centre droit ; le crop mobile conserve la convergence.
-- Interdit : dashboard, graphiques ou boutons.
+- typographie expressive et changements d’échelle maîtrisés ;
+- panneaux d’interface illustratifs construits en HTML ;
+- diagrammes sémantiques construits en SVG inline ;
+- surfaces, lignes, nœuds, annotations et textures CSS ;
+- quatre mouvements identitaires appliqués à des états statiques complets.
 
-## Services — `asset-services-context`
+## Règles communes aux actifs code-native
 
-- Rôle : illustrer le passage d'informations hétérogènes à trois trajectoires organisées.
-- Lecture : fragments à gauche → jonction → trois voies calmes à droite.
-- Cadrage : le crop mobile doit montrer une partie du désordre et la jonction.
-- Interdit : dossiers, icônes de canaux ou libellés rasterisés.
+- Les libellés proviennent de `04-content/page-content.yaml` ou `seo-content.yaml`.
+- Aucun chiffre, client, résultat, statut temps réel ou fonctionnalité non sourcée.
+- Une interface illustrative doit être reconnaissable comme explication, pas comme capture produit.
+- L’ordre DOM suit l’ordre de lecture ; le SVG ne remplace pas le texte principal.
+- Chaque visuel informatif possède un nom accessible et une description courte.
+- Sur mobile, les flux sont recomposés verticalement.
+- Sans JavaScript ou en mouvement réduit, l’état final est immédiatement visible.
 
-## Contact — `asset-contact-threshold`
+## Familles de composition
 
-- Rôle : présenter le contact comme un seuil simple vers un échange utile.
-- Lecture : espace sombre → ligne verte → ouverture ivoire.
-- Cadrage : conserver le seuil et la courbe verte sur mobile.
-- Interdit : portrait, téléphone, bulle de chat ou fausse disponibilité.
+### Convergence de signaux
 
-## Réseaux sociaux
+Utilisée dans le héros et les canaux de services. Plusieurs lignes partent de points distincts, rejoignent un panneau de contexte puis une prochaine action. Le vert ne colore que la trajectoire active ou le seuil final.
 
-`asset-social-card` est un recadrage 1200 × 630 du master d'accueil. Aucun texte n'est aplati dans l'image ; titre et description restent pilotés par les métadonnées Next.js.
+### Assemblage de contexte
 
-## Passage au web
+Utilisé pour la présence, le système et la qualification. Des panneaux déjà lisibles sont réordonnés visuellement lors de l’animation ; aucun contenu n’apparaît uniquement après hydratation.
 
-Les PNG sont les masters de travail. Codex produira AVIF/WebP, réservera les ratios pour prévenir le CLS, utilisera `next/image`, renseignera `sizes` et ne placera `priority` que sur le média LCP de l'accueil.
+### Cartes d’audience
+
+Commerce, TPE/PME et Startup conservent leurs propres libellés et une structure commune. Le bleu Startup reste un accent local, jamais une seconde couleur d’action globale.
+
+### Seuil et handoff humain
+
+Le seuil marque le passage d’une demande brute à un échange contextualisé. Le handoff place toujours la décision humaine au dernier état, sans faire croire à une décision automatique.
+
+### Carte sociale
+
+`app/opengraph-image.tsx` ou l’équivalent Next.js produit une composition fixe 1200 × 630 à partir du logo, du titre approuvé et du motif de convergence. Aucun ancien PNG n’est réutilisé.
+
+## Médias authentiques futurs
+
+Une photo d’équipe, une réalisation, un logo client ou une capture réelle pourra être ajoutée plus tard uniquement si elle constitue une preuve sourcée, si les droits sont confirmés et si la composition de la page est à nouveau validée. Aucun emplacement n’est réservé en leur absence.
