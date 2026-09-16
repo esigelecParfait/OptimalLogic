@@ -1,0 +1,119 @@
+manifest_version: "1.0"
+status: in_production
+direction_revision: "2026-08-29.1"
+budget:
+  initial_media_kb_max: 900
+  total_marketing_transfer_kb_max: 1800
+
+assets:
+  - id: img-hero-signal-house
+    page_id: home
+    section_id: home-hero
+    role: image de marque principale illustrant la circulation des demandes
+    priority: critical
+    source_type: generated
+    status: ready
+    public_path: /images/refonte-v2/hero-signal-house-v1.webp
+    consumer: app/(main)/page.tsx
+    brief: brief-hero-signal-house
+    aspect_ratio: "16:10"
+    desktop_size: 1600x1000
+    mobile_size: 900x1200
+    safe_crop: sujet lumineux dans le tiers droit, zone négative à gauche
+    alt: Architecture abstraite sombre traversée par plusieurs signaux qui convergent vers un point de décision.
+    decorative: false
+    fallback: composition CSS de lignes et surfaces, sans perte d'information
+    formats: [webp]
+    max_weight_kb: 260
+    loading: eager
+    rights_owner: OptimalLogic
+    rights_status: not_applicable
+    notes: Concept généré, sans logo, texte ou interface fictive.
+  - id: img-context-system
+    page_id: services
+    section_id: services-contexts
+    role: système visuel reliant commerce, TPE-PME et startup
+    priority: high
+    source_type: generated
+    status: ready
+    public_path: /images/refonte-v2/context-system-v1.webp
+    consumer: app/(main)/services/page.tsx
+    brief: brief-context-system
+    aspect_ratio: "4:3"
+    desktop_size: 1400x1050
+    mobile_size: 900x1100
+    safe_crop: trois volumes distincts restent reconnaissables après recadrage
+    alt: Trois structures abstraites distinctes reliées à un même réseau de traitement.
+    decorative: false
+    fallback: trois cartes typographiques sans image
+    formats: [webp]
+    max_weight_kb: 220
+    loading: lazy
+    rights_owner: OptimalLogic
+    rights_status: not_applicable
+    notes: Ne pas représenter d'entreprise réelle.
+  - id: img-contact-signal
+    page_id: contact
+    section_id: contact-hero
+    role: ponctuation visuelle de conversion
+    priority: medium
+    source_type: generated
+    status: ready
+    public_path: /images/refonte-v2/contact-signal-v1.webp
+    consumer: app/(main)/contact/page.tsx
+    brief: brief-contact-signal
+    aspect_ratio: "3:4"
+    desktop_size: 1050x1400
+    mobile_size: 900x1200
+    safe_crop: point de signal central et marge respirante
+    alt: Signal lumineux isolé entrant dans une grille de traitement sombre.
+    decorative: false
+    fallback: motif CSS discret
+    formats: [webp]
+    max_weight_kb: 180
+    loading: lazy
+    rights_owner: OptimalLogic
+    rights_status: not_applicable
+    notes: Peut être supprimé si le formulaire devient trop bas sur mobile.
+  - id: img-auth-ambient
+    page_id: auth
+    section_id: auth-shell
+    role: fond d'ambiance non informatif
+    priority: low
+    source_type: generated
+    status: planned
+    brief: brief-auth-ambient
+    aspect_ratio: "16:9"
+    desktop_size: 1600x900
+    mobile_size: 900x1200
+    safe_crop: texture uniforme, contraste faible derrière le panneau
+    alt: ""
+    decorative: true
+    fallback: fond uni graphite
+    formats: [avif, webp]
+    max_weight_kb: 160
+    loading: lazy
+    rights_owner: OptimalLogic
+    rights_status: not_applicable
+    notes: Ne doit pas diminuer le contraste du formulaire.
+  - id: capture-admin-demand-flow
+    page_id: home
+    section_id: home-demand-flow
+    role: preuve produit future
+    priority: medium
+    source_type: product_capture
+    status: planned
+    brief: capturer une vraie vue anonymisée après validation des capacités de suivi
+    aspect_ratio: "16:10"
+    desktop_size: 1440x900
+    mobile_size: 900x1200
+    safe_crop: statut, canal et prochaine action visibles
+    alt: Vue OptimalLogic montrant des demandes avec leur canal, leur état et leur prochaine action.
+    decorative: false
+    fallback: bloc WorkflowRouting en code
+    formats: [avif, webp]
+    max_weight_kb: 240
+    loading: lazy
+    rights_owner: OptimalLogic
+    rights_status: pending
+    notes: Interdit de générer une fausse capture ; anonymiser toutes les données.

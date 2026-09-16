@@ -1,0 +1,54 @@
+schema_version: 1
+status: ready_for_review
+pages:
+  - route: /
+    sections:
+      - {id: home-hero, eyebrow: "Présence · demandes · prochaine action", title: Chaque demande mérite une prochaine action., body: "OptimalLogic clarifie ce que votre entreprise présente en ligne et organise les demandes reçues pour que votre équipe sache quoi faire ensuite.", primary_cta: Prendre rendez-vous, secondary_cta: Comprendre le système}
+      - {id: home-signal-strip, items: [Être compris avant d'être contacté, Recevoir le contexte utile, Garder la décision humaine]}
+      - {id: home-problem, title: Le problème n'est pas toujours le nombre de demandes., body: "Une demande peut arriver au bon endroit et pourtant se perdre : offre mal comprise, informations incomplètes, priorité inconnue ou reprise trop tardive."}
+      - {id: home-system-flow, title: Du premier signal à une action préparée., steps: [Présence, Demande, Qualification, Transmission, Décision humaine]}
+      - {id: home-audience-paths, title: Un même principe, trois réalités., items: [Commerce, TPE/PME, Startup]}
+      - {id: home-method, title: Installer ce qui doit réellement fonctionner., steps: [Comprendre, Clarifier, Concevoir, Installer, Vérifier]}
+      - {id: home-human-handoff, title: L'automatisation prépare. Votre équipe décide., body: "Le contexte, la priorité et la prochaine action sont transmis sans masquer la personne derrière la demande."}
+      - {id: home-final-cta, title: Partons de vos demandes réelles., primary_cta: Prendre rendez-vous, secondary_cta: Décrire ma situation}
+  - route: /services
+    sections:
+      - {id: services-hero, title: Une présence claire. Des demandes mieux préparées., body: "Nous relions vos points de contact à une reprise humaine qui dispose du bon contexte."}
+      - {id: services-presence, title: Clarifier avant d'automatiser., body: "L'offre, les priorités et les actions doivent être compréhensibles avant de demander à un système de qualifier quoi que ce soit."}
+      - {id: services-demand-system, title: Collecter moins, comprendre mieux., steps: [Collecter, Qualifier, Transmettre, Suivre]}
+      - {id: services-audience-commerce, title: Commerce, body: "Rendre la présence locale cohérente et préparer les demandes utiles pour la reprise."}
+      - {id: services-audience-tpe, title: TPE et PME, body: "Relier les entrées dispersées à une priorité, un responsable et une prochaine action."}
+      - {id: services-audience-startup, title: Startup, body: "Organiser les signaux de validation et de lancement pour décider avec plus de contexte."}
+      - {id: services-installation, title: Une installation en cinq temps., steps: [Diagnostic, Cadrage, Conception, Intégration, Vérification]}
+      - {id: services-optional-support, title: L'installation tient seule. Le suivi reste un choix., body: "L'accompagnement mensuel sert à mesurer, ajuster et améliorer ; il n'est pas une condition pour utiliser le système installé."}
+      - {id: services-faq, items: ["Devons-nous changer tous nos outils ?", "L'IA répond-elle à notre place ?", "L'accompagnement mensuel est-il obligatoire ?", "Que se passe-t-il si une intégration est indisponible ?"]}
+      - {id: services-final-cta, title: Regardons où vos demandes perdent leur contexte., primary_cta: Prendre rendez-vous}
+  - route: /tarifs
+    sections:
+      - {id: pricing-hero, title: Cinq offres. Un prix lu dans notre base., body: "Choisissez votre situation ; le nom et les montants affichés sont ceux enregistrés par OptimalLogic."}
+      - {id: pricing-data-state, loading: Chargement des offres…, unavailable: "Les tarifs ne sont pas disponibles pour le moment. Aucun montant de remplacement n'est affiché."}
+      - {id: pricing-audience-tabs, labels: [Commerce, TPE/PME, Startup]}
+      - {id: pricing-offer-detail, labels: {installation: Installation, optional: Accompagnement facultatif, included: Ce qui est prévu, exclusions: Limites}}
+      - {id: pricing-installation-vs-support, title: Installer d'abord. Améliorer ensuite, si vous le souhaitez., body: "L'installation répond au besoin défini. Le suivi mensuel est une prestation séparée et facultative."}
+      - {id: pricing-process, title: Du choix à la mise en service., steps: [Échange, Diagnostic, Périmètre, Validation, Installation, Vérification]}
+      - {id: pricing-faq, items: ["D'où viennent les prix affichés ?", "Puis-je choisir l'installation sans abonnement ?", "Que se passe-t-il si une offre est absente ?", "Le périmètre peut-il évoluer ?"]}
+      - {id: pricing-request, title: Parlez-nous de votre situation., primary_cta: Continuer avec cette offre}
+  - route: /contact
+    sections:
+      - {id: contact-hero, title: Commençons par ce qui se passe aujourd'hui., body: "Décrivez où arrivent vos demandes, ce qui manque et ce que votre équipe doit décider."}
+      - {id: contact-expectations, items: [Votre activité, Vos entrées de demandes, Le problème observé, L'action attendue]}
+      - {id: contact-form, title: Votre situation, primary_cta: Envoyer ma demande}
+      - {id: contact-alternatives, title: "Vous préférez en parler ?", primary_cta: Prendre rendez-vous, secondary_cta: Ouvrir l'aide}
+      - {id: contact-privacy, body: "Les informations transmises servent uniquement à comprendre et traiter votre demande. Consultez notre politique de confidentialité."}
+  - route: /prise-de-rdv
+    sections:
+      - {id: booking-hero, title: Réserver un échange utile., body: "Choisissez un créneau pour présenter votre situation, vos outils et le résultat attendu."}
+      - {id: booking-preparation, title: Préparez trois éléments., items: [Comment les demandes arrivent, Où le contexte se perd, Qui décide de la suite]}
+      - {id: booking-calendar, title: Choisissez votre créneau}
+      - {id: booking-summary, title: Votre rendez-vous}
+      - {id: booking-fallback, title: "Aucun créneau ne convient ?", primary_cta: Nous écrire}
+  - route: /aide
+    sections:
+      - {id: help-context, title: Aide OptimalLogic, body: "Posez une question sur nos services, nos offres ou votre parcours."}
+      - {id: help-conversation, input_label: Votre question, send: Envoyer}
+      - {id: help-human-fallback, body: "Vous pouvez à tout moment poursuivre avec une personne.", primary_cta: Contacter l'équipe}

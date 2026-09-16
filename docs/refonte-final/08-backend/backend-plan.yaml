@@ -1,0 +1,105 @@
+version: "1.0"
+status: proposed
+site_spec_status: ready
+repository:
+  framework: Next.js 16 App Router
+  database: Supabase PostgreSQL and Auth
+  existing_modules: [lead-capture, booking-cal, client-auth, client-portal, email-brevo, assistant-ai, analytics-consent]
+modules:
+  - id: lead-capture
+    reason: Le formulaire public doit produire une demande contextualisée exploitable.
+    acceptance: Validation serveur, consentement, anti-spam, persistance et état de reprise sans perdre la saisie.
+    tests: [valid_request, invalid_fields, rate_limit, storage_failure, notification_failure]
+    action: preserve_and_contract
+  - id: booking-cal
+    reason: Le parcours public permet de consulter et confirmer un créneau Cal.com.
+    acceptance: Fuseau visible, créneau sélectionné persistant, conflit et indisponibilité gérés.
+    tests: [slots_success, no_slots, select_slot, conflict, provider_failure]
+    action: preserve_and_regression_test
+  - id: client-auth
+    reason: Support, compte et administration nécessitent une session Supabase.
+    acceptance: Les anonymes sont redirigés et les sessions légitimes conservent leurs parcours.
+    tests: [anonymous_denied, login, password_recovery, logout, expired_session]
+    action: protect
+  - id: client-portal
+    reason: Le support et le compte privés existent; aucun dashboard public ne doit être créé.
+    acceptance: Seuls support et compte sont exposés aux membres autorisés; isolation entre clients prouvée.
+    tests: [owner_access, other_client_denied, empty_state, support_access, account_update]
+    action: preserve_private_remove_public_dashboard
+  - id: email-brevo
+    reason: Les notifications transactionnelles existantes accompagnent les demandes et parcours privés.
+    acceptance: Envoi serveur, erreur sans doublon et aucun destinataire réel depuis les tests.
+    tests: [sandbox_send, provider_failure, duplicate_guard]
+    action: protect
+  - id: assistant-ai
+    reason: Une aide publique et un support privé sont présents.
+    acceptance: Contexte public aligné sur cinq offres, limites visibles, reprise humaine, secrets serveur et isolation privée.
+    tests: [public_answer, exact_offer_codes, provider_failure, rate_limit, private_isolation, human_fallback]
+    action: rewrite_public_context_protect_private
+  - id: analytics-consent
+    reason: Le dépôt contient un consentement cookies et des métriques administratives.
+    acceptance: Aucun traceur non essentiel avant consentement et choix modifiable.
+    tests: [default_refusal, accept, refuse, change_choice, no_personal_data_event]
+    action: preserve_and_audit
+data_model:
+  entities:
+    - {name: offres, status: observed_not_versioned, public_read: server_mediated}
+    - {name: demandes, status: observed_not_versioned, public_write: server_mediated}
+    - {name: clients_prospects, status: observed_not_versioned, access: admin_only}
+    - {name: clients_and_memberships, status: observed_not_versioned, access: authenticated_scoped}
+    - {name: support_messages_or_tickets, status: observed_not_versioned, access: authenticated_scoped}
+  migrations: []
+  rls_policies: []
+routes:
+  - {path: /api/offres, actors: [public], reads: [offres], change: exact_five_codes_and_server_validation}
+  - {path: /api/demandes, actors: [public], writes: [demandes], change: preserve_contract_and_test}
+  - {path: /api/cal/slots, actors: [public], integration: Cal.com, change: preserve}
+  - {path: /api/cal/bookings, actors: [public], integration: Cal.com, change: preserve}
+  - {path: /api/chat/public, actors: [public], integration: Anthropic, change: rewrite_system_context}
+  - {path: /api/chat/client, actors: [authenticated_client], integration: Anthropic, change: protect}
+  - {path: "/api/chat/[clientId]", actors: [authenticated_client, admin], integration: Anthropic, change: protect}
+  - {path: /api/admin/**, actors: [admin], change: protect}
+environment_variables:
+  - {name: NEXT_PUBLIC_SUPABASE_URL, exposure: public_identifier, owner: OptimalLogic}
+  - {name: NEXT_PUBLIC_SUPABASE_ANON_KEY, exposure: public_anon_key, owner: OptimalLogic}
+  - {name: SUPABASE_SERVICE_ROLE_KEY, exposure: server_only, owner: OptimalLogic}
+  - {name: ANTHROPIC_API_KEY, exposure: server_only, owner: OptimalLogic}
+  - {name: CAL_API_KEY, exposure: server_only, owner: OptimalLogic}
+  - {name: BREVO_API_KEY, exposure: server_only, owner: OptimalLogic}
+external_accounts:
+  - {provider: Supabase, owner: OptimalLogic, state: existing_not_tested}
+  - {provider: Cal.com, owner: OptimalLogic, state: existing_not_tested}
+  - {provider: Anthropic, owner: OptimalLogic, state: existing_not_tested}
+  - {provider: Brevo, owner: OptimalLogic, state: existing_not_tested}
+  - {provider: Google Business, owner: OptimalLogic, state: existing_not_tested}
+security_controls:
+  - server_side_validation
+  - authorization_at_data_access
+  - service_role_server_only
+  - rate_limit_public_mutations
+  - safe_error_payloads
+  - cross_client_isolation
+  - consent_before_nonessential_tracking
+tests:
+  - unit_validation_and_offer_contracts
+  - route_handlers_success_and_error
+  - supabase_local_rebuild
+  - rls_allowed_and_denied
+  - authenticated_cross_user_access
+  - cal_and_anthropic_provider_failures
+  - no_secret_in_client_bundle
+manual_configuration:
+  - Exporter ou créer les migrations depuis le schéma Supabase réel avant toute évolution.
+  - Vérifier les politiques RLS avec deux utilisateurs de test et un administrateur.
+  - Tester les fournisseurs dans des environnements isolés sans contact réel.
+risks:
+  - {id: BCK-001, severity: blocking, issue: Schéma Supabase et RLS absents du dépôt}
+  - {id: BCK-002, severity: high, issue: Comptes externes non testés dans cet environnement}
+  - {id: BCK-003, severity: high, issue: Contexte public de l'assistant encore aligné sur l'ancien catalogue}
+open_decisions:
+  - O-005
+  - O-006
+approval:
+  approved: false
+  approved_by: null
+  approved_at: null

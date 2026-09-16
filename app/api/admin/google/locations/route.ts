@@ -12,8 +12,10 @@ export async function GET() {
 
   if (!process.env.GOOGLE_REFRESH_TOKEN) {
     return Response.json(
-      { error: "GOOGLE_REFRESH_TOKEN non configuré. Suivez le guide de connexion Google." },
-      { status: 503 }
+      {
+        error: "GOOGLE_REFRESH_TOKEN non configuré. Suivez le guide de connexion Google.",
+      },
+      { status: 503 },
     );
   }
 
@@ -24,7 +26,7 @@ export async function GET() {
   } catch (e) {
     return Response.json(
       { error: e instanceof Error ? e.message : "Erreur API Google." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

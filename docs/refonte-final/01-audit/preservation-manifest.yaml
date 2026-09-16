@@ -1,0 +1,34 @@
+schema_version: 1
+status: ready_for_review
+baseline: af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
+rules:
+  - {scope: app/(admin)/**, decision: protect, reason: Administration privée fonctionnelle}
+  - {scope: app/api/admin/**, decision: protect, reason: Intégrations et autorisations administratives}
+  - {scope: app/(main)/connexion/**, decision: preserve_behavior_restyle_ui, reason: Parcours Supabase Auth}
+  - {scope: app/(main)/espace-client/support/**, decision: preserve_behavior_restyle_ui, reason: Support privé à conserver}
+  - {scope: app/(main)/espace-client/mon-compte/**, decision: preserve_behavior_restyle_ui, reason: Compte privé à conserver}
+  - {scope: app/(main)/espace-client/page.tsx, decision: rewrite, reason: Passerelle privée sans dashboard public}
+  - {scope: app/api/cal/**, decision: protect, reason: Disponibilités et réservations Cal.com}
+  - {scope: app/api/chat/client/**, decision: protect, reason: Assistant privé}
+  - {scope: "app/api/chat/[clientId]/**", decision: protect, reason: Assistant client contextualisé}
+  - {scope: app/api/chat/public/route.ts, decision: rewrite, reason: Aligner offres et promesses publiques}
+  - {scope: app/api/demandes/route.ts, decision: preserve_behavior_restyle_ui, reason: Capture de demandes existante}
+  - {scope: app/api/offres/route.ts, decision: rewrite, reason: Appliquer les cinq codes et validation BDD}
+  - {scope: app/(main)/page.tsx, decision: rewrite, reason: Accueil final piloté par les nouveaux livrables}
+  - {scope: app/(main)/services/page.tsx, decision: rewrite, reason: Architecture et contenus finaux}
+  - {scope: app/(main)/tarifs/page.tsx, decision: rewrite, reason: Cinq offres et prix Supabase}
+  - {scope: app/(main)/contact/page.tsx, decision: rewrite, reason: Nouvelle composition avec logique préservée}
+  - {scope: app/(main)/prise-de-rdv/page.tsx, decision: rewrite, reason: Nouvelle composition avec Cal préservé}
+  - {scope: app/(assistant)/aide/page.tsx, decision: rewrite, reason: Expérience dédiée et reprise humaine}
+  - {scope: app/(main)/mentions-legales/page.tsx, decision: preserve_behavior_restyle_ui, reason: Contenu légal à relire}
+  - {scope: app/(main)/confidentialite/page.tsx, decision: preserve_behavior_restyle_ui, reason: Contenu légal à relire}
+  - {scope: app/(main)/cookies/page.tsx, decision: preserve_behavior_restyle_ui, reason: Consentement et contenu à préserver}
+  - {scope: app/showroom/**, decision: remove, reason: Outil V2 non nécessaire au site final}
+  - {scope: app/comparer/**, decision: remove, reason: Comparateur interne rejeté}
+  - {scope: app/preview/**, decision: remove, reason: Anciens modèles sans rôle final}
+  - {scope: docs/refonte-v2/**, decision: remove, reason: Dossier historique non autoritaire}
+  - {scope: public/images/refonte-v2/**, decision: remove, reason: Actifs de la refonte rejetée}
+  - {scope: .codex/skills/optimallogic-*, decision: remove, reason: Anciennes skills locales d'exécution remplacées par les skills ChatGPT et le prompt final}
+  - {scope: lib/security/**, decision: protect, reason: Contrôles de sécurité existants}
+  - {scope: lib/supabase/**, decision: protect, reason: Frontières de données et authentification}
+  - {scope: app/(main)/commandes/**, decision: protect, reason: Route client spécifique}

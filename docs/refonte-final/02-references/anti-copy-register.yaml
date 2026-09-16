@@ -1,0 +1,14 @@
+schema_version: 1
+status: ready_for_review
+prohibitions:
+  - {source: Span, element: dashboard_and_product_screens, reason: OptimalLogic ne doit pas simuler un SaaS public, replacement: semantic_signal_flows}
+  - {source: Span, element: metrics_and_integrations, reason: Aucune preuve équivalente n'est disponible, replacement: sourced_operational_principles}
+  - {source: Span, element: exact_blue_palette_and_layout, reason: Identité distinctive de la référence, replacement: OptimalLogic_black_green_ivory}
+  - {source: Sevora, element: portrait_and_personal_card, reason: Aucun portrait réel validé, replacement: abstract_contact_threshold}
+  - {source: Sevora, element: client_logos_projects_and_stats, reason: Preuves non fournies, replacement: no_placeholder_proof}
+  - {source: Sevora, element: exact_serif_geometry_and_section_order, reason: Risque de copie reconnaissable, replacement: Lora_proposal_and_project_specific_order}
+checks:
+  - Aucun texte ou média des références n'est copié.
+  - Aucun enchaînement de plus de deux sections ne reproduit la même fonction et proportion.
+  - Chaque motif retenu est relié à un besoin OptimalLogic.
+  - Les preuves absentes restent absentes.

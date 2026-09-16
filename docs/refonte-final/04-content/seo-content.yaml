@@ -1,0 +1,13 @@
+schema_version: 1
+status: ready_for_review
+base_url: https://optimal-logic.com
+pages:
+  /: {title: "OptimalLogic — Clarifier et qualifier chaque demande", description: "Clarifiez votre présence en ligne et transformez les demandes reçues en contexte, priorité et prochaine action humaine.", canonical: /}
+  /services: {title: "Services — Présence et gestion des demandes | OptimalLogic", description: "Découvrez comment OptimalLogic clarifie votre présence, qualifie les demandes et prépare leur transmission à votre équipe.", canonical: /services}
+  /tarifs: {title: "Tarifs et offres | OptimalLogic", description: "Comparez les cinq offres OptimalLogic pour Commerce, TPE/PME et Startup. Les prix affichés sont récupérés depuis notre base.", canonical: /tarifs}
+  /contact: {title: "Contact | OptimalLogic", description: "Décrivez votre activité, vos demandes et le point où le contexte se perd afin de préparer un échange utile.", canonical: /contact}
+  /prise-de-rdv: {title: "Prendre rendez-vous | OptimalLogic", description: "Choisissez un créneau pour présenter votre situation et cadrer la prochaine action utile.", canonical: /prise-de-rdv}
+  /aide: {title: "Aide | OptimalLogic", description: "Posez une question sur les services et offres OptimalLogic, avec une reprise humaine toujours accessible.", canonical: /aide}
+indexing:
+  index: [/, /services, /tarifs, /contact, /prise-de-rdv, /aide, /mentions-legales, /confidentialite, /cookies]
+  noindex: [/connexion/**, /espace-client/**, /admin/**, /api/**, /preview/**, /comparer, /showroom, /commandes/**]

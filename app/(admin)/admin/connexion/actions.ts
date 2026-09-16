@@ -8,7 +8,7 @@ export type AdminLoginState = { error: string | null };
 
 export async function loginAdmin(
   _prev: AdminLoginState,
-  formData: FormData
+  formData: FormData,
 ): Promise<AdminLoginState> {
   const email = (formData.get("email") as string)?.trim().toLowerCase();
   const password = formData.get("password") as string;
@@ -16,7 +16,10 @@ export async function loginAdmin(
   if (!email || !password) return { error: "Email et mot de passe requis." };
 
   const supabase = await createClient();
-  const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+  const { error: authError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
   if (authError) return { error: "Email ou mot de passe incorrect." };
 
   const { data: admin } = await supabaseAdmin

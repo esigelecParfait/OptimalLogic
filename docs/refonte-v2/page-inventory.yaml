@@ -1,0 +1,420 @@
+inventory_version: "1.0"
+status: ready
+source_revision: af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
+
+defaults:
+  acceptance: Route disponible, responsive, accessible au clavier et sans régression de données ni d'intégration.
+
+routes:
+  - id: home
+    path: /
+    surface: marketing
+    access: public
+    decision: redesign
+    purpose: Positionner OptimalLogic et orienter vers les solutions ou un rendez-vous.
+    primary_cta: /prise-de-rdv
+    data: contenus éditoriaux validés
+    integrations: [assistant-public]
+    acceptance: Toutes les propositions importantes ont une source ou un état proposed_copy.
+    notes: Ajouter explicitement collecte, qualification, traitement et suivi des demandes.
+  - id: services
+    path: /services
+    surface: marketing
+    access: public
+    decision: redesign
+    purpose: Présenter les solutions selon les contextes commerce, TPE-PME et startup.
+    primary_cta: /prise-de-rdv
+    data: services configurables
+    integrations: []
+    acceptance: Les trois contextes restent présents et liés à un parcours de conversion.
+    notes: Conserver l'approche activité d'abord, outil ensuite.
+  - id: pricing
+    path: /tarifs
+    surface: marketing
+    access: public
+    decision: redesign
+    purpose: Comparer les cinq offres publiées.
+    primary_cta: /prise-de-rdv
+    data: table Supabase offres filtrée par cinq codes publics
+    integrations: [supabase]
+    acceptance: Les cinq offres restent lisibles dans un ordre stable ; nom et prix viennent de la BDD et aucune valeur de secours n'est affichée.
+    notes: Les inclusions éditoriales restent dans le frontend ; l'accompagnement mensuel est facultatif.
+  - id: contact
+    path: /contact
+    surface: conversion
+    access: public
+    decision: redesign
+    purpose: Recueillir et qualifier une demande libre.
+    primary_cta: soumettre le formulaire
+    data: identité, coordonnées, contexte, consentement
+    integrations: [prospects, email]
+    acceptance: Erreurs, succès, confidentialité et comportement d'échec sont explicites.
+    notes: La demande doit pouvoir rejoindre le suivi unifié.
+  - id: booking
+    path: /prise-de-rdv
+    surface: conversion
+    access: public
+    decision: redesign
+    purpose: Qualifier puis réserver un échange.
+    primary_cta: confirmer le rendez-vous
+    data: identité, besoin, créneau
+    integrations: [booking, email]
+    acceptance: Le parcours conserve son résultat et ses confirmations existantes.
+    notes: Ne pas promettre de synchronisation calendrier non vérifiée.
+  - id: help
+    path: /aide
+    surface: conversion
+    access: public
+    decision: redesign
+    purpose: Répondre aux questions et orienter une demande via l'assistant.
+    primary_cta: démarrer une conversation
+    data: messages de session
+    integrations: [assistant-public]
+    acceptance: Alternative de contact disponible si l'assistant échoue.
+    notes: Préciser le rôle de l'IA sans la présenter comme conseil humain.
+
+  - {
+      id: legal-notice,
+      path: /mentions-legales,
+      surface: legal,
+      access: public,
+      decision: redesign,
+      purpose: Informations légales,
+      primary_cta: null,
+      data: contenu légal,
+      integrations: [],
+      acceptance: Contenu conservé et soumis à revue professionnelle,
+      notes: Aucun embellissement éditorial du fond juridique.,
+    }
+  - {
+      id: privacy,
+      path: /confidentialite,
+      surface: legal,
+      access: public,
+      decision: redesign,
+      purpose: Politique de confidentialité,
+      primary_cta: null,
+      data: traitements et droits,
+      integrations: [],
+      acceptance: Finalités et droits restent accessibles,
+      notes: Durées à confirmer avant production.,
+    }
+  - {
+      id: cookies,
+      path: /cookies,
+      surface: legal,
+      access: public,
+      decision: redesign,
+      purpose: Politique cookies,
+      primary_cta: gérer le consentement,
+      data: catégories de cookies,
+      integrations: [consentement],
+      acceptance: Refus aussi simple que l'acceptation,
+      notes: Aucun traceur non essentiel avant consentement.,
+    }
+
+  - {
+      id: login,
+      path: /connexion,
+      surface: auth,
+      access: anonymous_only,
+      decision: redesign,
+      purpose: Authentifier un client,
+      primary_cta: se connecter,
+      data: identifiants,
+      integrations: [Supabase Auth],
+      acceptance: États erreur et chargement accessibles,
+      notes: Préserver les redirections par rôle.,
+    }
+  - {
+      id: activation,
+      path: /connexion/activer,
+      surface: auth,
+      access: anonymous_only,
+      decision: redesign,
+      purpose: Activer un compte invité,
+      primary_cta: activer le compte,
+      data: jeton et nouveau mot de passe,
+      integrations: [Supabase Auth],
+      acceptance: Jetons invalides et expirés traités sans fuite,
+      notes: Ne pas modifier le protocole d'activation.,
+    }
+  - {
+      id: forgot-password,
+      path: /connexion/mot-de-passe-oublie,
+      surface: auth,
+      access: anonymous_only,
+      decision: redesign,
+      purpose: Demander une réinitialisation,
+      primary_cta: envoyer le lien,
+      data: email,
+      integrations: [Supabase Auth, email],
+      acceptance: Réponse non énumérante,
+      notes: Préserver les protections existantes.,
+    }
+  - {
+      id: reset-password,
+      path: /connexion/nouveau-mot-de-passe,
+      surface: auth,
+      access: anonymous_only,
+      decision: redesign,
+      purpose: Définir un nouveau mot de passe,
+      primary_cta: enregistrer le mot de passe,
+      data: jeton et mot de passe,
+      integrations: [Supabase Auth],
+      acceptance: Règles et erreurs sont explicites,
+      notes: Conserver les contrôles de session.,
+    }
+
+  - {
+      id: client-space,
+      path: /espace-client,
+      surface: client,
+      access: authenticated,
+      decision: internal,
+      purpose: Rediriger l'accès client historique vers le support sans dashboard,
+      primary_cta: ouvrir le support,
+      data: compte et services autorisés,
+      integrations: [Supabase],
+      acceptance: Chaque client ne voit que ses données,
+      notes: Aucun dashboard client; route racine redirigée vers le support et absente de la navigation publique.,
+    }
+  - {
+      id: client-account,
+      path: /espace-client/mon-compte,
+      surface: client,
+      access: authenticated,
+      decision: internal,
+      purpose: Consulter et modifier le compte,
+      primary_cta: enregistrer,
+      data: profil client,
+      integrations: [Supabase],
+      acceptance: Lecture et mutation restent limitées au compte,
+      notes: Aucune donnée sensible dans le navigateur.,
+    }
+  - {
+      id: client-support,
+      path: /espace-client/support,
+      surface: client,
+      access: authenticated,
+      decision: internal,
+      purpose: Créer et suivre une demande de support,
+      primary_cta: envoyer la demande,
+      data: tickets et messages,
+      integrations: [Supabase, email],
+      acceptance: Historique,
+      erreur et confirmation sont préservés,
+      notes: Intégrer au modèle global de suivi des demandes.,
+    }
+  - {
+      id: client-delivery-leon,
+      path: /commandes/delices-de-leon,
+      surface: client_delivery,
+      access: authenticated,
+      decision: preserve,
+      purpose: Livraison spécifique au client Délices de Léon,
+      primary_cta: action métier existante,
+      data: données de livraison client,
+      integrations: [booking, chat],
+      acceptance: Aucun comportement client n'est cassé par la refonte globale,
+      notes: Isoler du langage visuel générique si nécessaire.,
+    }
+
+  - {
+      id: admin-login,
+      path: /admin/connexion,
+      surface: auth,
+      access: anonymous_only,
+      decision: redesign,
+      purpose: Authentifier un administrateur,
+      primary_cta: se connecter,
+      data: identifiants,
+      integrations: [Supabase Auth],
+      acceptance: Contrôle de rôle obligatoire après authentification,
+      notes: Ne jamais confondre espace client et admin.,
+    }
+  - {
+      id: admin-dashboard,
+      path: /admin,
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Vue de pilotage interne,
+      primary_cta: ouvrir une ressource,
+      data: indicateurs et tâches autorisés,
+      integrations: [Supabase],
+      acceptance: Accès admin vérifié côté serveur,
+      notes: Utiliser les blocs de métriques uniquement avec données sourcées.,
+    }
+  - {
+      id: admin-clients,
+      path: /admin/clients,
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Gérer les clients,
+      primary_cta: ouvrir ou créer un client,
+      data: clients autorisés,
+      integrations: [Supabase],
+      acceptance: Liste et actions conservent leurs permissions,
+      notes: Préserver filtres et états métier.,
+    }
+  - {
+      id: admin-client-detail,
+      path: "/admin/clients/[id]",
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Gérer un client et ses services,
+      primary_cta: enregistrer les modifications,
+      data: client et services,
+      integrations: [Supabase, email],
+      acceptance: Identifiant validé et mutations autorisées,
+      notes: Conserver les actions d'envoi et d'édition.,
+    }
+  - {
+      id: admin-prospects,
+      path: /admin/prospects,
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Qualifier et suivre les prospects,
+      primary_cta: ouvrir un prospect,
+      data: demandes et statuts,
+      integrations: [Supabase],
+      acceptance: Canaux,
+      statut et dernière action restent visibles,
+      notes: Devient le cœur opérationnel du suivi unifié.,
+    }
+  - {
+      id: admin-prospect-detail,
+      path: "/admin/prospects/[id]",
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Traiter une demande et convertir un prospect,
+      primary_cta: mettre à jour ou convertir,
+      data: prospect,
+      historique et actions,
+      integrations: [Supabase, email],
+      acceptance: Historique traçable et permissions préservées,
+      notes: Prévoir synthèse IA seulement après validation technique.,
+    }
+  - {
+      id: admin-google-setup,
+      path: /admin/google-setup,
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Configurer Google Business,
+      primary_cta: lancer ou vérifier la configuration,
+      data: état d'intégration,
+      integrations: [Google Business],
+      acceptance: Secrets uniquement côté serveur,
+      notes: Afficher clairement les états incomplets.,
+    }
+  - {
+      id: admin-metrics,
+      path: /admin/metrics,
+      surface: admin,
+      access: admin,
+      decision: redesign,
+      purpose: Suivre les métriques clients,
+      primary_cta: filtrer ou consulter,
+      data: métriques autorisées,
+      integrations: [Supabase],
+      acceptance: Source et période visibles pour chaque indicateur,
+      notes: Aucun indicateur fictif.,
+    }
+
+  - {
+      id: compare,
+      path: /comparer,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Comparer des pistes de refonte,
+      primary_cta: null,
+      data: concepts internes,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Retirer ou protéger avant production finale.,
+    }
+  - {
+      id: preview-model-1,
+      path: /preview/modele-1,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Référence de concept 1,
+      primary_cta: null,
+      data: contenu de démonstration,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Ne pas publier comme page officielle.,
+    }
+  - {
+      id: preview-model-1-services,
+      path: /preview/modele-1/services,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Référence services concept 1,
+      primary_cta: null,
+      data: contenu de démonstration,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Ne pas publier comme page officielle.,
+    }
+  - {
+      id: preview-model-1-pricing,
+      path: /preview/modele-1/tarifs,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Référence tarifs concept 1,
+      primary_cta: null,
+      data: contenu de démonstration,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Ne pas publier comme page officielle.,
+    }
+  - {
+      id: preview-model-1-contact,
+      path: /preview/modele-1/contact,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Référence contact concept 1,
+      primary_cta: null,
+      data: contenu de démonstration,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Ne pas brancher aux données de production.,
+    }
+  - {
+      id: preview-model-1-booking,
+      path: /preview/modele-1/prise-de-rdv,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Référence rendez-vous concept 1,
+      primary_cta: null,
+      data: contenu de démonstration,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Ne pas brancher aux données de production.,
+    }
+  - {
+      id: preview-model-2,
+      path: /preview/modele-2,
+      surface: reference,
+      access: public,
+      decision: reference_only,
+      purpose: Référence de concept 2,
+      primary_cta: null,
+      data: contenu de démonstration,
+      integrations: [],
+      acceptance: Conservé hors navigation et noindex,
+      notes: Ne pas publier comme page officielle.,
+    }

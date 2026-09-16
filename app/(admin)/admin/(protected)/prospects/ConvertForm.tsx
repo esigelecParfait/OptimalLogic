@@ -15,7 +15,11 @@ export default function ConvertForm({
   const [state, action, pending] = useActionState(convertProspectToClient, initial);
 
   if (state.success) {
-    return <span className="text-[11px] font-semibold text-emerald-400 whitespace-nowrap">✓ Converti en client</span>;
+    return (
+      <span className="text-[11px] font-semibold text-emerald-400 whitespace-nowrap">
+        ✓ Converti en client
+      </span>
+    );
   }
 
   return (
@@ -28,9 +32,13 @@ export default function ConvertForm({
           defaultValue=""
           className="h-7 max-w-[140px] rounded-lg border border-white/[0.12] bg-[rgba(26,26,29,0.8)] px-1.5 text-[11px] text-ink outline-none"
         >
-          <option value="" disabled>Offre…</option>
+          <option value="" disabled>
+            Offre…
+          </option>
           {offers.map((o) => (
-            <option key={o.code} value={o.code}>{o.nom_offre}</option>
+            <option key={o.code} value={o.code}>
+              {o.nom_offre}
+            </option>
           ))}
         </select>
         <button

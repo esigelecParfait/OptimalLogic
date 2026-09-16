@@ -9,7 +9,7 @@ function getAllowedDomains(): Set<string> {
     (process.env.SECURITY_AUDIT_ALLOWED_DOMAINS ?? "")
       .split(",")
       .map((domain) => domain.trim().toLowerCase())
-      .filter(Boolean)
+      .filter(Boolean),
   );
 }
 

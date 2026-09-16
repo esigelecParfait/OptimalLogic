@@ -1,28 +1,13 @@
 import type { SecurityFinding } from "./finding";
 
-export type AuditType =
-  | "quick"
-  | "full"
-  | "client_delivery"
-  | "critical";
+export type AuditType = "quick" | "full" | "client_delivery" | "critical";
 
-export type AuditEnvironment =
-  | "local"
-  | "staging"
-  | "production";
+export type AuditEnvironment = "local" | "staging" | "production";
 
-export type AuditStatus =
-  | "queued"
-  | "running"
-  | "completed"
-  | "failed";
+export type AuditStatus = "queued" | "running" | "completed" | "failed";
 
 export type SecurityCheckStatus =
-  | "pass"
-  | "fail"
-  | "warning"
-  | "manual_review"
-  | "not_implemented";
+  "pass" | "fail" | "warning" | "manual_review" | "not_implemented";
 
 export interface SecurityCheckSummary {
   total: number;

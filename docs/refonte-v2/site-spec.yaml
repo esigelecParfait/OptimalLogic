@@ -1,0 +1,320 @@
+spec_version: "1.0"
+status: ready
+
+sources:
+  - id: src-live-site
+    type: website
+    title: Site public OptimalLogic actuel
+    location: https://optimallogic.fr
+    observed_at: "2026-08-29"
+  - id: src-repository
+    type: git_repository
+    title: Dépôt OptimalLogic — main
+    location: esigelecParfait/OptimalLogic@af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
+    observed_at: "2026-08-29"
+  - id: src-owner-decision
+    type: user_decision
+    title: Décisions de refonte données dans cette conversation
+    location: conversation-2026-08-29
+    observed_at: "2026-08-29"
+  - id: src-owner-correction
+    type: user_decision
+    title: Corrections de périmètre après revue locale
+    location: conversation-2026-08-30
+    observed_at: "2026-08-30"
+
+project:
+  client_name: OptimalLogic
+  legal_name: OptimalLogic
+  project_name: Refonte frontend OptimalLogic V2
+  slug: optimallogic-v2
+  sector: Solutions digitales, IA et acquisition client
+  locations: [France]
+  languages: [fr]
+
+business:
+  audiences:
+    - commerces et indépendants
+    - TPE et PME
+    - startups
+  value_proposition: >-
+    Transformer la présence digitale en moteur d'acquisition, puis centraliser,
+    qualifier, traiter et suivre les demandes entrantes grâce à l'IA et aux
+    outils OptimalLogic.
+  differentiators:
+    - cadrage centré sur l'activité avant le choix des outils
+    - continuité entre visibilité, conversion et suivi opérationnel
+    - automatisations et IA intégrées aux parcours de demandes
+    - accompagnement adapté au contexte commerce, entreprise ou startup
+  offers:
+    - {
+        id: commerce-intelligent,
+        database_code: commerce_intelligent,
+        audience: commerce,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
+      }
+    - {
+        id: commerce-premium,
+        database_code: commerce_premium,
+        audience: commerce,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
+      }
+    - {
+        id: croissance,
+        database_code: tpe_pme_croissance,
+        audience: tpe_pme,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
+      }
+    - {
+        id: performance,
+        database_code: tpe_pme_performance,
+        audience: tpe_pme,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
+      }
+    - {
+        id: startup-launch,
+        database_code: startup_launch,
+        audience: startup,
+        name_source: offres.nom_offre,
+        setup_price_source: offres.prix,
+        monthly_price_source: offres.prix_abonnement,
+        state: approved_public,
+      }
+  proofs: []
+
+conversion:
+  primary_goal: Obtenir une prise de rendez-vous qualifiée ou une demande de contact exploitable.
+  primary_cta:
+    label: Prendre rendez-vous
+    destination: /prise-de-rdv
+  secondary_goals:
+    - découvrir les services
+    - comparer les cinq offres publiées
+    - contacter OptimalLogic
+  critical_journeys:
+    - id: marketing-to-booking
+      trigger: CTA depuis une page marketing
+      steps: [découverte, qualification, choix du créneau, confirmation]
+      success: rendez-vous enregistré et confirmation visible
+    - id: marketing-to-contact
+      trigger: besoin de conseil ou demande spécifique
+      steps: [formulaire, validation, transmission, accusé de réception]
+      success: demande enregistrée et orientable
+
+site:
+  profile: marketing_public
+  pages:
+    - { id: home, slug: accueil, path: /, access: public }
+    - { id: services, slug: services, path: /services, access: public }
+    - { id: pricing, slug: tarifs, path: /tarifs, access: public }
+    - { id: contact, slug: contact, path: /contact, access: public }
+    - { id: booking, slug: prise-de-rdv, path: /prise-de-rdv, access: public }
+    - { id: help, slug: aide, path: /aide, access: public }
+    - {
+        id: legal-notice,
+        slug: mentions-legales,
+        path: /mentions-legales,
+        access: public,
+      }
+    - { id: privacy, slug: confidentialite, path: /confidentialite, access: public }
+    - { id: cookies, slug: cookies, path: /cookies, access: public }
+    - { id: login, slug: connexion, path: /connexion, access: anonymous_only }
+    - {
+        id: activation,
+        slug: connexion-activer,
+        path: /connexion/activer,
+        access: anonymous_only,
+      }
+    - {
+        id: forgot-password,
+        slug: mot-de-passe-oublie,
+        path: /connexion/mot-de-passe-oublie,
+        access: anonymous_only,
+      }
+    - {
+        id: reset-password,
+        slug: nouveau-mot-de-passe,
+        path: /connexion/nouveau-mot-de-passe,
+        access: anonymous_only,
+      }
+    - {
+        id: client-space,
+        slug: espace-client,
+        path: /espace-client,
+        access: authenticated,
+      }
+    - {
+        id: client-account,
+        slug: espace-client-mon-compte,
+        path: /espace-client/mon-compte,
+        access: authenticated,
+      }
+    - {
+        id: client-support,
+        slug: espace-client-support,
+        path: /espace-client/support,
+        access: authenticated,
+      }
+    - {
+        id: client-delivery-leon,
+        slug: commandes-delices-de-leon,
+        path: /commandes/delices-de-leon,
+        access: authenticated,
+      }
+    - {
+        id: admin-login,
+        slug: admin-connexion,
+        path: /admin/connexion,
+        access: anonymous_only,
+      }
+    - { id: admin-dashboard, slug: admin, path: /admin, access: admin }
+    - { id: admin-clients, slug: admin-clients, path: /admin/clients, access: admin }
+    - {
+        id: admin-client-detail,
+        slug: admin-clients-id,
+        path: "/admin/clients/[id]",
+        access: admin,
+      }
+    - {
+        id: admin-prospects,
+        slug: admin-prospects,
+        path: /admin/prospects,
+        access: admin,
+      }
+    - {
+        id: admin-prospect-detail,
+        slug: admin-prospects-id,
+        path: "/admin/prospects/[id]",
+        access: admin,
+      }
+    - {
+        id: admin-google-setup,
+        slug: admin-google-setup,
+        path: /admin/google-setup,
+        access: admin,
+      }
+    - { id: admin-metrics, slug: admin-metrics, path: /admin/metrics, access: admin }
+  navigation:
+    - { label: Services, destination: /services }
+    - { label: Tarifs, destination: /tarifs }
+    - { label: Contact, destination: /contact }
+    - { label: Prendre rendez-vous, destination: /prise-de-rdv }
+  footer_links: [/mentions-legales, /confidentialite, /cookies]
+  languages: [fr]
+
+content:
+  provided:
+    - contenus publiés du site actuel
+    - arborescence et parcours du dépôt audité
+    - cinq codes d'offres validés ; noms et prix lus depuis Supabase
+    - logo OptimalLogic existant
+  to_create:
+    - narration premium page par page
+    - axe explicite de gestion et suivi des demandes avec IA
+    - microcontenus de réassurance sans preuve inventée
+    - briefs et actifs visuels de marque
+  prohibited_claims:
+    - résultats chiffrés sans source
+    - faux avis, faux clients ou faux partenaires
+    - fonctionnalité IA ou canal présenté comme opérationnel sans validation technique
+    - garantie de résultat commercial
+
+brand:
+  assets:
+    - { id: logo-current, type: logo, source: src-repository, status: provided }
+  logo_status: provided_review_required
+  palette: [noir profond, blanc chaud, gris graphite, accent vert numérique]
+  typography: [sans-serif géométrique, sans-serif lisible]
+  visual_references:
+    - site actuel pour la continuité sombre et technologique
+    - cartes de flux sobres pour matérialiser le traitement des demandes sans dashboard public
+  avoid:
+    - esthétique SaaS générique bleu-violet
+    - surcharge de glassmorphism
+    - fausses captures produit
+    - animations identiques sur chaque section
+
+backend:
+  modules:
+    - authentification et rôles
+    - demandes de contact et prospects
+    - prise de rendez-vous
+    - espace client et support
+    - administration clients, prospects et métriques
+    - assistant public et aide
+  integrations: [Supabase, GitHub, email transactionnel, Google Business selon activation]
+  roles: [anonymous, client, admin]
+
+data:
+  collected_fields:
+    - identité et coordonnées du prospect
+    - contexte et contenu de la demande
+    - créneau de rendez-vous
+    - données de compte et de support client
+  controller: OptimalLogic
+  retention:
+    - confirmer les durées actuelles avant production
+    - appliquer suppression ou anonymisation selon finalité
+  sensitive_data: false
+
+legal:
+  jurisdiction: France
+  legal_pages: [/mentions-legales, /confidentialite, /cookies]
+  cookie_tracking: consent_required_for_non_essential
+  professional_review_required: true
+
+seo:
+  production_domain: https://optimal-logic.com
+  target_queries:
+    - solutions digitales et IA pour TPE PME
+    - gestion et suivi des demandes clients
+    - site web et acquisition client
+  local_locations: [France]
+
+quality:
+  accessibility_target: WCAG 2.2 AA
+  supported_browsers: [chromium, firefox, webkit]
+  viewports: [320, 390, 768, 1024, 1440]
+  performance_budget:
+    lighthouse_performance_min: 90
+    lcp_lab_ms_max: 2500
+    cls_max: 0.1
+    tbt_lab_ms_max: 200
+    initial_transfer_kb_max: 2048
+  exceptions: []
+
+delivery:
+  repository_owner: OptimalLogic
+  deployment_owner: OptimalLogic
+  domain_owner: OptimalLogic
+  account_owners: [OptimalLogic]
+  approvals:
+    brief:
+      approved: false
+      approved_by: null
+      approved_at: null
+
+assumptions:
+  - Les routes de comparaison et preview restent des références internes pendant la refonte.
+  - Les cinq offres publiques sont filtrées par code ; nom et prix viennent de la table offres.
+  - Aucun prix de remplacement n'est affiché en cas d'indisponibilité de Supabase.
+  - L'implémentation des nouveaux canaux de demande sera vérifiée avant toute promesse de disponibilité.
+
+open_questions:
+  - id: operational-channels
+    question: Quels canaux et automatismes de gestion des demandes sont déjà opérationnels en production ?
+    owner: OptimalLogic
+    blocking: false
+    due_before: validation du contenu et mise en production

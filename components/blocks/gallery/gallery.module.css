@@ -1,0 +1,64 @@
+.galleryGrid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.galleryCard {
+  min-width: 0;
+}
+
+.galleryGrid figure,
+.spotlightLayout figure {
+  margin: 0;
+}
+
+.galleryGrid figcaption,
+.spotlightLayout figcaption {
+  margin-top: var(--space-4);
+}
+
+.spotlightLayout {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.supportingGrid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .galleryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .supportingGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .galleryGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  /* Alterne les largeurs pour éviter un mur de cartes trop uniforme. */
+  .galleryCard:nth-child(4n + 1),
+  .galleryCard:nth-child(4n + 4) {
+    grid-column: span 7;
+  }
+
+  .galleryCard:nth-child(4n + 2),
+  .galleryCard:nth-child(4n + 3) {
+    grid-column: span 5;
+  }
+
+  .spotlightLayout {
+    grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+    align-items: start;
+  }
+
+  .supportingGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

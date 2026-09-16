@@ -18,7 +18,7 @@ function clean(value: FormDataEntryValue | null) {
 
 export async function updateClientProspect(
   _prev: SaveState,
-  formData: FormData
+  formData: FormData,
 ): Promise<SaveState> {
   const user = await requireAdmin();
   if (!user) return { error: "Non autorisé.", success: false };
@@ -64,7 +64,11 @@ export async function updateClientProspect(
     .eq("id_client", prospectId);
 
   if (error) {
-    if (error.code === "23505") return { error: "Cet email est déjà utilisé par un autre prospect.", success: false };
+    if (error.code === "23505")
+      return {
+        error: "Cet email est déjà utilisé par un autre prospect.",
+        success: false,
+      };
     return { error: "Erreur lors de la mise à jour.", success: false };
   }
 
@@ -77,7 +81,7 @@ export async function updateClientProspect(
 
 export async function updateClientStatus(
   _prev: SaveState,
-  formData: FormData
+  formData: FormData,
 ): Promise<SaveState> {
   const user = await requireAdmin();
   if (!user) return { error: "Non autorisé.", success: false };
@@ -86,7 +90,10 @@ export async function updateClientStatus(
   const status = formData.get("status") as string;
   if (!clientId || !status) return { error: "Données invalides.", success: false };
 
-  const { error } = await supabaseAdmin.from("clients").update({ status }).eq("id_client", clientId);
+  const { error } = await supabaseAdmin
+    .from("clients")
+    .update({ status })
+    .eq("id_client", clientId);
   if (error) return { error: "Erreur lors de la mise à jour du statut.", success: false };
 
   revalidatePath("/admin/clients");
@@ -96,7 +103,7 @@ export async function updateClientStatus(
 
 export async function updateService(
   _prev: SaveState,
-  formData: FormData
+  formData: FormData,
 ): Promise<SaveState> {
   const user = await requireAdmin();
   if (!user) return { error: "Non autorisé.", success: false };
@@ -109,10 +116,15 @@ export async function updateService(
 
   const { error } = await supabaseAdmin
     .from("client_services")
-    .update({ offer_code: offerCode, service_status: serviceStatus, payment_status: paymentStatus })
+    .update({
+      offer_code: offerCode,
+      service_status: serviceStatus,
+      payment_status: paymentStatus,
+    })
     .eq("id_service", serviceId);
 
-  if (error) return { error: "Erreur lors de la mise à jour du service.", success: false };
+  if (error)
+    return { error: "Erreur lors de la mise à jour du service.", success: false };
 
   revalidatePath("/admin/clients");
 
@@ -123,15 +135,15 @@ export type AddMemberState = { error: string | null; sent: boolean; link: string
 
 export async function addClientMember(
   _prev: AddMemberState,
-  formData: FormData
+  formData: FormData,
 ): Promise<AddMemberState> {
   const user = await requireAdmin();
   if (!user) return { error: "Non autorisé.", sent: false, link: null };
 
-  const clientId   = formData.get("clientId") as string;
-  const email      = (formData.get("email") as string)?.trim().toLowerCase();
-  const firstName  = (formData.get("firstName") as string)?.trim();
-  const lastName   = (formData.get("lastName") as string)?.trim();
+  const clientId = formData.get("clientId") as string;
+  const email = (formData.get("email") as string)?.trim().toLowerCase();
+  const firstName = (formData.get("firstName") as string)?.trim();
+  const lastName = (formData.get("lastName") as string)?.trim();
 
   if (!clientId || !email || !firstName || !lastName)
     return { error: "Tous les champs sont obligatoires.", sent: false, link: null };
@@ -143,7 +155,8 @@ export async function addClientMember(
     .eq("id_client", clientId)
     .eq("status", "active")
     .maybeSingle();
-  if (!client) return { error: "Client introuvable ou inactif.", sent: false, link: null };
+  if (!client)
+    return { error: "Client introuvable ou inactif.", sent: false, link: null };
 
   const { data: activeService } = await supabaseAdmin
     .from("client_services")
@@ -153,18 +166,24 @@ export async function addClientMember(
     .eq("service_status", "en_cours")
     .limit(1)
     .maybeSingle();
-  if (!activeService) return { error: "Aucun service payé actif pour ce client.", sent: false, link: null };
+  if (!activeService)
+    return { error: "Aucun service payé actif pour ce client.", sent: false, link: null };
 
   // Créer ou retrouver le compte Auth
-  const { data: { users } } = await supabaseAdmin.auth.admin.listUsers();
+  const {
+    data: { users },
+  } = await supabaseAdmin.auth.admin.listUsers();
   let authUser = users.find((u) => u.email?.toLowerCase() === email);
   if (!authUser) {
-    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
-      email,
-      email_confirm: true,
-      user_metadata: { first_name: firstName, last_name: lastName },
-    });
-    if (createErr || !created.user) return { error: "Impossible de créer le compte.", sent: false, link: null };
+    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser(
+      {
+        email,
+        email_confirm: true,
+        user_metadata: { first_name: firstName, last_name: lastName },
+      },
+    );
+    if (createErr || !created.user)
+      return { error: "Impossible de créer le compte.", sent: false, link: null };
     authUser = created.user;
   } else {
     await supabaseAdmin.auth.admin.updateUserById(authUser.id, {
@@ -186,7 +205,8 @@ export async function addClientMember(
       user_id: authUser.id,
       role: "member",
     });
-    if (memberErr) return { error: "Impossible d'ajouter le membre.", sent: false, link: null };
+    if (memberErr)
+      return { error: "Impossible d'ajouter le membre.", sent: false, link: null };
   }
 
   // Invalider les anciens tokens et créer le nouveau
@@ -202,7 +222,8 @@ export async function addClientMember(
     email,
     expires_at: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
   });
-  if (tokenErr) return { error: "Erreur lors de la génération du lien.", sent: false, link: null };
+  if (tokenErr)
+    return { error: "Erreur lors de la génération du lien.", sent: false, link: null };
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://optimal-logic.com";
   const link = `${appUrl}/connexion/activer?token=${token}`;

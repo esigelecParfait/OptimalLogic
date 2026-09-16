@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
+import { isPublicOfferCode } from "@/lib/offers/public-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -81,9 +82,9 @@ function hasTrackingData(tracking?: TrackingPayload) {
 
   return Boolean(
     cleanNullableText(tracking.utm_source) ||
-      cleanNullableText(tracking.utm_medium) ||
-      cleanNullableText(tracking.utm_campaign) ||
-      cleanNullableText(tracking.utm_content)
+    cleanNullableText(tracking.utm_medium) ||
+    cleanNullableText(tracking.utm_campaign) ||
+    cleanNullableText(tracking.utm_content),
   );
 }
 
@@ -93,7 +94,7 @@ function jsonError(message: string, status = 400) {
       success: false,
       error: message,
     },
-    { status }
+    { status },
   );
 }
 
@@ -177,13 +178,17 @@ export async function POST(request: Request) {
 
     if (requestSource === "tarifs" && !offerCode) {
       return jsonError(
-        "Une demande provenant de la page Tarifs doit contenir une offre."
+        "Une demande provenant de la page Tarifs doit contenir une offre.",
       );
+    }
+
+    if (requestSource === "tarifs" && offerCode && !isPublicOfferCode(offerCode)) {
+      return jsonError("L’offre choisie ne fait pas partie du catalogue public.");
     }
 
     if (!consentRgpd) {
       return jsonError(
-        "Le consentement RGPD est obligatoire pour enregistrer la demande."
+        "Le consentement RGPD est obligatoire pour enregistrer la demande.",
       );
     }
 
@@ -293,23 +298,22 @@ export async function POST(request: Request) {
       clientProspectId = insertedClientProspect.id_client;
     }
 
-    const { data: insertedDemande, error: insertDemandeError } =
-      await supabaseAdmin
-        .from("demandes")
-        .insert({
-          id_client: clientProspectId,
+    const { data: insertedDemande, error: insertDemandeError } = await supabaseAdmin
+      .from("demandes")
+      .insert({
+        id_client: clientProspectId,
 
-          request_source: requestSource,
-          offer_code: offerCode,
-          objective_type: objectiveType,
-          need_description: needDescription,
-          consent_rgpd: consentRgpd,
+        request_source: requestSource,
+        offer_code: offerCode,
+        objective_type: objectiveType,
+        need_description: needDescription,
+        consent_rgpd: consentRgpd,
 
-          request_status: "nouveau",
-          priority: "normale",
-        })
-        .select("id")
-        .single();
+        request_status: "nouveau",
+        priority: "normale",
+      })
+      .select("id")
+      .single();
 
     if (insertDemandeError || !insertedDemande) {
       console.error("Erreur création demande :", insertDemandeError);
@@ -368,12 +372,16 @@ export async function POST(request: Request) {
           }),
         });
         // Apps Script répond toujours 200 (ContentService) : le vrai statut est dans le body
-        const resBody = (await res.json().catch(() => null)) as
-          | { success?: boolean; error?: string }
-          | null;
+        const resBody = (await res.json().catch(() => null)) as {
+          success?: boolean;
+          error?: string;
+        } | null;
         adminNotifSent = res.ok && resBody?.success === true;
         if (!adminNotifSent) {
-          console.error("Apps Script notification_admin en erreur :", resBody?.error ?? res.status);
+          console.error(
+            "Apps Script notification_admin en erreur :",
+            resBody?.error ?? res.status,
+          );
         }
       } catch {
         // Apps Script non disponible — non bloquant
@@ -408,7 +416,7 @@ export async function POST(request: Request) {
           },
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Erreur API /api/demandes :", error);
@@ -416,10 +424,9 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error:
-          "Une erreur est survenue lors de l’enregistrement de la demande.",
+        error: "Une erreur est survenue lors de l’enregistrement de la demande.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -14,9 +14,15 @@ const nav = [
   { href: "/admin/google-setup", label: "Google Business", icon: "⊕" },
 ];
 
-export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminProtectedLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect("/admin/connexion");
 
   const { data: admin } = await supabaseAdmin
@@ -35,7 +41,9 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
           <div className="flex items-center gap-3">
             <div
               className="h-8 w-8 shrink-0 rounded-lg grid place-items-center text-sm font-bold text-white"
-              style={{ background: "linear-gradient(135deg,#7c5cff,#b14dff 50%,#1fd5f0)" }}
+              style={{
+                background: "linear-gradient(135deg,#7c5cff,#b14dff 50%,#1fd5f0)",
+              }}
             >
               OL
             </div>
@@ -60,19 +68,22 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
         </nav>
 
         <div className="p-4 border-t border-white/[0.07]">
-          <p className="text-xs font-medium text-ink truncate">{admin.first_name} {admin.last_name}</p>
+          <p className="text-xs font-medium text-ink truncate">
+            {admin.first_name} {admin.last_name}
+          </p>
           <p className="text-[10px] text-mut mt-0.5 mb-3 capitalize">{admin.role}</p>
           <form action={logoutAdmin}>
-            <button type="submit" className="text-xs text-mut hover:text-ink transition-colors">
+            <button
+              type="submit"
+              className="text-xs text-mut hover:text-ink transition-colors"
+            >
               Se déconnecter →
             </button>
           </form>
         </div>
       </aside>
 
-      <main className="flex-1 overflow-auto">
-        {children}
-      </main>
+      <main className="flex-1 overflow-auto">{children}</main>
     </div>
   );
 }

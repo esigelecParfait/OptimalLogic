@@ -15,10 +15,13 @@ export async function GET(request: NextRequest) {
   const error = searchParams.get("error");
 
   if (error || !code) {
-    return new Response(`<h1>Erreur Google OAuth</h1><p>${error ? "autorisation refusée" : "Code absent"}</p>`, {
-      headers: { "Content-Type": "text/html" },
-      status: 400,
-    });
+    return new Response(
+      `<h1>Erreur Google OAuth</h1><p>${error ? "autorisation refusée" : "Code absent"}</p>`,
+      {
+        headers: { "Content-Type": "text/html" },
+        status: 400,
+      },
+    );
   }
 
   const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/api/admin/google-auth/callback`;
@@ -28,10 +31,10 @@ export async function GET(request: NextRequest) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       code,
-      client_id:     process.env.GOOGLE_CLIENT_ID!,
+      client_id: process.env.GOOGLE_CLIENT_ID!,
       client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-      redirect_uri:  redirectUri,
-      grant_type:    "authorization_code",
+      redirect_uri: redirectUri,
+      grant_type: "authorization_code",
     }),
   });
 
@@ -44,7 +47,7 @@ export async function GET(request: NextRequest) {
        <p>Assurez-vous d'avoir révoqué l'accès précédent depuis
        <a href="https://myaccount.google.com/permissions">Google Account Permissions</a>
        puis réessayez.</p>`,
-      { headers: { "Content-Type": "text/html" }, status: 400 }
+      { headers: { "Content-Type": "text/html" }, status: 400 },
     );
   }
 
@@ -58,6 +61,6 @@ export async function GET(request: NextRequest) {
       <p style="color:#999">Variable à ajouter : <code>GOOGLE_REFRESH_TOKEN</code></p>
       <p style="color:#999">Ne partagez jamais ce token — il donne accès à vos fiches Google Business.</p>
     </body></html>`,
-    { headers: { "Content-Type": "text/html" } }
+    { headers: { "Content-Type": "text/html" } },
   );
 }

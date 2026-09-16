@@ -6,7 +6,7 @@ type Props = { children: ReactNode; className?: string; delay?: number };
 export function AnimateIn({ children, className = "", delay = 0 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-///uurrubrrurburbrburubur
+  ///uurrubrrurburbrburubur
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -17,7 +17,7 @@ export function AnimateIn({ children, className = "", delay = 0 }: Props) {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     observer.observe(el);
     return () => observer.disconnect();

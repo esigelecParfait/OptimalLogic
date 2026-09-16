@@ -32,11 +32,9 @@ export async function GET(request: Request) {
     const defaultStart = new Date();
     const defaultEnd = addDays(defaultStart, 14);
 
-    const start =
-      searchParams.get("start") || defaultStart.toISOString();
+    const start = searchParams.get("start") || defaultStart.toISOString();
 
-    const end =
-      searchParams.get("end") || defaultEnd.toISOString();
+    const end = searchParams.get("end") || defaultEnd.toISOString();
 
     const url = new URL("https://api.cal.com/v2/slots");
 
@@ -66,7 +64,7 @@ export async function GET(request: Request) {
           error: data?.message || "Impossible de récupérer les créneaux.",
           details: data,
         },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -75,7 +73,7 @@ export async function GET(request: Request) {
         success: true,
         data: data?.data || {},
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Erreur API /api/cal/slots :", error);
@@ -88,7 +86,7 @@ export async function GET(request: Request) {
             ? error.message
             : "Erreur serveur lors du chargement des créneaux.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

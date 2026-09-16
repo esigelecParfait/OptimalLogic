@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const models = [
@@ -32,12 +33,12 @@ export default function ComparerPage() {
       {/* Barre de contrôle */}
       <header className="flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-5 py-3">
         <div className="flex items-center gap-3">
-          <a
+          <Link
             href="/"
             className="flex items-center gap-2 text-sm font-semibold text-white/60 transition hover:text-white"
           >
             ← OptimalLogic
-          </a>
+          </Link>
           <span className="text-white/20">|</span>
           <span className="text-sm font-black text-white">Comparateur de modèles</span>
         </div>
@@ -48,7 +49,9 @@ export default function ComparerPage() {
             <button
               onClick={() => setDevice("desktop")}
               className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
-                device === "desktop" ? "bg-white text-gray-900" : "text-white/50 hover:text-white"
+                device === "desktop"
+                  ? "bg-white text-gray-900"
+                  : "text-white/50 hover:text-white"
               }`}
             >
               🖥 Desktop
@@ -56,7 +59,9 @@ export default function ComparerPage() {
             <button
               onClick={() => setDevice("mobile")}
               className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
-                device === "mobile" ? "bg-white text-gray-900" : "text-white/50 hover:text-white"
+                device === "mobile"
+                  ? "bg-white text-gray-900"
+                  : "text-white/50 hover:text-white"
               }`}
             >
               📱 Mobile
@@ -81,9 +86,7 @@ export default function ComparerPage() {
           visibleModels.length === 1 ? "" : "grid"
         }`}
         style={{
-          gridTemplateColumns: visibleModels.length === 2
-            ? "repeat(2, 1fr)"
-            : "1fr",
+          gridTemplateColumns: visibleModels.length === 2 ? "repeat(2, 1fr)" : "1fr",
         }}
       >
         {visibleModels.map((model) => (

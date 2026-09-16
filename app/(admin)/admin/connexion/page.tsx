@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { loginAdmin, type AdminLoginState } from "./actions";
 
-const field = "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
+const field =
+  "h-12 w-full rounded-xl border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-4 text-sm text-ink outline-none transition placeholder:text-mut-2 focus:border-white/30 focus:ring-2 focus:ring-white/[0.08]";
 
 const initial: AdminLoginState = { error: null };
 
@@ -20,19 +21,41 @@ export default function AdminConnexionPage() {
           >
             OL
           </div>
-          <h1 className="font-display text-2xl font-semibold text-ink">Espace administration</h1>
-          <p className="mt-2 text-sm text-mut">Connectez-vous avec votre compte administrateur.</p>
+          <h1 className="font-display text-2xl font-semibold text-ink">
+            Espace administration
+          </h1>
+          <p className="mt-2 text-sm text-mut">
+            Connectez-vous avec votre compte administrateur.
+          </p>
         </div>
 
         <div className="surface-card rounded-2xl p-7">
           <form action={action} className="grid gap-5">
             <label className="grid gap-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-widest text-mut-2">Email</span>
-              <input type="email" name="email" required placeholder="admin@optimallogic.fr" className={field} autoComplete="email" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-mut-2">
+                Email
+              </span>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="admin@optimallogic.fr"
+                className={field}
+                autoComplete="email"
+              />
             </label>
             <label className="grid gap-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-widest text-mut-2">Mot de passe</span>
-              <input type="password" name="password" required placeholder="••••••••" className={field} autoComplete="current-password" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-mut-2">
+                Mot de passe
+              </span>
+              <input
+                type="password"
+                name="password"
+                required
+                placeholder="••••••••"
+                className={field}
+                autoComplete="current-password"
+              />
             </label>
 
             {state.error && (

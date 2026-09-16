@@ -1,0 +1,35 @@
+schema_version: 1
+status: ready_for_review
+navigation:
+  services: Services
+  pricing: Tarifs
+  contact: Contact
+  booking: Prendre rendez-vous
+  help: Aide
+forms:
+  required: Champ obligatoire
+  invalid_email: Saisissez une adresse e-mail valide.
+  invalid_phone: Vérifiez le numéro ou laissez le champ vide.
+  consent: J'accepte que mes informations soient utilisées pour répondre à ma demande.
+  submitting: Envoi en cours…
+  success: Votre demande a bien été transmise. Nous revenons vers vous avec son contexte.
+  server_error: "La demande n'a pas pu être envoyée. Vos informations sont conservées dans le formulaire ; réessayez ou prenez rendez-vous."
+  rate_limited: Trop de tentatives rapprochées. Attendez quelques minutes avant de réessayer.
+offers:
+  loading: Chargement des offres…
+  partial: Certaines offres ne sont pas disponibles pour le moment.
+  unavailable: Aucun tarif vérifié ne peut être affiché. Contactez-nous pour obtenir l'information actuelle.
+  no_price: Tarif indisponible
+booking:
+  loading: Recherche des créneaux…
+  no_slots: Aucun créneau disponible sur cette période.
+  selected: Créneau sélectionné
+  submitting: Confirmation en cours…
+  success: Votre rendez-vous est confirmé.
+  conflict: Ce créneau vient d'être réservé. Choisissez-en un autre.
+  provider_error: Les créneaux sont momentanément indisponibles. Vous pouvez nous écrire.
+assistant:
+  loading: Préparation de la réponse…
+  error: L'assistant ne peut pas répondre maintenant.
+  human_handoff: Continuer avec une personne
+  stop: Arrêter la réponse

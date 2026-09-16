@@ -19,10 +19,7 @@ export type PaidClient = {
   google_business_url?: string | null;
 };
 
-export async function getClientMemberForUser(
-  supabase: SupabaseClient,
-  userId: string
-) {
+export async function getClientMemberForUser(supabase: SupabaseClient, userId: string) {
   return supabase
     .from("client_members")
     .select("id_client, user_id, role")
@@ -34,10 +31,12 @@ export async function getClientMemberForUser(
 export async function getPaidClientForUser(
   supabase: SupabaseClient,
   userId: string,
-  columns: string
+  columns: string,
 ) {
-  const { data: clientMember, error: memberError } =
-    await getClientMemberForUser(supabase, userId);
+  const { data: clientMember, error: memberError } = await getClientMemberForUser(
+    supabase,
+    userId,
+  );
 
   if (memberError || !clientMember?.id_client) {
     return {

@@ -12,8 +12,7 @@ const legalLinks = [
   {
     label: "Cookies",
     href: "/cookies",
-  }
- 
+  },
 ];
 
 export default function Footer() {

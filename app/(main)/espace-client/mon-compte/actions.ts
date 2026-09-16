@@ -11,7 +11,7 @@ export type PasswordActionState = {
 
 export async function updatePasswordFromAccount(
   _prevState: PasswordActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<PasswordActionState> {
   const currentPassword = formData.get("currentPassword") as string;
   const password = formData.get("password") as string;
@@ -31,7 +31,9 @@ export async function updatePasswordFromAccount(
   }
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user?.email) {
     return { error: "Vous devez être connecté." };
@@ -67,7 +69,7 @@ function cleanOptional(value: FormDataEntryValue | null) {
 
 export async function updateClientInfo(
   _prevState: AccountActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<AccountActionState> {
   const supabase = await createClient();
   const {
@@ -85,8 +87,10 @@ export async function updateClientInfo(
     return { error: "Le nom et le prénom sont obligatoires." };
   }
 
-  const { data: clientMember, error: memberError } =
-    await getClientMemberForUser(supabase, user.id);
+  const { data: clientMember, error: memberError } = await getClientMemberForUser(
+    supabase,
+    user.id,
+  );
 
   if (memberError || !clientMember?.id_client) {
     return { error: "Impossible de retrouver votre compte client." };
@@ -109,9 +113,7 @@ export async function updateClientInfo(
       contact_last_name: contactLastName,
       business_name: cleanOptional(formData.get("business_name")),
       business_city: cleanOptional(formData.get("business_city")),
-      business_website_url: cleanOptional(
-        formData.get("business_website_url")
-      ),
+      business_website_url: cleanOptional(formData.get("business_website_url")),
       google_business_url: cleanOptional(formData.get("google_business_url")),
     })
     .eq("id_client", clientRow.id_client_prospect);

@@ -22,8 +22,8 @@ export default function CalEmbed() {
           </h2>
 
           <p className="mt-3 max-w-md text-sm leading-6 text-neutral-600">
-            Nous chargeons l’agenda de réservation pour vous permettre de
-            choisir le meilleur moment pour votre appel découverte.
+            Nous chargeons l’agenda de réservation pour vous permettre de choisir le
+            meilleur moment pour votre appel découverte.
           </p>
 
           <div className="mt-8 grid w-full max-w-xl gap-3">

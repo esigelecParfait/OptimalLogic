@@ -1,0 +1,37 @@
+decisions_version: "1.0"
+status: ready
+decisions:
+  - id: offer-revision
+    topic: offres et tarifs
+    question: Quelle grille remplace les huit offres historiques ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: finalisation de la page tarifs
+    status: resolved
+    resolved_at: "2026-08-30"
+    decision: >-
+      Publier cinq offres existantes — commerce_intelligent, commerce_premium,
+      tpe_pme_croissance, tpe_pme_performance et startup_launch — dans cet ordre.
+      Lire nom_offre, prix et prix_abonnement depuis la table offres. Ne jamais
+      afficher de montant de remplacement si Supabase est indisponible.
+  - id: channel-readiness
+    topic: gestion des demandes
+    question: Quels canaux, règles IA et automatisations peuvent être présentés comme opérationnels ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: validation éditoriale préproduction
+    current_rule: Décrire la capacité et l'ambition sans affirmer une intégration non vérifiée.
+  - id: brand-assets
+    topic: identité visuelle
+    question: Le logo actuel doit-il évoluer ou seulement être décliné ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: production finale des médias
+    current_rule: Conserver le logo comme actif provisoire et vérifier ses variantes.
+  - id: legal-review
+    topic: conformité
+    question: Les textes légaux et durées de conservation sont-ils à jour ?
+    blocking: false
+    owner: OptimalLogic
+    due_before: mise en production
+    current_rule: Préserver les pages actuelles et exiger une revue professionnelle avant livraison.

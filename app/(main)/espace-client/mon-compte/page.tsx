@@ -19,7 +19,7 @@ export default async function MonComptePage() {
   const { client } = await getPaidClientForUser(
     supabase,
     user.id,
-    "id_client, contact_first_name, contact_last_name, contact_email, phone_country_code, phone_number, business_name, business_city, business_website_url, google_business_url"
+    "id_client, contact_first_name, contact_last_name, contact_email, phone_country_code, phone_number, business_name, business_city, business_website_url, google_business_url",
   );
 
   return (
@@ -31,10 +31,15 @@ export default async function MonComptePage() {
           style={{ background: "var(--grad)" }}
         />
         <div className="relative">
-          <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Mes informations</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">Profil client</h2>
+          <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+            Mes informations
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-semibold tracking-[-0.03em]">
+            Profil client
+          </h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-mut">
-            Gardez vos informations à jour pour faciliter le suivi, les rapports mensuels et les échanges avec l&apos;équipe.
+            Gardez vos informations à jour pour faciliter le suivi, les rapports mensuels
+            et les échanges avec l&apos;équipe.
           </p>
 
           <div className="mt-8">
@@ -53,7 +58,9 @@ export default async function MonComptePage() {
                 }}
               />
             ) : (
-              <p className="text-sm leading-6 text-mut">Impossible de récupérer vos informations pour le moment.</p>
+              <p className="text-sm leading-6 text-mut">
+                Impossible de récupérer vos informations pour le moment.
+              </p>
             )}
           </div>
         </div>
@@ -61,20 +68,29 @@ export default async function MonComptePage() {
 
       <aside className="grid gap-6">
         <section className="surface-card rounded-[30px] p-6 sm:p-8">
-          <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">Sécurité</p>
+          <p className="eyebrow-grad text-sm font-semibold uppercase tracking-[0.25em]">
+            Sécurité
+          </p>
           <h2 className="mt-2 font-display text-2xl font-semibold">Mot de passe</h2>
           <p className="mt-3 text-sm leading-6 text-mut">
-            Choisissez un mot de passe unique et suffisamment long pour protéger votre espace client.
+            Choisissez un mot de passe unique et suffisamment long pour protéger votre
+            espace client.
           </p>
           <div className="mt-6">
             <PasswordForm />
           </div>
         </section>
 
-        <section className="rounded-[26px] border border-white/[0.09] p-6" style={{ background: "rgba(26,26,29,0.38)" }}>
-          <p className="font-display text-lg font-semibold text-ink">Besoin de modifier une donnée verrouillée ?</p>
+        <section
+          className="rounded-[26px] border border-white/[0.09] p-6"
+          style={{ background: "rgba(26,26,29,0.38)" }}
+        >
+          <p className="font-display text-lg font-semibold text-ink">
+            Besoin de modifier une donnée verrouillée ?
+          </p>
           <p className="mt-2 text-sm leading-6 text-mut">
-            Votre e-mail et votre téléphone sont protégés. Contactez le support pour une modification sensible.
+            Votre e-mail et votre téléphone sont protégés. Contactez le support pour une
+            modification sensible.
           </p>
         </section>
       </aside>

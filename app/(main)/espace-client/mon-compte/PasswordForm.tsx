@@ -11,7 +11,10 @@ const fieldClass =
 const initialState: PasswordActionState = { error: null };
 
 export default function PasswordForm() {
-  const [state, formAction, isPending] = useActionState(updatePasswordFromAccount, initialState);
+  const [state, formAction, isPending] = useActionState(
+    updatePasswordFromAccount,
+    initialState,
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -22,35 +25,68 @@ export default function PasswordForm() {
 
   return (
     <form ref={formRef} action={formAction} className="grid gap-5">
-      <div className="rounded-2xl border border-white/[0.08] p-4" style={{ background: "rgba(26,26,29,0.34)" }}>
+      <div
+        className="rounded-2xl border border-white/[0.08] p-4"
+        style={{ background: "rgba(26,26,29,0.34)" }}
+      >
         <div className="grid gap-5">
           <label className={labelClass}>
             <span className={labelTextClass}>Mot de passe actuel</span>
-            <input type="password" name="currentPassword" required placeholder="********" className={fieldClass} />
+            <input
+              type="password"
+              name="currentPassword"
+              required
+              placeholder="********"
+              className={fieldClass}
+            />
           </label>
           <label className={labelClass}>
             <span className={labelTextClass}>Nouveau mot de passe</span>
-            <input type="password" name="password" required minLength={8} placeholder="Minimum 8 caractères" className={fieldClass} />
+            <input
+              type="password"
+              name="password"
+              required
+              minLength={8}
+              placeholder="Minimum 8 caractères"
+              className={fieldClass}
+            />
           </label>
           <label className={labelClass}>
             <span className={labelTextClass}>Confirmer le nouveau mot de passe</span>
-            <input type="password" name="confirmPassword" required minLength={8} placeholder="Retapez votre mot de passe" className={fieldClass} />
+            <input
+              type="password"
+              name="confirmPassword"
+              required
+              minLength={8}
+              placeholder="Retapez votre mot de passe"
+              className={fieldClass}
+            />
           </label>
         </div>
       </div>
 
       {state.error && (
-        <div className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]" style={{ background: "rgba(255,77,109,0.1)" }}>
+        <div
+          className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]"
+          style={{ background: "rgba(255,77,109,0.1)" }}
+        >
           {state.error}
         </div>
       )}
       {state.success && (
-        <div className="rounded-xl border border-emerald/40 px-4 py-3 text-sm font-medium text-emerald" style={{ background: "rgba(46,230,168,0.1)" }}>
+        <div
+          className="rounded-xl border border-emerald/40 px-4 py-3 text-sm font-medium text-emerald"
+          style={{ background: "rgba(46,230,168,0.1)" }}
+        >
           Votre mot de passe a bien été mis à jour.
         </div>
       )}
 
-      <button type="submit" disabled={isPending} className="btn-grad mt-2 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60">
+      <button
+        type="submit"
+        disabled={isPending}
+        className="btn-grad mt-2 inline-flex justify-center rounded-full px-6 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+      >
         {isPending ? "Enregistrement..." : "Mettre à jour le mot de passe"}
       </button>
     </form>

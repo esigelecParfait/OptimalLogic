@@ -1,0 +1,88 @@
+conversion_version: "1.0"
+status: ready
+primary_goal: Transformer une visite qualifiée en demande traçable avec responsable, état et prochaine action.
+
+channels:
+  - id: call
+    label: Appel
+    capture: lien téléphonique ou journalisation validée
+    qualification: motif, urgence, coordonnées et consentement si enregistrement
+    owner: responsable commercial
+    fallback: afficher un formulaire si l'appel n'aboutit pas
+  - id: quote
+    label: Demande de devis
+    capture: formulaire contextualisé
+    qualification: audience, besoin, délai, budget facultatif
+    owner: responsable commercial
+    fallback: conserver un brouillon local non sensible ou proposer le contact
+  - id: form
+    label: Formulaire de contact
+    capture: /contact
+    qualification: identité, coordonnées, contexte et préférence de réponse
+    owner: responsable commercial
+    fallback: afficher un canal alternatif et un identifiant d'erreur non sensible
+  - id: booking
+    label: Rendez-vous
+    capture: /prise-de-rdv
+    qualification: contexte, créneau et coordonnées
+    owner: interlocuteur assigné
+    fallback: proposer le formulaire de contact
+  - id: message
+    label: Message ou assistant
+    capture: /aide ou widget public
+    qualification: intention, thème et escalade humaine
+    owner: support ou commercial selon intention
+    fallback: contact humain visible
+
+journeys:
+  - id: public-demand-to-follow-up
+    trigger: soumission depuis un canal public
+    steps:
+      - valider et protéger les données
+      - créer ou rattacher le prospect sans doublon
+      - qualifier le canal, l'intention et la priorité
+      - assigner un responsable et une prochaine action
+      - confirmer la réception sans promesse de délai inventée
+      - afficher l'historique dans l'administration
+    data: identité, canal, intention, consentement, statut, responsable, prochaine action, horodatage
+    result: demande traçable et exploitable
+    owner: responsable commercial
+    failure_behavior: journaliser côté serveur, ne pas perdre silencieusement la demande et proposer un autre canal
+  - id: client-support-follow-up
+    trigger: demande depuis /espace-client/support
+    steps:
+      - vérifier la session et le périmètre client
+      - créer le ticket
+      - confirmer et afficher son état
+      - permettre une réponse ou une escalade autorisée
+    data: compte, service, catégorie, message, état, historique
+    result: demande de support suivie dans l'espace client
+    owner: support OptimalLogic
+    failure_behavior: conserver le contexte non sensible et afficher un canal de secours
+  - id: booking-to-prospect
+    trigger: rendez-vous confirmé
+    steps:
+      - valider le créneau
+      - créer ou mettre à jour le prospect
+      - associer la source booking
+      - envoyer les confirmations configurées
+    data: prospect, créneau, source, consentement et état d'envoi
+    result: rendez-vous et prospect corrélés
+    owner: responsable commercial
+    failure_behavior: ne pas afficher de confirmation si l'écriture principale échoue
+
+ai_guardrails:
+  allowed:
+    - proposer une catégorie ou une priorité révisable
+    - résumer une demande pour un opérateur
+    - suggérer la prochaine action selon des règles validées
+    - préparer une réponse non envoyée automatiquement
+  requires_human_confirmation:
+    - changement de statut commercial important
+    - réponse engageante ou personnalisée
+    - conversion d'un prospect en client
+    - suppression ou fusion de données
+  prohibited:
+    - inventer un besoin absent de la demande
+    - prendre une décision juridique ou financière
+    - envoyer une réponse engageante sans règle et traçabilité

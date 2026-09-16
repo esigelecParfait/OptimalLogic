@@ -36,7 +36,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(
-    new URL("/connexion?error=lien_invalide", request.url)
-  );
+  return NextResponse.redirect(new URL("/connexion?error=lien_invalide", request.url));
 }

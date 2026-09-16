@@ -5,7 +5,8 @@ import { updateService, type SaveState } from "./actions";
 
 const initial: SaveState = { error: null, success: false };
 
-const field = "h-9 rounded-lg border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-2.5 text-xs text-ink outline-none focus:border-white/30";
+const field =
+  "h-9 rounded-lg border border-white/[0.13] bg-[rgba(26,26,29,0.72)] px-2.5 text-xs text-ink outline-none focus:border-white/30";
 
 const serviceStatusOptions = [
   { value: "en_attente", label: "En attente" },
@@ -32,7 +33,13 @@ type Service = {
   payment_status: string | null;
 };
 
-export default function ServiceEditForm({ service, offers }: { service: Service; offers: Offer[] }) {
+export default function ServiceEditForm({
+  service,
+  offers,
+}: {
+  service: Service;
+  offers: Offer[];
+}) {
   const [state, action, pending] = useActionState(updateService, initial);
 
   return (
@@ -41,23 +48,41 @@ export default function ServiceEditForm({ service, offers }: { service: Service;
 
       <select name="offerCode" defaultValue={service.offer_code ?? ""} className={field}>
         {offers.map((o) => (
-          <option key={o.code} value={o.code}>{o.nom_offre}</option>
+          <option key={o.code} value={o.code}>
+            {o.nom_offre}
+          </option>
         ))}
       </select>
 
-      <select name="serviceStatus" defaultValue={service.service_status ?? ""} className={field}>
+      <select
+        name="serviceStatus"
+        defaultValue={service.service_status ?? ""}
+        className={field}
+      >
         {serviceStatusOptions.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
         ))}
       </select>
 
-      <select name="paymentStatus" defaultValue={service.payment_status ?? ""} className={field}>
+      <select
+        name="paymentStatus"
+        defaultValue={service.payment_status ?? ""}
+        className={field}
+      >
         {paymentStatusOptions.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
         ))}
       </select>
 
-      <button type="submit" disabled={pending} className="rounded-full border border-white/[0.13] px-3.5 py-1.5 text-xs font-medium text-ink hover:bg-white/[0.05] disabled:opacity-50">
+      <button
+        type="submit"
+        disabled={pending}
+        className="rounded-full border border-white/[0.13] px-3.5 py-1.5 text-xs font-medium text-ink hover:bg-white/[0.05] disabled:opacity-50"
+      >
         {pending ? "…" : "Enregistrer"}
       </button>
       {state.success && <span className="text-xs font-medium text-emerald-400">✓</span>}

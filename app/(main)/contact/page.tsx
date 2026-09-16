@@ -2,8 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { parsePhoneNumber } from "react-phone-number-input";
-import NeuralBackground from "@/components/fx/NeuralBackground";
 import {
   ObjectiveSelectField,
   PremiumPhoneField,
@@ -19,14 +19,12 @@ import {
   Clock3,
   Globe2,
   Mail,
-  MessageCircle,
-  MousePointerClick,
   Send,
   ShieldCheck,
   Sparkles,
-  Target,
   UserRound,
 } from "lucide-react";
+import { MotionReveal } from "@/components/motion";
 
 type FormState = {
   lastname: string;
@@ -45,12 +43,6 @@ type FormState = {
 
 type ObjectiveOption = { value: string; label: string };
 type TypeClientOption = { value: string; label: string };
-
-type Reason = {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-};
 
 const labelClass = "grid gap-2";
 const labelTextClass = "text-[11px] font-semibold uppercase tracking-[0.1em] text-mut-2";
@@ -72,29 +64,6 @@ const objectiveOptions: ObjectiveOption[] = [
   { value: "lancer_offre", label: "Lancer ou tester une offre" },
   { value: "automatiser_reponses", label: "Automatiser les réponses aux clients" },
   { value: "incertain", label: "Je ne sais pas encore" },
-];
-
-const contactReasons: Reason[] = [
-  {
-    icon: Globe2,
-    title: "Visibilité locale",
-    description: "Comprendre comment être mieux trouvé sur Google et convertir plus de recherches en contacts.",
-  },
-  {
-    icon: MousePointerClick,
-    title: "Parcours de contact",
-    description: "Clarifier les appels, formulaires et rendez-vous pour réduire les abandons.",
-  },
-  {
-    icon: MessageCircle,
-    title: "Réponses & suivi",
-    description: "Structurer les demandes entrantes pour relancer les bons prospects au bon moment.",
-  },
-  {
-    icon: Target,
-    title: "Offre adaptée",
-    description: "Identifier ce qui est vraiment utile avant de parler site, IA ou automatisation.",
-  },
 ];
 
 const preparationItems = [
@@ -164,7 +133,9 @@ function SectionTitle({
         {eyebrow}
       </span>
       <h2 className="mt-3 text-[clamp(25px,3vw,36px)] font-semibold">{title}</h2>
-      {description && <p className="mt-3 max-w-2xl text-base leading-7 text-mut">{description}</p>}
+      {description && (
+        <p className="mt-3 max-w-2xl text-base leading-7 text-mut">{description}</p>
+      )}
     </div>
   );
 }
@@ -221,7 +192,9 @@ export default function ContactPage() {
     }
 
     if (!form.consentRgpd) {
-      setFormError("Vous devez accepter l'utilisation de vos informations pour être recontacté.");
+      setFormError(
+        "Vous devez accepter l'utilisation de vos informations pour être recontacté.",
+      );
       setIsSubmitting(false);
       return;
     }
@@ -258,10 +231,15 @@ export default function ContactPage() {
       });
 
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Erreur lors de l'envoi de votre demande.");
+      if (!response.ok)
+        throw new Error(result.error || "Erreur lors de l'envoi de votre demande.");
       setSubmitted(true);
     } catch (error) {
-      setFormError(error instanceof Error ? error.message : "Erreur lors de l'envoi de votre demande.");
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : "Erreur lors de l'envoi de votre demande.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -271,15 +249,19 @@ export default function ContactPage() {
     <main className="relative overflow-hidden">
       {/* HERO */}
       <section className="relative overflow-hidden px-7 pb-16 pt-44 lg:pt-52">
-        <NeuralBackground />
-        <div className="relative z-[2] mx-auto max-w-[1240px]">
+        <MotionReveal
+          className="relative z-[2] mx-auto max-w-[1240px]"
+          preset="rise"
+          presetId="reveal-copy"
+        >
           <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
             <div>
               <span
                 className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
                 style={{ background: "var(--grad-soft)" }}
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Contact &amp; diagnostic
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald" /> Contact &amp;
+                diagnostic
               </span>
 
               <h1 className="mt-6 max-w-4xl text-[clamp(38px,5vw,62px)] font-semibold leading-[1.04]">
@@ -288,8 +270,9 @@ export default function ContactPage() {
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-mut">
-                Visibilité Google, site web, prise de rendez-vous, assistant IA ou suivi des demandes :
-                nous vous aidons à identifier le système digital vraiment utile pour votre activité.
+                Visibilité Google, site web, prise de rendez-vous, assistant IA ou suivi
+                des demandes : nous vous aidons à identifier le système digital vraiment
+                utile pour votre activité.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -308,45 +291,41 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="surface-card relative overflow-hidden rounded-[28px] p-6 sm:p-7">
-              <div
-                className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full opacity-60 blur-[70px]"
-                style={{ background: "var(--ink)" }}
+            <figure className="surface-card relative min-h-[420px] overflow-hidden rounded-[28px] sm:min-h-[520px]">
+              <Image
+                alt="Signal lumineux isolé entrant dans une grille de traitement sombre."
+                className="absolute inset-0 h-full w-full object-cover"
+                height={1448}
+                loading="lazy"
+                sizes="(min-width: 64rem) 38vw, 100vw"
+                src="/images/refonte-v2/contact-signal-v1.webp"
+                width={1086}
               />
-              <div className="relative">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-mut-2">Pourquoi nous contacter ?</p>
-                    <h2 className="mt-2 text-2xl font-semibold">Un diagnostic avant la solution.</h2>
-                  </div>
-                  <IconFrame icon={Sparkles} />
-                </div>
-
-                <div className="mt-7 grid gap-3">
-                  {contactReasons.map(({ icon: Icon, title, description }) => (
-                    <div
-                      key={title}
-                      className="flex gap-4 rounded-2xl border border-white/[0.07] p-4"
-                      style={{ background: "rgba(26,26,29,0.48)" }}
-                    >
-                      <IconFrame icon={Icon} />
-                      <div>
-                        <p className="text-sm font-semibold text-ink">{title}</p>
-                        <p className="mt-1 text-[13.5px] leading-6 text-mut">{description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+              <figcaption className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/[0.12] bg-[#0b0e0c]/85 p-5 backdrop-blur-xl sm:inset-x-7 sm:bottom-7">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald">
+                  Une demande reçue
+                </p>
+                <p className="mt-2 text-xl font-semibold text-ink">
+                  Le contexte avant la solution.
+                </p>
+                <p className="mt-2 text-sm leading-6 text-mut">
+                  Nous cherchons d’abord où la demande se perd, qui doit la recevoir et ce
+                  qui peut être traité automatiquement.
+                </p>
+              </figcaption>
+            </figure>
           </div>
-        </div>
+        </MotionReveal>
       </section>
 
       {/* FORMULAIRE */}
       <section id="formulaire" className="relative z-[2] px-7 py-16">
         <div className="mx-auto grid max-w-[1240px] gap-8 lg:grid-cols-[1fr_0.82fr]">
-          <div className="surface-card rounded-[30px] p-6 sm:p-8 lg:p-10">
+          <MotionReveal
+            className="surface-card rounded-[30px] p-6 sm:p-8 lg:p-10"
+            preset="scale"
+            presetId="surface-lift"
+          >
             <SectionTitle
               eyebrow="Formulaire"
               title="Expliquez-nous votre besoin."
@@ -354,36 +333,50 @@ export default function ContactPage() {
             />
 
             {submitted ? (
-              <div
+              <MotionReveal
                 className="rounded-[26px] border border-white/[0.13] p-8 text-center"
+                preset="scale"
+                presetId="feedback-success"
                 style={{ background: "var(--grad-soft)" }}
               >
-                <div
-                  className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full text-white"
-                  style={{ background: "var(--grad)" }}
-                >
-                  <CheckCircle2 size={30} strokeWidth={2.3} />
+                <div aria-live="polite">
+                  <div
+                    className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full text-white"
+                    style={{ background: "var(--grad)" }}
+                  >
+                    <CheckCircle2 size={30} strokeWidth={2.3} />
+                  </div>
+                  <h3 className="font-display text-2xl font-semibold">
+                    Votre demande a bien été envoyée.
+                  </h3>
+                  <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">
+                    Nous avons bien reçu votre demande. Nous reviendrons vers vous
+                    rapidement avec une première orientation.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="btn-ghost mt-6 rounded-full px-5 py-3 text-sm font-semibold"
+                  >
+                    Envoyer une autre demande
+                  </button>
                 </div>
-                <h3 className="font-display text-2xl font-semibold">Votre demande a bien été envoyée.</h3>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-mut">
-                  Nous avons bien reçu votre demande. Nous reviendrons vers vous rapidement avec une première orientation.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                  className="btn-ghost mt-6 rounded-full px-5 py-3 text-sm font-semibold"
-                >
-                  Envoyer une autre demande
-                </button>
-              </div>
+              </MotionReveal>
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-8">
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={UserRound} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Vos coordonnées</h3>
-                      <p className="mt-1 text-sm text-mut">Pour pouvoir vous recontacter correctement.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Vos coordonnées
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Pour pouvoir vous recontacter correctement.
+                      </p>
                     </div>
                   </div>
 
@@ -420,7 +413,6 @@ export default function ContactPage() {
                       />
                     </label>
                     <PremiumPhoneField
-                    
                       value={form.phone}
                       onChange={(value) => updateField("phone", value)}
                       labelClassName={labelClass}
@@ -429,12 +421,19 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={ClipboardList} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Votre activité</h3>
-                      <p className="mt-1 text-sm text-mut">Pour comprendre votre contexte et votre type de besoin.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Votre activité
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Pour comprendre votre contexte et votre type de besoin.
+                      </p>
                     </div>
                   </div>
 
@@ -442,7 +441,6 @@ export default function ContactPage() {
                     <label className={labelClass}>
                       <span className={labelTextClass}>Type de client *</span>
                       <PremiumSelectControl
-                        
                         value={form.type_client}
                         onChange={(value) => updateField("type_client", value)}
                         placeholder="Choisissez un type"
@@ -463,7 +461,9 @@ export default function ContactPage() {
                       <span className={labelTextClass}>Ville du business</span>
                       <input
                         value={form.businessCity}
-                        onChange={(event) => updateField("businessCity", event.target.value)}
+                        onChange={(event) =>
+                          updateField("businessCity", event.target.value)
+                        }
                         placeholder="Ex : Rouen, Paris, Lyon..."
                         className={fieldClass}
                       />
@@ -478,12 +478,20 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-               {/* <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Globe2} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Présence digitale actuelle</h3>
-                      <p className="mt-1 text-sm text-mut">Ces liens nous aident à analyser votre visibilité et votre image actuelle.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Présence digitale actuelle
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Ces liens nous aident à analyser votre visibilité et votre image
+                        actuelle.
+                      </p>
                     </div>
                   </div>
 
@@ -492,7 +500,9 @@ export default function ContactPage() {
                       <span className={labelTextClass}>Site web actuel</span>
                       <input
                         value={form.businessWebsiteUrl}
-                        onChange={(event) => updateField("businessWebsiteUrl", event.target.value)}
+                        onChange={(event) =>
+                          updateField("businessWebsiteUrl", event.target.value)
+                        }
                         placeholder="https://www.votre-site.com"
                         className={fieldClass}
                         inputMode="url"
@@ -502,21 +512,30 @@ export default function ContactPage() {
                       <span className={labelTextClass}>Lien Google Business</span>
                       <input
                         value={form.googleBusinessUrl}
-                        onChange={(event) => updateField("googleBusinessUrl", event.target.value)}
+                        onChange={(event) =>
+                          updateField("googleBusinessUrl", event.target.value)
+                        }
                         placeholder="Lien vers votre fiche Google Business"
                         className={fieldClass}
                         inputMode="url"
                       />
                     </label>
                   </div>
-                </div>*/}
+                </div>
 
-                <div className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6" style={{ background: "rgba(26,26,29,0.34)" }}>
+                <div
+                  className="rounded-[24px] border border-white/[0.08] p-5 sm:p-6"
+                  style={{ background: "rgba(26,26,29,0.34)" }}
+                >
                   <div className="mb-5 flex items-center gap-3">
                     <IconFrame icon={Mail} />
                     <div>
-                      <h3 className="font-display text-xl font-semibold">Votre message</h3>
-                      <p className="mt-1 text-sm text-mut">Décrivez simplement ce que vous voulez améliorer.</p>
+                      <h3 className="font-display text-xl font-semibold">
+                        Votre message
+                      </h3>
+                      <p className="mt-1 text-sm text-mut">
+                        Décrivez simplement ce que vous voulez améliorer.
+                      </p>
                     </div>
                   </div>
 
@@ -534,6 +553,7 @@ export default function ContactPage() {
 
                 {formError && (
                   <div
+                    role="alert"
                     className="rounded-xl border border-[rgba(255,77,109,0.4)] px-4 py-3 text-sm font-medium text-[#ff9db1]"
                     style={{ background: "rgba(255,77,109,0.1)" }}
                   >
@@ -552,8 +572,8 @@ export default function ContactPage() {
                     className="mt-0.5 h-[18px] w-[18px] shrink-0 accent-white"
                   />
                   <span>
-                    J&apos;accepte que mes informations soient utilisées par OptimalLogic pour traiter ma demande
-                    et me recontacter.
+                    J&apos;accepte que mes informations soient utilisées par OptimalLogic
+                    pour traiter ma demande et me recontacter.
                   </span>
                 </label>
 
@@ -567,88 +587,104 @@ export default function ContactPage() {
                 </button>
               </form>
             )}
-          </div>
+          </MotionReveal>
 
-          <aside className="grid content-start gap-6">
-            <div
-              className="relative overflow-hidden rounded-[26px] border border-white/[0.13] p-6 sm:p-8"
-              style={{ background: "var(--grad-soft)" }}
-            >
+          <MotionReveal delay="short" preset="rise" presetId="reveal-group">
+            <aside className="grid content-start gap-6">
               <div
-                className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full opacity-50 blur-[75px]"
-                style={{ background: "var(--ink)" }}
-              />
-              <div className="relative">
-                <span
-                  className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
-                  style={{ background: "rgba(5,5,5,0.5)" }}
-                >
-                  <CalendarCheck size={14} /> Diagnostic gratuit
-                </span>
-                <h3 className="mt-4 font-display text-2xl font-semibold">Vous voulez aller plus vite ?</h3>
-                <p className="mt-4 text-sm leading-7 text-mut">
-                  Réservez directement un créneau pour présenter votre activité, clarifier votre besoin et obtenir une première orientation.
-                </p>
-                <Link
-                  href="/prise-de-rdv"
-                  className="btn-grad mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold"
-                >
-                  Prendre rendez-vous <ArrowIcon />
-                </Link>
-              </div>
-            </div>
-
-            <div className="surface-card rounded-[26px] p-6 sm:p-8">
-              <div className="flex items-center gap-3">
-                <IconFrame icon={ShieldCheck} />
-                <div>
-                  <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-                    Ce qu&apos;il faut préparer
-                  </span>
-                  <h3 className="mt-1 font-display text-xl font-semibold">Quelques éléments utiles.</h3>
-                </div>
-              </div>
-
-              <ul className="mt-6 grid gap-3 text-sm font-medium text-mut">
-                {preparationItems.map((item) => (
-                  <li key={item} className="flex items-center gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0">
-                    <Check size={16} strokeWidth={2.3} className="shrink-0 text-emerald" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="surface-card rounded-[26px] p-6 sm:p-8">
-              <div className="flex items-center gap-3">
-                <IconFrame icon={Clock3} />
-                <div>
-                  <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-                    Après l&apos;envoi
-                  </span>
-                  <h3 className="mt-1 font-display text-xl font-semibold">Un traitement simple.</h3>
-                </div>
-              </div>
-
-              <div className="mt-6 grid gap-3">
-                {afterSubmitSteps.map((item, index) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 rounded-xl border border-white/[0.07] px-4 py-3"
-                    style={{ background: "rgba(26,26,29,0.45)" }}
+                className="relative overflow-hidden rounded-[26px] border border-white/[0.13] p-6 sm:p-8"
+                style={{ background: "var(--grad-soft)" }}
+              >
+                <div
+                  className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full opacity-50 blur-[75px]"
+                  style={{ background: "var(--ink)" }}
+                />
+                <div className="relative">
+                  <span
+                    className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] px-4 py-1.5 text-xs font-semibold text-ink"
+                    style={{ background: "rgba(5,5,5,0.5)" }}
                   >
-                    <span
-                      className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-white"
-                      style={{ background: "var(--grad)" }}
-                    >
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-medium text-mut">{item}</span>
-                  </div>
-                ))}
+                    <CalendarCheck size={14} /> Diagnostic gratuit
+                  </span>
+                  <h3 className="mt-4 font-display text-2xl font-semibold">
+                    Vous voulez aller plus vite ?
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-mut">
+                    Réservez directement un créneau pour présenter votre activité,
+                    clarifier votre besoin et obtenir une première orientation.
+                  </p>
+                  <Link
+                    href="/prise-de-rdv"
+                    className="btn-grad mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold"
+                  >
+                    Prendre rendez-vous <ArrowIcon />
+                  </Link>
+                </div>
               </div>
-            </div>
-          </aside>
+
+              <div className="surface-card rounded-[26px] p-6 sm:p-8">
+                <div className="flex items-center gap-3">
+                  <IconFrame icon={ShieldCheck} />
+                  <div>
+                    <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+                      Ce qu&apos;il faut préparer
+                    </span>
+                    <h3 className="mt-1 font-display text-xl font-semibold">
+                      Quelques éléments utiles.
+                    </h3>
+                  </div>
+                </div>
+
+                <ul className="mt-6 grid gap-3 text-sm font-medium text-mut">
+                  {preparationItems.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-3 border-b border-white/[0.06] pb-3 last:border-0 last:pb-0"
+                    >
+                      <Check
+                        size={16}
+                        strokeWidth={2.3}
+                        className="shrink-0 text-emerald"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="surface-card rounded-[26px] p-6 sm:p-8">
+                <div className="flex items-center gap-3">
+                  <IconFrame icon={Clock3} />
+                  <div>
+                    <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+                      Après l&apos;envoi
+                    </span>
+                    <h3 className="mt-1 font-display text-xl font-semibold">
+                      Un traitement simple.
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid gap-3">
+                  {afterSubmitSteps.map((item, index) => (
+                    <div
+                      key={item}
+                      className="flex items-center gap-3 rounded-xl border border-white/[0.07] px-4 py-3"
+                      style={{ background: "rgba(26,26,29,0.45)" }}
+                    >
+                      <span
+                        className="grid h-7 w-7 shrink-0 place-items-center rounded-full font-display text-xs font-bold text-white"
+                        style={{ background: "var(--grad)" }}
+                      >
+                        {index + 1}
+                      </span>
+                      <span className="text-sm font-medium text-mut">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </MotionReveal>
         </div>
       </section>
 
@@ -656,11 +692,17 @@ export default function ContactPage() {
       <section className="relative z-[2] mx-auto max-w-[1240px] px-7 py-16">
         <div
           className="relative overflow-hidden rounded-[32px] border border-white/[0.13] p-8 text-center sm:p-12 lg:p-16"
-          style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))" }}
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08))",
+          }}
         >
           <div
             className="pointer-events-none absolute inset-0 opacity-70"
-            style={{ background: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)" }}
+            style={{
+              background:
+                "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.18), transparent 60%)",
+            }}
           />
           <div className="relative">
             <span
@@ -673,7 +715,8 @@ export default function ContactPage() {
               Transformer votre présence digitale en demandes concrètes.
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-mut">
-              Appels, rendez-vous, devis, inscriptions ou prospects qualifiés : nous vous aidons à choisir le bon système.
+              Appels, rendez-vous, devis, inscriptions ou prospects qualifiés : nous vous
+              aidons à choisir le bon système.
             </p>
             <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
               <Link

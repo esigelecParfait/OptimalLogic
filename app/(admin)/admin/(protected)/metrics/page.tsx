@@ -34,28 +34,35 @@ export default async function MetricsPage({
 
   const { data: metrics } = await supabaseAdmin
     .from("client_metrics")
-    .select("id, id_client, mois, nb_rdv, nb_demandes, nb_appels, nb_avis_google, note_google, nb_vues_google, nb_clics_google, nb_sessions_chatbot")
+    .select(
+      "id, id_client, mois, nb_rdv, nb_demandes, nb_appels, nb_avis_google, note_google, nb_vues_google, nb_clics_google, nb_sessions_chatbot",
+    )
     .order("mois", { ascending: false })
     .limit(500);
 
   const rows: MetricRow[] = metrics ?? [];
   const prospectIds = [...new Set(rows.map((r) => r.id_client))];
 
-  const prospectsRes = prospectIds.length > 0
-    ? await supabaseAdmin
-        .from("client_prospects")
-        .select("id_client, contact_first_name, contact_last_name, business_name")
-        .in("id_client", prospectIds)
-    : { data: [] };
+  const prospectsRes =
+    prospectIds.length > 0
+      ? await supabaseAdmin
+          .from("client_prospects")
+          .select("id_client, contact_first_name, contact_last_name, business_name")
+          .in("id_client", prospectIds)
+      : { data: [] };
 
   const prospectMap = new Map<string, ProspectRow>(
-    (prospectsRes.data ?? []).map((p) => [p.id_client, p as ProspectRow])
+    (prospectsRes.data ?? []).map((p) => [p.id_client, p as ProspectRow]),
   );
 
   const clientLabel = (id: string) => {
     const p = prospectMap.get(id);
     if (!p) return "—";
-    return p.business_name || `${p.contact_first_name ?? ""} ${p.contact_last_name ?? ""}`.trim() || "—";
+    return (
+      p.business_name ||
+      `${p.contact_first_name ?? ""} ${p.contact_last_name ?? ""}`.trim() ||
+      "—"
+    );
   };
 
   const query = (q ?? "").trim().toLowerCase();
@@ -81,7 +88,7 @@ export default async function MetricsPage({
   }
   // Trier les groupes par nom d'entreprise
   const sortedGroups = [...grouped.entries()].sort(([a], [b]) =>
-    clientLabel(a).localeCompare(clientLabel(b), "fr")
+    clientLabel(a).localeCompare(clientLabel(b), "fr"),
   );
 
   const clientCount = sortedGroups.length;
@@ -90,10 +97,13 @@ export default async function MetricsPage({
     <div className="p-8 space-y-8">
       <div className="flex items-end justify-between flex-wrap gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-mut-2">Administration</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-mut-2">
+            Administration
+          </p>
           <h1 className="mt-1 font-display text-2xl font-semibold text-ink">Métriques</h1>
           <p className="mt-1 text-sm text-mut">
-            {clientCount} entreprise{clientCount !== 1 ? "s" : ""} · {filteredRows.length} entrée{filteredRows.length !== 1 ? "s" : ""}
+            {clientCount} entreprise{clientCount !== 1 ? "s" : ""} · {filteredRows.length}{" "}
+            entrée{filteredRows.length !== 1 ? "s" : ""}
             {query ? " trouvées" : ""}
           </p>
         </div>
@@ -115,31 +125,61 @@ export default async function MetricsPage({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/[0.07]">
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Client</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Mois</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">RDV</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Demandes</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Appels</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Avis Google</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Note</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Vues</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Clics</th>
-              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">Chatbot</th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Client
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Mois
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                RDV
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Demandes
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Appels
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Avis Google
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Note
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Vues
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Clics
+              </th>
+              <th className="px-5 py-3.5 text-left text-[10px] font-semibold uppercase tracking-widest text-mut-2">
+                Chatbot
+              </th>
             </tr>
           </thead>
           <tbody>
             {sortedGroups.map(([clientId, clientRows]) => (
               <Fragment key={clientId}>
                 {/* En-tête de groupe entreprise */}
-                <tr key={`group-${clientId}`} className="bg-white/[0.03] border-t border-white/[0.07]">
+                <tr
+                  key={`group-${clientId}`}
+                  className="bg-white/[0.03] border-t border-white/[0.07]"
+                >
                   <td colSpan={10} className="px-5 py-2.5">
-                    <span className="text-xs font-semibold text-ink">{clientLabel(clientId)}</span>
-                    <span className="ml-2 text-[11px] text-mut-2">{clientRows.length} mois</span>
+                    <span className="text-xs font-semibold text-ink">
+                      {clientLabel(clientId)}
+                    </span>
+                    <span className="ml-2 text-[11px] text-mut-2">
+                      {clientRows.length} mois
+                    </span>
                   </td>
                 </tr>
                 {/* Lignes de métriques */}
                 {clientRows.map((r) => (
-                  <tr key={r.id} className="hover:bg-white/[0.02] transition-colors border-t border-white/[0.03]">
+                  <tr
+                    key={r.id}
+                    className="hover:bg-white/[0.02] transition-colors border-t border-white/[0.03]"
+                  >
                     <td className="px-5 py-3 text-mut pl-8">—</td>
                     <td className="px-5 py-3 text-mut">{r.mois}</td>
                     <td className="px-5 py-3 text-mut">{r.nb_rdv ?? "—"}</td>
@@ -159,7 +199,9 @@ export default async function MetricsPage({
 
         {filteredRows.length === 0 && (
           <div className="py-16 text-center text-sm text-mut">
-            {query ? "Aucun résultat pour cette recherche." : "Aucune métrique pour l'instant. Clique sur \"Rafraîchir\" pour lancer l'agrégation."}
+            {query
+              ? "Aucun résultat pour cette recherche."
+              : "Aucune métrique pour l'instant. Clique sur \"Rafraîchir\" pour lancer l'agrégation."}
           </div>
         )}
       </section>

@@ -19,7 +19,7 @@ async function clientIp() {
 
 export async function login(
   _prevState: ActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionState> {
   if (!rateLimit(`login:${await clientIp()}`, 10, 15 * 60 * 1000).allowed) {
     return { error: "Trop de tentatives. Réessayez dans quelques minutes." };
@@ -47,7 +47,7 @@ export async function login(
 
 export async function requestPasswordReset(
   _prevState: ActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionState> {
   // Limite le spam de mails de reset ; réponse identique au cas nominal (anti-énumération)
   if (!rateLimit(`pwd-reset:${await clientIp()}`, 5, 60 * 60 * 1000).allowed) {
@@ -63,7 +63,8 @@ export async function requestPasswordReset(
   try {
     // 1. Générer le lien d'activation sécurisé (2h) — appel direct, pas de HTTP interne
     const linkResult = await buildClientLink(email);
-    if (!linkResult.link) throw new Error(linkResult.error ?? "Génération du lien échouée");
+    if (!linkResult.link)
+      throw new Error(linkResult.error ?? "Génération du lien échouée");
 
     // 2. Envoyer le mail via Apps Script doPost
     const appsScriptUrl = process.env.APPS_SCRIPT_URL;
@@ -91,7 +92,7 @@ export async function requestPasswordReset(
 
 export async function updatePassword(
   _prevState: ActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionState> {
   const currentPassword = formData.get("currentPassword") as string;
   const password = formData.get("password") as string;
@@ -114,7 +115,9 @@ export async function updatePassword(
   }
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user?.email) {
     return { error: "Vous devez être connecté." };
@@ -151,9 +154,9 @@ export async function logout() {
  */
 export async function setPassword(
   _prevState: ActionState,
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionState> {
-  const password        = formData.get("password")        as string;
+  const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
 
   if (!password || password.length < 8) {
@@ -165,14 +168,18 @@ export async function setPassword(
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return { error: "Lien expiré ou invalide. Veuillez demander un nouveau lien." };
   }
 
   const { error } = await supabase.auth.updateUser({ password });
   if (error) {
-    return { error: "Impossible de définir le mot de passe. Réessayez ou contactez le support." };
+    return {
+      error: "Impossible de définir le mot de passe. Réessayez ou contactez le support.",
+    };
   }
 
   return { error: null, success: true };

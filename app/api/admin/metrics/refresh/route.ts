@@ -61,7 +61,9 @@ export async function POST(request: NextRequest) {
     if (typeof body?.month === "string" && /^\d{4}-\d{2}$/.test(body.month)) {
       month = body.month;
     }
-  } catch { /* body absent */ }
+  } catch {
+    /* body absent */
+  }
 
   const error = await aggregate(month);
   if (error) {

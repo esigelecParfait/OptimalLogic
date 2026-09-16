@@ -1,0 +1,31 @@
+schema_version: 1
+status: ready_for_review
+offers:
+  authority: Supabase table offres
+  server_boundary: lib/offers/server.ts
+  public_codes_in_order: [commerce_intelligent, tpe_pme_croissance, tpe_pme_performance, startup_validation, startup_launch]
+  excluded_public_codes: [commerce_premium]
+  database_fields: [code, nom_offre, prix, prix_abonnement]
+  validation: zod_server_side
+  invariants:
+    - Le nom et les deux prix affichés viennent exclusivement de la BDD.
+    - Une valeur absente ou invalide ne devient jamais zéro.
+    - Une offre absente produit un état indisponible, jamais un fallback.
+    - Le contenu éditorial est indexé par code.
+    - L'accompagnement mensuel est facultatif.
+request:
+  endpoint: /api/demandes
+  preserve_existing_contract_until_tested: true
+  inputs: [nom, email, telephone, entreprise, message, offer_code, consent]
+  requirements: [server_validation, rate_limit, anti_spam, preserve_values_on_error, explicit_consent]
+booking:
+  endpoints: [/api/cal/slots, /api/cal/bookings]
+  requirements: [timezone_visible, selected_slot_summary, duplicate_guard, provider_error_recovery]
+assistant_public:
+  endpoint: /api/chat/public
+  requirements: [exact_five_offers, no_public_dashboard, no_unproven_phone_or_sms, human_fallback, rate_limit]
+assistant_private:
+  endpoints: [/api/chat/client, "/api/chat/[clientId]"]
+  action: preserve_and_regression_test
+unknowns:
+  - {id: schema_not_versioned, consequence: Vérifier types migrations et RLS dans le projet Supabase réel avant modification}

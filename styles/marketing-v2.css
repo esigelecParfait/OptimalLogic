@@ -1,0 +1,103 @@
+.marketing-v2 {
+  --color-canvas: #080a09;
+  --color-surface: #111411;
+  --color-surface-muted: #171b17;
+  --color-surface-elevated: #1c211c;
+  --color-surface-glass: rgb(17 20 17 / 0.78);
+  --color-inverse-surface: #f5f3ea;
+  --color-text: #f5f3ea;
+  --color-text-muted: #a7aea5;
+  --color-inverse-text: #07130c;
+  --color-inverse-text-muted: #39433c;
+  --color-border: rgb(245 243 234 / 0.12);
+  --color-border-strong: rgb(103 242 160 / 0.35);
+  --color-border-subtle: rgb(245 243 234 / 0.08);
+  --color-action: #67f2a0;
+  --color-action-hover: #8af7b6;
+  --color-action-contrast: #07130c;
+  --color-focus: #67f2a0;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  --font-code: "SFMono-Regular", Consolas, monospace;
+  --ol-font-weight-regular: 400;
+  --ol-font-weight-medium: 500;
+  --ol-font-weight-semibold: 600;
+  --ol-font-weight-bold: 700;
+  --ol-font-size-xs: 0.75rem;
+  --ol-font-size-sm: 0.875rem;
+  --ol-font-size-md: 1rem;
+  --ol-font-size-lg: clamp(1.05rem, 1.35vw, 1.2rem);
+  --ol-font-size-xl: clamp(1.35rem, 2.2vw, 1.75rem);
+  --ol-font-size-2xl: clamp(1.9rem, 4vw, 3.25rem);
+  --ol-font-size-3xl: clamp(2.7rem, 6.4vw, 5.75rem);
+  --ol-font-size-4xl: clamp(3.25rem, 8.8vw, 7rem);
+  --ol-font-line-tight: 0.98;
+  --ol-font-line-heading: 1.08;
+  --ol-font-line-body: 1.65;
+  --ol-font-tracking-tight: -0.045em;
+  --ol-font-tracking-normal: 0;
+  --ol-font-tracking-wide: 0.14em;
+  --ol-space-1: 0.25rem;
+  --ol-space-2: 0.5rem;
+  --ol-space-3: 0.75rem;
+  --ol-space-4: 1rem;
+  --ol-space-5: 1.5rem;
+  --ol-space-6: 2rem;
+  --ol-space-7: 3rem;
+  --ol-space-8: 4rem;
+  --ol-space-9: 6rem;
+  --ol-radius-pill: 999px;
+  --ol-layout-gutter-mobile: 1.25rem;
+  --ol-layout-gutter-tablet: 2rem;
+  --ol-layout-gutter-desktop: 2.5rem;
+  --ol-motion-stagger-quick: 50ms;
+  --ol-motion-stagger-standard: 70ms;
+  --layout-text: 46rem;
+  --layout-content: 76rem;
+  --layout-wide: 90rem;
+  --space-1: var(--ol-space-1);
+  --space-2: var(--ol-space-2);
+  --space-3: var(--ol-space-3);
+  --space-4: var(--ol-space-4);
+  --space-5: var(--ol-space-5);
+  --space-6: var(--ol-space-6);
+  --space-7: var(--ol-space-7);
+  --space-8: var(--ol-space-8);
+  --space-9: var(--ol-space-9);
+  --space-section: clamp(5rem, 10vw, 9.5rem);
+  --radius-control: 999px;
+  --radius-surface: 1.25rem;
+  --radius-panel: 1.75rem;
+  --radius-hero: 2rem;
+  --radius-lg: 1.5rem;
+  --shadow-surface: 0 24px 70px -45px rgb(0 0 0 / 0.9);
+  --shadow-floating: 0 36px 100px -52px rgb(0 0 0 / 0.94);
+  --shadow-ambient: 0 30px 100px -60px rgb(103 242 160 / 0.42);
+  --shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.07);
+  --motion-interactive: 220ms;
+  --motion-entrance: 520ms;
+  --motion-entrance-strong: 680ms;
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-distance-small: 0.5rem;
+  --motion-distance-medium: 1.25rem;
+  --motion-stagger: 70ms;
+  min-height: 100vh;
+  background: var(--color-canvas);
+  color: var(--color-text);
+}
+
+.marketing-v2 :focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-v2 *,
+  .marketing-v2 *::before,
+  .marketing-v2 *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -20,7 +20,10 @@ function isLocalhost(hostname: string): boolean {
 
 function isPrivateIpv4(address: string): boolean {
   const parts = address.split(".").map((part) => Number(part));
-  if (parts.length !== 4 || parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255)) {
+  if (
+    parts.length !== 4 ||
+    parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255)
+  ) {
     return true;
   }
 
@@ -81,7 +84,10 @@ export async function preventSsrf(url: URL): Promise<SsrfProtectionResult> {
   }
 
   if (url.username || url.password) {
-    return { safe: false, reason: "Les identifiants integres dans l'URL sont interdits." };
+    return {
+      safe: false,
+      reason: "Les identifiants integres dans l'URL sont interdits.",
+    };
   }
 
   if (isLocalhost(url.hostname)) {
@@ -101,7 +107,10 @@ export async function preventSsrf(url: URL): Promise<SsrfProtectionResult> {
 
     const blockedAddress = resolvedAddresses.find((entry) => isBlockedIp(entry.address));
     if (blockedAddress) {
-      return { safe: false, reason: "Le domaine cible pointe vers une adresse interdite." };
+      return {
+        safe: false,
+        reason: "Le domaine cible pointe vers une adresse interdite.",
+      };
     }
   } catch {
     return { safe: false, reason: "Le domaine cible ne peut pas etre verifie." };

@@ -90,12 +90,8 @@ function DesktopChatWidget() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">
-                  Assistant OptimalLogic
-                </p>
-                <p className="text-[11px] text-white/80">
-                  Réponse en quelques secondes
-                </p>
+                <p className="text-sm font-semibold text-white">Assistant OptimalLogic</p>
+                <p className="text-[11px] text-white/80">Réponse en quelques secondes</p>
               </div>
               <button
                 type="button"

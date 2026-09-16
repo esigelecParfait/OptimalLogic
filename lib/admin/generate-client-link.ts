@@ -14,7 +14,8 @@ export async function buildClientLink(email: string): Promise<ClientLinkResult> 
     .select("id_client, contact_first_name, contact_last_name")
     .eq("contact_email", email)
     .maybeSingle();
-  if (!prospect?.id_client) return { link: null, error: "Aucun prospect trouvé pour cet email." };
+  if (!prospect?.id_client)
+    return { link: null, error: "Aucun prospect trouvé pour cet email." };
 
   const { data: client } = await supabaseAdmin
     .from("clients")
@@ -22,7 +23,8 @@ export async function buildClientLink(email: string): Promise<ClientLinkResult> 
     .eq("id_client_prospect", prospect.id_client)
     .eq("status", "active")
     .maybeSingle();
-  if (!client?.id_client) return { link: null, error: "Aucun client actif associé à cet email." };
+  if (!client?.id_client)
+    return { link: null, error: "Aucun client actif associé à cet email." };
 
   const { data: activeService } = await supabaseAdmin
     .from("client_services")
@@ -32,21 +34,27 @@ export async function buildClientLink(email: string): Promise<ClientLinkResult> 
     .in("service_status", ["en_cours"])
     .limit(1)
     .maybeSingle();
-  if (!activeService) return { link: null, error: "Aucun service payé actif pour ce client." };
+  if (!activeService)
+    return { link: null, error: "Aucun service payé actif pour ce client." };
 
-  const { data: { users } } = await supabaseAdmin.auth.admin.listUsers();
+  const {
+    data: { users },
+  } = await supabaseAdmin.auth.admin.listUsers();
   let authUser = users.find((u) => u.email?.toLowerCase() === email);
 
   if (!authUser) {
-    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
-      email,
-      email_confirm: true,
-      user_metadata: {
-        first_name: prospect.contact_first_name ?? "",
-        last_name: prospect.contact_last_name ?? "",
+    const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser(
+      {
+        email,
+        email_confirm: true,
+        user_metadata: {
+          first_name: prospect.contact_first_name ?? "",
+          last_name: prospect.contact_last_name ?? "",
+        },
       },
-    });
-    if (createErr || !created.user) return { link: null, error: "Impossible de créer le compte Auth." };
+    );
+    if (createErr || !created.user)
+      return { link: null, error: "Impossible de créer le compte Auth." };
     authUser = created.user;
   } else {
     await supabaseAdmin.auth.admin.updateUserById(authUser.id, {

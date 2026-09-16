@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ComponentType,
-} from "react";
+import { useEffect, useMemo, useRef, useState, type ComponentType } from "react";
 import PhoneInput, {
   getCountries,
   getCountryCallingCode,
@@ -63,13 +57,15 @@ export const commonObjectiveOptions: SelectOption[] = [
   {
     value: "lancer_offre",
     label: "Lancer ou tester une offre",
-    description: "Présenter une offre, mesurer l’intérêt et générer les premiers retours.",
+    description:
+      "Présenter une offre, mesurer l’intérêt et générer les premiers retours.",
     icon: Rocket,
   },
   {
     value: "automatiser_reponses",
     label: "Automatiser les réponses aux clients",
-    description: "Répondre plus vite aux questions récurrentes et mieux guider les prospects.",
+    description:
+      "Répondre plus vite aux questions récurrentes et mieux guider les prospects.",
     icon: Bot,
   },
   {
@@ -144,15 +140,11 @@ function getSafeCallingCode(country: Country) {
 function countryToFlagEmoji(country: string) {
   return country
     .toUpperCase()
-    .replace(/./g, (char) =>
-      String.fromCodePoint(127397 + char.charCodeAt(0))
-    );
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
 }
 
 function CountryFlag({ country }: { country: Country }) {
-  const FlagComponent = flags[country] as
-    | ComponentType<{ title?: string }>
-    | undefined;
+  const FlagComponent = flags[country] as ComponentType<{ title?: string }> | undefined;
 
   if (FlagComponent) {
     return (
@@ -236,10 +228,7 @@ function PremiumCountrySelect({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
@@ -274,9 +263,7 @@ function PremiumCountrySelect({
         <ChevronDown
           size={15}
           strokeWidth={2.2}
-          className={`text-mut transition-transform ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={`text-mut transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -318,9 +305,7 @@ function PremiumCountrySelect({
                       <span className="block truncate text-sm font-semibold">
                         {country.label}
                       </span>
-                      <span className="block text-xs text-mut-2">
-                        {country.value}
-                      </span>
+                      <span className="block text-xs text-mut-2">{country.value}</span>
                     </span>
 
                     <span className="rounded-full border border-white/[0.1] bg-white/[0.06] px-2.5 py-1 text-xs font-semibold text-ink">
@@ -361,11 +346,7 @@ export function PremiumPhoneField({
         {required ? " *" : ""}
       </span>
 
-      <PremiumPhoneControl
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
+      <PremiumPhoneControl value={value} onChange={onChange} placeholder={placeholder} />
     </label>
   );
 }
@@ -451,10 +432,7 @@ export function PremiumSelectControl({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
@@ -492,7 +470,6 @@ export function PremiumSelectControl({
           >
             {selectedOption?.label || placeholder}
           </span>
-
         </span>
 
         <ChevronDown
@@ -530,9 +507,7 @@ export function PremiumSelectControl({
                   }`}
                 >
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold">
-                      {option.label}
-                    </span>
+                    <span className="block text-sm font-semibold">{option.label}</span>
 
                     {option.description ? (
                       <span className="mt-1 block text-xs leading-5 text-mut-2">

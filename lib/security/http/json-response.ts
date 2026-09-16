@@ -27,14 +27,14 @@ export function successResponse<T>(data: T, init?: ResponseInit): Response {
       success: true,
       data,
     } satisfies ApiSuccessResponse<T>,
-    init
+    init,
   );
 }
 
 export function errorResponse(
   code: ApiErrorCode,
   message: string,
-  status = 400
+  status = 400,
 ): Response {
   return Response.json(
     {
@@ -44,7 +44,7 @@ export function errorResponse(
         message,
       },
     } satisfies ApiErrorResponse,
-    { status }
+    { status },
   );
 }
 

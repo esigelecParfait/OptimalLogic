@@ -1,6 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+
+function subscribeToFinePointer(callback: () => void) {
+  const media = window.matchMedia("(pointer: fine)");
+  media.addEventListener("change", callback);
+
+  return () => media.removeEventListener("change", callback);
+}
+
+function hasFinePointer() {
+  return window.matchMedia("(pointer: fine)").matches;
+}
 
 /**
  * Curseur personnalisé premium : un point net + un anneau qui suit avec
@@ -10,11 +21,14 @@ import { useEffect, useRef, useState } from "react";
 export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
-  const [enabled, setEnabled] = useState(false);
+  const enabled = useSyncExternalStore(
+    subscribeToFinePointer,
+    hasFinePointer,
+    () => false,
+  );
 
   useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    setEnabled(true);
+    if (!enabled) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -51,12 +65,14 @@ export default function CustomCursor() {
     void hovering;
 
     const attachHovers = () => {
-      document.querySelectorAll("a, button, [role='button'], input, select, textarea").forEach((el) => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-        el.addEventListener("mouseenter", onEnter);
-        el.addEventListener("mouseleave", onLeave);
-      });
+      document
+        .querySelectorAll("a, button, [role='button'], input, select, textarea")
+        .forEach((el) => {
+          el.removeEventListener("mouseenter", onEnter);
+          el.removeEventListener("mouseleave", onLeave);
+          el.addEventListener("mouseenter", onEnter);
+          el.addEventListener("mouseleave", onLeave);
+        });
     };
 
     document.addEventListener("mousemove", onMouseMove);
@@ -73,7 +89,7 @@ export default function CustomCursor() {
       observer.disconnect();
       document.documentElement.style.cursor = "";
     };
-  }, []);
+  }, [enabled]);
 
   if (!enabled) return null;
 

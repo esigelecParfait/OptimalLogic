@@ -91,13 +91,7 @@ function getClientSubject(source: RequestSource) {
   }
 }
 
-function buildEmailShell({
-  title,
-  content,
-}: {
-  title: string;
-  content: string;
-}) {
+function buildEmailShell({ title, content }: { title: string; content: string }) {
   const logoUrl = getLogoUrl();
 
   return `
@@ -136,9 +130,7 @@ function buildEmailShell({
   `;
 }
 
-export function buildClientImmediateEmail(
-  params: BaseMailParams
-): EmailTemplate {
+export function buildClientImmediateEmail(params: BaseMailParams): EmailTemplate {
   const firstName = params.firstName.trim();
   const subject = getClientSubject(params.requestSource);
 
@@ -177,9 +169,7 @@ L’équipe OptimalLogic`;
   };
 }
 
-export function buildAdminImmediateEmail(
-  params: BaseMailParams
-): EmailTemplate {
+export function buildAdminImmediateEmail(params: BaseMailParams): EmailTemplate {
   const sourceLabel = getSourceLabel(params.requestSource);
   const typeClientLabel = getTypeClientLabel(params.typeClient);
   const fullName = `${params.firstName} ${params.lastName}`.trim();
@@ -196,55 +186,55 @@ export function buildAdminImmediateEmail(
       <div style="background:${EMAIL_COLORS.cardSoft};border:1px solid ${EMAIL_COLORS.border};border-radius:18px;padding:18px;">
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Provenance :</strong> ${escapeHtml(
-            sourceLabel
+            sourceLabel,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Type de client :</strong> ${escapeHtml(
-            typeClientLabel
+            typeClientLabel,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Nom :</strong> ${escapeHtml(
-            fullName
+            fullName,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Email :</strong> ${escapeHtml(
-            params.email
+            params.email,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Téléphone :</strong> ${escapeHtml(
-            params.phone
+            params.phone,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Entreprise :</strong> ${escapeHtml(
-            params.company
+            params.company,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Ville :</strong> ${escapeHtml(
-            params.businessCity
+            params.businessCity,
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Offre demandée :</strong> ${escapeHtml(
-            params.offerName || params.offerCode || "Non renseignée"
+            params.offerName || params.offerCode || "Non renseignée",
           )}
         </p>
 
         <p style="margin:0 0 10px;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">Objectif :</strong> ${escapeHtml(
-            params.objective
+            params.objective,
           )}
         </p>
 
@@ -255,7 +245,7 @@ export function buildAdminImmediateEmail(
 
         <p style="margin:0;font-size:14px;line-height:1.6;color:${EMAIL_COLORS.paragraph};">
           <strong style="color:${EMAIL_COLORS.title};">ID demande :</strong> ${escapeHtml(
-            params.demandeId
+            params.demandeId,
           )}
         </p>
       </div>

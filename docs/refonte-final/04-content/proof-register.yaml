@@ -1,0 +1,24 @@
+schema_version: 1
+status: ready_for_review
+proofs:
+  - id: PR-001
+    claim: OptimalLogic utilise Supabase pour les offres et l'authentification.
+    source: SRC-001
+    confidence: repository_observed
+    allowed_usage: technical_only
+  - id: PR-002
+    claim: Les créneaux et réservations passent par Cal.com.
+    source: SRC-001
+    confidence: repository_observed
+    allowed_usage: interface_behavior
+  - id: PR-003
+    claim: Le site contient un assistant public et un support privé.
+    source: SRC-001
+    confidence: repository_observed
+    allowed_usage: interface_behavior
+unavailable_proofs:
+  - {type: customer_logo, allowed: false, reason: Aucune autorisation fournie}
+  - {type: testimonial, allowed: false, reason: Aucun témoignage sourcé}
+  - {type: result_metric, allowed: false, reason: Aucun résultat mesuré fourni}
+  - {type: team_portrait, allowed: false, reason: Aucune photo réelle fournie}
+  - {type: certification, allowed: false, reason: Aucune certification fournie}

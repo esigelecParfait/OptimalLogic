@@ -1,0 +1,114 @@
+motion_version: "1.0"
+status: implemented
+direction_revision: "2026-08-29.1"
+
+principles:
+  - le contenu essentiel est visible au rendu serveur
+  - chaque animation explique hiérarchie, continuité, orientation ou feedback
+  - deux moments forts maximum par page
+  - transform et opacity avant toute propriété de mise en page
+  - aucune dépendance au survol sur tactile ou pointeur grossier
+
+tokens:
+  duration:
+    instant: 80ms
+    feedback: 160ms
+    interactive: 220ms
+    entrance: 520ms
+    entrance_strong: 680ms
+  easing:
+    standard: cubic-bezier(0.2, 0, 0, 1)
+    emphasized: cubic-bezier(0.16, 1, 0.3, 1)
+  delay:
+    stagger_quick: 50ms
+    stagger_standard: 70ms
+
+presets:
+  - id: reveal-copy
+    category: entrance
+    purpose: Montrer la hiérarchie d'un groupe éditorial au premier passage.
+    properties: [opacity, transform]
+    duration_token: entrance
+    easing_token: emphasized
+    delay_token: none
+    trigger: intersection_once
+    once: true
+    mobile: translation réduite à 8px
+    reduced: contenu immédiat sans translation
+    implementation_notes: Ne jamais masquer le premier écran avant hydratation.
+  - id: reveal-group
+    category: entrance
+    purpose: Ordonner la lecture d'un groupe court de cartes ou d'étapes.
+    properties: [opacity, transform]
+    duration_token: entrance
+    easing_token: emphasized
+    delay_token: stagger_standard
+    trigger: intersection_once
+    once: true
+    mobile: séquence limitée à quatre éléments
+    reduced: tous les éléments visibles immédiatement
+    implementation_notes: Six éléments et 420ms de délai cumulé maximum.
+  - id: flow-progress
+    category: demonstration
+    purpose: Expliquer la convergence des canaux vers une décision et une issue.
+    properties: [opacity, transform, stroke-dashoffset]
+    duration_token: entrance_strong
+    easing_token: standard
+    delay_token: stagger_quick
+    trigger: intersection_once
+    once: true
+    mobile: remplacer le tracé horizontal par une progression verticale
+    reduced: afficher le flux complet sans tracé animé
+    implementation_notes: Un seul flux animé visible à la fois, aucune boucle.
+  - id: surface-lift
+    category: interaction
+    purpose: Confirmer qu'une surface est interactive.
+    properties: [transform, border-color, box-shadow]
+    duration_token: interactive
+    easing_token: emphasized
+    delay_token: none
+    trigger: hover_focus
+    once: false
+    mobile: pas de translation au toucher
+    reduced: conserver seulement bordure et focus
+    implementation_notes: Translation maximale 8px ; focus toujours visible.
+  - id: feedback-success
+    category: feedback
+    purpose: Confirmer une soumission ou une action réussie.
+    properties: [opacity, color]
+    duration_token: feedback
+    easing_token: standard
+    delay_token: none
+    trigger: state_change
+    once: false
+    mobile: identique
+    reduced: apparition en 80ms maximum
+    implementation_notes: Le message de statut utilise aria-live approprié.
+  - id: route-transition
+    category: transition
+    purpose: Maintenir une continuité discrète entre deux vues d'un espace connecté.
+    properties: [opacity]
+    duration_token: interactive
+    easing_token: standard
+    delay_token: none
+    trigger: route_change
+    once: false
+    mobile: fondu uniquement
+    reduced: changement immédiat
+    implementation_notes: Ne jamais retarder la navigation ou la restitution du focus.
+
+budgets:
+  continuous_visible_max: 0
+  strong_moments_per_page_max: 2
+  stagger_items_max: 6
+  stagger_total_delay_ms_max: 420
+  entrance_duration_ms_max: 700
+  animated_initial_view_media_max: 1
+
+reduced_motion:
+  translation: none
+  scale: none
+  clip: none
+  loops: disabled
+  parallax: disabled
+  feedback_duration_ms_max: 100

@@ -1,0 +1,30 @@
+schema_version: 1
+status: ready_for_review
+rule: Toute modification nécessite une justification et un test ciblé.
+preserve_behavior:
+  - "app/(admin)/**"
+  - "app/api/admin/**"
+  - "app/(main)/auth/**"
+  - "app/(main)/connexion/**"
+  - "app/(main)/espace-client/support/**"
+  - "app/(main)/espace-client/mon-compte/**"
+  - "app/api/chat/client/**"
+  - "app/api/chat/[clientId]/**"
+  - "app/api/cal/**"
+  - "app/api/rdv/**"
+  - "app/(main)/commandes/**"
+  - "lib/admin/**"
+  - "lib/clients/**"
+  - "lib/security/**"
+  - "lib/supabase/**"
+targeted_changes:
+  - {target: app/api/offres/route.ts, reason: Contrat des cinq offres publiques}
+  - {target: app/api/chat/public/route.ts, reason: Contexte public approuvé}
+  - {target: app/(main)/espace-client/page.tsx, reason: Passerelle privée sans dashboard public}
+  - {target: middleware_or_proxy, reason: Conserver les gardes privées après migration}
+forbidden_without_new_authorization:
+  - Migration ou suppression de données Supabase.
+  - Modification des RLS sans schéma réel et tests.
+  - Changement de fournisseur externe.
+  - Suppression du support, du compte ou de l'administration.
+  - Ajout d'un dashboard public.

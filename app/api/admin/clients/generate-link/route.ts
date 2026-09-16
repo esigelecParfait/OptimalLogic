@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   const db = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
+    { auth: { persistSession: false } },
   );
 
   const { data: prospect, error: prospectError } = await db
@@ -46,7 +46,10 @@ export async function POST(request: NextRequest) {
   }
 
   if (!prospect?.id_client) {
-    return Response.json({ error: "Aucun client paye associe a cet email." }, { status: 404 });
+    return Response.json(
+      { error: "Aucun client paye associe a cet email." },
+      { status: 404 },
+    );
   }
 
   const { data: client, error: clientError } = await db
@@ -61,7 +64,10 @@ export async function POST(request: NextRequest) {
   }
 
   if (!client?.id_client) {
-    return Response.json({ error: "Aucun client paye associe a cet email." }, { status: 404 });
+    return Response.json(
+      { error: "Aucun client paye associe a cet email." },
+      { status: 404 },
+    );
   }
 
   const { data: activeService, error: serviceError } = await db
@@ -74,11 +80,17 @@ export async function POST(request: NextRequest) {
     .maybeSingle();
 
   if (serviceError) {
-    return Response.json({ error: "Impossible de verifier le service client." }, { status: 500 });
+    return Response.json(
+      { error: "Impossible de verifier le service client." },
+      { status: 500 },
+    );
   }
 
   if (!activeService) {
-    return Response.json({ error: "Aucun service paye actif pour ce client." }, { status: 403 });
+    return Response.json(
+      { error: "Aucun service paye actif pour ce client." },
+      { status: 403 },
+    );
   }
 
   const {
@@ -88,14 +100,16 @@ export async function POST(request: NextRequest) {
   let user = users.find((authUser) => authUser.email?.toLowerCase() === email);
 
   if (!user) {
-    const { data: createdUser, error: createUserError } =
-      await db.auth.admin.createUser({
-        email,
-        email_confirm: true,
-      });
+    const { data: createdUser, error: createUserError } = await db.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
 
     if (createUserError || !createdUser.user) {
-      return Response.json({ error: "Impossible de creer le compte Auth client." }, { status: 500 });
+      return Response.json(
+        { error: "Impossible de creer le compte Auth client." },
+        { status: 500 },
+      );
     }
 
     user = createdUser.user;
@@ -109,20 +123,24 @@ export async function POST(request: NextRequest) {
     .maybeSingle();
 
   if (memberFetchError) {
-    return Response.json({ error: "Impossible de verifier le rattachement client." }, { status: 500 });
+    return Response.json(
+      { error: "Impossible de verifier le rattachement client." },
+      { status: 500 },
+    );
   }
 
   if (!existingMember) {
-    const { error: memberInsertError } = await db
-      .from("client_members")
-      .insert({
-        id_client: client.id_client,
-        user_id: user.id,
-        role: "owner",
-      });
+    const { error: memberInsertError } = await db.from("client_members").insert({
+      id_client: client.id_client,
+      user_id: user.id,
+      role: "owner",
+    });
 
     if (memberInsertError) {
-      return Response.json({ error: "Impossible de rattacher le compte Auth au client." }, { status: 500 });
+      return Response.json(
+        { error: "Impossible de rattacher le compte Auth au client." },
+        { status: 500 },
+      );
     }
   }
 
@@ -142,10 +160,14 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
-    return Response.json({ error: "Erreur lors de la generation du lien." }, { status: 500 });
+    return Response.json(
+      { error: "Erreur lors de la generation du lien." },
+      { status: 500 },
+    );
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? `https://${request.headers.get("host")}`;
+  const appUrl =
+    process.env.NEXT_PUBLIC_APP_URL ?? `https://${request.headers.get("host")}`;
   const link = `${appUrl}/connexion/activer?token=${token}`;
 
   return Response.json({

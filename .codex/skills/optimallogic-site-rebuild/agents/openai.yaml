@@ -1,0 +1,4 @@
+interface:
+  display_name: "OptimalLogic Site Rebuild"
+  short_description: "Cadrer la refonte complète d’OptimalLogic"
+  default_prompt: "Use $optimallogic-site-rebuild to audit the current OptimalLogic site and produce its validated directive pack."

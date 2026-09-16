@@ -20,7 +20,7 @@ function finding(
   title: string,
   evidence: string,
   impact: string,
-  recommendation: string
+  recommendation: string,
 ): SecurityFinding {
   return {
     checkId,
@@ -35,7 +35,12 @@ function finding(
 }
 
 function hasFrameAncestors(csp: string | null): boolean {
-  return Boolean(csp?.toLowerCase().split(";").some((part) => part.trim().startsWith("frame-ancestors")));
+  return Boolean(
+    csp
+      ?.toLowerCase()
+      .split(";")
+      .some((part) => part.trim().startsWith("frame-ancestors")),
+  );
 }
 
 function evaluateCsp(csp: string | null): SecurityFinding {
@@ -47,7 +52,7 @@ function evaluateCsp(csp: string | null): SecurityFinding {
       "Content-Security-Policy absent",
       "Header Content-Security-Policy absent.",
       "Le navigateur ne recoit pas de politique explicite limitant les sources de scripts, styles et contenus.",
-      "Definir une CSP adaptee au site, au minimum avec default-src et des sources explicites."
+      "Definir une CSP adaptee au site, au minimum avec default-src et des sources explicites.",
     );
   }
 
@@ -66,7 +71,7 @@ function evaluateCsp(csp: string | null): SecurityFinding {
       "Content-Security-Policy potentiellement permissive",
       `Header Content-Security-Policy present: ${csp.slice(0, 180)}`,
       "Une CSP trop permissive reduit fortement sa capacite a limiter les injections de contenu.",
-      "Durcir progressivement la CSP en supprimant les jokers et directives dangereuses quand cela est possible."
+      "Durcir progressivement la CSP en supprimant les jokers et directives dangereuses quand cela est possible.",
     );
   }
 
@@ -77,7 +82,7 @@ function evaluateCsp(csp: string | null): SecurityFinding {
     "Content-Security-Policy presente",
     "Header Content-Security-Policy present avec une valeur non vide et sans motif permissif evident.",
     "La CSP contribue a limiter certaines injections cote navigateur.",
-    "Maintenir la CSP et la verifier manuellement apres chaque changement applicatif."
+    "Maintenir la CSP et la verifier manuellement apres chaque changement applicatif.",
   );
 }
 
@@ -90,7 +95,7 @@ function evaluateHsts(hsts: string | null): SecurityFinding {
       "Strict-Transport-Security absent",
       "Header Strict-Transport-Security absent.",
       "Les navigateurs ne sont pas explicitement invites a forcer HTTPS pour les visites futures.",
-      "Ajouter Strict-Transport-Security avec max-age suffisant apres validation HTTPS complete."
+      "Ajouter Strict-Transport-Security avec max-age suffisant apres validation HTTPS complete.",
     );
   }
 
@@ -104,7 +109,7 @@ function evaluateHsts(hsts: string | null): SecurityFinding {
       "Strict-Transport-Security faible",
       `Header Strict-Transport-Security present: ${hsts}`,
       "Un max-age faible ou absent limite la protection contre les retours accidentels en HTTP.",
-      "Utiliser un max-age d'au moins 15552000 secondes, puis evaluer includeSubDomains et preload."
+      "Utiliser un max-age d'au moins 15552000 secondes, puis evaluer includeSubDomains et preload.",
     );
   }
 
@@ -115,7 +120,7 @@ function evaluateHsts(hsts: string | null): SecurityFinding {
     "Strict-Transport-Security present",
     `Header Strict-Transport-Security present: ${hsts}`,
     "Les navigateurs compatibles peuvent memoriser l'obligation HTTPS.",
-    "Verifier manuellement l'opportunite de includeSubDomains et preload selon le perimetre."
+    "Verifier manuellement l'opportunite de includeSubDomains et preload selon le perimetre.",
   );
 }
 
@@ -128,7 +133,7 @@ function evaluateNoSniff(value: string | null): SecurityFinding {
       "X-Content-Type-Options correct",
       "Header X-Content-Type-Options: nosniff.",
       "Le navigateur est invite a respecter le type MIME annonce.",
-      "Conserver cette configuration."
+      "Conserver cette configuration.",
     );
   }
 
@@ -139,7 +144,7 @@ function evaluateNoSniff(value: string | null): SecurityFinding {
     "X-Content-Type-Options absent ou incorrect",
     value ? `Valeur recue: ${value}` : "Header X-Content-Type-Options absent.",
     "L'absence de nosniff peut faciliter certaines interpretations MIME dangereuses.",
-    "Configurer X-Content-Type-Options avec la valeur nosniff."
+    "Configurer X-Content-Type-Options avec la valeur nosniff.",
   );
 }
 
@@ -159,7 +164,7 @@ function evaluateReferrerPolicy(value: string | null): SecurityFinding {
       "Referrer-Policy absent",
       "Header Referrer-Policy absent.",
       "Des URLs internes peuvent etre transmises comme referer a des destinations externes.",
-      "Configurer une politique explicite, par exemple strict-origin-when-cross-origin."
+      "Configurer une politique explicite, par exemple strict-origin-when-cross-origin.",
     );
   }
 
@@ -171,7 +176,7 @@ function evaluateReferrerPolicy(value: string | null): SecurityFinding {
       "Referrer-Policy a verifier",
       `Header Referrer-Policy present: ${value}`,
       "La politique peut etre trop permissive selon les pages et les donnees manipulees.",
-      "Verifier manuellement que la politique limite suffisamment les informations transmises."
+      "Verifier manuellement que la politique limite suffisamment les informations transmises.",
     );
   }
 
@@ -182,7 +187,7 @@ function evaluateReferrerPolicy(value: string | null): SecurityFinding {
     "Referrer-Policy presente",
     `Header Referrer-Policy present: ${value}`,
     "La transmission du referer est encadree par une politique explicite.",
-    "Conserver une politique coherente avec les besoins analytics et confidentialite."
+    "Conserver une politique coherente avec les besoins analytics et confidentialite.",
   );
 }
 
@@ -195,7 +200,7 @@ function evaluatePermissionsPolicy(value: string | null): SecurityFinding {
       "Permissions-Policy absent",
       "Header Permissions-Policy absent.",
       "Certaines APIs navigateur ne sont pas explicitement restreintes.",
-      "Ajouter une Permissions-Policy minimale pour les fonctionnalites non utilisees."
+      "Ajouter une Permissions-Policy minimale pour les fonctionnalites non utilisees.",
     );
   }
 
@@ -206,11 +211,14 @@ function evaluatePermissionsPolicy(value: string | null): SecurityFinding {
     "Permissions-Policy presente",
     `Header Permissions-Policy present: ${value.slice(0, 180)}`,
     "La presence du header est utile, mais sa pertinence depend des fonctionnalites attendues.",
-    "Verifier manuellement que les directives correspondent aux besoins reels du site."
+    "Verifier manuellement que les directives correspondent aux besoins reels du site.",
   );
 }
 
-function evaluateFraming(xFrameOptions: string | null, csp: string | null): SecurityFinding {
+function evaluateFraming(
+  xFrameOptions: string | null,
+  csp: string | null,
+): SecurityFinding {
   const frameAncestors = hasFrameAncestors(csp);
   const xfo = xFrameOptions?.toLowerCase();
 
@@ -224,7 +232,7 @@ function evaluateFraming(xFrameOptions: string | null, csp: string | null): Secu
         ? "Directive frame-ancestors detectee dans la CSP."
         : `Header X-Frame-Options present: ${xFrameOptions}`,
       "La page annonce une politique limitant son affichage dans une frame.",
-      "Preferer frame-ancestors dans la CSP pour les politiques modernes, en conservant X-Frame-Options si necessaire."
+      "Preferer frame-ancestors dans la CSP pour les politiques modernes, en conservant X-Frame-Options si necessaire.",
     );
   }
 
@@ -236,7 +244,7 @@ function evaluateFraming(xFrameOptions: string | null, csp: string | null): Secu
       "X-Frame-Options potentiellement faible",
       `Header X-Frame-Options present: ${xFrameOptions}`,
       "Une valeur non standard peut ne pas proteger contre le clickjacking.",
-      "Utiliser DENY, SAMEORIGIN ou une directive CSP frame-ancestors adaptee."
+      "Utiliser DENY, SAMEORIGIN ou une directive CSP frame-ancestors adaptee.",
     );
   }
 
@@ -247,7 +255,7 @@ function evaluateFraming(xFrameOptions: string | null, csp: string | null): Secu
     "Protection anti-framing absente",
     "Aucun X-Frame-Options valide ni directive frame-ancestors detecte.",
     "Le site peut etre affichable dans une frame malveillante selon les navigateurs.",
-    "Ajouter frame-ancestors dans la CSP ou X-Frame-Options: DENY/SAMEORIGIN."
+    "Ajouter frame-ancestors dans la CSP ou X-Frame-Options: DENY/SAMEORIGIN.",
   );
 }
 

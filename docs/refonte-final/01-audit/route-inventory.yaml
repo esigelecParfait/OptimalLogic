@@ -1,0 +1,22 @@
+schema_version: 1
+status: ready_for_review
+routes:
+  - {path: /, audience: public, action: rewrite, index: true}
+  - {path: /services, audience: public, action: rewrite, index: true}
+  - {path: /tarifs, audience: public, action: rewrite, index: true, data: Supabase_offres}
+  - {path: /contact, audience: public, action: rewrite_preserve_api, index: true, data: demandes}
+  - {path: /prise-de-rdv, audience: public, action: rewrite_preserve_cal, index: true, data: Cal.com}
+  - {path: /aide, audience: public, action: rewrite_preserve_assistant, index: true, data: Anthropic}
+  - {path: /mentions-legales, audience: public, action: restyle_and_review, index: true}
+  - {path: /confidentialite, audience: public, action: restyle_and_review, index: true}
+  - {path: /cookies, audience: public, action: restyle_and_review, index: true}
+  - {path: /connexion/**, audience: authentication, action: preserve_behavior_restyle, index: false}
+  - {path: /espace-client, audience: authenticated, action: private_gateway_no_dashboard, index: false}
+  - {path: /espace-client/support, audience: authenticated, action: preserve_behavior_restyle, index: false}
+  - {path: /espace-client/mon-compte, audience: authenticated, action: preserve_behavior_restyle, index: false}
+  - {path: /admin/**, audience: admin, action: protect, index: false}
+  - {path: /commandes/delices-de-leon, audience: client_specific, action: protect, index: false}
+  - {path: /preview/**, audience: internal, action: remove, index: false}
+  - {path: /comparer, audience: internal, action: remove, index: false}
+  - {path: /showroom, audience: internal, action: remove, index: false}
+  - {path: /api/**, audience: machine, action: protect_or_targeted_contract_change, index: false}

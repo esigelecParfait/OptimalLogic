@@ -1,0 +1,55 @@
+version: "1.0"
+status: implemented
+site_spec_status: ready
+repository:
+  framework: Next.js 16 App Router
+  database: Supabase PostgreSQL
+  existing_modules: [lead-capture, booking-cal, client-auth, assistant-ai]
+modules:
+  - id: lead-capture
+    reason: >-
+      La demande envoyée depuis une offre doit conserver un offer_code actif et le
+      catalogue public doit lire nom_offre, prix et prix_abonnement depuis public.offres.
+    acceptance: >-
+      Cinq codes existants sont exposés dans un ordre stable, aucun prix de repli n'est
+      codé dans le frontend et une demande tarifs conserve le code sélectionné.
+    tests:
+      - l'API ne renvoie que les cinq codes publics actifs
+      - une valeur de prix nulle n'est jamais rendue comme zéro euro
+      - le formulaire transmet request_source tarifs et offer_code
+data_model:
+  entities:
+    - public.offres
+    - public.demandes
+  migrations: []
+  rls_policies:
+    - lecture du catalogue effectuée côté serveur avec la configuration existante
+routes:
+  - method: GET
+    path: /api/offres
+    result: cinq offres actives avec prix provenant de la BDD
+  - method: POST
+    path: /api/demandes
+    result: demande rattachée à l'offer_code sélectionné
+environment_variables:
+  - NEXT_PUBLIC_SUPABASE_URL
+  - SUPABASE_SERVICE_ROLE_KEY
+external_accounts:
+  - Supabase OptimalLogic
+security_controls:
+  - service_role reste exclusivement côté serveur
+  - aucun prix ni secret n'est accepté depuis le formulaire client
+  - offer_code est revérifié par /api/demandes
+tests:
+  - npm run typecheck
+  - npm run test:unit
+  - npm run build
+manual_configuration:
+  - Les cinq lignes correspondantes doivent être actives dans public.offres.
+risks:
+  - Une offre absente ou inactive apparaît indisponible sans prix de repli trompeur.
+open_decisions: []
+approval:
+  approved: true
+  approved_by: OptimalLogic owner
+  approved_at: "2026-08-30"

@@ -1,0 +1,43 @@
+.memberCard {
+  height: 100%;
+}
+
+.memberMedia {
+  margin: calc(0rem - var(--space-6));
+  margin-bottom: var(--space-5);
+}
+
+.spotlightLayout {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.spotlightCopy {
+  padding-block: var(--space-3);
+}
+
+.roster {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.rosterItem {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+@media (min-width: 64rem) {
+  .spotlightLayout {
+    grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-8);
+  }
+
+  .rosterItem {
+    grid-template-columns: minmax(10rem, 0.65fr) minmax(0, 1.35fr);
+  }
+}

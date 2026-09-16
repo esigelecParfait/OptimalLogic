@@ -3,10 +3,7 @@ import { updateSession } from "@/lib/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
   // Admin uniquement en local — bloqué sur Vercel (production)
-  if (
-    process.env.VERCEL === "1" &&
-    request.nextUrl.pathname.startsWith("/admin")
-  ) {
+  if (process.env.VERCEL === "1" && request.nextUrl.pathname.startsWith("/admin")) {
     return new NextResponse(null, { status: 404 });
   }
 
@@ -14,8 +11,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/espace-client/:path*",
-    "/admin/:path*",
-  ],
+  matcher: ["/espace-client/:path*", "/admin/:path*"],
 };

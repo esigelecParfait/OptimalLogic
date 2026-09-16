@@ -1,0 +1,27 @@
+# Dépendances et résultats générés.
+node_modules
+.next
+out
+build
+coverage
+playwright-report
+test-results
+.lighthouseci
+OptimalLogic-pre-refonte-backup
+.claude/skills
+site-premium-brief-optimallogic
+app/preview
+template*Mail.html
+
+# Fichiers générés ou gérés par d'autres outils.
+package-lock.json
+next-env.d.ts
+public
+AGENTS.md
+CLAUDE.md
+*.generated.css
+docs/google-apps-script-*.js
+docs/*.html
+
+# Configurations locales potentiellement sensibles.
+.env*

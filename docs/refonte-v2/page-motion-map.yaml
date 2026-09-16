@@ -1,0 +1,191 @@
+map_version: "1.0"
+status: implemented
+motion_spec_revision: "2026-08-29.1"
+
+pages:
+  - page_id: home
+    path: /
+    sections:
+      - {
+          section_id: home-hero,
+          preset_id: reveal-copy,
+          sequence: title-then-actions,
+          priority: strong,
+          mobile_override: 8px-rise,
+          reduced_override: immediate,
+          fallback: contenu visible sans JavaScript,
+        }
+      - {
+          section_id: home-demand-flow,
+          preset_id: flow-progress,
+          sequence: sources-decision-outcomes,
+          priority: strong,
+          mobile_override: vertical-static-first,
+          reduced_override: complete-static-flow,
+          fallback: WorkflowRouting complet et statique,
+        }
+      - {
+          section_id: home-contexts,
+          preset_id: reveal-group,
+          sequence: 3-items,
+          priority: standard,
+          mobile_override: no-stagger-after-3,
+          reduced_override: immediate,
+          fallback: cartes visibles,
+        }
+      - {
+          section_id: home-manifesto,
+          preset_id: reveal-copy,
+          sequence: statement-then-principles,
+          priority: standard,
+          mobile_override: simple-fade,
+          reduced_override: immediate,
+          fallback: texte visible,
+        }
+      - {
+          section_id: home-process,
+          preset_id: reveal-group,
+          sequence: steps,
+          priority: standard,
+          mobile_override: vertical,
+          reduced_override: immediate,
+          fallback: étapes visibles,
+        }
+      - {
+          section_id: home-cta,
+          preset_id: reveal-copy,
+          sequence: single,
+          priority: standard,
+          mobile_override: simple-fade,
+          reduced_override: immediate,
+          fallback: CTA visible,
+        }
+  - page_id: services
+    path: /services
+    sections:
+      - {
+          section_id: services-hero,
+          preset_id: reveal-copy,
+          sequence: copy,
+          priority: strong,
+          mobile_override: 8px-rise,
+          reduced_override: immediate,
+          fallback: contenu visible,
+        }
+      - {
+          section_id: services-contexts,
+          preset_id: reveal-group,
+          sequence: 3-contexts,
+          priority: standard,
+          mobile_override: sequential-short,
+          reduced_override: immediate,
+          fallback: contextes visibles,
+        }
+      - {
+          section_id: services-workflow,
+          preset_id: flow-progress,
+          sequence: pipeline,
+          priority: strong,
+          mobile_override: vertical-static-first,
+          reduced_override: static,
+          fallback: étapes visibles,
+        }
+      - {
+          section_id: services-faq,
+          preset_id: reveal-copy,
+          sequence: section-only,
+          priority: standard,
+          mobile_override: simple-fade,
+          reduced_override: immediate,
+          fallback: FAQ utilisable,
+        }
+      - {
+          section_id: services-cta,
+          preset_id: reveal-copy,
+          sequence: single,
+          priority: standard,
+          mobile_override: simple-fade,
+          reduced_override: immediate,
+          fallback: CTA visible,
+        }
+  - page_id: pricing
+    path: /tarifs
+    sections:
+      - {
+          section_id: pricing-hero,
+          preset_id: reveal-copy,
+          sequence: copy,
+          priority: standard,
+          mobile_override: 8px-rise,
+          reduced_override: immediate,
+          fallback: contenu visible,
+        }
+      - {
+          section_id: pricing-plans,
+          preset_id: reveal-group,
+          sequence: current-audience-group,
+          priority: strong,
+          mobile_override: no-transform,
+          reduced_override: immediate,
+          fallback: toutes les offres accessibles,
+        }
+      - {
+          section_id: pricing-faq,
+          preset_id: reveal-copy,
+          sequence: section-only,
+          priority: standard,
+          mobile_override: simple-fade,
+          reduced_override: immediate,
+          fallback: FAQ utilisable,
+        }
+      - {
+          section_id: pricing-cta,
+          preset_id: reveal-copy,
+          sequence: single,
+          priority: standard,
+          mobile_override: simple-fade,
+          reduced_override: immediate,
+          fallback: CTA visible,
+        }
+  - page_id: contact-booking-help
+    paths: [/contact, /prise-de-rdv, /aide]
+    sections:
+      - {
+          section_id: page-intro,
+          preset_id: reveal-copy,
+          sequence: copy,
+          priority: standard,
+          mobile_override: 8px-rise,
+          reduced_override: immediate,
+          fallback: intro visible,
+        }
+      - {
+          section_id: form-or-assistant,
+          preset_id: feedback-success,
+          sequence: state-change,
+          priority: functional,
+          mobile_override: same,
+          reduced_override: 80ms,
+          fallback: message de statut textuel,
+        }
+  - page_id: authenticated-spaces
+    paths: [/connexion, /espace-client, /admin]
+    sections:
+      - {
+          section_id: shell,
+          preset_id: route-transition,
+          sequence: view,
+          priority: functional,
+          mobile_override: opacity-only,
+          reduced_override: immediate,
+          fallback: navigation immédiate,
+        }
+      - {
+          section_id: interactive-surfaces,
+          preset_id: surface-lift,
+          sequence: per-control,
+          priority: functional,
+          mobile_override: border-only,
+          reduced_override: focus-only,
+          fallback: focus et bordure visibles,
+        }

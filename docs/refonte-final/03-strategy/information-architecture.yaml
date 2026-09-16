@@ -1,0 +1,17 @@
+schema_version: 1
+status: ready_for_review
+navigation:
+  primary: [/services, /tarifs, /contact]
+  primary_cta: /prise-de-rdv
+  support_entry: /aide
+  private_entry: footer_or_direct_only
+pages:
+  /: {role: position_and_route, next: [/services, /tarifs, /prise-de-rdv]}
+  /services: {role: explain_mechanism_and_audiences, next: [/tarifs, /contact]}
+  /tarifs: {role: compare_five_database_offers, next: [/contact, /prise-de-rdv]}
+  /contact: {role: capture_contextual_request, next: [confirmation, /prise-de-rdv]}
+  /prise-de-rdv: {role: select_and_confirm_slot, next: [confirmation, /contact]}
+  /aide: {role: answer_and_human_handoff, next: [/contact, /prise-de-rdv]}
+  legal: {routes: [/mentions-legales, /confidentialite, /cookies], role: legal_information}
+  authentication: {routes: [/connexion, /connexion/activer, /connexion/mot-de-passe-oublie, /connexion/nouveau-mot-de-passe], role: private_access, index: false}
+  private: {routes: [/espace-client/support, /espace-client/mon-compte, /admin/**], role: protected_operations, index: false}
