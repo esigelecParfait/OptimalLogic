@@ -1,7 +1,6 @@
 .panel {
   padding: clamp(var(--space-6), 6vw, var(--space-9));
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-block: 1px solid var(--line-subtle);
 }
 
 .centered {

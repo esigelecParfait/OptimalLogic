@@ -32,7 +32,7 @@ type ServicesCommonProps = BlockIntroContent & {
 // ServiceCard est interne à cette famille et renvoie une carte Surface.
 function ServiceCard({ service, index }: { service: ServiceItem; index: number }) {
   return (
-    <Surface className={styles.card} elevation="flat" padding="large">
+    <Surface className={styles.card} appearance="line" padding="large">
       <Stack className={styles.cardContent} gap="medium">
         {/* L'icône reste facultative : le bloc ne choisit pas un style d'icônes. */}
         {service.icon}
@@ -143,7 +143,11 @@ export function ServicesFeatured({
 
           <div className={styles.featuredLayout}>
             {featuredService && (
-              <Surface className={styles.featuredCard} elevation="raised" padding="large">
+              <Surface
+                className={styles.featuredCard}
+                appearance="floating"
+                padding="large"
+              >
                 <Stack gap="medium">
                   <Text variant="small">Service principal</Text>
                   <Heading as="h3" variant="title">

@@ -48,6 +48,7 @@ export function ProcessSteps({
             {steps.map((step, index) => (
               <Surface
                 className={styles.stepCard}
+                appearance="line"
                 padding="large"
                 key={`${step.title}-${index}`}
               >

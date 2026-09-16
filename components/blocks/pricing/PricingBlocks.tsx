@@ -39,7 +39,7 @@ function PricingCard({ plan }: { plan: PricingPlan }) {
   return (
     <Surface
       className={className}
-      elevation={plan.highlighted ? "raised" : "flat"}
+      appearance={plan.highlighted ? "floating" : "line"}
       padding="large"
     >
       <Stack gap="large">

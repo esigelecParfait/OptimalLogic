@@ -167,6 +167,16 @@
       "warning": "{primitive.color.status.warning}",
       "danger": "{primitive.color.status.danger}"
     },
+    "surface": {
+      "open": "transparent",
+      "soft": "color-mix(in srgb, {semantic.color.surfaceMuted} 64%, transparent)",
+      "floating": "color-mix(in srgb, {semantic.color.surface} 94%, transparent)",
+      "layered": "linear-gradient(145deg, color-mix(in srgb, {semantic.color.surface} 88%, transparent), color-mix(in srgb, {semantic.color.surfaceMuted} 56%, transparent))",
+      "immersive": "color-mix(in srgb, {semantic.color.action} 7%, {semantic.color.canvas})"
+    },
+    "line": {
+      "subtle": "color-mix(in srgb, {semantic.color.border} 72%, transparent)"
+    },
     "font": {
       "body": "{primitive.font.family.sans}",
       "display": "{primitive.font.family.display}",

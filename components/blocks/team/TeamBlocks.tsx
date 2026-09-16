@@ -46,6 +46,7 @@ export function TeamGrid({
           <Grid columns={3} gap="medium">
             {members.map((member, index) => (
               <Surface
+                appearance="open"
                 className={styles.memberCard}
                 padding="medium"
                 key={`${member.name}-${index}`}

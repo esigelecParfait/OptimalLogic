@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(scriptDirectory, "..");
 const sourcePath = resolve(projectRoot, "design-system/foundation-tokens.json");
-const outputPath = resolve(projectRoot, "src/styles/tokens.generated.css");
+const outputPath = resolve(projectRoot, "styles/tokens.generated.css");
 
 const tokenDocument = JSON.parse(await readFile(sourcePath, "utf8"));
 

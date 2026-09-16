@@ -7,7 +7,16 @@ import styles from "./primitives.module.css";
 type SurfaceProps = ComponentPropsWithoutRef<"div"> & {
   elevation?: "flat" | "raised" | "floating";
   padding?: "none" | "small" | "medium" | "large";
-  appearance?: "solid" | "glass" | "accent";
+  appearance?:
+    | "open"
+    | "soft"
+    | "line"
+    | "floating"
+    | "layered"
+    | "immersive"
+    | "solid"
+    | "glass"
+    | "accent";
   interactive?: boolean;
 };
 
@@ -18,6 +27,12 @@ const elevationClasses = {
 };
 
 const appearanceClasses = {
+  open: styles.surfaceOpen,
+  soft: styles.surfaceSoft,
+  line: styles.surfaceLine,
+  floating: styles.surfaceAppearanceFloating,
+  layered: styles.surfaceLayered,
+  immersive: styles.surfaceImmersive,
   solid: styles.surfaceSolid,
   glass: styles.surfaceGlass,
   accent: styles.surfaceAccent,
@@ -33,7 +48,7 @@ const paddingClasses = {
 export function Surface({
   elevation = "flat",
   padding = "medium",
-  appearance = "solid",
+  appearance = "open",
   interactive = false,
   className,
   ...props
@@ -48,6 +63,7 @@ export function Surface({
         paddingClasses[padding],
         className,
       )}
+      data-surface={appearance}
       {...props}
     />
   );

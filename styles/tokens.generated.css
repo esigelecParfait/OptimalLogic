@@ -114,6 +114,12 @@
   --color-success: var(--ol-color-status-success);
   --color-warning: var(--ol-color-status-warning);
   --color-danger: var(--ol-color-status-danger);
+  --surface-open: transparent;
+  --surface-soft: color-mix(in srgb, var(--color-surface-muted) 64%, transparent);
+  --surface-floating: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  --surface-layered: linear-gradient(145deg, color-mix(in srgb, var(--color-surface) 88%, transparent), color-mix(in srgb, var(--color-surface-muted) 56%, transparent));
+  --surface-immersive: color-mix(in srgb, var(--color-action) 7%, var(--color-canvas));
+  --line-subtle: color-mix(in srgb, var(--color-border) 72%, transparent);
   --font-body: var(--ol-font-family-sans);
   --font-display: var(--ol-font-family-display);
   --font-label: var(--ol-font-family-sans);

@@ -25,6 +25,30 @@
   padding-block: var(--space-section);
 }
 
+.sectionOpen {
+  border-block-start: 1px solid transparent;
+}
+
+.sectionLine {
+  border-block-start: 1px solid var(--line-subtle);
+}
+
+.sectionSoft {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--surface-soft) 18%,
+    var(--surface-soft) 82%,
+    transparent
+  );
+}
+
+.sectionImmersive {
+  position: relative;
+  overflow: clip;
+  background: var(--surface-immersive);
+}
+
 .toneCanvas {
   background: var(--color-canvas);
   color: var(--color-text);
@@ -236,8 +260,9 @@
 
 .surface {
   min-width: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-surface);
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-open);
   transition:
     transform var(--motion-interactive) var(--motion-ease),
     border-color var(--motion-interactive) var(--motion-ease),
@@ -245,10 +270,14 @@
 }
 
 .surfaceSolid {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-surface);
   background: var(--color-surface);
 }
 
 .surfaceGlass {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-surface);
   border-color: var(--color-border-subtle);
   background: var(--color-surface-glass);
   box-shadow: var(--shadow-inset);
@@ -256,7 +285,8 @@
 }
 
 .surfaceAccent {
-  border-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-surface);
   background:
     linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
     linear-gradient(135deg, var(--color-action), transparent 70%) border-box;
@@ -272,6 +302,36 @@
 
 .surfaceFloating {
   box-shadow: var(--shadow-floating), var(--shadow-ambient);
+}
+
+.surfaceOpen {
+  background: var(--surface-open);
+}
+
+.surfaceSoft {
+  border-radius: var(--radius-surface);
+  background: var(--surface-soft);
+}
+
+.surfaceLine {
+  border-block: 1px solid var(--line-subtle);
+}
+
+.surfaceAppearanceFloating {
+  border-radius: var(--radius-surface);
+  background: var(--surface-floating);
+  box-shadow: var(--shadow-floating);
+}
+
+.surfaceLayered {
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-surface);
+  background: var(--surface-layered);
+}
+
+.surfaceImmersive {
+  border-radius: var(--radius-surface);
+  background: var(--surface-immersive);
 }
 
 .surfaceInteractive:hover,
