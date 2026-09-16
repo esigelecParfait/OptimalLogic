@@ -1,0 +1,98 @@
+
+> maison-digitale@0.1.0 lint
+> eslint
+
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\app\(admin)\admin\(protected)\google-setup\GoogleSetupClient.tsx
+  123:21  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\app\(admin)\admin\(protected)\google-setup\GoogleSetupClient.tsx:123:21
+  121 |   }, [clients]); // eslint-disable-line react-hooks/exhaustive-deps
+  122 |
+> 123 |   useEffect(() => { loadLocations(); }, [loadLocations]);
+      |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  124 |
+  125 |   const linkOne = useCallback(async (loc: GBPLocation, clientId: string): Promise<boolean> => {
+  126 |     const res = await fetch("/api/admin/google/link", {  react-hooks/set-state-in-effect
+  154:7   warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-expressions
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\app\(admin)\admin\(protected)\page.tsx
+  59:18  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\app\(admin)\admin\(protected)\page.tsx:59:18
+  57 |
+  58 |   function timeAgo(dateStr: string) {
+> 59 |     const diff = Date.now() - new Date(dateStr).getTime();
+     |                  ^^^^^^^^^^ Cannot call impure function
+  60 |     const min  = Math.floor(diff / 60000);
+  61 |     const h    = Math.floor(diff / 3600000);
+  62 |     const d    = Math.floor(diff / 86400000);  react-hooks/purity
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\components\CustomCursor.tsx
+  17:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\components\CustomCursor.tsx:17:5
+  15 |   useEffect(() => {
+  16 |     if (!window.matchMedia("(pointer: fine)").matches) return;
+> 17 |     setEnabled(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  18 |
+  19 |     let mouseX = window.innerWidth / 2;
+  20 |     let mouseY = window.innerHeight / 2;  react-hooks/set-state-in-effect
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\components\clients\delices-de-leon\ChatWidgetLeon.tsx
+  156:38  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\components\clients\delices-de-leon\RDVBooking.tsx
+   54:7    error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\components\clients\delices-de-leon\RDVBooking.tsx:54:7
+  52 |   useEffect(() => {
+  53 |     if (step === "details") {
+> 54 |       setLoadingSlots(true);
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  55 |       fetch(`/api/rdv/${CLIENT_ID}`)
+  56 |         .then((r) => r.json())
+  57 |         .then((data) => setSlots(data.slots ?? []))  react-hooks/set-state-in-effect
+   89:63   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react/no-unescaped-entities
+  132:73   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react/no-unescaped-entities
+  140:121  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react/no-unescaped-entities
+  200:67   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react/no-unescaped-entities
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\docs\google-apps-script-BACKUP-ORIGINAL.js
+   69:10  warning  'setConfig' is defined but never used             @typescript-eslint/no-unused-vars
+  224:10  warning  'isOlderThanHours' is defined but never used      @typescript-eslint/no-unused-vars
+  412:10  warning  'installHourlyTrigger' is defined but never used  @typescript-eslint/no-unused-vars
+  416:10  warning  'runAutomation' is defined but never used         @typescript-eslint/no-unused-vars
+
+C:\Users\Parfait Kaptue\OptimalLogic\OptimalLogic\docs\google-apps-script-UPDATED.js
+   75:10  warning  'setConfig' is defined but never used         @typescript-eslint/no-unused-vars
+  239:10  warning  'isOlderThanHours' is defined but never used  @typescript-eslint/no-unused-vars
+  459:10  warning  'doPost' is defined but never used            @typescript-eslint/no-unused-vars
+  575:10  warning  'resetTriggers' is defined but never used     @typescript-eslint/no-unused-vars
+  579:10  warning  'runAutomation' is defined but never used     @typescript-eslint/no-unused-vars
+
+✖ 19 problems (9 errors, 10 warnings)
+
+
+Exit code: 1

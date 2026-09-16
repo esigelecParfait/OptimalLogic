@@ -1,0 +1,90 @@
+
+> maison-digitale@0.1.0 build
+> next build
+
+▲ Next.js 16.3.4 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 228ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 23.9s
+  Running TypeScript ...
+  Finished TypeScript in 19.4s ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/24) ...
+⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+  Generating static pages using 3 workers (6/24) 
+  Generating static pages using 3 workers (12/24) 
+  Generating static pages using 3 workers (18/24) 
+✓ Generating static pages using 3 workers (24/24) in 4.1s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/clients
+├ ƒ /admin/clients/[id]
+├ ○ /admin/connexion
+├ ƒ /admin/google-setup
+├ ƒ /admin/metrics
+├ ƒ /admin/prospects
+├ ƒ /admin/prospects/[id]
+├ ○ /aide
+├ ƒ /api/admin/clients/generate-link
+├ ƒ /api/admin/clients/invite
+├ ƒ /api/admin/google-auth
+├ ƒ /api/admin/google-auth/callback
+├ ƒ /api/admin/google/link
+├ ƒ /api/admin/google/locations
+├ ƒ /api/admin/metrics/google
+├ ƒ /api/admin/metrics/refresh
+├ ƒ /api/admin/prospects-sync
+├ ƒ /api/audits/[auditId]
+├ ƒ /api/audits/[auditId]/report
+├ ƒ /api/audits/start
+├ ƒ /api/auth/set-password
+├ ƒ /api/auth/validate-token
+├ ƒ /api/cal/bookings
+├ ƒ /api/cal/slots
+├ ƒ /api/chat/[clientId]
+├ ƒ /api/chat/client
+├ ƒ /api/chat/public
+├ ƒ /api/checks/dependencies
+├ ƒ /api/checks/forms
+├ ƒ /api/checks/headers
+├ ƒ /api/checks/public-pages
+├ ƒ /api/checks/supabase
+├ ƒ /api/checks/tls
+├ ƒ /api/demandes
+├ ƒ /api/health
+├ ƒ /api/offres
+├ ƒ /api/rdv/[clientId]
+├ ƒ /auth/confirm
+├ ○ /commandes/delices-de-leon
+├ ○ /confidentialite
+├ ○ /connexion
+├ ○ /connexion/activer
+├ ○ /connexion/mot-de-passe-oublie
+├ ○ /connexion/nouveau-mot-de-passe
+├ ƒ /contact
+├ ○ /cookies
+├ ƒ /espace-client
+├ ƒ /espace-client/mon-compte
+├ ƒ /espace-client/support
+├ ○ /mentions-legales
+├ ○ /opengraph-image
+├ ○ /prise-de-rdv
+├ ○ /robots.txt
+├ ○ /services
+├ ○ /sitemap.xml
+└ ƒ /tarifs
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+Exit code: 0

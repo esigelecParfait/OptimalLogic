@@ -1,0 +1,36 @@
+
+> maison-digitale@0.1.0 test:functional
+> playwright test --project=functional
+
+
+Running 23 tests using 1 worker
+
+(node:16408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [functional] › tests\browser\functional.spec.ts:8:7 › route publique / (2.7s)
+  ok  2 [functional] › tests\browser\functional.spec.ts:8:7 › route publique /services (2.3s)
+  ok  3 [functional] › tests\browser\functional.spec.ts:8:7 › route publique /tarifs (1.9s)
+  ok  4 [functional] › tests\browser\functional.spec.ts:8:7 › route publique /contact (1.6s)
+  ok  5 [functional] › tests\browser\functional.spec.ts:8:7 › route publique /prise-de-rdv (1.9s)
+  ok  6 [functional] › tests\browser\functional.spec.ts:8:7 › route publique /aide (1.3s)
+  ok  7 [functional] › tests\browser\functional.spec.ts:21:5 › menu mobile au clavier, focus modal et restauration (3.0s)
+  ok  8 [functional] › tests\browser\functional.spec.ts:46:5 › cinq offres et onglets au clavier (2.0s)
+  ok  9 [functional] › tests\browser\functional.spec.ts:83:7 › catalogue partial (1.8s)
+  ok 10 [functional] › tests\browser\functional.spec.ts:83:7 › catalogue invalid (1.7s)
+  ok 11 [functional] › tests\browser\functional.spec.ts:83:7 › catalogue empty (1.6s)
+  ok 12 [functional] › tests\browser\functional.spec.ts:83:7 › catalogue error (6.2s)
+  ok 13 [functional] › tests\browser\functional.spec.ts:98:5 › contact : validation, erreur, valeurs conservées, confirmation et double clic (6.7s)
+  ok 14 [functional] › tests\browser\functional.spec.ts:136:5 › demande depuis les tarifs (3.9s)
+  ok 15 [functional] › tests\browser\functional.spec.ts:153:5 › réservation : conflit puis confirmation sans perdre les coordonnées (3.0s)
+  ok 16 [functional] › tests\browser\functional.spec.ts:181:7 › réservation empty et repli humain (2.2s)
+  ok 17 [functional] › tests\browser\functional.spec.ts:181:7 › réservation error et repli humain (2.9s)
+  ok 18 [functional] › tests\browser\functional.spec.ts:201:5 › assistant : consentement, SSE et reprise humaine (3.1s)
+  ok 19 [functional] › tests\browser\functional.spec.ts:217:5 › assistant : refus de consentement sans requête (3.4s)
+  ok 20 [functional] › tests\browser\functional.spec.ts:233:5 › routes expérimentales absentes et accès privés protégés (12.6s)
+  ok 21 [functional] › tests\browser\functional.spec.ts:248:5 › sans JavaScript : information et cinq offres accessibles (5.4s)
+  ok 22 [functional] › tests\browser\functional.spec.ts:266:5 › mouvement réduit : état final et aucun raster rejeté (23.1s)
+  ok 23 [functional] › tests\browser\functional.spec.ts:302:5 › le hero lance une convergence réelle et possède une profondeur (2.2s)
+
+  23 passed (1.9m)
+
+Exit code: 0

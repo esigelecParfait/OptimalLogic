@@ -1,0 +1,74 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "file": "docs/refonte-final/10-validation/evidence/screenshots/home-1440.png",
+    "title": "Chaque demande mérite une prochaine action.",
+    "font": "lora, \"lora Fallback\", Lora, Georgia, serif",
+    "scrollWidth": 1440,
+    "innerWidth": 1440,
+    "diagrams": 5,
+    "overflowing": [],
+    "errors": []
+  },
+  {
+    "route": "/services",
+    "status": 200,
+    "file": "docs/refonte-final/10-validation/evidence/screenshots/services-1440.png",
+    "title": "Une présence claire. Des demandes mieux préparées.",
+    "font": "lora, \"lora Fallback\", Lora, Georgia, serif",
+    "scrollWidth": 1440,
+    "innerWidth": 1440,
+    "diagrams": 6,
+    "overflowing": [],
+    "errors": []
+  },
+  {
+    "route": "/tarifs",
+    "status": 200,
+    "file": "docs/refonte-final/10-validation/evidence/screenshots/tarifs-1440.png",
+    "title": "Cinq offres. Un prix lu dans notre base.",
+    "font": "lora, \"lora Fallback\", Lora, Georgia, serif",
+    "scrollWidth": 1440,
+    "innerWidth": 1440,
+    "diagrams": 0,
+    "overflowing": [],
+    "errors": []
+  },
+  {
+    "route": "/contact",
+    "status": 200,
+    "file": "docs/refonte-final/10-validation/evidence/screenshots/contact-1440.png",
+    "title": "Commençons par ce qui se passe aujourd'hui.",
+    "font": "lora, \"lora Fallback\", Lora, Georgia, serif",
+    "scrollWidth": 1440,
+    "innerWidth": 1440,
+    "diagrams": 1,
+    "overflowing": [],
+    "errors": []
+  },
+  {
+    "route": "/prise-de-rdv",
+    "status": 200,
+    "file": "docs/refonte-final/10-validation/evidence/screenshots/prise-de-rdv-1440.png",
+    "title": "Réserver un échange utile.",
+    "font": "lora, \"lora Fallback\", Lora, Georgia, serif",
+    "scrollWidth": 1440,
+    "innerWidth": 1440,
+    "diagrams": 0,
+    "overflowing": [],
+    "errors": []
+  },
+  {
+    "route": "/aide",
+    "status": 200,
+    "file": "docs/refonte-final/10-validation/evidence/screenshots/aide-1440.png",
+    "title": "Aide OptimalLogic",
+    "font": "lora, \"lora Fallback\", Lora, Georgia, serif",
+    "scrollWidth": 1440,
+    "innerWidth": 1440,
+    "diagrams": 0,
+    "overflowing": [],
+    "errors": []
+  }
+]
