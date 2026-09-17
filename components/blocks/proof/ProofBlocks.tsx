@@ -1,6 +1,14 @@
 import type { ReactNode } from "react";
 
-import { Container, Eyebrow, Section, Stack, Text } from "../../primitives";
+import {
+  Button,
+  Container,
+  Eyebrow,
+  Section,
+  Stack,
+  Surface,
+  Text,
+} from "../../primitives";
 import { BlockIntro } from "../shared/BlockIntro";
 import { BlockMediaFrame } from "../shared/BlockMediaFrame";
 import type { BlockIntroContent, BlockMedia, BlockTone } from "../types";
@@ -57,6 +65,8 @@ type ProofStat = {
   label: string;
   detail?: string;
 };
+
+export type ProofMetric = ProofStat;
 
 type ProofStatsProps = BlockIntroContent & {
   stats: ProofStat[];
@@ -131,6 +141,102 @@ export function ProofQuote({
               </footer>
             </blockquote>
           </Stack>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+export function ProofWall({
+  eyebrow,
+  title,
+  description,
+  logos,
+  tone = "muted",
+  id,
+}: ProofLogoCloudProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <div className={styles.wall}>
+          <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          <ul>
+            {logos.map((logo, index) => (
+              <li key={`${logo.name}-${index}`}>{logo.mark ?? logo.name}</li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+type ProofCaseStudyProps = BlockIntroContent & {
+  challenge: string;
+  outcome: string;
+  media?: BlockMedia;
+  action?: { label: string; href: string };
+  tone?: BlockTone;
+  id?: string;
+};
+export function ProofCaseStudy({
+  eyebrow,
+  title,
+  description,
+  challenge,
+  outcome,
+  media,
+  action,
+  tone = "surface",
+  id,
+}: ProofCaseStudyProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <div className={styles.caseStudy}>
+          {media && <BlockMediaFrame media={media} defaultRatio="landscape" />}
+          <Stack gap="large">
+            <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+            <div className={styles.caseFacts}>
+              <Surface padding="medium" appearance="line">
+                <Eyebrow>Situation</Eyebrow>
+                <Text>{challenge}</Text>
+              </Surface>
+              <Surface padding="medium" appearance="soft">
+                <Eyebrow>Résultat vérifié</Eyebrow>
+                <Text>{outcome}</Text>
+              </Surface>
+            </div>
+            {action && <Button href={action.href}>{action.label}</Button>}
+          </Stack>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+export function ProofMetricsBand({
+  eyebrow,
+  title,
+  description,
+  stats,
+  tone = "canvas",
+  id,
+}: ProofStatsProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <div className={styles.metricsBand}>
+          <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          <dl>
+            {stats.map((stat, index) => (
+              <div key={`${stat.label}-${index}`}>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+                {stat.detail && <dd>{stat.detail}</dd>}
+              </div>
+            ))}
+          </dl>
         </div>
       </Container>
     </Section>

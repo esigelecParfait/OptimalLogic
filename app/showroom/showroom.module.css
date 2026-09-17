@@ -14,7 +14,6 @@
     calc(100% - var(--gutter-mobile) - var(--gutter-mobile)),
     var(--container-wide)
   );
-  max-width: calc(100vw - var(--gutter-mobile) - var(--gutter-mobile));
   margin-inline: auto;
 }
 
@@ -70,6 +69,5 @@
       calc(100% - var(--gutter-tablet) - var(--gutter-tablet)),
       var(--container-wide)
     );
-    max-width: calc(100vw - var(--gutter-tablet) - var(--gutter-tablet));
   }
 }

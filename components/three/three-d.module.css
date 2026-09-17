@@ -1,0 +1,249 @@
+.stage,
+.webgl,
+.fallback {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      color-mix(in srgb, var(--color-action) 20%, transparent),
+      transparent 42%
+    ),
+    var(--color-surface);
+  isolation: isolate;
+}
+.scene {
+  position: absolute;
+  inset: 12%;
+  transform-style: preserve-3d;
+  perspective: 900px;
+}
+.ambient {
+  position: absolute;
+  inset: 24%;
+  background: var(--color-action);
+  filter: blur(90px);
+  opacity: 0.13;
+}
+.panel {
+  position: absolute;
+  width: clamp(120px, 30%, 210px);
+  min-height: 110px;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, white 12%);
+  border-radius: calc(var(--radius-lg) * 0.7);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  box-shadow: 0 24px 70px rgb(0 0 0/0.16);
+  backdrop-filter: blur(12px);
+  transform-style: preserve-3d;
+  animation: float 6s ease-in-out infinite alternate;
+  animation-delay: calc(var(--index) * -0.8s);
+}
+.panel span {
+  display: block;
+  color: var(--color-action);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+}
+.panel strong {
+  display: block;
+  margin-top: 0.55rem;
+}
+.panel i {
+  display: block;
+  width: 66%;
+  height: 3px;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, var(--color-action), transparent);
+}
+.core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 92px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--color-action);
+  border-radius: 28%;
+  background: color-mix(in srgb, var(--color-action) 18%, var(--color-surface));
+  box-shadow: 0 0 70px color-mix(in srgb, var(--color-action) 30%, transparent);
+  transform: translate(-50%, -50%) translateZ(90px) rotate(12deg);
+}
+.core span {
+  font-weight: 800;
+  letter-spacing: -0.08em;
+}
+.stage[data-play-state="paused"] * {
+  animation-play-state: paused !important;
+}
+.perspective[data-variant="perspective-tilt"] .panel {
+  left: calc(var(--index) * 18%);
+  top: calc(var(--index) * 10%);
+  transform: rotateY(-24deg) rotateX(10deg) translateZ(calc(var(--index) * 20px));
+}
+.perspective[data-variant="perspective-stack"] .panel {
+  left: calc(23% + var(--index) * 5%);
+  top: calc(20% + var(--index) * 5%);
+  transform: translateZ(calc(var(--index) * 45px))
+    rotateZ(calc((var(--index) - 2) * 4deg));
+}
+.perspective[data-variant="perspective-grid"] .panel {
+  left: 4%;
+  top: calc(var(--index) * 17%);
+  transform: rotateX(55deg) translateZ(calc(var(--index) * 14px));
+}
+.perspective[data-variant="perspective-grid"] .panel:nth-child(even) {
+  left: 52%;
+}
+.perspective[data-variant="perspective-tunnel"] .panel {
+  left: 35%;
+  top: 25%;
+  transform: translateZ(calc((var(--index) - 3) * 110px))
+    scale(calc(1 - var(--index) * 0.08));
+}
+.perspective[data-variant="perspective-float"] .panel {
+  left: calc(var(--index) * 20%);
+  top: 20%;
+  transform: rotateY(calc((var(--index) - 2) * 9deg))
+    translateZ(calc(var(--index) * 24px));
+}
+.perspective[data-variant="perspective-float"] .panel:nth-child(even) {
+  top: 48%;
+}
+.perspective[data-variant="perspective-orbit"] .panel {
+  left: calc(2% + var(--index) * 24%);
+  top: 12%;
+  transform: rotateY(calc(var(--index) * 20deg));
+}
+.perspective[data-variant="perspective-orbit"] .panel:nth-child(even) {
+  top: 58%;
+}
+.depth .panel {
+  left: calc(8% + var(--index) * 19%);
+  top: 18%;
+  transform: translateZ(calc(var(--index) * 28px))
+    rotateY(calc((var(--index) - 2) * 6deg));
+}
+.depth .panel:nth-child(even) {
+  top: 50%;
+}
+.depth[data-variant="depth-layers"] .panel {
+  left: 29%;
+  top: calc(5% + var(--index) * 13%);
+  transform: translateZ(calc(var(--index) * 52px)) rotateX(56deg);
+}
+.depth[data-variant="depth-dashboard"] .panel:first-child {
+  left: 8%;
+  top: 8%;
+  width: 70%;
+  min-height: 75%;
+  transform: translateZ(-40px);
+}
+.depth[data-variant="depth-satellites"] .panel {
+  width: 130px;
+  left: calc(4% + var(--index) * 25%);
+  top: 10%;
+  transform: translateZ(48px);
+}
+.depth[data-variant="depth-satellites"] .panel:nth-child(even) {
+  top: 62%;
+}
+.depth[data-variant="depth-reveal"] .panel {
+  left: calc(4% + var(--index) * 20%);
+  top: 28%;
+  transform: rotateY(-18deg) translateZ(calc(var(--index) * 35px));
+}
+.depth[data-variant="depth-gallery"] .panel {
+  left: calc(var(--index) * 23%);
+  top: 10%;
+  min-height: 150px;
+  transform: rotateY(-15deg);
+}
+.depth[data-variant="depth-gallery"] .panel:nth-child(even) {
+  top: 40%;
+}
+.depth[data-variant="depth-journey"] .panel {
+  left: calc(2% + var(--index) * 24%);
+  top: calc(50% - var(--index) * 11%);
+  transform: translateZ(calc(var(--index) * 42px));
+}
+.webgl canvas {
+  width: 100% !important;
+  height: 360px !important;
+}
+.fallback {
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  text-align: center;
+}
+.fallback small {
+  color: var(--color-text-muted);
+}
+.fallbackDiagram {
+  position: relative;
+  width: 170px;
+  height: 120px;
+  margin: auto;
+  perspective: 500px;
+}
+.fallbackDiagram i {
+  position: absolute;
+  inset: 20px;
+  border: 1px solid var(--color-action);
+  border-radius: 18px;
+  transform: translate(calc(var(--index, 0) * 8px), calc(var(--index, 0) * -8px));
+}
+.fallbackDiagram i:nth-child(2) {
+  inset: 12px;
+  opacity: 0.65;
+}
+.fallbackDiagram i:nth-child(3) {
+  inset: 4px;
+  opacity: 0.35;
+}
+.fallbackDiagram span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+@keyframes float {
+  to {
+    translate: 0 -9px;
+  }
+}
+@media (max-width: 640px) {
+  .stage,
+  .webgl,
+  .fallback {
+    min-height: 300px;
+  }
+  .scene {
+    inset: 8%;
+  }
+  .panel {
+    width: 43%;
+    min-height: 88px;
+    padding: 0.7rem;
+  }
+  .panel:nth-child(n + 4) {
+    display: none;
+  }
+  .core {
+    width: 68px;
+  }
+  .webgl canvas {
+    height: 300px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage * {
+    animation: none !important;
+  }
+}

@@ -6,7 +6,7 @@ import styles from "./shared.module.css";
 type BlockIntroProps = BlockIntroContent & {
   align?: "start" | "center";
   headingAs?: "h1" | "h2" | "h3";
-  headingVariant?: "hero" | "display" | "title" | "subtitle";
+  headingVariant?: "display" | "title" | "subtitle";
 };
 
 // BlockIntro renvoie l'en-tête éditorial réutilisé en haut des sections.

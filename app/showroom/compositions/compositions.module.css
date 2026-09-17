@@ -1,0 +1,120 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-canvas);
+  color: var(--color-text);
+}
+.header {
+  padding: var(--space-8) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  background: transparent;
+}
+.headerInner {
+  width: min(100%, var(--container-wide));
+  margin-inline: auto;
+}
+.header h1 {
+  max-width: 14ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  line-height: var(--line-height-tight);
+}
+.header p {
+  max-width: 68ch;
+  color: var(--color-text-muted);
+}
+.index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: var(--space-5) 0 0;
+  list-style: none;
+}
+.index a {
+  display: inline-flex;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-bottom: 1px solid var(--line-subtle);
+  border-radius: 0;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.family {
+  scroll-margin-top: var(--space-7);
+}
+.familyHeader {
+  padding: var(--space-7) var(--space-5);
+  border-block: 1px solid var(--color-border);
+  background: var(--color-text);
+  color: var(--color-canvas);
+}
+.familyHeader div {
+  width: min(100%, var(--container-wide));
+  margin-inline: auto;
+}
+.familyHeader h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+}
+.variant {
+  border-bottom: 1px solid var(--color-border);
+}
+.label {
+  margin: 0;
+  padding: var(--space-3);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-code);
+  font-size: var(--text-xs);
+  text-align: center;
+}
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+.field input,
+.field textarea,
+.field select {
+  min-height: 3rem;
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+  color: var(--color-text);
+  font: inherit;
+}
+.field textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+.field input:focus-visible,
+.field textarea:focus-visible,
+.field select:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.scheduler {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.slot {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+  color: var(--color-text);
+  font: inherit;
+}
+.slot:first-child {
+  border-color: var(--color-action);
+  background: var(--color-action);
+  color: var(--color-action-contrast);
+}

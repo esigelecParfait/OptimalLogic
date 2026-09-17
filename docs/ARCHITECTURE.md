@@ -26,15 +26,14 @@ HTML/CSS livré au navigateur
 
 ## Responsabilité de chaque couche
 
-| Couche                      | Emplacement                            | Responsabilité                                                                                              | Ne doit pas contenir                                      |
-| --------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| Brief et `site-spec`        | Racine du dépôt client                 | Objectifs, audiences, pages, parcours, contenus, preuves, médias, fonctionnalités et critères d'acceptation | Décisions visuelles improvisées ou informations inventées |
-| Thème                       | `design-system/foundation-tokens.json` | Couleurs, polices, tailles, espacements, formes, ombres, largeurs et mouvements de la marque                | Textes client ou structure d'une page                     |
-| Primitives                  | `src/components/primitives/`           | Règles élémentaires de structure, typographie, interaction et média                                         | Offres, prix, témoignages ou logique métier client        |
-| Éléments partagés des blocs | `src/components/blocks/shared/`        | Introduction, actions et cadre média communs à plusieurs familles                                           | Composition complète d'une page                           |
-| Blocs                       | `src/components/blocks/`               | Sections éditoriales réutilisables recevant du contenu par des propriétés TypeScript                        | Contenu client écrit en dur ou choix global de navigation |
-| Mouvement                   | `src/components/motion/`               | Révélations progressives, groupes et respect de la réduction des mouvements                                 | Contenu essentiel masqué ou animation décorative gratuite |
-| Pages                       | `src/app/`                             | Ordre des blocs, hiérarchie des titres, métadonnées et parcours propres à chaque URL                        | Nouvelle primitive générique cachée dans une seule page   |
+| Couche                      | Emplacement                 | Responsabilité                                                                                              | Ne doit pas contenir                                      |
+| --------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Brief et `site-spec`        | Racine du dépôt client      | Objectifs, audiences, pages, parcours, contenus, preuves, médias, fonctionnalités et critères d'acceptation | Décisions visuelles improvisées ou informations inventées |
+| Thème                       | `design-system/tokens.css`  | Couleurs, polices, tailles, espacements, formes, ombres, largeurs et mouvements de la marque                | Textes client ou structure d'une page                     |
+| Primitives                  | `components/primitives/`    | Règles élémentaires de structure, typographie, interaction et média                                         | Offres, prix, témoignages ou logique métier client        |
+| Éléments partagés des blocs | `components/blocks/shared/` | Introduction, actions et cadre média communs à plusieurs familles                                           | Composition complète d'une page                           |
+| Blocs                       | `components/blocks/`        | Sections éditoriales réutilisables recevant du contenu par des propriétés TypeScript                        | Contenu client écrit en dur ou choix global de navigation |
+| Pages                       | `app/`                      | Ordre des blocs, hiérarchie des titres, métadonnées et parcours propres à chaque URL                        | Nouvelle primitive générique cachée dans une seule page   |
 
 ## Circulation du brief vers la page
 
@@ -58,8 +57,7 @@ Une information absente du `site-spec` ne doit pas être inventée dans un bloc.
 ### 2. La direction artistique devient un thème
 
 La direction artistique traduit le positionnement en décisions visuelles. Les
-valeurs globales sont ensuite inscrites dans
-`design-system/foundation-tokens.json`, puis générées avec `npm run tokens`.
+valeurs globales sont ensuite inscrites dans `design-system/tokens.css`.
 
 Les composants ne connaissent pas directement « le vert du client » ou « le
 rayon de ses cartes ». Ils utilisent des rôles comme `--color-action`,
@@ -105,7 +103,7 @@ app/page.tsx
     → BlockIntro / BlockActions / BlockMediaFrame
       → Section / Container / Heading / Button / MediaFrame
         → classes CSS
-          → variables de src/styles/tokens.generated.css
+          → variables de design-system/tokens.css
             → éléments HTML affichés
 ```
 
@@ -119,22 +117,22 @@ chargées pour tout le site.
 ## Arborescence utile
 
 ```text
-src/app/
+app/
 ├── layout.tsx                 # Enveloppe globale du site.
 ├── page.tsx                   # Page d'accueil du client.
 ├── globals.css                # Normalisation et import des tokens.
 └── showroom/                  # Vérification interne des variantes.
 
-src/components/
+components/
 ├── primitives/                # 11 composants élémentaires.
 └── blocks/
     ├── shared/                # Sous-composants communs aux blocs.
-    ├── hero/, services/, ...  # 12 familles et 28 variantes.
+    ├── hero/, services/, ...  # 9 familles et 22 variantes.
     ├── types.ts               # Contrats de contenu communs.
     └── index.ts               # Point d'entrée public.
 
 design-system/
-└── foundation-tokens.json     # Source globale personnalisable.
+└── tokens.css                 # Thème global personnalisable.
 
 docs/                          # Architecture et guides de maintenance.
 ```

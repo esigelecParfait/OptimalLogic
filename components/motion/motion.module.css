@@ -1,53 +1,325 @@
-.reveal,
-.item {
-  opacity: 1;
-  transform: none;
+.stage,
+.webgl,
+.webglFallback {
+  min-height: 25rem;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(
+      circle at 70% 20%,
+      color-mix(in srgb, var(--color-action) 16%, transparent),
+      transparent 42%
+    ),
+    var(--color-surface);
+  perspective: 900px;
+}
+.stage[data-play-state="paused"] *,
+.stage[data-play-state="paused"] *::before,
+.stage[data-play-state="paused"] *::after {
+  animation-play-state: paused !important;
+}
+.microDemo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.5rem;
+  padding: var(--space-3) var(--space-5);
+  overflow: hidden;
+  border: 1px solid var(--color-action);
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-action-contrast);
+  font: inherit;
+  font-weight: 700;
   transition:
-    opacity var(--motion-entrance) var(--motion-ease),
-    transform var(--motion-entrance) var(--motion-ease),
-    clip-path var(--motion-entrance-strong) var(--motion-ease);
+    transform var(--duration-normal) var(--ease-emphasized),
+    box-shadow var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal),
+    background var(--duration-normal);
 }
-
-.reveal[data-motion-delay="short"] {
-  transition-delay: var(--ol-motion-stagger-quick);
+.microIcon {
+  transition: transform var(--duration-normal) var(--ease-emphasized);
 }
-
-.reveal[data-motion-delay="medium"] {
-  transition-delay: calc(var(--ol-motion-stagger-standard) * 2);
+.micro-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
 }
-
-.reveal[data-motion-state="hidden"],
-.group[data-motion-state="hidden"] .item {
+.micro-press:active {
+  transform: scale(0.92);
+}
+.micro-magnetic:hover {
+  transform: translate(8px, -5px) rotate(-1deg);
+}
+.micro-border {
+  background: transparent;
+  color: var(--color-action);
+}
+.micro-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 3px solid currentColor;
+  border-radius: inherit;
+  transform: scale(0.82);
   opacity: 0;
+  transition: inherit;
 }
-
-.reveal[data-motion-state="hidden"][data-motion-preset="rise"],
-.group[data-motion-state="hidden"][data-motion-preset="rise"] .item {
-  transform: translateY(var(--motion-distance-medium));
+.micro-border:hover::after {
+  transform: scale(1);
+  opacity: 1;
 }
-
-.reveal[data-motion-state="hidden"][data-motion-preset="scale"],
-.group[data-motion-state="hidden"][data-motion-preset="scale"] .item {
-  transform: scale(0.97);
+.micro-fill {
+  background: transparent;
+  color: var(--color-action);
 }
-
-.reveal[data-motion-state="hidden"][data-motion-preset="clip"],
-.group[data-motion-state="hidden"][data-motion-preset="clip"] .item {
-  clip-path: inset(0 0 100% 0 round var(--radius-surface));
+.micro-fill::before {
+  content: "";
+  position: absolute;
+  inset: 100% 0 0;
+  background: var(--color-action);
+  transition: inset var(--duration-normal) var(--ease-emphasized);
+  z-index: -1;
 }
-
-.group .item {
-  transition-delay: calc(var(--ol-motion-order, 0) * var(--motion-stagger));
+.micro-fill:hover {
+  color: var(--color-action-contrast);
 }
-
+.micro-fill:hover::before {
+  inset: 0;
+}
+.micro-icon:hover .microIcon {
+  transform: translate(6px, -6px);
+}
+.micro-focus:focus-visible {
+  outline: 5px solid var(--color-focus);
+  outline-offset: 6px;
+  transform: scale(1.04);
+}
+.micro-success::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--color-success);
+  transform: translateY(100%);
+  transition: transform var(--duration-normal) var(--ease-emphasized);
+}
+.micro-success:active::after {
+  transform: translateY(0);
+}
+.typeDemo {
+  max-width: 12ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+.type-mask {
+  clip-path: inset(0);
+}
+.type-lines {
+  text-align: center;
+}
+.type-words {
+  word-spacing: 0.25em;
+  transform: skewX(-3deg);
+}
+.type-focus {
+  text-shadow: 0 0 32px color-mix(in srgb, var(--color-action) 32%, transparent);
+}
+.type-weight {
+  font-weight: 900;
+}
+.type-counter::before {
+  content: "01 / ";
+  display: block;
+  margin-bottom: var(--space-4);
+  color: var(--color-action);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  letter-spacing: 0;
+}
+.diagram {
+  width: min(90%, 48rem);
+  overflow: visible;
+}
+.path {
+  fill: none;
+  stroke: var(--color-action);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.4s var(--ease-emphasized) forwards;
+}
+.node {
+  fill: var(--color-surface);
+  stroke: var(--color-action);
+  stroke-width: 4;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 1.4s var(--ease-standard) both;
+}
+.node:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+.node:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+.sequence {
+  width: min(90%, 62rem);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.sequence article {
+  min-height: 9rem;
+  display: grid;
+  align-content: space-between;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas);
+}
+.sequence span {
+  color: var(--color-action);
+  font-family: var(--font-code);
+}
+.scroll-progress article {
+  border-bottom: 4px solid var(--color-action);
+}
+.scroll-sticky article:nth-child(2),
+.scroll-depth article:nth-child(3) {
+  transform: translateY(1.5rem);
+}
+.scroll-sequence article {
+  background: var(--color-text);
+  color: var(--color-canvas);
+}
+.css3d {
+  position: absolute;
+  width: min(72vw, 28rem);
+  height: 17rem;
+  transform-style: preserve-3d;
+  animation: orbit3d 4s var(--ease-standard) both;
+}
+.css3d div {
+  position: absolute;
+  inset: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  backface-visibility: hidden;
+}
+.css3d div:nth-child(1) {
+  transform: translateZ(80px);
+}
+.css3d div:nth-child(2) {
+  transform: rotateY(120deg) translateZ(80px);
+}
+.css3d div:nth-child(3) {
+  transform: rotateY(240deg) translateZ(80px);
+}
+.css3d-layers div:nth-child(1) {
+  transform: translate3d(-3rem, -2rem, 90px);
+}
+.css3d-layers div:nth-child(2) {
+  transform: translateZ(20px);
+}
+.css3d-layers div:nth-child(3) {
+  transform: translate3d(3rem, 2rem, -50px);
+}
+.css3d-fold {
+  transform-origin: left center;
+}
+.css3d-fold div {
+  transform-origin: left center;
+}
+.css3d-fold div:nth-child(2) {
+  transform: rotateY(-50deg) translateZ(20px);
+}
+.css3d-fold div:nth-child(3) {
+  transform: rotateY(-100deg) translateZ(-20px);
+}
+.webgl {
+  min-height: 28rem;
+}
+.webgl canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+.webglFallback {
+  gap: var(--space-2);
+  align-content: center;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes orbit3d {
+  from {
+    transform: rotateX(-12deg) rotateY(-38deg);
+  }
+  to {
+    transform: rotateX(8deg) rotateY(322deg);
+  }
+}
+@media (min-width: 48rem) {
+  .sequence {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .microDemo:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .reveal,
-  .item,
-  .reveal[data-motion-state="hidden"],
-  .group[data-motion-state="hidden"] .item {
+  .stage *,
+  .stage *::before,
+  .stage *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .path {
+    stroke-dashoffset: 0;
+  }
+  .node {
     opacity: 1;
     transform: none;
-    clip-path: none;
-    transition: none;
+  }
+  .css3d {
+    animation: none;
+    transform: rotateX(0) rotateY(0);
   }
 }

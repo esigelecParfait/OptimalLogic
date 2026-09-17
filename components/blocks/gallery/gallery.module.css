@@ -27,6 +27,54 @@
   gap: var(--space-5);
 }
 
+.editorial {
+  display: grid;
+  gap: var(--space-7);
+}
+.editorialItems {
+  display: grid;
+  gap: var(--space-7);
+}
+.editorialItem {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+.editorialItem > span,
+.archiveMeta > span {
+  color: var(--color-action);
+  font-family: var(--font-code);
+}
+.archive {
+  display: grid;
+  gap: var(--space-8);
+}
+.archive article {
+  display: grid;
+  gap: var(--space-4);
+}
+.archiveMeta {
+  display: flex;
+  gap: var(--space-4);
+  align-items: baseline;
+}
+
+@media (min-width: 64rem) {
+  .editorial {
+    grid-template-columns: minmax(16rem, 0.65fr) minmax(0, 1.35fr);
+  }
+  .stickyIntro {
+    position: sticky;
+    top: var(--space-7);
+    align-self: start;
+  }
+  .archive article:nth-child(even) {
+    width: 72%;
+    margin-inline-start: auto;
+  }
+}
+
 @media (min-width: 48rem) {
   .galleryGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

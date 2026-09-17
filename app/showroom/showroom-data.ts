@@ -1,13 +1,10 @@
 import type {
   FaqItem,
   GalleryItem,
-  MetricItem,
-  NarrativeItem,
   PricingPlan,
   ProcessItem,
   ServiceItem,
   TeamMember,
-  WorkflowNode,
 } from "../../components/blocks";
 
 // Ces données servent uniquement à exercer les contrats TypeScript des blocs.
@@ -139,50 +136,4 @@ export const showroomPricing: PricingPlan[] = [
     features: ["Élément inclus à confirmer", "Accompagnement à confirmer"],
     action: { label: "Action de démonstration", href: "#showroom-top" },
   },
-];
-
-export const showroomNarrative: NarrativeItem[] = [
-  {
-    label: "Constat",
-    title: "Un enjeu prioritaire à clarifier",
-    description:
-      "La formulation définitive doit provenir du cadrage et des sources validées.",
-    featured: true,
-  },
-  {
-    label: "Friction",
-    title: "Une difficulté observable à documenter",
-    description: "Le bloc hiérarchise le récit sans inventer de résultat ni de preuve.",
-  },
-  {
-    label: "Décision",
-    title: "Un choix rendu plus simple",
-    description:
-      "La prochaine étape et sa destination doivent être confirmées avant publication.",
-  },
-];
-
-export const showroomWorkflow: WorkflowNode[] = [
-  {
-    label: "Étape",
-    title: "Collecter",
-    description: "Rassembler les entrées autorisées dans un même parcours.",
-  },
-  {
-    label: "Étape",
-    title: "Qualifier",
-    description: "Appliquer des critères définis avec le responsable du site.",
-  },
-  {
-    label: "Étape",
-    title: "Orienter",
-    description: "Déclencher l'action confirmée pour chaque situation.",
-  },
-];
-
-export const showroomMetrics: MetricItem[] = [
-  { label: "Indicateur 01", value: "À relier", detail: "Source requise" },
-  { label: "Indicateur 02", value: "À définir", detail: "Période requise" },
-  { label: "Indicateur 03", value: "À valider", detail: "Responsable requis" },
-  { label: "Indicateur 04", value: "À suivre", detail: "Seuil requis" },
 ];

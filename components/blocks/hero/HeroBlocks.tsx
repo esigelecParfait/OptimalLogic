@@ -167,3 +167,133 @@ export function HeroEditorial({
     </Section>
   );
 }
+
+type HeroPanelProps = HeroCommonProps & { media?: BlockMedia; note?: string };
+
+export function HeroPanel({
+  eyebrow,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  headingAs = "h1",
+  media,
+  note,
+  tone = "muted",
+  id,
+}: HeroPanelProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <div className={styles.panel} data-motion-scope="hero-panel">
+          <Stack gap="large">
+            <BlockIntro
+              eyebrow={eyebrow}
+              title={title}
+              description={description}
+              headingAs={headingAs}
+              headingVariant="display"
+            />
+            <BlockActions primary={primaryAction} secondary={secondaryAction} />
+            {note && <Text variant="small">{note}</Text>}
+          </Stack>
+          {media && <BlockMediaFrame media={media} defaultRatio="square" />}
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+type HeroBentoProps = HeroCommonProps & { media: BlockMedia; highlights?: string[] };
+
+export function HeroBento({
+  eyebrow,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  headingAs = "h1",
+  media,
+  highlights = [],
+  tone = "canvas",
+  id,
+}: HeroBentoProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <div className={styles.bento} data-motion-scope="hero-bento">
+          <div className={styles.bentoCopy}>
+            <Stack gap="large">
+              <BlockIntro
+                eyebrow={eyebrow}
+                title={title}
+                description={description}
+                headingAs={headingAs}
+                headingVariant="display"
+              />
+              <BlockActions primary={primaryAction} secondary={secondaryAction} />
+            </Stack>
+          </div>
+          <div className={styles.bentoMedia}>
+            <BlockMediaFrame media={media} defaultRatio="square" />
+          </div>
+          {highlights.length > 0 && (
+            <ul className={styles.bentoHighlights}>
+              {highlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+type HeroSignalProps = HeroCommonProps & { signals?: string[] };
+
+export function HeroSignal({
+  eyebrow,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  headingAs = "h1",
+  signals = [],
+  tone = "surface",
+  id,
+}: HeroSignalProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <Stack className={styles.signal} gap="extraLarge" data-motion-scope="hero-signal">
+          <BlockIntro
+            eyebrow={eyebrow}
+            title={title}
+            description={description}
+            headingAs={headingAs}
+            headingVariant="display"
+            align="center"
+          />
+          <div className={styles.centeredActions}>
+            <BlockActions
+              primary={primaryAction}
+              secondary={secondaryAction}
+              align="center"
+            />
+          </div>
+          {signals.length > 0 && (
+            <ul className={styles.signalList}>
+              {signals.map((signal, index) => (
+                <li key={signal}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {signal}
+                </li>
+              ))}
+            </ul>
+          )}
+        </Stack>
+      </Container>
+    </Section>
+  );
+}

@@ -1,0 +1,512 @@
+.stage {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+.visual {
+  position: relative;
+  min-height: 360px;
+  padding: 2rem;
+  background:
+    radial-gradient(
+      circle at 70% 20%,
+      color-mix(in srgb, var(--color-action) 16%, transparent),
+      transparent 35%
+    ),
+    var(--color-canvas);
+}
+.stage figcaption {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.1rem 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+.stage figcaption span,
+.stage figcaption small {
+  color: var(--color-text-muted);
+}
+.stage figcaption small {
+  font-size: 0.72rem;
+}
+.diagram {
+  position: relative;
+  height: 296px;
+}
+.diagram svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.connector,
+.connectorAlt {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-action) 75%, transparent);
+  stroke-width: 2;
+}
+.connectorAlt {
+  stroke-dasharray: 7 9;
+  opacity: 0.55;
+}
+.diagramCore,
+.diagramNode {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+}
+.diagramCore {
+  top: 50%;
+  left: 50%;
+  width: 110px;
+  aspect-ratio: 1;
+  border-color: var(--color-action);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 750;
+}
+.diagramNode {
+  width: 100px;
+  min-height: 52px;
+  border-radius: var(--radius-control);
+  font-size: 0.78rem;
+}
+.diagramNode:nth-of-type(2) {
+  top: 5%;
+  left: 2%;
+}
+.diagramNode:nth-of-type(3) {
+  top: 5%;
+  right: 2%;
+}
+.diagramNode:nth-of-type(4) {
+  bottom: 5%;
+  left: 2%;
+}
+.diagramNode:nth-of-type(5) {
+  right: 2%;
+  bottom: 5%;
+}
+.diagramNode i {
+  width: 7px;
+  height: 7px;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-action);
+}
+[data-variant="diagram-hierarchy"] .diagramNode {
+  left: calc(15% + var(--index) * 18%);
+  top: calc(10% + var(--index) * 18%);
+}
+[data-variant="diagram-matrix"] .diagramNode {
+  left: calc(8% + var(--index) * 22%);
+  top: calc(18% + var(--index) * 7%);
+  min-height: 120px;
+}
+[data-variant="diagram-ecosystem"] .diagramCore {
+  border-radius: 28%;
+}
+[data-variant="diagram-layers"] .diagramNode {
+  left: calc(24% + var(--index) * 8%);
+  top: calc(8% + var(--index) * 17%);
+  width: 44%;
+  min-height: 48px;
+}
+[data-variant="diagram-roadmap"] .diagramNode {
+  top: 42%;
+  bottom: auto;
+  left: calc(2% + var(--index) * 25%);
+}
+.flow {
+  position: relative;
+  height: 296px;
+}
+.flow svg {
+  position: absolute;
+  inset: 70px 3%;
+  width: 94%;
+  height: 170px;
+}
+.flow svg path {
+  fill: none;
+  stroke: var(--color-action);
+  stroke-width: 3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.flowStep {
+  position: absolute;
+  z-index: 1;
+  top: calc(38% + (var(--index) - 2) * 7%);
+  left: calc(2% + var(--index) * 25%);
+  display: grid;
+  width: 105px;
+  min-height: 72px;
+  align-content: center;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+}
+.flowStep span {
+  color: var(--color-action);
+  font-size: 0.65rem;
+}
+.flowStep strong {
+  font-size: 0.78rem;
+}
+[data-variant="flow-branching"] .flowStep:nth-child(even) {
+  top: 12%;
+}
+[data-variant="flow-convergence"] .flowStep:not(:last-of-type) {
+  left: 8%;
+  top: calc(2% + var(--index) * 28%);
+}
+[data-variant="flow-convergence"] .flowStep:last-of-type {
+  left: 72%;
+  top: 38%;
+}
+[data-variant="flow-loop"] .flowStep {
+  top: calc(12% + var(--index) * 16%);
+  left: calc(10% + var(--index) * 20%);
+}
+[data-variant="flow-pipeline"] .flowStep {
+  top: 34%;
+  min-height: 100px;
+}
+[data-variant="flow-handoff"] .flowStep {
+  top: 35%;
+  left: calc(5% + var(--index) * 24%);
+  border-style: dashed;
+}
+.interfaceShell {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  min-height: 295px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.interfaceShell aside {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  padding: 1.2rem;
+  background: color-mix(in srgb, var(--color-action) 12%, var(--color-surface));
+}
+.interfaceShell aside i {
+  width: 24px;
+  aspect-ratio: 1;
+  border: 1px solid var(--color-action);
+  border-radius: 7px;
+}
+.interfaceShell > section {
+  padding: 1.3rem;
+}
+.interfaceShell header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.interfaceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.interfaceGrid article {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+}
+.interfaceGrid small {
+  color: var(--color-text-muted);
+}
+.interfaceGrid i,
+.interfaceRows i {
+  height: 4px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--color-action) 55%, transparent);
+}
+.interfaceRows {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.2rem;
+}
+.interfaceRows i:nth-child(2) {
+  width: 78%;
+}
+.interfaceRows i:nth-child(3) {
+  width: 55%;
+}
+[data-variant="interface-inbox"] .interfaceGrid,
+[data-variant="interface-profile"] .interfaceGrid {
+  grid-template-columns: 1fr;
+}
+[data-variant="interface-calendar"] .interfaceRows {
+  grid-template-columns: repeat(5, 1fr);
+}
+[data-variant="interface-calendar"] .interfaceRows i {
+  height: 80px;
+}
+[data-variant="interface-workspace"] .interfaceShell {
+  grid-template-columns: 120px 1fr;
+}
+[data-variant="interface-analytics"] .interfaceGrid article {
+  min-height: 130px;
+}
+[data-variant="interface-profile"] .interfaceGrid article {
+  grid-template-columns: 1fr auto;
+}
+.chart {
+  position: relative;
+  min-height: 295px;
+}
+.chartLegend {
+  display: flex;
+  gap: 1.2rem;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+}
+.chartLegend span::before {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  background: var(--color-action);
+  content: "";
+}
+.chart svg {
+  width: 100%;
+  height: 245px;
+}
+.gridLine {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+  opacity: 0.35;
+}
+.chartArea {
+  fill: color-mix(in srgb, var(--color-action) 18%, transparent);
+}
+.chartLine {
+  fill: none;
+  stroke: var(--color-action);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.chart p {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+}
+.donut {
+  display: grid;
+  width: 210px;
+  aspect-ratio: 1;
+  margin: 1.5rem auto;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--color-action) 0 58%,
+    color-mix(in srgb, var(--color-action) 30%, var(--color-surface)) 58%
+  );
+}
+.donut::before {
+  position: absolute;
+  width: 130px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-canvas);
+  content: "";
+}
+.donut span {
+  z-index: 1;
+  font-weight: 700;
+}
+[data-variant="chart-bars"] .chartArea {
+  clip-path: polygon(
+    5% 100%,
+    5% 70%,
+    18% 70%,
+    18% 100%,
+    28% 100%,
+    28% 40%,
+    41% 40%,
+    41% 100%,
+    53% 100%,
+    53% 55%,
+    66% 55%,
+    66% 100%,
+    78% 100%,
+    78% 20%,
+    91% 20%,
+    91% 100%
+  );
+}
+[data-variant="chart-timeline"] .chartLine {
+  stroke-dasharray: 8 10;
+}
+[data-variant="chart-comparison"] .chartArea {
+  fill: color-mix(in srgb, var(--color-text-muted) 16%, transparent);
+}
+.transformation {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  min-height: 295px;
+}
+.transformation section {
+  display: grid;
+  gap: 0.7rem;
+  min-height: 220px;
+  align-content: center;
+  padding: 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+.transformation section > span {
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+.transformation section div {
+  display: grid;
+  gap: 0.45rem;
+}
+.transformation section i {
+  display: block;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--color-border);
+  opacity: 0.45;
+}
+.after {
+  border-color: var(--color-action) !important;
+  background: color-mix(in srgb, var(--color-action) 8%, var(--color-surface));
+}
+.after i {
+  background: var(--color-action) !important;
+  opacity: 0.8 !important;
+}
+.transformArrow {
+  display: grid;
+  width: 42px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-action);
+  color: var(--color-action-contrast);
+}
+[data-variant="transformation-slider"] .after {
+  transform: translateX(-12%);
+  clip-path: inset(0 0 0 12%);
+}
+[data-variant="transformation-morph"] .transformation section {
+  border-radius: 50%;
+}
+[data-variant="transformation-journey"] .transformation section i {
+  height: 28px;
+}
+[data-variant="transformation-layers"] .transformation section i {
+  transform: translateX(calc(var(--index, 1) * 3px));
+}
+[data-variant="transformation-metrics"] .transformation section div {
+  grid-template-columns: repeat(2, 1fr);
+}
+[data-animated="true"] .connectorAlt {
+  animation: dash 5s linear infinite;
+}
+[data-animated="true"] .flow svg path,
+[data-animated="true"] .chartLine {
+  animation: draw 1.4s ease forwards;
+}
+[data-animated="true"] .diagramNode,
+[data-animated="true"] .flowStep {
+  animation: appear 0.7s ease both;
+  animation-delay: calc(var(--index) * 0.09s);
+}
+[data-animated="true"] .after {
+  animation: reveal 0.9s ease both;
+}
+@keyframes dash {
+  to {
+    stroke-dashoffset: -80;
+  }
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0.25;
+    filter: blur(5px);
+  }
+}
+@media (max-width: 640px) {
+  .visual {
+    min-height: 330px;
+    padding: 1rem;
+  }
+  .interfaceShell {
+    grid-template-columns: 44px 1fr;
+  }
+  .interfaceShell > section {
+    padding: 0.8rem;
+  }
+  .interfaceGrid {
+    grid-template-columns: 1fr;
+  }
+  .interfaceGrid article:nth-child(n + 3) {
+    display: none;
+  }
+  .flowStep {
+    width: 78px;
+    padding: 0.5rem;
+  }
+  .transformation {
+    grid-template-columns: 1fr;
+  }
+  .transformArrow {
+    margin: auto;
+    rotate: 90deg;
+  }
+  .transformation section {
+    min-height: 120px;
+  }
+  .diagramNode {
+    width: 82px;
+  }
+  .chart p {
+    position: static;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage * {
+    animation: none !important;
+  }
+}

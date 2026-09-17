@@ -67,7 +67,7 @@ export function WorkflowPipeline({
           </ol>
 
           {outcome && (
-            <Surface appearance="accent" elevation="floating" padding="large">
+            <Surface appearance="immersive" elevation="raised" padding="large">
               <div className={styles.outcome}>
                 <Eyebrow>{outcome.label ?? "Résultat"}</Eyebrow>
                 <Heading as="h3" variant="title">
@@ -93,7 +93,7 @@ type WorkflowRoutingProps = BlockIntroContent & {
 
 function CompactNode({ node }: { node: WorkflowNode }) {
   return (
-    <Surface appearance="glass" className={styles.compactNode} padding="medium">
+    <Surface appearance="soft" className={styles.compactNode} padding="medium">
       <Stack gap="small">
         {node.icon}
         {node.label && <Eyebrow>{node.label}</Eyebrow>}
@@ -136,9 +136,9 @@ export function WorkflowRouting({
             </div>
 
             <Surface
-              appearance="accent"
+              appearance="immersive"
               className={styles.decision}
-              elevation="floating"
+              elevation="raised"
               padding="large"
             >
               <Stack gap="medium">

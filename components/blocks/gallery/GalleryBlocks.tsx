@@ -97,3 +97,70 @@ export function GallerySpotlight({
     </Section>
   );
 }
+
+export function GalleryEditorial({
+  eyebrow,
+  title,
+  description,
+  items,
+  tone = "surface",
+  id,
+}: GalleryCommonProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <div className={styles.editorial}>
+          <div className={styles.stickyIntro}>
+            <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          </div>
+          <div className={styles.editorialItems}>
+            {items.map((item, index) => (
+              <div className={styles.editorialItem} key={`${item.title}-${index}`}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <GalleryFigure item={item} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+export function GalleryArchive({
+  eyebrow,
+  title,
+  description,
+  items,
+  tone = "canvas",
+  id,
+}: GalleryCommonProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <Stack gap="large">
+          <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          <div className={styles.archive}>
+            {items.map((item, index) => (
+              <article key={`${item.title}-${index}`}>
+                <div className={styles.archiveMeta}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {item.title && (
+                    <Heading as="h3" variant="subtitle">
+                      {item.title}
+                    </Heading>
+                  )}
+                </div>
+                <BlockMediaFrame
+                  media={item}
+                  defaultRatio={index % 2 === 0 ? "wide" : "landscape"}
+                />
+                {item.caption && <Text variant="small">{item.caption}</Text>}
+              </article>
+            ))}
+          </div>
+        </Stack>
+      </Container>
+    </Section>
+  );
+}

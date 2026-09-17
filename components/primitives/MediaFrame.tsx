@@ -1,44 +1,73 @@
+// Importe les propriétés HTML acceptées par une balise <div>.
 import type { ComponentPropsWithoutRef } from "react";
 
+// Importe la fonction qui assemble les classes CSS.
 import { cx } from "@/lib/cx";
 
+// Importe les styles locaux des primitives.
 import styles from "./primitives.module.css";
 
-type MediaRatio = "landscape" | "portrait" | "square" | "wide";
+// Liste les proportions disponibles pour le cadre.
+type MediaRatio = "square" | "portrait" | "landscape" | "wide";
+
+// "cover" remplit le cadre en recadrant éventuellement le média.
+// "contain" affiche tout le média, quitte à laisser de l'espace.
 type MediaFit = "cover" | "contain";
 
+// Fusionne les propriétés normales d'un <div>
+// avec les options spécifiques de MediaFrame.
 type MediaFrameProps = ComponentPropsWithoutRef<"div"> & {
-  label?: string;
   ratio?: MediaRatio;
   fit?: MediaFit;
 };
 
-const ratioClasses: Record<MediaRatio, string> = {
-  landscape: styles.ratioLandscape,
-  portrait: styles.ratioPortrait,
-  square: styles.ratioSquare,
-  wide: styles.ratioWide,
+// Associe chaque ratio à sa classe CSS.
+//
+// Record oblige TypeScript à vérifier que chaque ratio
+// possède bien une classe correspondante.
+const ratioClassNames: Record<MediaRatio, string> = {
+  square: styles.mediaFrameSquare,
+  portrait: styles.mediaFramePortrait,
+  landscape: styles.mediaFrameLandscape,
+  wide: styles.mediaFrameWide,
 };
 
-const fitClasses: Record<MediaFit, string> = {
-  cover: styles.mediaCover,
-  contain: styles.mediaContain,
+// Associe chaque mode de recadrage à sa classe CSS.
+const fitClassNames: Record<MediaFit, string> = {
+  cover: styles.mediaFrameCover,
+  contain: styles.mediaFrameContain,
 };
 
+// Exporte la primitive afin qu'elle soit utilisable dans les futurs blocs.
 export function MediaFrame({
+  // Contenu placé entre <MediaFrame> et </MediaFrame>.
   children,
+
+  // Classe CSS supplémentaire éventuellement fournie par le parent.
   className,
-  label = "Emplacement média — remplacer par un visuel autorisé",
+
+  // Valeurs utilisées si aucune option n'est précisée.
   ratio = "landscape",
   fit = "cover",
+
+  // Récupère les autres propriétés HTML : id, aria-label, etc.
   ...props
 }: MediaFrameProps) {
   return (
     <div
-      className={cx(styles.mediaFrame, ratioClasses[ratio], fitClasses[fit], className)}
+      // Assemble la base, le ratio, le recadrage et la classe externe.
+      className={cx(
+        styles.mediaFrame,
+        ratioClassNames[ratio],
+        fitClassNames[fit],
+        className,
+      )}
+
+      // Transmet les autres propriétés à la balise <div>.
       {...props}
     >
-      {children ?? <span className={styles.mediaLabel}>{label}</span>}
+      {/* Affiche l'image, la vidéo ou l'iframe reçue. */}
+      {children}
     </div>
   );
 }

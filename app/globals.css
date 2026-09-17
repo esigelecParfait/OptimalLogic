@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../design-system/tokens.css";
+@import "../design-system/themes.css";
 
 /* ===================================================================
    OptimalLogic — Design System "Dark Premium"

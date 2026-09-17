@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { Container, Section, Stack } from "../../primitives";
+import { Button, Container, Section, Stack } from "../../primitives";
 import { BlockIntro } from "../shared/BlockIntro";
 import type { BlockIntroContent, BlockTone } from "../types";
 
@@ -76,6 +76,81 @@ export function FaqColumns({
           <div className={styles.faqColumns}>
             {items.map((item, index) => (
               <FaqDetails item={item} key={`${item.question}-${index}`} />
+            ))}
+          </div>
+        </Stack>
+      </Container>
+    </Section>
+  );
+}
+
+type FaqSplitProps = FaqCommonProps & { action?: { label: string; href: string } };
+export function FaqSplit({
+  eyebrow,
+  title,
+  description,
+  items,
+  action,
+  tone = "muted",
+  id,
+}: FaqSplitProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container>
+        <div className={styles.split}>
+          <Stack gap="large">
+            <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+            {action && <Button href={action.href}>{action.label}</Button>}
+          </Stack>
+          <div className={styles.faqList}>
+            {items.map((item, index) => (
+              <FaqDetails item={item} key={`${item.question}-${index}`} />
+            ))}
+          </div>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+export type FaqGroup = { title: string; items: FaqItem[] };
+type FaqGroupedProps = BlockIntroContent & {
+  groups: FaqGroup[];
+  tone?: BlockTone;
+  id?: string;
+};
+export function FaqGrouped({
+  eyebrow,
+  title,
+  description,
+  groups,
+  tone = "surface",
+  id,
+}: FaqGroupedProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <Stack gap="extraLarge">
+          <BlockIntro
+            eyebrow={eyebrow}
+            title={title}
+            description={description}
+            align="center"
+          />
+          <div className={styles.groups}>
+            {groups.map((group) => (
+              <section
+                className={styles.group}
+                key={group.title}
+                aria-labelledby={`faq-${group.title.replaceAll(" ", "-").toLowerCase()}`}
+              >
+                <h3 id={`faq-${group.title.replaceAll(" ", "-").toLowerCase()}`}>
+                  {group.title}
+                </h3>
+                {group.items.map((item, index) => (
+                  <FaqDetails item={item} key={`${item.question}-${index}`} />
+                ))}
+              </section>
             ))}
           </div>
         </Stack>
