@@ -19,7 +19,7 @@ La reconstruction finale ne doit donc pas prendre l'état applicatif actuel comm
 
 ## Écarts bloquants observés
 
-1. `AGENTS.md` et `lib/offers/public-catalog.ts` exposent `commerce_premium` et omettent `startup_validation`, contrairement à la décision actuelle.
+1. Le catalogue applicatif observé contient encore cinq présentations historiques. La décision actuelle impose trois présentations frontend, sans modification du backend ni invention de codes BDD.
 2. Les pages publiques de l'essai V2 ne découlent pas d'un dossier final approuvé.
 3. `docs/refonte-v2/`, `/showroom`, `/comparer` et `/preview/**` sont des artefacts de travail, pas des pages finales.
 4. Des modifications massives touchent administration, authentification, sécurité et intégrations sans nécessité pour une refonte visuelle.
@@ -39,7 +39,7 @@ La reconstruction finale ne doit donc pas prendre l'état applicatif actuel comm
 ## Éléments à réécrire
 
 - Toutes les compositions et pages marketing finales.
-- Catalogue public des cinq offres et contexte de l'assistant public.
+- Présentation frontend des trois offres, après association vérifiée aux codes existants.
 - Tokens, primitives, blocs et motion réellement consommés par les pages.
 - SEO public, tout en conservant les routes privées `noindex`.
 - Consignes du dépôt devenues contradictoires avec la décision commerciale.

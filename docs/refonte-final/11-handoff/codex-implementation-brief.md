@@ -1,22 +1,27 @@
-# Brief d'implémentation Codex — non autorisé
+# Brief d’implémentation Codex
 
-Statut : `BLOCKED_NOT_FOR_EXECUTION`
+Refondre uniquement la couche frontend publique d’OptimalLogic selon
+`docs/refonte-final/`.
 
-Le futur Codex devra reconstruire le frontend public d'OptimalLogic à partir de la référence saine et de ce dossier approuvé. Il ne devra pas redéfinir le design, les offres ou les contenus.
+## Résultat attendu
 
-## Périmètre futur
-
-- Reconstruire les six pages publiques principales et harmoniser les pages légales/authentification.
-- Construire les douze actifs code-native en HTML, SVG, CSS ou `ImageResponse`.
-- Ne copier, importer ou utiliser aucun des quatre rasters historiques, y compris comme fallback.
-- Appliquer les contrats de mouvement accessibles.
-- Afficher cinq offres dont nom et prix viennent de Supabase.
-- Préserver toutes les frontières privées et intégrations.
-- Installer seulement les dépendances approuvées.
-- Exécuter les tests et fournir des preuves.
+- Accueil, Services, Offres, Prise de rendez-vous et Contact cohérents ;
+- trois offres : Présence digitale, SMS, appels + SMS ;
+- noms et prix toujours chargés depuis la BDD par le mécanisme existant ;
+- aucune modification backend, Supabase, API, RLS ou configuration ;
+- Connexion dans le header ;
+- cible multisectorielle ;
+- palette verrouillée ;
+- trois animations définies dans `07-motion/`.
 
 ## Arrêt obligatoire
 
-Codex devra arrêter avant de coder si un livrable n'est pas approuvé, si la branche ou le SHA ne correspond pas, si le schéma réel contredit le contrat ou si une modification touche le périmètre protégé sans autorisation.
+Ne pas commencer le changement de catalogue frontend tant que les trois
+présentations n’ont pas été associées aux codes existants en BDD. Ne jamais
+résoudre cette incertitude par une modification du backend ou un code inventé.
 
-Ce brief deviendra exécutable uniquement après la validation utilisateur du dossier.
+## Validation
+
+Suivre `09-implementation/acceptance-checklist.md` et
+`10-validation/validation-checklist.md`. La production reste interdite tant
+que la QA et la validation visuelle ne sont pas PASS.

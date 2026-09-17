@@ -1,43 +1,33 @@
-schema_version: 1
+schema_version: 2
 project: OptimalLogic
-generated_at: 2026-09-01
-branch: feat/refonte-final
-baseline_revision: af4dc007ca7a75b8634c7d5e0e6ed6efff10f449
-preparation_revision: 4c66ecad7ee63c9bc601b58d5c9a4d3a7f5cba14
+generated_at: 2026-09-17
+branch: champion
 source_of_truth: docs/refonte-final
-current_stage: user_review
-visual_revision:
-  decision: DEC-011
-  parent_revision: 4c66ecad7ee63c9bc601b58d5c9a4d3a7f5cba14
-  mode: code_native_motion
-  affected_stages: [01-audit, 02-references, 03-intake, 06-art-direction, 07-assets, 08-motion, 10-blueprint, 11-validation, 12-handoff]
-  preserved_stages: [04-strategy, 05-content, 09-backend]
+current_stage: specification_updated
 approval_policy:
-  producer_can_approve: false
   user_approval_required: true
   implementation_allowed: false
   deployment_allowed: false
+constraints:
+  backend_change: forbidden
+  offer_configuration_change: forbidden
+  database_name_and_price_authority: preserved
 stages:
-  - {id: 01-audit, skill: optimallogic-repository-audit, status: ready_for_review}
-  - {id: 02-references, skill: optimallogic-reference-analysis, status: ready_for_review}
-  - {id: 03-intake, skill: optimallogic-site-intake, status: ready_for_review}
-  - {id: 04-strategy, skill: optimallogic-site-strategy, status: ready_for_review}
-  - {id: 05-content, skill: optimallogic-content-design, status: ready_for_review}
-  - {id: 06-art-direction, skill: optimallogic-art-direction, status: ready_for_review}
-  - {id: 07-assets, skill: optimallogic-visual-assets, status: ready_for_review}
-  - {id: 08-motion, skill: optimallogic-motion-specification, status: ready_for_review}
-  - {id: 09-backend, skill: optimallogic-backend-recipes, status: ready_for_review}
-  - {id: 10-blueprint, skill: optimallogic-implementation-blueprint, status: ready_for_review}
-  - {id: 11-validation, skill: optimallogic-qa-release, status: ready_for_review}
-  - {id: 12-handoff, skill: optimallogic-codex-handoff, status: blocked}
+  - {id: audit, status: ready_for_review}
+  - {id: strategy, status: ready_for_review}
+  - {id: content, status: ready_for_review}
+  - {id: art-direction, status: ready_for_review}
+  - {id: assets, status: blocked}
+  - {id: motion, status: ready_for_review}
+  - {id: backend, status: protected_unchanged}
+  - {id: blueprint, status: blocked}
+  - {id: qa, status: not_tested}
+  - {id: handoff, status: blocked}
 blockers:
-  - id: user_approval_missing
-    description: Les livrables de conception ne sont pas encore approuvés par l'utilisateur.
-    affects: [implementation, final_codex_prompt]
-  - id: database_contract_unverified
-    description: Le schéma Supabase et les politiques RLS ne sont pas versionnés dans le dépôt.
-    affects: [backend_validation]
+  - {id: offer_code_mapping, description: Associer les trois présentations frontend aux codes BDD existants sans modifier la configuration, affects: [blueprint, implementation]}
+  - {id: photo_rights, description: Sélectionner et licencier les photographies de présence digitale, affects: [assets, visual_validation]}
+  - {id: usage_pricing, description: Confirmer volumes et dépassements SMS/minutes, affects: [offer_copy]}
+  - {id: implementation_missing, description: Aucun rendu applicatif de cette nouvelle spécification n'existe encore, affects: [qa, handoff]}
 notes:
-  - Aucun fichier applicatif ni paquet Node.js n'est modifié pendant la production des livrables.
-  - docs/refonte-v2 est une source historique et non une autorité pour la refonte finale.
-  - La chaîne visuelle a été réexécutée selon DEC-011; le handoff reste bloqué jusqu'à validation utilisateur.
+  - Aucun fichier backend, Supabase, API, RLS ou configuration d'offres ne doit être modifié.
+  - docs/refonte-v2 est historique.

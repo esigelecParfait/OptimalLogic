@@ -1,74 +1,71 @@
-# Direction artistique proposée
+# Direction artistique — Système éditorial opérationnel
 
-Statut : `ready_for_review` — fondation code-native confirmée par `DEC-011`, système détaillé non approuvé
+## Positionnement
 
-## Positionnement visuel
+OptimalLogic doit paraître sobre, précis et crédible auprès d’entreprises de
+secteurs variés. Le site explique deux résultats : une présence digitale plus
+claire et des demandes entrantes mieux prises en charge.
 
-OptimalLogic doit paraître précis, calme et structurant : une maison numérique qui transforme des signaux dispersés en contexte, priorité et prochaine action humaine. La perception premium vient d’abord de la typographie, de la grille, des contrastes, des surfaces et de la qualité des interfaces. Le mouvement enrichit ce système sans devenir sa seule qualité visible.
+## Concept retenu
 
-## Concept adapté — Maison des signaux code-native — recommandé
+Une interface éditoriale sombre et lumineuse, construite autour de situations
+réelles plutôt que de symboles technologiques génériques. La hiérarchie,
+l’espace et le mouvement expliquent le service. Les références Framer servent
+de niveau d’exigence pour le rythme et la finition, sans reproduction de leur
+marque, textes ou composition distinctive.
 
-Une architecture noire et ivoire traversée par un signal vert. Des lignes, nœuds, cadres et panneaux d’interface se rassemblent, se qualifient puis franchissent un seuil. Tout élément informatif est construit en HTML sémantique, SVG inline ou CSS : aucun master photographique ou raster généré n’est nécessaire au site.
+## Palette verrouillée
 
-- Hiérarchie : grands titres éditoriaux, labels compacts, panneaux 7/5 asymétriques et respirations franches.
-- Typographie : Space Grotesk pour l’identité et l’utilitaire, Inter pour la lecture, Lora proposée pour quelques déclarations éditoriales.
-- Couleurs : noir, blanc et vert existants ; ivoire pour la respiration ; bleu froid très limité au chapitre Startup.
-- Interfaces : panneaux illustratifs et états de décision, sans prétendre représenter un produit réel.
-- Schémas : flux exacts, libellés issus des contenus approuvés et structure accessible.
-- Mouvement : convergence, assemblage de contexte, franchissement de seuil et handoff humain, joués une fois.
-- Bénéfice : traduit directement la promesse « signal vers action » sans dépendre d’images génériques.
-- Risque : devenir un modèle SaaS abstrait si les libellés, la hiérarchie et les compositions ne restent pas propres à OptimalLogic.
+- fond principal : `#0B0D0F` ;
+- surface : `#15191D` ;
+- texte principal : `#F1F0EB` ;
+- texte secondaire : `#9CA3AA` ;
+- accent principal : `#315866` ;
+- validation : `#66877D` ;
+- bordures : `#2A3035`.
 
-## Grammaire visuelle
+Les accents restent minoritaires. Aucun vert néon, glow excessif ou dégradé
+spectaculaire.
 
-1. **Signal** — ligne fine ou point d’entrée représentant une demande ou une information.
-2. **Contexte** — panneau qui rassemble les éléments utiles sans simuler une donnée réelle.
-3. **Seuil** — changement de surface ou de contraste marquant une décision.
-4. **Transmission** — liaison explicite vers une personne ou une prochaine action.
-5. **Respiration** — chapitre ivoire qui ralentit la lecture et reformule l’enjeu.
+## Composition
 
-Les lignes, nœuds, surfaces et annotations utilisent les mêmes tokens sur toutes les pages. Une section n’ajoute pas sa propre esthétique ou son propre effet.
+- grille régulière, marges généreuses, niveaux typographiques nets ;
+- peu de cartes arrondies et aucune accumulation de « widgets IA » ;
+- vraies interfaces construites en HTML/CSS/SVG ;
+- photographies réelles uniquement dans la séquence présence digitale, avec
+  source, droits, recadrages et alternative textuelle documentés ;
+- aucune preuve, statistique ou capture client fictive.
 
-## Grille et composition
+## Mouvement
 
-- Conteneur maximal : 1280 px ; grille 12 colonnes ; gouttières fluides.
-- Paragraphes courants : 52–68 caractères par ligne.
-- Une composition structurelle maximum par chapitre majeur.
-- Panneaux larges avec grands rayons ; éviter la multiplication de cartes petites et identiques.
-- Le vert est réservé aux actions prioritaires, états positifs et point de décision.
-- Le mobile devient une narration verticale ; les flux sont recomposés, pas recadrés.
-- Le rendu sans JavaScript et le mode réduit montrent directement l’état final complet.
+Trois séquences fortes seulement :
 
-## Stratégie des médias
+1. Accueil — une demande arrive, est comprise, qualifiée puis transmise.
+2. Services — démonstration contrôlée Appels + SMS.
+3. Services — galerie cinétique de présence digitale inspirée des principes de
+   profondeur, focalisation et révélation observés chez Framer.
 
-- Photographie décorative : interdite.
-- Raster généré : interdit pour les pages du site.
-- Photo, capture ou logo authentique : autorisé uniquement comme preuve sourcée et approuvée.
-- Interface illustrative : construite en code et explicitement non présentée comme un produit existant.
-- Carte sociale : générée avec les API de métadonnées Next.js à partir de la typographie et des formes code-native.
-- Les quatre anciens PNG restent historiques, classés `rejected_not_consumed` et interdits d’intégration.
+Les autres pages utilisent uniquement des transitions fonctionnelles. Chaque
+séquence possède un état final statique et respecte `prefers-reduced-motion`.
 
-## Identité de mouvement
+## Responsive
 
-- `signal-converge` : plusieurs entrées convergent vers un contexte commun.
-- `context-assemble` : les informations se rangent en panneaux lisibles.
-- `threshold-cross` : une progression franchit un seuil vers l’action suivante.
-- `human-handoff` : le contexte, la priorité et l’action passent vers la décision humaine.
-
-Deux séquences fortes maximum par page. Les micro-interactions CSS restent sobres. Aucune boucle décorative permanente, aucun scroll-jacking et aucune information portée uniquement par le mouvement.
-
-## Accessibilité visuelle
-
-Contraste WCAG 2.2 AA, focus visible indépendant du survol, tailles tactiles minimales de 44 px, aucune information portée uniquement par le vert ou le mouvement. Chaque SVG informatif possède un titre ou une description ; les décorations sont ignorées par les technologies d’assistance.
+Sur mobile, les compositions deviennent séquentielles. Aucun texte essentiel
+n’est intégré dans une image. Les contrôles restent tactiles et les
+photographies gardent leur point focal.
 
 ## Options rejetées
 
-- Les trois masters générés et leur dérivé social comme éléments consommés par le site.
-- Dashboard SaaS, verre néon et grille de métriques.
-- Portrait, logo client, témoignage, résultat ou capture de produit inventés.
-- Curseur personnalisé, parallaxe globale, glow permanent et reveal identique sur toutes les sections.
-- Copie de la palette bleue Span ou du héros portrait Sevora.
+- « Maison des signaux » abstraite ;
+- illustrations 3D ou images générées ;
+- spécialisation visuelle garage ;
+- dashboard SaaS générique ;
+- photographie décorative sans fonction explicative ;
+- copie directe d’un modèle Framer.
 
-## Validation attendue
+## Auto-évaluation provisoire
 
-La stratégie code-native est confirmée. Restent à valider : usage proposé de Lora, ajout de l’ivoire, accent bleu Startup, grammaire des lignes et panneaux, densité des compositions et intensité des quatre mouvements identitaires.
+Positionnement 2, hiérarchie 2, grille 2, typographie 1, couleurs 2, images 1,
+spécificité 2, mouvement 2, crédibilité 2, mobile 1 : **17/20**.
+Typographie, photographies et version mobile restent soumises à validation
+visuelle humaine.

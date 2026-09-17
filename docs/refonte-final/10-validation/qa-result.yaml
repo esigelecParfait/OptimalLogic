@@ -1,37 +1,28 @@
-version: "1.0"
+version: "2.0"
 site_spec:
   path: docs/refonte-final/03-strategy/site-spec.yaml
-  status: ready
+  status: ready_for_review
 release:
   repository: esigelecParfait/OptimalLogic
-  revision: 4c66ecad_plus_visual_deliverable_revision
+  branch: champion
+  revision: pending_commit
   preview_url: null
-  production_url: https://optimal-logic.com
-  audited_at: 2026-09-01
+  audited_at: 2026-09-17
 profiles: [documentation, dynamic, authenticated]
-decision: DRAFT
+decision: FAIL
 release_ready: false
-summary: {pass: 5, fail: 0, not_tested: 6, not_applicable: 0}
+summary: {pass: 2, fail: 0, not_tested: 8, not_applicable: 0}
 gates:
-  - {id: DOC-001, level: B, status: pass, evidence: "Inventaire docs/refonte-final vérifié localement"}
-  - {id: DOC-002, level: B, status: pass, evidence: "Parsing YAML et JSON exécuté localement"}
-  - {id: DOC-003, level: C, status: pass, evidence: "Identifiants de sections, offres, médias et motion contrôlés"}
-  - {id: DOC-004, level: C, status: pass, evidence: "Douze actifs code-native reliés aux compositions, au motion et aux composants"}
-  - {id: DOC-005, level: C, status: pass, evidence: "Quatre rasters historiques classés rejected_not_consumed et sans section consommatrice"}
-  - {id: APP-001, level: C, status: not_tested, evidence: null, note: Approbation utilisateur des livrables absente}
-  - {id: BIZ-001, level: C, status: not_tested, evidence: null, note: Inclusions définitives TPE/PME et Startup à valider}
-  - {id: LEG-001, level: B, status: not_tested, evidence: null, note: Conservation des données et textes légaux à revoir}
-  - {id: BCK-001, level: B, status: not_tested, evidence: null, note: Schéma Supabase et RLS non versionnés}
-  - {id: IMP-001, level: C, status: not_tested, evidence: null, note: Refonte non implémentée par conception à cette étape}
-  - {id: VIS-001, level: C, status: not_tested, evidence: null, note: Tokens, densité des compositions et intensité du mouvement attendent la revue humaine}
-visual_review:
-  applicable: true
-  scores: {}
-  total: null
+  - {id: SPEC-001, level: B, status: pass, evidence: "site-spec mis à jour pour trois offres et backend protégé"}
+  - {id: MOT-001, level: C, status: pass, evidence: "trois séquences et reduced-motion documentés"}
+  - {id: MAP-001, level: B, status: not_tested, note: "codes BDD des trois présentations non vérifiés"}
+  - {id: BCK-001, level: B, status: not_tested, note: "non-régression backend à prouver après implémentation frontend"}
+  - {id: IMP-001, level: C, status: not_tested, note: "refonte non implémentée"}
+  - {id: VIS-001, level: C, status: not_tested, note: "validation visuelle humaine absente"}
+  - {id: MED-001, level: B, status: not_tested, note: "droits des photographies non confirmés"}
+  - {id: ACC-001, level: C, status: not_tested, note: "accessibilité et reduced-motion non testés dans l'application"}
+  - {id: REG-001, level: B, status: not_tested, note: "contact, réservation, connexion et espaces privés non testés"}
+  - {id: LEG-001, level: B, status: not_tested, note: "conservation et textes légaux à revoir"}
 approvals:
-  client_preview: {approved: false, approved_by: null, approved_at: null}
-  production: {authorized: false, authorized_by: null, authorized_at: null}
-delivery_artifacts: []
-reservations:
-  - Le résultat concerne la cohérence du dossier, pas la qualité d'un site non implémenté.
-  - Toute décision de release restera FAIL tant que les contrôles B et C ne passent pas.
+  visual: {approved: false}
+  production: {authorized: false}

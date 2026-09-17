@@ -2,13 +2,14 @@
 
 Site public, espaces connectés et outils opérationnels OptimalLogic.
 
-La refonte premium V2 est préparée sur `feat/refonte-premium-v2`. La branche
-`main` reste la version stable tant que la refonte n'a pas reçu de validation
-humaine et d'autorisation de mise en production.
+La refonte premium est préparée sur `champion`. La branche `main` reste la
+version stable tant que la refonte n'a pas reçu de validation humaine, une QA
+PASS et une autorisation de mise en production.
 
-## Système V2 transféré
+## Dossier de refonte
 
-- dossier directeur : `docs/refonte-v2/` ;
+- dossier directeur : `docs/refonte-final/` ;
+- `docs/refonte-v2/` : historique uniquement ;
 - tokens : `design-system/foundation-tokens.json` ;
 - primitives : `components/primitives/` ;
 - 28 variantes de blocs : `components/blocks/` ;
@@ -18,11 +19,11 @@ humaine et d'autorisation de mise en production.
 - showroom interne : `/showroom` ;
 - Quality Gate : `.github/workflows/quality.yml`.
 
-Les pages publiques principales consomment désormais ces fondations. Les trois visuels de
-la refonte sont utilisés sur l’accueil, les services et le contact. La page Tarifs publie
-cinq codes d’offres et lit leurs noms et montants depuis Supabase, sans prix de secours.
-Le dashboard client a été retiré du parcours : `/espace-client` mène directement au
-support authentifié.
+La spécification cible trois offres : Présence digitale, Accueil & qualification
+par SMS, Accueil & qualification par appels + SMS. La configuration backend ne
+doit pas être modifiée : les noms et prix restent lus depuis Supabase par le
+mécanisme existant, sans valeur de secours codée en dur. Les trois animations
+fortes sont réservées à l’Accueil et aux Services.
 
 ## Installation
 

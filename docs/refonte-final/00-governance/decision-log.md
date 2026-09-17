@@ -1,21 +1,23 @@
-# Journal de décisions
+# Journal des décisions
 
-Statut : `ready_for_review`
+| ID | Décision | Statut |
+|---|---|---|
+| DEC-001 | La refonte est préparée sur `champion`; `main` reste protégée. | Confirmée |
+| DEC-002 | Le catalogue public contient trois offres : Présence digitale, Accueil & qualification par SMS, Accueil & qualification par appels + SMS. | Confirmée |
+| DEC-003 | Le backend et la configuration des offres ne sont pas modifiés. Les noms et prix continuent de venir de la BDD via le contrat existant. | Verrouillée |
+| DEC-004 | Les contenus frontend s’associent aux codes existants après vérification; aucun code BDD n’est inventé. | Confirmée |
+| DEC-005 | La cible est l’ensemble des entreprises, notamment commerces et TPE/PME, sans spécialisation garage. | Confirmée |
+| DEC-006 | Pages principales : Accueil, Services, Offres, Prise de rendez-vous et Contact. `/tarifs` reste compatible avec le libellé Offres. | Confirmée |
+| DEC-007 | `Connexion` est visible dans le header. | Confirmée |
+| DEC-008 | Trois animations fortes : demande qualifiée sur Accueil; appels + SMS et présence digitale sur Services. | Confirmée |
+| DEC-009 | Les photographies réelles, licenciées et sourcées sont autorisées dans l’animation présence digitale. | Confirmée |
+| DEC-010 | Palette : `#0B0D0F`, `#15191D`, `#F1F0EB`, `#9CA3AA`, `#315866`, `#66877D`, `#2A3035`. | Verrouillée |
+| DEC-011 | Appels et SMS sont au cœur de l’accueil automatisé; aucune offre n’est présentée comme illimitée. | Confirmée |
+| DEC-012 | Espaces privés, API, authentification et intégrations existantes sont hors périmètre de modification. | Verrouillée |
 
-| ID      | Décision                                                                                                                                                                                                                                                                                                  | Origine                                        | État      |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | --------- |
-| DEC-001 | La programmation sera réalisée plus tard par Codex à partir des livrables approuvés.                                                                                                                                                                                                                      | Instruction utilisateur                        | Confirmée |
-| DEC-002 | `main@af4dc00` est la référence fonctionnelle saine ; `feat/refonte-final` porte la préparation.                                                                                                                                                                                                          | Git + instruction utilisateur                  | Confirmée |
-| DEC-003 | Les documents Claude sont exclus ; les skills utilisées sont des skills ChatGPT installées.                                                                                                                                                                                                               | Instruction utilisateur                        | Confirmée |
-| DEC-004 | Span et Sevora fournissent une structure graphique, pas des contenus ni un modèle à copier.                                                                                                                                                                                                               | Instruction utilisateur                        | Confirmée |
-| DEC-005 | Le catalogue public contient une offre Commerce, deux TPE/PME et deux Startup.                                                                                                                                                                                                                            | Instruction utilisateur                        | Confirmée |
-| DEC-006 | Les codes publics sont `commerce_intelligent`, `tpe_pme_croissance`, `tpe_pme_performance`, `startup_validation`, `startup_launch`.                                                                                                                                                                       | Vérification utilisateur + historique Supabase | Confirmée |
-| DEC-007 | `nom_offre`, `prix` et `prix_abonnement` proviennent de Supabase, sans prix de secours.                                                                                                                                                                                                                   | Instruction utilisateur                        | Confirmée |
-| DEC-008 | Aucun dashboard public ; le support et le compte privés restent protégés.                                                                                                                                                                                                                                 | Instruction utilisateur                        | Confirmée |
-| DEC-009 | L'accompagnement mensuel est facultatif.                                                                                                                                                                                                                                                                  | Décision commerciale utilisateur               | Confirmée |
-| DEC-010 | Les livrables sont produits et poussés avant tout prompt d'implémentation.                                                                                                                                                                                                                                | Protocole utilisateur                          | Confirmée |
-| DEC-011 | La direction visuelle d’OptimalLogic repose sur la typographie expressive, les compositions d’interfaces, les schémas sémantiques et un mouvement propre à la marque. Les photographies décoratives et rasters générés sont exclus ; un média authentique reste possible uniquement comme preuve sourcée. | Instruction utilisateur du 1er septembre 2026  | Confirmée |
-| DEC-012 | La liste des paquets Node.js est approuvée : socle fonctionnel conservé, six dépendances d’exécution et cinq dépendances de développement autorisées, `@calcom/embed-react` retiré.                                                                                                                       | Validation utilisateur du 1er septembre 2026   | Confirmée |
-| DEC-013 | Next.js et `eslint-config-next` passent à `16.3.4` afin de corriger les vulnérabilités élevées détectées sur `16.2.6`.                                                                                                                                                                                    | Validation utilisateur du 1er septembre 2026   | Confirmée |
+## À vérifier sans modifier le backend
 
-Une ligne confirmée ne peut être modifiée par une skill. Toute nouvelle décision structurante doit être ajoutée ici puis validée par l'utilisateur.
+- correspondance entre les trois offres frontend et les codes déjà présents en BDD ;
+- volumes inclus et dépassements SMS/minutes avant affichage ;
+- droits et hébergement des photographies ;
+- validation visuelle, responsive et accessibilité.
