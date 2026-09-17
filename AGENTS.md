@@ -1,7 +1,7 @@
 # Instructions OptimalLogic
 
 La source de vérité de la refonte est `docs/refonte-final/`.
-`docs/refonte-v2/` est historique.
+L'ancien dossier `docs/refonte-v2/` a été supprimé et ne doit pas être recréé.
 
 ## Contraintes verrouillées
 

@@ -331,3 +331,14 @@ Pour ajouter une variante :
 5. ajouter un cas explicite dans `/showroom` ;
 6. documenter la variante dans ce fichier et dans le changelog ;
 7. vérifier le clavier, le responsive et `npm run check`.
+
+## Structure et vérification
+
+- Les variantes d'une même famille restent regroupées dans leur fichier
+  `*Blocks.tsx` et sont réexportées par `components/blocks/index.ts`.
+- Les contenus de démonstration restent dans `app/showroom/showroom-data.ts` et
+  ne constituent jamais une preuve ou un contenu client.
+- La sélection finale découle du `site-spec`, de la hiérarchie du contenu et
+  des contraintes responsive, jamais du seul effet visuel.
+- Avant réutilisation, exécuter les contrôles statiques puis les tests
+  Playwright prévus dans `docs/QUALITY-CONTROLS.md`.

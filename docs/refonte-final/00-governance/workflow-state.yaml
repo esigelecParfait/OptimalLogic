@@ -24,10 +24,9 @@ stages:
   - {id: qa, status: not_tested}
   - {id: handoff, status: blocked}
 blockers:
-  - {id: offer_code_mapping, description: Associer les trois présentations frontend aux codes BDD existants sans modifier la configuration, affects: [blueprint, implementation]}
   - {id: photo_rights, description: Sélectionner et licencier les photographies de présence digitale, affects: [assets, visual_validation]}
   - {id: usage_pricing, description: Confirmer volumes et dépassements SMS/minutes, affects: [offer_copy]}
   - {id: implementation_missing, description: Aucun rendu applicatif de cette nouvelle spécification n'existe encore, affects: [qa, handoff]}
 notes:
   - Aucun fichier backend, Supabase, API, RLS ou configuration d'offres ne doit être modifié.
-  - docs/refonte-v2 est historique.
+  - Le dossier historique docs/refonte-v2 a été retiré.

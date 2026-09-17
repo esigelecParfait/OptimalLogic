@@ -17,7 +17,7 @@ Statut : `ready_for_review`
 - constellation des trois audiences ;
 - handoff vers la décision humaine ;
 - clarification du contexte et séquence de qualification ;
-- flux Commerce, TPE/PME et Startup ;
+- flux Commerce, TPE/PME et entreprises de services ;
 - seuil de contact ;
 - carte sociale générée par `ImageResponse`.
 
@@ -27,17 +27,14 @@ Tous ces actifs possèdent un état statique complet, une variante mobile et un 
 
 Les fichiers suivants ne doivent pas être copiés dans `public/`, importés par un composant ou utilisés comme fallback :
 
-- `generated/home-signal-hero-v1.png` ;
-- `generated/services-context-v1.png` ;
-- `generated/contact-threshold-v1.png` ;
-- `generated/social-card-v1.png`.
+- les quatre anciens rasters générés, désormais supprimés du dépôt.
 
 Ils restent dans le dossier uniquement pour conserver l’historique de la décision.
 
 ## À valider
 
 1. Ajout de la surface ivoire `#F2F0E8`.
-2. Accent bleu froid `#789BFF` limité au chapitre Startup.
+2. Intensité et usage exacts de l'accent bronze `#9A8060`.
 3. Lora comme police éditoriale, auto-hébergée par Next.js si retenue.
 4. Densité des lignes, nœuds, annotations et panneaux.
 5. Intensité des quatre mouvements identitaires.

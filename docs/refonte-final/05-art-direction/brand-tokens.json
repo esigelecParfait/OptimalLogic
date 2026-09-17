@@ -5,10 +5,10 @@
     "concept": "Système éditorial opérationnel"
   },
   "color": {
-    "background": {"canvas": "#0B0D0F", "surface": "#15191D"},
-    "text": {"primary": "#F1F0EB", "secondary": "#9CA3AA"},
-    "border": {"subtle": "#2A3035", "focus": "#66877D"},
-    "accent": {"primary": "#315866", "success": "#66877D"}
+    "background": {"canvas": "#0D0D0C", "surface": "#191918"},
+    "text": {"primary": "#F1EFE9", "secondary": "#A5A29B"},
+    "border": {"subtle": "#31312E", "focus": "#9A8060"},
+    "accent": {"primary": "#9A8060", "success": "#9A8060"}
   },
   "typography": {
     "sans": ["Inter", "system-ui", "sans-serif"],

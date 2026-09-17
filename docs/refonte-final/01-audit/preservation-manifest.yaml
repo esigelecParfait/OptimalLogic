@@ -13,10 +13,10 @@ rules:
   - {scope: "app/api/chat/[clientId]/**", decision: protect, reason: Assistant client contextualisé}
   - {scope: app/api/chat/public/route.ts, decision: rewrite, reason: Aligner offres et promesses publiques}
   - {scope: app/api/demandes/route.ts, decision: preserve_behavior_restyle_ui, reason: Capture de demandes existante}
-  - {scope: app/api/offres/route.ts, decision: rewrite, reason: Appliquer les cinq codes et validation BDD}
+  - {scope: app/api/offres/route.ts, decision: protect, reason: Contrat BDD existant inchangé}
   - {scope: app/(main)/page.tsx, decision: rewrite, reason: Accueil final piloté par les nouveaux livrables}
   - {scope: app/(main)/services/page.tsx, decision: rewrite, reason: Architecture et contenus finaux}
-  - {scope: app/(main)/tarifs/page.tsx, decision: rewrite, reason: Cinq offres et prix Supabase}
+  - {scope: app/(main)/tarifs/page.tsx, decision: rewrite, reason: Trois présentations frontend avec noms et prix Supabase}
   - {scope: app/(main)/contact/page.tsx, decision: rewrite, reason: Nouvelle composition avec logique préservée}
   - {scope: app/(main)/prise-de-rdv/page.tsx, decision: rewrite, reason: Nouvelle composition avec Cal préservé}
   - {scope: app/(assistant)/aide/page.tsx, decision: rewrite, reason: Expérience dédiée et reprise humaine}
@@ -26,7 +26,6 @@ rules:
   - {scope: app/showroom/**, decision: remove, reason: Outil V2 non nécessaire au site final}
   - {scope: app/comparer/**, decision: remove, reason: Comparateur interne rejeté}
   - {scope: app/preview/**, decision: remove, reason: Anciens modèles sans rôle final}
-  - {scope: docs/refonte-v2/**, decision: remove, reason: Dossier historique non autoritaire}
   - {scope: public/images/refonte-v2/**, decision: remove, reason: Actifs de la refonte rejetée}
   - {scope: .codex/skills/optimallogic-*, decision: remove, reason: Anciennes skills locales d'exécution remplacées par les skills ChatGPT et le prompt final}
   - {scope: lib/security/**, decision: protect, reason: Contrôles de sécurité existants}

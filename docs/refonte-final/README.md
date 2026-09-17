@@ -1,7 +1,7 @@
 # Refonte finale OptimalLogic
 
-Ce dossier est la source de vérité de la prochaine refonte. Il remplace
-`docs/refonte-v2/`, conservé uniquement comme historique.
+Ce dossier est la source de vérité de la prochaine refonte. L'ancien dossier
+`docs/refonte-v2/` a été retiré et reste récupérable dans Git.
 
 ## Décisions principales
 
@@ -11,7 +11,7 @@ Ce dossier est la source de vérité de la prochaine refonte. Il remplace
   backend ni de sa configuration ;
 - cible multisectorielle : entreprises, commerces et TPE/PME ;
 - Connexion dans le header ;
-- palette graphite, ivoire, bleu pétrole et vert minéral ;
+- palette graphite, ivoire et bronze sobre ;
 - trois animations fortes réparties entre Accueil et Services ;
 - photographie réelle autorisée uniquement pour la présence digitale.
 
@@ -32,7 +32,7 @@ Ce dossier est la source de vérité de la prochaine refonte. Il remplace
 
 ## Statut
 
-Les décisions de conception sont consolidées. L’implémentation reste bloquée
-tant que la correspondance des trois présentations avec les codes existants
-n’est pas vérifiée et que les photographies ne sont pas licenciées. Ce blocage
-n’autorise aucune modification du backend.
+Les décisions de conception sont consolidées et la correspondance frontend des
+trois offres est validée. L’implémentation reste bloquée tant que les
+photographies ne sont pas licenciées et que les volumes d'usage ne sont pas
+confirmés. Ce blocage n’autorise aucune modification du backend.

@@ -16,13 +16,12 @@ marque, textes ou composition distinctive.
 
 ## Palette verrouillée
 
-- fond principal : `#0B0D0F` ;
-- surface : `#15191D` ;
-- texte principal : `#F1F0EB` ;
-- texte secondaire : `#9CA3AA` ;
-- accent principal : `#315866` ;
-- validation : `#66877D` ;
-- bordures : `#2A3035`.
+- fond principal : `#0D0D0C` ;
+- surface : `#191918` ;
+- texte principal : `#F1EFE9` ;
+- texte secondaire : `#A5A29B` ;
+- accent principal : bronze `#9A8060` ;
+- bordures : `#31312E`.
 
 Les accents restent minoritaires. Aucun vert néon, glow excessif ou dégradé
 spectaculaire.

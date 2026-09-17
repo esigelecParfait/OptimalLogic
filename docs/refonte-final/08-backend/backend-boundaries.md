@@ -4,7 +4,7 @@ Statut : `ready_for_review`
 
 ## Autorisé lors de la future refonte
 
-- Corriger la liste publique des cinq codes dans le helper et `/api/offres`.
+- Conserver `/api/offres` inchangé et filtrer seulement la présentation frontend selon les trois codes validés.
 - Valider côté serveur les données Supabase et afficher un état indisponible sans prix de secours.
 - Réécrire le contexte de `/api/chat/public` avec les offres et limites approuvées.
 - Adapter les interfaces de contact, réservation, aide, connexion, support et compte sans changer leurs autorisations.

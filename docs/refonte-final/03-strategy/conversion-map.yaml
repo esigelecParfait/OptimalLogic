@@ -10,7 +10,7 @@ journeys:
     failures: [offers_unavailable, no_slots, provider_error]
     recovery: [/contact]
   - id: JOURNEY-002
-    audience: [commerce, tpe-pme, startup]
+    audience: [commerce, tpe-pme, entreprise-services]
     intent: envoyer_un_besoin
     entry: [/services, /tarifs]
     steps: [/contact]

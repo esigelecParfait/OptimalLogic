@@ -1,12 +1,12 @@
-# Audit conceptuel de `feat/refonte-final`
+# Audit conceptuel de `champion`
 
 Statut : `ready_for_review`
 
 ## Version observée
 
 - Dépôt : `esigelecParfait/OptimalLogic`
-- Branche : `feat/refonte-final`
-- Révision : `ed260a45558242a02ea06ca57f13567ef4af8860`
+- Branche : `champion`
+- Révision documentaire : mise à jour après synchronisation du modèle
 - Référence saine : `main@af4dc007ca7a75b8634c7d5e0e6ed6efff10f449`
 - Worktree au début de l'audit : propre
 - Écart : 307 fichiers, environ 25 266 ajouts et 14 921 suppressions
@@ -21,14 +21,14 @@ La reconstruction finale ne doit donc pas prendre l'état applicatif actuel comm
 
 1. Le catalogue applicatif observé contient encore cinq présentations historiques. La décision actuelle impose trois présentations frontend, sans modification du backend ni invention de codes BDD.
 2. Les pages publiques de l'essai V2 ne découlent pas d'un dossier final approuvé.
-3. `docs/refonte-v2/`, `/showroom`, `/comparer` et `/preview/**` sont des artefacts de travail, pas des pages finales.
+3. `/showroom`, `/comparer` et `/preview/**` sont des artefacts de travail, pas des pages finales.
 4. Des modifications massives touchent administration, authentification, sécurité et intégrations sans nécessité pour une refonte visuelle.
 5. Aucun dossier `supabase/migrations/` ne versionne le schéma réel ni les politiques RLS.
 6. Des helpers utiles existent dans l'essai V2, mais leur présence ne vaut pas approbation et ils doivent être réévalués par contrat.
 
 ## Éléments fiables à conserver
 
-- Logo et palette codés sur `main`, avec le vert primaire existant.
+- Logo validé et palette graphite, ivoire et bronze documentée dans le dossier final.
 - Navigation publique Services, Tarifs, Contact et prise de rendez-vous.
 - Next.js App Router, TypeScript, Tailwind et polices locales existantes.
 - Supabase, Cal.com, Anthropic, Brevo/Google et leurs routes serveur existantes.
@@ -39,14 +39,13 @@ La reconstruction finale ne doit donc pas prendre l'état applicatif actuel comm
 ## Éléments à réécrire
 
 - Toutes les compositions et pages marketing finales.
-- Présentation frontend des trois offres, après association vérifiée aux codes existants.
+- Présentation frontend des trois offres, selon l'association validée aux codes existants.
 - Tokens, primitives, blocs et motion réellement consommés par les pages.
 - SEO public, tout en conservant les routes privées `noindex`.
 - Consignes du dépôt devenues contradictoires avec la décision commerciale.
 
 ## Éléments à retirer de la version finale
 
-- Documents et médias `refonte-v2` comme sources actives.
 - Showroom, comparateur et previews s'ils ne servent plus un test automatique approuvé.
 - Composants génériques non utilisés par une route finale.
 - Curseur personnalisé, effets globaux ou animations sans rôle.

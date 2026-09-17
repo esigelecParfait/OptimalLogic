@@ -12,9 +12,9 @@ business:
     - {id: tpe-pme, name: TPE et PME, problem: Qualification et transmission irrégulières des demandes}
   value_proposition: Clarifier la présence digitale et prendre en charge les demandes entrantes pour les rendre exploitables.
   offers:
-    - {id: digital_presence, public_name: "Présence digitale", database_code: existing_code_to_map}
-    - {id: reception_sms, public_name: "Accueil & qualification par SMS", database_code: existing_code_to_map}
-    - {id: reception_calls_sms, public_name: "Accueil & qualification par appels + SMS", database_code: existing_code_to_map}
+    - {id: digital_presence, public_name: "Présence digitale", database_code: commerce_intelligent}
+    - {id: reception_sms, public_name: "Accueil & qualification par SMS", database_code: tpe_pme_croissance}
+    - {id: reception_calls_sms, public_name: "Accueil & qualification par appels + SMS", database_code: tpe_pme_performance}
   catalog_invariants:
     count: 3
     backend_change: forbidden
@@ -45,7 +45,7 @@ content:
     - Prix ou noms d'offres codés en dur.
 brand:
   logo_status: locked
-  palette: ["#0B0D0F", "#15191D", "#F1F0EB", "#9CA3AA", "#315866", "#66877D", "#2A3035"]
+  palette: ["#0D0D0C", "#191918", "#F1EFE9", "#A5A29B", "#9A8060", "#31312E"]
   visual_reference: Framer
   real_photography: allowed_with_rights_for_digital_presence
   generated_raster: forbidden
@@ -56,6 +56,5 @@ quality:
   accessibility_target: WCAG 2.2 AA
   viewports: [320, 390, 768, 1024, 1440]
 open_questions:
-  - {id: Q-001, question: Associer les trois présentations frontend aux codes existants sans changer la BDD, blocking: true}
   - {id: Q-002, question: Confirmer volumes inclus et dépassements SMS/minutes, blocking: true}
   - {id: Q-003, question: Valider les photographies et leurs droits, blocking: true}

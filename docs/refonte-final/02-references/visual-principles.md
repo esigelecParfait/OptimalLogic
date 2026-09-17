@@ -7,7 +7,7 @@ Statut : `ready_for_review`
 3. Employer une grille asymétrique 7/5 ou 5/7 pour relier texte et système visuel, pas une succession de cartes identiques.
 4. Donner à chaque grande section une seule question à résoudre et une prochaine action claire.
 5. Montrer les flux, interfaces illustratives et métaphores en HTML/SVG/CSS ; ne pas dépendre d’images décoratives.
-6. Limiter les accents : vert de marque pour l'action, bleu froid seulement pour la validation Startup.
+6. Limiter l'accent bronze aux actions, repères et états nécessitant une attention claire.
 7. Utiliser les panneaux arrondis comme chapitres, pas autour de chaque phrase.
 8. Introduire des variations de densité maîtrisées : héros concentré, problème aéré, méthode rythmée, CTA resserré.
 9. Concevoir le mobile comme une narration verticale avec diagrammes recomposés, pas comme un desktop comprimé.

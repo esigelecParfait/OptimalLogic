@@ -9,7 +9,7 @@ PASS et une autorisation de mise en production.
 ## Dossier de refonte
 
 - dossier directeur : `docs/refonte-final/` ;
-- `docs/refonte-v2/` : historique uniquement ;
+- l'ancien dossier `docs/refonte-v2/` a été supprimé et reste récupérable dans Git ;
 - tokens : `design-system/foundation-tokens.json` ;
 - primitives : `components/primitives/` ;
 - 28 variantes de blocs : `components/blocks/` ;
@@ -30,8 +30,8 @@ fortes sont réservées à l’Accueil et aux Services.
 La bibliothèque frontend a été synchronisée depuis
 `optimallogic-site-template@49cc0d6`. Elle apporte les 8 thèmes, les
 compositions, les systèmes motion/3D/visuels, les variantes Auth et espace
-client ainsi que leurs showrooms. Le périmètre exact et les exclusions sont
-documentés dans `docs/TEMPLATE-SYNC.md`.
+client ainsi que leurs showrooms. Seuls les éléments retenus par
+`docs/refonte-final/` doivent être consommés par la refonte.
 
 ## Installation
 
