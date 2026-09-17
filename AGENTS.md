@@ -1,31 +1,34 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+# Instructions OptimalLogic
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+La source de vérité de la refonte est `docs/refonte-final/`.
+`docs/refonte-v2/` est historique.
 
-# OptimalLogic V2 rules
+## Contraintes verrouillées
 
-1. Work from the directive pack in `docs/refonte-v2/`; never remove an
-   existing functional route without explicit approval.
-2. For a rebuild, read `.codex/skills/optimallogic-site-rebuild/SKILL.md`
-   before implementation. Use the frontend, visual-assets and motion skills
-   for their respective scopes.
-3. Treat `design-system/foundation-tokens.json` as the source for reusable
-   visual tokens and run `npm run tokens` after changing it.
-4. Generic primitives and blocks must not contain OptimalLogic copy, prices,
-   testimonials or business rules.
-5. The public catalogue contains exactly five approved database codes:
-   `commerce_intelligent`, `commerce_premium`, `tpe_pme_croissance`,
-   `tpe_pme_performance` and `startup_launch`. Read `nom_offre`, `prix` and
-   `prix_abonnement` from Supabase; never add a hard-coded price fallback.
-6. Preserve API routes, Supabase access, authentication, admin pages, client
-   spaces and integrations unless the task explicitly changes them.
-7. Do not invent customers, results, certifications, screenshots or product
-   capabilities.
-8. Keep keyboard access, visible focus, mobile behavior and
-   `prefers-reduced-motion` support.
-9. Keep `/showroom`, `/preview/**` and `/comparer` out of the production
-   navigation and non-indexable.
-10. Run `npm run check:all` before requesting a merge. Do not weaken a test or
-    quality threshold merely to make the gate pass.
+- Le catalogue public contient exactement trois offres : Présence digitale,
+  Accueil & qualification par SMS, Accueil & qualification par appels + SMS.
+- Ne modifier ni le backend, ni Supabase, ni les routes API, ni les politiques
+  RLS, ni la configuration existante des offres.
+- Conserver la récupération actuelle de `nom_offre`, `prix` et
+  `prix_abonnement` depuis la BDD. Aucun prix ou nom de secours codé en dur.
+- Les adaptations du catalogue sont frontend uniquement et doivent se brancher
+  sur le contrat existant sans changer sa forme.
+- Conserver les espaces privés, l’administration, l’authentification et les API.
+- Afficher `Connexion` dans le header public.
+- Ne pas créer de dashboard public.
+- Conserver `/tarifs` comme route technique compatible et afficher le libellé
+  public « Offres ».
+- Réserver les trois animations fortes à l’Accueil et aux Services.
+- Ne pas publier ni fusionner vers `main` sans QA PASS, validation visuelle et
+  autorisation explicite.
+
+## Ordre de lecture
+
+1. `docs/refonte-final/03-strategy/site-spec.yaml`
+2. `docs/refonte-final/04-content/offer-content.yaml`
+3. `docs/refonte-final/05-art-direction/`
+4. `docs/refonte-final/06-assets/asset-manifest.yaml`
+5. `docs/refonte-final/07-motion/`
+6. `docs/refonte-final/09-implementation/`
+7. `docs/refonte-final/10-validation/`
+8. `docs/refonte-final/11-handoff/`

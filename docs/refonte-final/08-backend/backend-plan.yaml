@@ -33,7 +33,7 @@ modules:
     action: protect
   - id: assistant-ai
     reason: Une aide publique et un support privé sont présents.
-    acceptance: Contexte public aligné sur cinq offres, limites visibles, reprise humaine, secrets serveur et isolation privée.
+    acceptance: Backend préservé sans modification; toute évolution éditoriale reste frontend et les secrets demeurent côté serveur.
     tests: [public_answer, exact_offer_codes, provider_failure, rate_limit, private_isolation, human_fallback]
     action: rewrite_public_context_protect_private
   - id: analytics-consent
@@ -51,7 +51,7 @@ data_model:
   migrations: []
   rls_policies: []
 routes:
-  - {path: /api/offres, actors: [public], reads: [offres], change: exact_five_codes_and_server_validation}
+  - {path: /api/offres, actors: [public], reads: [offres], change: preserve_unchanged}
   - {path: /api/demandes, actors: [public], writes: [demandes], change: preserve_contract_and_test}
   - {path: /api/cal/slots, actors: [public], integration: Cal.com, change: preserve}
   - {path: /api/cal/bookings, actors: [public], integration: Cal.com, change: preserve}

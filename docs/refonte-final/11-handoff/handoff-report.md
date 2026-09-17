@@ -4,14 +4,22 @@
 
 **BLOCKED**
 
-## Motif
+## État
 
-Les livrables ont été adaptés à la direction code-native, mais l'utilisateur ne les a pas encore approuvés. La QA n'a pas de preuve d'implémentation, de rendu statique et animé, d'intégrations réelles ou de RLS.
+Les livrables sont corrigés pour les trois offres, la cible entreprise, la
+palette, la photographie réelle, les trois animations et Connexion dans le
+header. Le contrat existant de récupération des noms et prix depuis la BDD est
+explicitement protégé.
 
-## Ce qui peut être fait maintenant
+## Blocages avant implémentation
 
-Étudier, commenter, corriger et approuver les livrables de `docs/refonte-final/`.
+- associer les trois présentations frontend aux codes BDD existants ;
+- confirmer les volumes et dépassements SMS/minutes ;
+- choisir des photographies licenciées ;
+- obtenir l’approbation des livrables mis à jour.
 
-## Ce qui ne peut pas être fait maintenant
+## Interdictions
 
-Donner le prompt à Codex, programmer la refonte, installer les dépendances, modifier Supabase, fusionner dans `main` ou déployer.
+Ne pas modifier le backend, Supabase, les routes API, les politiques RLS ou la
+configuration des offres pour contourner ces blocages. Ne pas fusionner vers
+`main` et ne pas déployer sans QA PASS et autorisation explicite.

@@ -1,18 +1,16 @@
-# Checklist de revue utilisateur
+# Validation requise
 
-- [ ] Valider ou rejeter le concept détaillé « Maison des signaux code-native ».
-- [ ] Valider l'ivoire, l'accent bleu Startup et Lora.
-- [ ] Valider la grammaire des lignes, nœuds, panneaux et interfaces.
-- [ ] Valider la densité des douze compositions code-native.
-- [ ] Valider l'intensité des quatre mouvements identitaires.
-- [ ] Confirmer que les quatre PNG historiques restent rejetés et non consommés.
-- [ ] Valider la promesse principale et le ton.
-- [ ] Valider les contenus proposés pour les deux offres TPE/PME.
-- [ ] Valider les contenus proposés pour les deux offres Startup.
-- [ ] Confirmer qu'aucune section de preuves ne doit être ajoutée sans actifs réels.
-- [ ] Confirmer le lien discret ou l'absence de lien vers la connexion privée.
-- [ ] Fournir ou planifier la vérification du schéma Supabase et des RLS.
-- [ ] Faire relire les durées de conservation et les pages légales.
-- [x] Valider ou corriger la liste des paquets Node.js — approuvée par `DEC-012`.
-
-Une case non cochée reste une décision ouverte ; elle ne peut pas être transformée en approbation par l'agent.
+- [ ] Vérifier la correspondance des trois offres avec les codes BDD existants.
+- [ ] Confirmer que noms et prix proviennent toujours de la BDD.
+- [ ] Prouver qu’aucun fichier backend ou de configuration n’a changé.
+- [ ] Valider la palette et le système éditorial.
+- [ ] Valider les trois animations sur bureau et mobile.
+- [ ] Valider les droits et recadrages des photographies.
+- [ ] Tester `prefers-reduced-motion`.
+- [ ] Tester les pages à 320, 390, 768, 1024 et 1440 px.
+- [ ] Tester clavier, focus, zoom 200 %, contrastes et lecteur d’écran de fumée.
+- [ ] Tester les états chargement, erreur et offre indisponible.
+- [ ] Tester contact, réservation, connexion, espaces privés et administration.
+- [ ] Exécuter lint, typecheck, tests et build sur la révision finale.
+- [ ] Obtenir la validation visuelle humaine.
+- [ ] Obtenir l’autorisation explicite avant toute mise en production.

@@ -8,4 +8,4 @@ Statut : `ready_for_review`
 4. Construire par lots : fondations, pages publiques, données/offres, parcours interactifs, SEO, QA.
 5. Comparer chaque lot à `protected-scope.yaml` et arrêter en cas de modification métier imprévue.
 
-Ne pas reprendre automatiquement `docs/refonte-v2`, les quatre rasters historiques de `06-assets/generated/`, les anciens médias, previews, comparateur, showroom, composants génériques inutilisés ou catalogue contenant `commerce_premium`. Chaque lot doit être un commit autonome et récupérable ; aucune migration destructive n'est autorisée.
+Ne pas reprendre automatiquement `docs/refonte-v2`, les quatre rasters historiques de `06-assets/generated/`, les anciens médias, previews, comparateur, showroom ou composants génériques inutilisés. Chaque lot doit être un commit autonome et récupérable ; aucune migration destructive ni modification backend n'est autorisée.

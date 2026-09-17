@@ -1,21 +1,18 @@
-# Checklist d'acceptation future
+# Critères d’acceptation
 
-Statut : `ready_for_review`
-
-- [ ] Les livrables ont une approbation utilisateur explicite.
-- [ ] La reconstruction part de la référence saine et respecte le périmètre protégé.
-- [ ] Les six routes publiques consomment leurs contenus, actifs code-native et compositions.
-- [ ] Les cinq codes sont exacts ; `commerce_premium` est absent du catalogue public.
-- [ ] `nom_offre`, `prix` et `prix_abonnement` viennent de Supabase sans fallback.
-- [ ] L'accompagnement mensuel est facultatif.
-- [ ] Aucun dashboard public ; support et compte privés restent fonctionnels.
-- [ ] Aucun texte ou média ne présente une preuve ou une intégration non sourcée.
-- [ ] Les douze actifs code-native sont consommés par leurs sections prévues.
-- [ ] Aucun des quatre rasters historiques n'est copié dans `public/`, importé ou utilisé comme fallback.
-- [ ] Chaque diagramme informatif reste complet sans JavaScript et possède un nom accessible.
-- [ ] Les pages restent serveur sauf les îlots explicitement listés.
-- [ ] Le mouvement respecte le budget et devient immédiat en mode réduit.
-- [ ] Les parcours privés et intégrations passent leurs tests de régression.
-- [ ] Métadonnées, robots, sitemap et carte OG code-native utilisent les API natives Next.js.
-- [ ] Tests statiques, unitaires, Playwright, responsive, accessibilité et Lighthouse sont verts.
-- [ ] Aucune fusion dans `main` ni aucun déploiement sans autorisation.
+- [ ] Le site présente exactement trois offres.
+- [ ] Les trois codes frontend ont été associés à des codes déjà présents en BDD.
+- [ ] Les noms et prix affichés proviennent toujours de `/api/offres`.
+- [ ] Aucun nom ou prix de secours n’est codé en dur.
+- [ ] Le backend, Supabase, les API et les politiques RLS n’ont pas été modifiés.
+- [ ] Une erreur BDD produit un état explicite sans valeur inventée.
+- [ ] Les textes s’adressent aux entreprises, pas uniquement aux garages.
+- [ ] Le header contient Connexion.
+- [ ] L’Accueil ne contient que l’animation principale forte.
+- [ ] Services contient la démonstration Appels + SMS et la présence digitale.
+- [ ] Les autres pages n’ont pas d’animation forte.
+- [ ] La palette verrouillée est appliquée.
+- [ ] Les photographies de production sont réelles, licenciées, sourcées et locales.
+- [ ] Les trois animations ont un équivalent `prefers-reduced-motion`.
+- [ ] Les parcours publics et privés existants passent les tests de régression.
+- [ ] Le rendu est validé aux largeurs 320, 390, 768, 1024 et 1440 px.
