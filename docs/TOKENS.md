@@ -2,20 +2,18 @@
 
 ## Rôle du fichier
 
-`design-system/foundation-tokens.json` est la source du thème global. La
-commande `npm run tokens` génère `src/styles/tokens.generated.css`, qui expose
-les variables CSS utilisées par les primitives, les blocs et les pages.
+`design-system/tokens.css` est le thème global du site. Il expose des variables
+CSS utilisables par les primitives, les blocs et les pages.
 
-Le fichier généré est importé une seule fois dans `src/styles/globals.css` :
+Le fichier est importé une seule fois dans `app/globals.css` :
 
 ```css
 /* Rend les tokens disponibles dans tout le site. */
-@import "../styles/tokens.generated.css";
+@import "../design-system/tokens.css";
 ```
 
-Une variable déclarée dans `:root` est accessible à tous les composants. Ne pas
-modifier le CSS généré directement : le JSON décrit les valeurs primitives et
-leurs rôles sémantiques.
+Une variable déclarée dans `:root` est accessible à tous les composants. Le
+fichier ne renvoie pas de JSX : il fournit des valeurs CSS au navigateur.
 
 ## Deux niveaux de couleurs
 
@@ -114,14 +112,21 @@ Avant toute modification, relever :
 
 ### 2. Modifier d'abord les valeurs globales
 
-```json
-{
-  "primitive": {
-    "color": { "accent": { "500": "#9d6b3d", "600": "#7f522d" } }
-  },
-  "semantic": {
-    "color": { "action": "{primitive.color.accent.600}" }
-  }
+```css
+:root {
+  /* Palette physique du client. */
+  --ol-accent-500: #9d6b3d;
+  --ol-accent-600: #7f522d;
+  --ol-accent-700: #623c20;
+
+  /* Les composants lisent ces rôles sémantiques. */
+  --color-action: var(--ol-accent-600);
+  --color-action-hover: var(--ol-accent-700);
+  --color-focus: var(--ol-accent-500);
+
+  /* La géométrie globale de la marque. */
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
 }
 ```
 
@@ -155,8 +160,7 @@ Une classe de bloc doit utiliser :
 Après une modification :
 
 ```powershell
-# Régénère les variables CSS, puis vérifie le projet.
-npm run tokens
+# Vérifie le lint, les types et le build de production.
 npm run check
 
 # Lance le showroom pour la vérification visuelle.

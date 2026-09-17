@@ -178,3 +178,97 @@ export function ServicesFeatured({
     </Section>
   );
 }
+
+export function ServicesRail({
+  eyebrow,
+  title,
+  description,
+  services,
+  tone = "canvas",
+  id,
+}: ServicesCommonProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <Stack gap="large">
+          <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          <div className={styles.rail}>
+            {services.map((service, index) => (
+              <ServiceCard
+                service={service}
+                index={index}
+                key={`${service.title}-${index}`}
+              />
+            ))}
+          </div>
+        </Stack>
+      </Container>
+    </Section>
+  );
+}
+
+export function ServicesBento({
+  eyebrow,
+  title,
+  description,
+  services,
+  tone = "muted",
+  id,
+}: ServicesCommonProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container size="wide">
+        <Stack gap="large">
+          <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          <div className={styles.bento}>
+            {services.map((service, index) => (
+              <div
+                className={index === 0 ? styles.bentoLead : styles.bentoItem}
+                key={`${service.title}-${index}`}
+              >
+                <ServiceCard service={service} index={index} />
+              </div>
+            ))}
+          </div>
+        </Stack>
+      </Container>
+    </Section>
+  );
+}
+
+export function ServicesIndex({
+  eyebrow,
+  title,
+  description,
+  services,
+  tone = "surface",
+  id,
+}: ServicesCommonProps) {
+  return (
+    <Section id={id} tone={tone}>
+      <Container>
+        <div className={styles.indexLayout}>
+          <BlockIntro eyebrow={eyebrow} title={title} description={description} />
+          <ol className={styles.indexList}>
+            {services.map((service, index) => (
+              <li key={`${service.title}-${index}`}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <Heading as="h3" variant="subtitle">
+                    {service.title}
+                  </Heading>
+                  <Text>{service.description}</Text>
+                </div>
+                {service.href && (
+                  <Button href={service.href} variant="text">
+                    Découvrir
+                  </Button>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </Container>
+    </Section>
+  );
+}

@@ -1,28 +1,52 @@
+/* Conteneur horizontal commun à toutes les pages. */
 .container {
+  /*
+   * La largeur prend la plus petite valeur entre :
+   * 1. la largeur disponible moins les marges mobiles ;
+   * 2. la largeur maximale définie par --container-width.
+   */
   width: min(
-    calc(100% - var(--ol-layout-gutter-mobile) - var(--ol-layout-gutter-mobile)),
-    var(--container-size)
+    calc(100% - var(--gutter-mobile) - var(--gutter-mobile)),
+    var(--container-width)
   );
-  max-width: calc(
-    100vw - var(--ol-layout-gutter-mobile) - var(--ol-layout-gutter-mobile)
-  );
+
+  /* Centre horizontalement le conteneur. */
   margin-inline: auto;
 }
 
+/* Variante étroite, destinée aux longs textes. */
 .containerText {
-  --container-size: var(--layout-text);
+  --container-width: var(--container-text);
 }
 
+/* Variante standard, utilisée pour la majorité des sections. */
 .containerContent {
-  --container-size: var(--layout-content);
+  --container-width: var(--container-content);
 }
 
+/* Variante large, adaptée aux médias et aux grandes compositions. */
 .containerWide {
-  --container-size: var(--layout-wide);
+  --container-width: var(--container-wide);
 }
 
+/* Ajoute un espacement vertical régulier à chaque grande section. */
 .section {
   padding-block: var(--space-section);
+}
+
+/* Fond principal du site. */
+.sectionCanvas {
+  background: var(--color-canvas);
+}
+
+/* Fond blanc ou surface principale. */
+.sectionSurface {
+  background: var(--color-surface);
+}
+
+/* Fond secondaire légèrement différencié. */
+.sectionMuted {
+  background: var(--color-surface-muted);
 }
 
 .sectionOpen {
@@ -49,259 +73,261 @@
   background: var(--surface-immersive);
 }
 
-.toneCanvas {
-  background: var(--color-canvas);
-  color: var(--color-text);
-}
-
-.toneSurface {
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.toneMuted {
-  background: var(--color-surface-muted);
-  color: var(--color-text);
-}
-
-.toneInverse {
-  /*
-   * Réaffecte les couleurs sémantiques dans toute la section sombre.
-   * Les primitives Text et Eyebrow restent ainsi lisibles sans connaître
-   * directement la couleur de fond de leur parent.
-   */
-  --color-text: var(--color-inverse-text);
-  --color-text-muted: var(--color-inverse-text-muted);
-  --color-border: rgb(255 255 255 / 0.16);
-  --color-border-strong: rgb(255 255 255 / 0.32);
-
-  background: var(--color-inverse-surface);
-  color: var(--color-inverse-text);
-}
-
+/* Empile les enfants verticalement. */
 .stack {
   display: flex;
-  min-width: 0;
   flex-direction: column;
+
+  /* La valeur sera définie par une classe de variante ci-dessous. */
   gap: var(--stack-gap);
 }
 
-.gapSm {
-  --stack-gap: var(--ol-space-3);
+/* Petit espacement entre les éléments. */
+.gapSmall {
+  --stack-gap: var(--space-3);
 }
 
-.gapMd {
-  --stack-gap: var(--ol-space-5);
+/* Espacement utilisé par défaut. */
+.gapMedium {
+  --stack-gap: var(--space-5);
 }
 
-.gapLg {
-  --stack-gap: var(--ol-space-7);
+/* Grand espacement. */
+.gapLarge {
+  --stack-gap: var(--space-7);
 }
 
-.gapXl {
-  --stack-gap: var(--ol-space-9);
+/* Très grand espacement. */
+.gapExtraLarge {
+  --stack-gap: var(--space-9);
 }
 
-.cluster {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--cluster-gap);
+/*
+ * À partir de 48rem, généralement une tablette,
+ * les marges horizontales deviennent plus grandes.
+ */
+@media (min-width: 48rem) {
+  .container {
+    width: min(
+      calc(100% - var(--gutter-tablet) - var(--gutter-tablet)),
+      var(--container-width)
+    );
+  }
 }
 
-.clusterStart {
-  justify-content: flex-start;
+/*
+ * À partir de 80rem, généralement un grand écran,
+ * nous utilisons les marges prévues pour ordinateur.
+ */
+@media (min-width: 80rem) {
+  .container {
+    width: min(
+      calc(100% - var(--gutter-desktop) - var(--gutter-desktop)),
+      var(--container-width)
+    );
+  }
 }
 
-.clusterCenter {
-  justify-content: center;
-}
-
-.clusterEnd {
-  justify-content: flex-end;
-}
-
-.clusterBetween {
-  justify-content: space-between;
-}
-
-.clusterAlignStart {
-  align-items: flex-start;
-}
-
-.clusterAlignCenter {
-  align-items: center;
-}
-
-.clusterAlignEnd {
-  align-items: flex-end;
-}
-
-.clusterAlignStretch {
-  align-items: stretch;
-}
-
+/* Style commun à tous les titres. */
 .heading {
-  min-width: 0;
-  max-width: 18ch;
+  /* Utilise la police prévue pour les grands titres. */
   font-family: var(--font-display);
-  font-weight: var(--ol-font-weight-regular);
-  letter-spacing: var(--ol-font-tracking-tight);
-  overflow-wrap: anywhere;
+
+  /* Évite une graisse excessive par défaut. */
+  font-weight: var(--font-weight-regular);
+
+  /* Réduit légèrement l’espace entre les lettres. */
+  letter-spacing: var(--tracking-tight);
+
+  /* Limite la largeur afin d’éviter les titres trop étirés. */
+  max-width: 18ch;
 }
 
+/* Très grand titre, généralement utilisé dans un hero. */
 .headingDisplay {
-  font-size: var(--ol-font-size-3xl);
-  line-height: var(--ol-font-line-tight);
+  font-size: var(--text-display);
+  line-height: var(--line-height-tight);
 }
 
-.headingHero {
-  max-width: 14ch;
-  font-size: var(--ol-font-size-4xl);
-  line-height: 0.96;
-  text-wrap: balance;
-}
-
+/* Titre principal d’une section. */
 .headingTitle {
-  font-size: var(--ol-font-size-2xl);
-  line-height: var(--ol-font-line-heading);
+  font-size: var(--text-title);
+  line-height: var(--line-height-heading);
 }
 
+/* Petit titre de carte ou de sous-section. */
 .headingSubtitle {
   font-family: var(--font-body);
-  font-size: var(--ol-font-size-xl);
-  font-weight: var(--ol-font-weight-semibold);
-  letter-spacing: var(--ol-font-tracking-normal);
-  line-height: var(--ol-font-line-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  line-height: var(--line-height-heading);
 }
 
+/* Style commun aux paragraphes. */
 .text {
-  min-width: 0;
+  /*
+   * "ch" correspond approximativement à la largeur d’un caractère.
+   * Cette limite conserve des lignes faciles à lire.
+   */
   max-width: 68ch;
-  overflow-wrap: anywhere;
 }
 
+/* Paragraphe standard. */
 .textBody {
   color: var(--color-text-muted);
-  font-size: var(--ol-font-size-md);
+  font-size: var(--text-md);
 }
 
+/* Texte d’introduction, plus visible. */
 .textLead {
   color: var(--color-text-muted);
-  font-size: var(--ol-font-size-lg);
+  font-size: var(--text-lg);
 }
 
+/* Petit texte informatif. */
 .textSmall {
   color: var(--color-text-muted);
-  font-size: var(--ol-font-size-sm);
+  font-size: var(--text-sm);
 }
 
+/* Petit libellé placé au-dessus d’un titre. */
 .eyebrow {
   color: var(--color-text-muted);
-  font-size: var(--ol-font-size-xs);
-  font-weight: var(--ol-font-weight-semibold);
-  letter-spacing: var(--ol-font-tracking-wide);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
   line-height: 1.4;
   text-transform: uppercase;
 }
-
+/* Style commun à toutes les variantes du bouton. */
 .button {
+  /* Affiche et centre correctement le contenu. */
   display: inline-flex;
-  min-height: 2.875rem;
   align-items: center;
   justify-content: center;
+
+  /* Garantit une zone tactile suffisamment grande. */
+  min-height: 2.875rem;
+
+  /* Forme et espacements provenant des tokens. */
   border: 1px solid transparent;
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-control, var(--radius-pill));
   padding: 0.75rem 1.125rem;
-  font-size: var(--ol-font-size-sm);
-  font-weight: var(--ol-font-weight-semibold);
+
+  /* Typographie commune. */
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
   line-height: 1;
+
+  /* Supprime le soulignement lorsque le composant est un lien. */
   text-decoration: none;
+
+  /* Affiche le curseur interactif. */
   cursor: pointer;
+
+  /* Anime uniquement les propriétés nécessaires. */
   transition:
-    background var(--motion-interactive) var(--motion-ease),
-    border-color var(--motion-interactive) var(--motion-ease),
-    color var(--motion-interactive) var(--motion-ease),
-    transform var(--motion-interactive) var(--motion-ease);
+    background-color var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal) var(--ease-standard),
+    transform var(--duration-normal) var(--ease-emphasized);
 }
 
+/* Déplace très légèrement le bouton au survol. */
 .button:hover {
   transform: translateY(-1px);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .button:hover {
+    transform: none;
+  }
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button[data-size="small"] {
+  padding-inline: 0.875rem;
+}
+.button[data-size="large"] {
+  min-height: 3.25rem;
+  padding-inline: 1.5rem;
+}
+.button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+/* Action principale. */
 .buttonPrimary {
   background: var(--color-action);
   color: var(--color-action-contrast);
 }
 
+/* État survolé de l’action principale. */
 .buttonPrimary:hover {
   background: var(--color-action-hover);
 }
 
+/* Action secondaire. */
 .buttonSecondary {
-  border-color: var(--color-border-strong);
+  border-color: var(--color-border);
   background: transparent;
-  color: currentColor;
+  color: var(--color-text);
 }
 
+/* Ajoute un fond léger au survol. */
 .buttonSecondary:hover {
   background: var(--color-surface-muted);
 }
 
+/* Action discrète ressemblant à un lien. */
 .buttonText {
   min-height: auto;
   border-radius: 0;
   padding: 0.25rem 0;
-  color: currentColor;
+  background: transparent;
+  color: var(--color-text);
   text-decoration: underline;
-  text-decoration-color: var(--color-border-strong);
+  text-decoration-color: var(--color-border);
   text-underline-offset: 0.3em;
 }
-
+/* Base commune à toutes les surfaces. */
 .surface {
-  min-width: 0;
-  border: 0;
-  border-radius: 0;
+  /* La surface occupe toute la largeur disponible dans son parent. */
+  width: 100%;
+
+  /* Utilise la couleur principale des panneaux définie dans les tokens. */
   background: var(--surface-open);
-  transition:
-    transform var(--motion-interactive) var(--motion-ease),
-    border-color var(--motion-interactive) var(--motion-ease),
-    box-shadow var(--motion-interactive) var(--motion-ease);
+
+  /* Conserve la couleur de texte normale du thème actif. */
+  color: var(--color-text);
+
+  /* Sépare visuellement la surface de son environnement. */
+  border: 0;
+
+  /* Applique un arrondi cohérent avec le reste du design system. */
+  border-radius: 0;
 }
 
-.surfaceSolid {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-surface);
-  background: var(--color-surface);
+/* Variante avec un fond légèrement différent. */
+.surfaceMuted {
+  --surface-open: var(--surface-soft);
 }
 
-.surfaceGlass {
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-surface);
-  border-color: var(--color-border-subtle);
-  background: var(--color-surface-glass);
-  box-shadow: var(--shadow-inset);
-  backdrop-filter: blur(1rem) saturate(125%);
-}
-
-.surfaceAccent {
-  border: 1px solid transparent;
-  border-radius: var(--radius-surface);
-  background:
-    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-    linear-gradient(135deg, var(--color-action), transparent 70%) border-box;
-}
-
+/* Surface plate : aucune élévation visuelle. */
 .surfaceFlat {
   box-shadow: none;
 }
 
+/* Surface surélevée : elle semble placée au-dessus de la page. */
 .surfaceRaised {
-  box-shadow: var(--shadow-surface);
-}
-
-.surfaceFloating {
-  box-shadow: var(--shadow-floating), var(--shadow-ambient);
+  box-shadow: var(--shadow-md);
 }
 
 .surfaceOpen {
@@ -309,197 +335,259 @@
 }
 
 .surfaceSoft {
-  border-radius: var(--radius-surface);
   background: var(--surface-soft);
+  border-radius: var(--radius-lg);
 }
 
 .surfaceLine {
   border-block: 1px solid var(--line-subtle);
 }
 
-.surfaceAppearanceFloating {
-  border-radius: var(--radius-surface);
+.surfaceFloating {
   background: var(--surface-floating);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-floating);
 }
 
 .surfaceLayered {
-  border: 1px solid var(--line-subtle);
-  border-radius: var(--radius-surface);
   background: var(--surface-layered);
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-lg);
 }
 
 .surfaceImmersive {
-  border-radius: var(--radius-surface);
   background: var(--surface-immersive);
+  border-radius: var(--radius-lg);
 }
 
-.surfaceInteractive:hover,
-.surfaceInteractive:focus-within {
-  transform: translateY(calc(0rem - var(--motion-distance-small)));
-  border-color: var(--color-border-strong);
-  box-shadow: var(--shadow-floating), var(--shadow-ambient);
-}
-
-@media (hover: none), (pointer: coarse) {
-  .surfaceInteractive:hover {
-    transform: none;
-  }
-}
-
-.surfacePaddingSm {
-  padding: var(--ol-space-5);
-}
-
+/* Aucun remplissage intérieur. Utile lorsqu'une image remplit la surface. */
 .surfacePaddingNone {
   padding: 0;
 }
 
-.surfacePaddingMd {
-  padding: var(--ol-space-6);
+/* Petit remplissage pour les composants compacts. */
+.surfacePaddingSmall {
+  padding: var(--space-4);
 }
 
-.surfacePaddingLg {
-  padding: clamp(var(--ol-space-6), 5vw, var(--ol-space-8));
+/* Remplissage par défaut pour la majorité des cartes. */
+.surfacePaddingMedium {
+  padding: var(--space-6);
 }
 
+/* Grand remplissage pour les panneaux importants. */
+.surfacePaddingLarge {
+  padding: var(--space-8);
+}
+
+/* Réduit légèrement le grand remplissage sur les petits écrans. */
+@media (max-width: 640px) {
+  .surfacePaddingLarge {
+    padding: var(--space-6);
+  }
+}
+/* Cadre commun pour les images, vidéos et autres médias. */
 .mediaFrame {
+  /* Sert de repère aux images Next.js utilisant la propriété fill. */
   position: relative;
-  display: grid;
-  min-width: 0;
+
+  /* Le cadre occupe toute la largeur disponible. */
+  width: 100%;
+
+  /* Cache les parties du média qui dépassent du cadre. */
   overflow: hidden;
-  /*
-   * Une hauteur minimale fixe combinée à aspect-ratio imposait une largeur
-   * intrinsèque de 22,4rem aux médias 16:10. À 320px, le cadre élargissait
-   * donc tout le document. La borne fluide conserve la présence visuelle du
-   * placeholder sans jamais dicter une largeur supérieure au viewport.
-   */
-  min-height: min(14rem, 50vw);
-  place-items: center;
-  border-radius: var(--radius-surface);
-  background:
-    linear-gradient(135deg, rgb(255 255 255 / 0.7), transparent),
-    var(--color-surface-muted);
-  color: var(--color-text-muted);
+
+  /* Affiche une couleur temporaire pendant le chargement du média. */
+  background: var(--color-surface-muted);
+
+  /* Utilise l'arrondi défini par le design system du client. */
+  border-radius: var(--radius-lg);
 }
 
-.ratioLandscape {
-  aspect-ratio: 16 / 10;
+/* Format carré, adapté aux portraits, logos et produits. */
+.mediaFrameSquare {
+  aspect-ratio: 1 / 1;
 }
 
-.ratioPortrait {
+/* Format portrait, adapté aux personnes et photographies verticales. */
+.mediaFramePortrait {
   aspect-ratio: 4 / 5;
 }
 
-.ratioSquare {
-  aspect-ratio: 1;
+/* Format paysage classique. */
+.mediaFrameLandscape {
+  aspect-ratio: 4 / 3;
 }
 
-.ratioWide {
+/* Format panoramique, adapté aux héros et aux vidéos. */
+.mediaFrameWide {
   aspect-ratio: 16 / 9;
 }
 
-.mediaCover > img,
-.mediaCover > video {
-  object-fit: cover;
-}
-
-.mediaContain > img,
-.mediaContain > video {
-  object-fit: contain;
-}
-
-.mediaLabel {
-  padding: var(--ol-space-4);
-  font-family: var(--font-code);
-  font-size: var(--ol-font-size-xs);
-  text-align: center;
-}
-
-/* Les vrais médias remplissent le cadre lorsqu'ils remplacent le placeholder. */
+/*
+ * Les images, vidéos et iframes remplissent entièrement leur cadre.
+ * Le sélecteur ">" cible uniquement les enfants directs.
+ */
 .mediaFrame > img,
 .mediaFrame > video,
 .mediaFrame > iframe {
+  display: block;
   width: 100%;
-  min-width: 0;
   height: 100%;
   border: 0;
+}
+
+/* Recadre le média afin qu'il remplisse entièrement le cadre. */
+.mediaFrameCover > img,
+.mediaFrameCover > video {
   object-fit: cover;
+  object-position: center;
 }
 
-/* Base de la grille responsive utilisée par les blocs de cartes. */
+/* Affiche le média en entier, même si des espaces restent visibles. */
+.mediaFrameContain > img,
+.mediaFrameContain > video {
+  object-fit: contain;
+  object-position: center;
+}
+/* Groupe horizontal flexible. */
+.cluster {
+  /* Place les enfants les uns à côté des autres. */
+  display: flex;
+
+  /* Autorise le retour à la ligne lorsque l'espace manque. */
+  flex-wrap: wrap;
+
+  /* Alignement vertical par défaut. */
+  align-items: center;
+}
+
+/* Espacement compact entre les éléments. */
+.clusterGapSmall {
+  gap: var(--space-2);
+}
+
+/* Espacement utilisé par défaut. */
+.clusterGapMedium {
+  gap: var(--space-4);
+}
+
+/* Espacement important pour des groupes plus aérés. */
+.clusterGapLarge {
+  gap: var(--space-6);
+}
+
+/* Place les éléments au début de l'axe horizontal. */
+.clusterJustifyStart {
+  justify-content: flex-start;
+}
+
+/* Centre horizontalement les éléments. */
+.clusterJustifyCenter {
+  justify-content: center;
+}
+
+/* Place les éléments à droite. */
+.clusterJustifyEnd {
+  justify-content: flex-end;
+}
+
+/* Répartit l'espace disponible entre les éléments. */
+.clusterJustifyBetween {
+  justify-content: space-between;
+}
+
+/* Aligne les enfants par leur bord supérieur. */
+.clusterAlignStart {
+  align-items: flex-start;
+}
+
+/* Centre verticalement les enfants. */
+.clusterAlignCenter {
+  align-items: center;
+}
+
+/* Aligne les enfants par leur bord inférieur. */
+.clusterAlignEnd {
+  align-items: flex-end;
+}
+
+/* Étire les enfants sur la hauteur disponible. */
+.clusterAlignStretch {
+  align-items: stretch;
+}
+/* Grille commune à tous les affichages en colonnes. */
 .grid {
+  /* Active le système de mise en page CSS Grid. */
   display: grid;
+
+  /* Évite que le contenu dépasse la largeur de la grille. */
   width: 100%;
-  min-width: 0;
-  gap: var(--grid-gap);
-  align-items: var(--grid-align);
 }
 
+/* Grille comportant toujours une seule colonne. */
 .gridColumns1 {
   grid-template-columns: minmax(0, 1fr);
 }
 
-.gridColumns2,
-.gridColumns3,
+/* Grille comportant deux colonnes de largeur identique. */
+.gridColumns2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Grille comportant trois colonnes de largeur identique. */
+.gridColumns3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Grille comportant quatre colonnes de largeur identique. */
 .gridColumns4 {
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.gridGapSm {
-  --grid-gap: var(--ol-space-3);
+/*
+ * minmax(0, 1fr) autorise chaque colonne à rétrécir.
+ * Cela évite qu'un texte ou un média élargisse toute la page.
+ */
+
+/* Petit espacement entre les lignes et les colonnes. */
+.gridGapSmall {
+  gap: var(--space-3);
 }
 
-.gridGapMd {
-  --grid-gap: var(--ol-space-5);
+/* Espacement utilisé par défaut. */
+.gridGapMedium {
+  gap: var(--space-5);
 }
 
-.gridGapLg {
-  --grid-gap: var(--ol-space-7);
+/* Grand espacement pour une composition plus aérée. */
+.gridGapLarge {
+  gap: var(--space-7);
 }
 
+/* Aligne chaque élément au début de sa cellule. */
 .gridAlignStart {
-  --grid-align: start;
+  align-items: start;
 }
 
+/* Étire les éléments pour obtenir des cartes de même hauteur. */
 .gridAlignStretch {
-  --grid-align: stretch;
+  align-items: stretch;
 }
 
-@media (min-width: 48rem) {
-  .container {
-    width: min(
-      calc(100% - var(--ol-layout-gutter-tablet) - var(--ol-layout-gutter-tablet)),
-      var(--container-size)
-    );
-    max-width: calc(
-      100vw - var(--ol-layout-gutter-tablet) - var(--ol-layout-gutter-tablet)
-    );
-  }
-
-  .gridColumns2,
+/* Sur tablette, les grilles de trois ou quatre colonnes passent à deux. */
+@media (max-width: 960px) {
   .gridColumns3,
   .gridColumns4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 80rem) {
-  .container {
-    width: min(
-      calc(100% - var(--ol-layout-gutter-desktop) - var(--ol-layout-gutter-desktop)),
-      var(--container-size)
-    );
-    max-width: calc(
-      100vw - var(--ol-layout-gutter-desktop) - var(--ol-layout-gutter-desktop)
-    );
-  }
-
-  .gridColumns3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
+/* Sur mobile, toutes les grilles passent à une seule colonne. */
+@media (max-width: 640px) {
+  .gridColumns2,
+  .gridColumns3,
   .gridColumns4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
 }

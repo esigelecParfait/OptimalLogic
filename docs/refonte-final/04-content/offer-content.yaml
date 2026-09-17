@@ -10,7 +10,7 @@ database_contract:
   missing_or_invalid_behavior: unavailable_state
 offers:
   digital_presence:
-    database_code: commerce_intelligent
+    database_code: existing_code_to_map
     reference_name_only: Présence digitale
     problem: L'entreprise est difficile à comprendre ou à contacter en ligne.
     promise: Une présence claire, crédible et orientée vers l'appel, le devis ou le rendez-vous.
@@ -28,7 +28,7 @@ offers:
       reference_price_ht: 79
       includes: [hébergement, supervision, maintenance, mises à jour, petites modifications, assistance]
   reception_sms:
-    database_code: tpe_pme_croissance
+    database_code: existing_code_to_map
     reference_name_only: Accueil & qualification par SMS
     problem: Les messages restent sans réponse ou arrivent incomplets lorsque l'équipe est occupée.
     promise: Répondre, recueillir les informations utiles et transmettre une demande qualifiée.
@@ -41,7 +41,7 @@ offers:
       usage: SMS selon volume inclus puis dépassement
       includes: [système, hébergement, maintenance, suivi technique, centralisation, ajustements limités]
   reception_calls_sms:
-    database_code: tpe_pme_performance
+    database_code: existing_code_to_map
     reference_name_only: Accueil & qualification par appels + SMS
     problem: Un appel non décroché peut devenir un rendez-vous, un devis ou un client perdu.
     promise: Rester joignable et transmettre une demande complète sans interrompre l'activité.

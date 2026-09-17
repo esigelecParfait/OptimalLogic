@@ -13,6 +13,7 @@ explicitement protégé.
 
 ## Blocages avant implémentation
 
+- associer les trois présentations frontend aux codes BDD existants ;
 - confirmer les volumes et dépassements SMS/minutes ;
 - choisir des photographies licenciées ;
 - obtenir l’approbation des livrables mis à jour.

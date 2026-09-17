@@ -45,6 +45,16 @@ export default defineConfig({
       },
     },
     {
+      name: "functional-firefox",
+      testMatch: "**/functional/**/*.spec.ts",
+      use: { ...devices["Desktop Firefox"], viewport: { width: 1280, height: 800 } },
+    },
+    {
+      name: "functional-webkit",
+      testMatch: "**/functional/**/*.spec.ts",
+      use: { ...devices["Desktop Safari"], viewport: { width: 1280, height: 800 } },
+    },
+    {
       name: "mobile-320",
       testMatch: "**/responsive/**/*.spec.ts",
       use: { browserName: "chromium", viewport: { width: 320, height: 900 } },
@@ -68,6 +78,21 @@ export default defineConfig({
       name: "wide-1440",
       testMatch: "**/responsive/**/*.spec.ts",
       use: { browserName: "chromium", viewport: { width: 1440, height: 1000 } },
+    },
+    {
+      name: "mobile-webkit-390",
+      testMatch: "**/responsive/**/*.spec.ts",
+      use: { browserName: "webkit", viewport: { width: 390, height: 844 } },
+    },
+    {
+      name: "quality",
+      testMatch: "**/quality/**/*.spec.ts",
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 1000 } },
+    },
+    {
+      name: "captures",
+      testMatch: "**/captures/**/*.spec.ts",
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 1000 } },
     },
   ],
 });

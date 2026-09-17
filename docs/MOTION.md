@@ -1,52 +1,35 @@
-# Système de mouvement premium
+# Étape 5 — Système d'animation
 
-## Principe
+## Catalogue
 
-Le mouvement explique une hiérarchie, signale un changement d'état ou
-accompagne une progression. Une animation décorative ne doit jamais ralentir
-l'accès au contenu ni détourner l'utilisateur de son objectif.
+Le système expose 34 presets : 8 micro-interactions, 6 animations typographiques, 6 trajectoires SVG, 6 séquences de défilement, 4 compositions 3D CSS et 4 scènes WebGL. Le registre et les tokens vivent dans `design-system/motion.ts`.
 
-La source de vérité d'un projet client est son `motion-spec.yaml`, complété par
-un `page-motion-map.yaml`. La skill `$optimallogic-motion-design` produit et
-valide ces fichiers avant l'intégration.
+Le showroom `/showroom/motion` permet la lecture, la pause, la relance, la comparaison, le réglage de vitesse, le changement de thème et la simulation de `prefers-reduced-motion`.
 
-## Composants publics
+## Règles d'utilisation
 
-Les composants sont exportés depuis `src/components/motion/` :
+- Deux séquences fortes maximum par page.
+- Cinq éléments maximum dans un stagger.
+- Aucun scroll-jacking, curseur personnalisé ou smooth scroll global.
+- Les animations de contenu utilisent principalement `opacity`, `transform` et `stroke-dashoffset`.
+- Une scène WebGL s'arrête après six secondes et n'est jamais nécessaire à la compréhension.
+- Les effets de survol sont neutralisés sur pointeur tactile.
+- L'état final existe avant l'animation et demeure visible sans JavaScript.
+- En mouvement réduit : aucun tracé progressif, stagger, zoom, parallaxe ou rotation 3D.
 
-- `MotionReveal` anime un groupe autonome avec les presets `fade`, `rise`,
-  `scale` ou `clip` ;
-- `MotionGroup` observe une liste ou un groupe une seule fois ;
-- `MotionItem` applique un décalage borné de 0 à 5 à l'intérieur du groupe.
+## Dépendances validées
 
-Le HTML rendu côté serveur est visible. Après hydratation, un élément sous la
-ligne de flottaison peut être préparé puis révélé avec
-`IntersectionObserver`. Sans JavaScript ou API compatible, le contenu reste
-immédiatement disponible.
+- `motion` orchestre HTML, SVG, gestes et séquences React.
+- `three` fournit le moteur WebGL.
+- `@react-three/fiber` relie Three.js à React 19.
+- `@types/three` fournit les contrats TypeScript de Three.js.
 
-## Budgets
+Les scènes WebGL sont importées dynamiquement avec `ssr: false`. Les pages qui n'utilisent pas de 3D ne chargent pas leur moteur.
 
-| Interaction             | Durée cible | Propriété principale      |
-| ----------------------- | ----------: | ------------------------- |
-| Focus, survol, pression |   80–240 ms | couleur, ombre, transform |
-| Apparition de section   |  320–520 ms | opacity + transform       |
-| Entrée éditoriale forte |  520–700 ms | opacity + transform/clip  |
-| Décalage entre éléments |    50–80 ms | délai borné               |
+## États interactifs
 
-Préférer `transform` et `opacity`. Éviter d'animer les dimensions, la position
-de mise en page, les filtres coûteux et de nombreuses surfaces simultanément.
-
-## Accessibilité
-
-- `prefers-reduced-motion: reduce` supprime transitions, transformations et
-  masques ;
-- aucun contenu essentiel n'est masqué par défaut ;
-- les états clavier et la lecture sémantique ne dépendent pas de l'animation ;
-- les effets liés au survol sont neutralisés sur pointeur grossier ;
-- les contenus animés restent lisibles à 320 px et à fort zoom.
+Les presets doivent préserver les états natifs `hover`, `focus-visible`, `pressed`, `disabled`, `loading`, `success` et `error`. Une animation ne remplace jamais un libellé, une annonce ARIA ou une modification d'état compréhensible.
 
 ## Vérification
 
-Exécuter `npm run check`, puis vérifier le showroom avec la réduction des
-mouvements activée et désactivée. Un projet client doit aussi suivre la
-checklist produite avec son contrat de mouvement.
+`npm run check:motion` contrôle les 34 identifiants, les répartitions par famille et les motifs interdits. Playwright vérifie les contrôles du showroom, la comparaison, la vitesse, le mode réduit et le responsive.

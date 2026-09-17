@@ -6,7 +6,7 @@ Un bloc est une section éditoriale réutilisable construite avec les primitives
 Il reçoit tout son contenu par des propriétés TypeScript et renvoie du JSX
 sémantique : sections, titres, listes, cartes, liens et médias.
 
-Les 28 variantes publiques sont exportées depuis :
+Les 45 variantes publiques sont exportées depuis :
 
 ```tsx
 // Point d'entrée public de la bibliothèque.
@@ -140,31 +140,6 @@ Les deux variantes reçoivent une introduction et `steps: ProcessItem[]`.
 | `ProcessTimeline` | `surface`      | Liste ordonnée verticale    |
 
 L'ordre du tableau définit l'ordre réel du processus.
-
-## Narration
-
-Fichier : `src/components/blocks/narrative/NarrativeBlocks.tsx`.
-
-`NarrativeMosaic` hiérarchise des problèmes, convictions ou décisions dans une
-mosaïque. `NarrativeManifesto` place une déclaration centrale face à une liste
-de principes. Ces variantes structurent un récit ; elles ne justifient aucune
-promesse non sourcée.
-
-## Workflow
-
-Fichier : `src/components/blocks/workflow/WorkflowBlocks.tsx`.
-
-`WorkflowPipeline` décrit des étapes et un résultat. `WorkflowRouting` relie
-plusieurs sources à une décision puis à plusieurs issues. Les règles métier et
-les capacités effectivement installées restent fournies par le projet client.
-
-## Indicateurs
-
-Fichier : `src/components/blocks/metrics/MetricsBlocks.tsx`.
-
-`MetricsDashboard` fournit un panneau opérationnel et `MetricsStrip` une bande
-compacte. Tous deux reçoivent des `MetricItem` typés. Une valeur publiée doit
-avoir une source, une période et un responsable identifiés.
 
 ## Galerie
 
@@ -335,6 +310,11 @@ puis une grille de services.
    d'un futur CMS pourront introduire des identifiants stables.
 
 ## Choisir ou ajouter une variante
+
+Les 38 compositions de l'étape 4 — Hero, Services, Tarifs, Réalisations,
+Preuves, FAQ, Contact et Réservation — sont inventoriées dans
+`docs/PUBLIC-COMPOSITIONS.md` et rendues sur `/showroom/compositions`.
+Les familles historiques Processus, Équipe et CTA restent disponibles.
 
 Choisir une variante existante lorsque la différence concerne seulement le
 contenu, le thème ou l'ordre des éléments. Ajouter une variante seulement si la

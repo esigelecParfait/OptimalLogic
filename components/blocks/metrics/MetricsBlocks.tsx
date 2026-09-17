@@ -47,7 +47,7 @@ export function MetricsDashboard({
             headingVariant="display"
           />
 
-          <Surface appearance="glass" elevation="floating" padding="large">
+          <Surface appearance="soft" elevation="raised" padding="large">
             <div className={styles.dashboardHeader}>
               <Eyebrow>Vue synthétique</Eyebrow>
               {note && <Text variant="small">{note}</Text>}

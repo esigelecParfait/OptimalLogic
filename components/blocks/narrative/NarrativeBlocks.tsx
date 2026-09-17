@@ -48,10 +48,9 @@ export function NarrativeMosaic({
           <div className={styles.mosaic}>
             {items.map((item, index) => (
               <Surface
-                appearance={item.featured ? "accent" : "glass"}
+                appearance={item.featured ? "immersive" : "soft"}
                 className={item.featured ? styles.mosaicFeatured : styles.mosaicCard}
-                elevation={item.featured ? "floating" : "flat"}
-                interactive
+                elevation={item.featured ? "raised" : "flat"}
                 key={`${item.title}-${index}`}
                 padding="large"
               >

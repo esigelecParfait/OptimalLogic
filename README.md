@@ -25,6 +25,14 @@ doit pas être modifiée : les noms et prix restent lus depuis Supabase par le
 mécanisme existant, sans valeur de secours codée en dur. Les trois animations
 fortes sont réservées à l’Accueil et aux Services.
 
+## Socle du dépôt modèle
+
+La bibliothèque frontend a été synchronisée depuis
+`optimallogic-site-template@49cc0d6`. Elle apporte les 8 thèmes, les
+compositions, les systèmes motion/3D/visuels, les variantes Auth et espace
+client ainsi que leurs showrooms. Le périmètre exact et les exclusions sont
+documentés dans `docs/TEMPLATE-SYNC.md`.
+
 ## Installation
 
 ```bash

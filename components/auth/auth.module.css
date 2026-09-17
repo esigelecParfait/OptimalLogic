@@ -1,0 +1,315 @@
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1fr);
+  min-height: 590px;
+  overflow: hidden;
+  border-block: 1px solid var(--line-subtle);
+  background: transparent;
+}
+.brandPanel {
+  display: grid;
+  align-content: space-between;
+  padding: 2.3rem;
+  background:
+    radial-gradient(
+      circle at 80% 10%,
+      color-mix(in srgb, var(--color-action) 65%, transparent),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-action) 23%, var(--color-canvas)),
+      var(--color-surface)
+    );
+  border-right: 1px solid var(--line-subtle);
+}
+.brandPanel > span {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.brandPanel > strong {
+  max-width: 380px;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+.brandPanel div {
+  display: flex;
+  gap: 0.65rem;
+}
+.brandPanel i {
+  width: 42px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--color-action);
+  opacity: 0.85;
+}
+.formPanel {
+  display: grid;
+  width: min(100%, 500px);
+  align-content: center;
+  gap: 1.2rem;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  margin: auto;
+}
+.brandMark {
+  display: grid;
+  width: 44px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--color-action);
+  color: var(--color-action-contrast);
+  font-weight: 800;
+  letter-spacing: -0.08em;
+}
+.intro {
+  display: grid;
+  gap: 0.45rem;
+}
+.intro > span {
+  color: var(--color-action);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.intro h2 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.intro p,
+.demoNotice {
+  color: var(--color-text-muted);
+}
+.formPanel form {
+  display: grid;
+  gap: 1rem;
+}
+.formPanel label {
+  display: grid;
+  gap: 0.38rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+.formPanel input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-canvas);
+  color: var(--color-text);
+}
+.formPanel input[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+.formPanel label small {
+  color: var(--color-danger);
+  font-weight: 500;
+}
+.passwordField {
+  position: relative;
+}
+.passwordField input {
+  padding-right: 78px;
+}
+.passwordField button {
+  position: absolute;
+  top: 50%;
+  right: 0.6rem;
+  padding: 0.3rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-action);
+  font-size: 0.7rem;
+  transform: translateY(-50%);
+}
+.criteria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.criteria li {
+  padding: 0.2rem 0.45rem;
+  border-radius: 99px;
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  font-size: 0.63rem;
+  font-weight: 500;
+}
+.invitation,
+.alert,
+.status {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.8rem;
+  border: 0;
+  border-left: 2px solid var(--color-action);
+  border-radius: 0;
+  background: var(--surface-soft);
+  font-size: 0.74rem;
+}
+.invitation span,
+.alert span,
+.status span {
+  color: var(--color-text-muted);
+}
+.alert {
+  border-color: var(--color-danger);
+}
+.status {
+  border-color: var(--color-success);
+}
+.secondaryLink {
+  justify-self: center;
+  color: var(--color-action);
+  font-size: 0.75rem;
+}
+.demoNotice {
+  font-size: 0.65rem;
+  text-align: center;
+}
+.steps {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.steps li {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  background: var(--color-surface);
+  font-size: 0.65rem;
+}
+.steps li[data-active="true"] {
+  border-color: var(--color-action);
+  color: var(--color-action);
+}
+.stage[data-layout="centered"] {
+  display: block;
+  padding: 2rem;
+  background: var(--color-canvas);
+}
+.stage[data-layout="centered"] .brandPanel {
+  display: none;
+}
+.stage[data-layout="centered"] .formPanel {
+  min-height: 525px;
+  border-block: 1px solid var(--line-subtle);
+  background: transparent;
+}
+.stage[data-layout="floating"] {
+  padding: 2rem;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      color-mix(in srgb, var(--color-action) 28%, transparent),
+      transparent 32%
+    ),
+    var(--color-canvas);
+}
+.stage[data-layout="floating"] .brandPanel {
+  border-radius: var(--radius-lg);
+  transform: rotate(-2deg);
+}
+.stage[data-layout="floating"] .formPanel {
+  z-index: 1;
+  margin-left: -8%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  backdrop-filter: blur(18px);
+}
+.stage[data-layout="immersive"] {
+  grid-template-columns: 1fr;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-action) 16%, var(--color-canvas)),
+    var(--color-canvas)
+  );
+}
+.stage[data-layout="immersive"] .brandPanel {
+  position: absolute;
+  inset: 0;
+  opacity: 0.42;
+}
+.stage[data-layout="immersive"] .formPanel {
+  z-index: 1;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  backdrop-filter: blur(22px);
+}
+.stage[data-layout="guided"] {
+  grid-template-columns: 1fr;
+}
+.stage[data-layout="guided"] .brandPanel {
+  display: none;
+}
+.stage[data-layout="portal"] {
+  grid-template-columns: 180px 1fr;
+}
+.stage[data-layout="portal"] .brandPanel {
+  padding: 1.4rem;
+}
+.stage[data-layout="portal"] .brandPanel strong {
+  font-size: 1.45rem;
+}
+.stage[data-layout="portal"] .brandPanel div {
+  display: grid;
+}
+[data-auth-state="loading"] .formPanel {
+  opacity: 0.76;
+}
+[data-auth-state="success"] .brandMark,
+[data-auth-state="email_resent"] .brandMark {
+  background: var(--color-success);
+}
+@media (max-width: 760px) {
+  .stage {
+    grid-template-columns: 1fr;
+    min-height: 560px;
+  }
+  .brandPanel {
+    display: none;
+  }
+  .formPanel {
+    padding: 1.4rem;
+  }
+  .stage[data-layout="floating"] {
+    padding: 1rem;
+  }
+  .stage[data-layout="floating"] .formPanel {
+    margin: auto;
+  }
+  .stage[data-layout="portal"] {
+    grid-template-columns: 1fr;
+  }
+  .steps {
+    position: static;
+    padding: 0 1rem 1rem;
+  }
+  .steps li {
+    font-size: 0.58rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

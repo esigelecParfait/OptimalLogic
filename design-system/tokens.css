@@ -1,0 +1,104 @@
+:root {
+  /* Valeurs primitives */
+  --ol-white: #ffffff;
+  --ol-ink: #171715;
+  --ol-neutral-50: #fafaf8;
+  --ol-neutral-100: #f3f2ee;
+  --ol-neutral-200: #e5e3dc;
+  --ol-neutral-500: #747169;
+  --ol-neutral-900: #201f1c;
+  --ol-accent-500: #315c4d;
+  --ol-accent-600: #264b3e;
+  --ol-accent-700: #1d3c32;
+
+  /* Rôles sémantiques modifiables pour chaque client */
+  --color-canvas: var(--ol-neutral-50);
+  --color-surface: var(--ol-white);
+  --color-surface-muted: var(--ol-neutral-100);
+  --color-text: var(--ol-ink);
+  --color-text-muted: var(--ol-neutral-500);
+  --color-border: var(--ol-neutral-200);
+  --color-action: var(--ol-accent-600);
+  --color-action-hover: var(--ol-accent-700);
+  --color-action-contrast: var(--ol-white);
+  --color-focus: var(--ol-accent-500);
+
+  /* Grammaire de surfaces : la continuité est le comportement par défaut. */
+  --surface-open: transparent;
+  --surface-soft: color-mix(in srgb, var(--color-surface-muted) 64%, transparent);
+  --surface-floating: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  --surface-layered: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-surface) 88%, transparent),
+    color-mix(in srgb, var(--color-surface-muted) 56%, transparent)
+  );
+  --surface-immersive: color-mix(in srgb, var(--color-action) 7%, var(--color-canvas));
+  --line-subtle: color-mix(in srgb, var(--color-border) 72%, transparent);
+
+  /* Typographie */
+  --font-body: var(--font-geist-sans), Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-code: var(--font-geist-mono), Consolas, monospace;
+  /* Graisses typographiques */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Hauteurs des lignes */
+  --line-height-tight: 1.05;
+  --line-height-heading: 1.15;
+  --line-height-body: 1.6;
+
+  /* Espacement entre les lettres */
+  --tracking-tight: -0.035em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.12em;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-title: clamp(1.75rem, 4vw, 2.5rem);
+  --text-display: clamp(2.35rem, 7vw, 4.75rem);
+
+  /* Espacements */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-section: clamp(4rem, 9vw, 8rem);
+
+  /* Formes */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
+
+  /* Ombres */
+  --shadow-sm: 0 1px 2px rgb(22 22 22 / 8%);
+  --shadow-md: 0 18px 50px -28px rgb(22 22 22 / 28%);
+  --shadow-floating: 0 24px 70px -42px
+    color-mix(in srgb, var(--color-text) 32%, transparent);
+
+  /* Mise en page */
+  --container-text: 45rem;
+  --container-content: 72rem;
+  --container-wide: 90rem;
+  --gutter-mobile: 1rem;
+  --gutter-tablet: 2rem;
+  --gutter-desktop: 3rem;
+
+  /* Mouvement */
+  --duration-fast: 140ms;
+  --duration-normal: 240ms;
+  --duration-slow: 420ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+}

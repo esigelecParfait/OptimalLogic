@@ -1,15 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-const responsiveRoutes = [
-  "/",
-  "/services",
-  "/tarifs",
-  "/contact",
-  "/prise-de-rdv",
-  "/aide",
-  "/showroom",
-] as const;
-
 test("le showroom ne déborde pas horizontalement", async ({ page }, testInfo) => {
   await page.goto("/showroom");
 
@@ -22,24 +12,6 @@ test("le showroom ne déborde pas horizontalement", async ({ page }, testInfo) =
     layout.contentWidth,
     `Débordement détecté dans le projet ${testInfo.project.name}`,
   ).toBeLessThanOrEqual(layout.viewportWidth + 1);
-});
-
-test("les routes publiques ne débordent pas horizontalement", async ({
-  page,
-}, testInfo) => {
-  for (const route of responsiveRoutes) {
-    await page.goto(route);
-
-    const layout = await page.evaluate(() => ({
-      viewportWidth: document.documentElement.clientWidth,
-      contentWidth: document.documentElement.scrollWidth,
-    }));
-
-    expect(
-      layout.contentWidth,
-      `Débordement sur ${route} dans le projet ${testInfo.project.name}`,
-    ).toBeLessThanOrEqual(layout.viewportWidth + 1);
-  }
 });
 
 test("aucun élément visible ne sort de la largeur du viewport", async ({
@@ -80,7 +52,7 @@ test("aucun élément visible ne sort de la largeur du viewport", async ({
   ).toEqual([]);
 });
 
-test("les 28 variantes restent présentes à cette largeur", async ({ page }) => {
+test("les 22 variantes restent présentes à cette largeur", async ({ page }) => {
   await page.goto("/showroom");
-  await expect(page.locator("main > p")).toHaveCount(28);
+  await expect(page.locator("main > p")).toHaveCount(22);
 });

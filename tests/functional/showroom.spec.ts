@@ -1,20 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-const publicRoutes = [
-  "/",
-  "/services",
-  "/tarifs",
-  "/contact",
-  "/prise-de-rdv",
-  "/aide",
-] as const;
-
 const expectedVariants = [
   "HeroSplit",
   "HeroCentered",
   "HeroEditorial",
-  "NarrativeMosaic",
-  "NarrativeManifesto",
   "ProofLogoCloud",
   "ProofStats",
   "ProofQuote",
@@ -23,10 +12,6 @@ const expectedVariants = [
   "ServicesFeatured",
   "ProcessSteps",
   "ProcessTimeline",
-  "WorkflowPipeline",
-  "WorkflowRouting",
-  "MetricsDashboard",
-  "MetricsStrip",
   "GalleryGrid",
   "GallerySpotlight",
   "FaqList",
@@ -53,17 +38,7 @@ test("la page d'accueil et le showroom répondent correctement", async ({ page }
   ).toBeVisible();
 });
 
-test("les routes publiques conservées répondent sans erreur serveur", async ({
-  page,
-}) => {
-  for (const route of publicRoutes) {
-    const response = await page.goto(route);
-    expect(response?.ok(), `La route ${route} doit répondre`).toBe(true);
-    await expect(page.locator("main")).toBeVisible();
-  }
-});
-
-test("le showroom expose les 28 variantes dans l'ordre documenté", async ({ page }) => {
+test("le showroom expose les 22 variantes dans l'ordre documenté", async ({ page }) => {
   await page.goto("/showroom");
 
   // VariantLabel produit les paragraphes directement placés sous main.

@@ -20,7 +20,6 @@ type PricingPack = {
   target?: string;
   setupPrice: string | null;
   monthlyPrice: string | null;
-  monthlyRequired: boolean;
   isAvailable?: boolean;
   highlighted?: boolean;
   setupIncludes: string[];
@@ -44,93 +43,176 @@ type OfferRequestForm = {
   consentRgpd: boolean;
 };
 
-const baseOffers: PricingPack[] = [
+const baseCommercePacks: PricingPack[] = [
   {
     code: "commerce_intelligent",
-    name: "",
-    category: "Présence digitale",
+    name: "Commerce Intelligent",
+    category: "Commerce local",
     subtitle:
-      "Pour les entreprises dont la présence en ligne manque de clarté, de cohérence ou de points de contact efficaces.",
+      "Pour les commerces qui veulent être mieux trouvés, répondre plus vite et obtenir plus d'avis.",
+    target:
+      "Coiffeur, restaurant, serrurier, menuisier, vendeur, artisan, institut, garage...",
     setupPrice: null,
     monthlyPrice: null,
-    monthlyRequired: false,
     highlighted: true,
     setupIncludes: [
-      "Audit de la présence digitale",
-      "Clarification des services et des messages",
-      "Création ou refonte d'un site d'environ cinq pages",
-      "Adaptation mobile et SEO de base",
-      "Configuration de la présence Google",
-      "Parcours vers l'appel, le devis ou le rendez-vous",
+      "Audit de la présence digitale actuelle",
+      "Optimisation ou création de la fiche Google Business",
+      "Mise à jour des horaires, services, catégories et informations clés",
+      "Ajout ou amélioration des photos",
+      "Mise en place d'un lien d'appel, de réservation ou de contact",
+      "Création d'une FAQ commerciale",
+      "Mise en place d'une messagerie IA pour répondre aux questions clients",
+      "Scénarios de conversation pour orienter vers un appel, un rendez-vous ou un devis",
+      "Préparation des messages de relance pour obtenir des avis Google",
+      "Réponses types aux avis positifs et négatifs",
     ],
     monthlyIncludes: [
-      "Hébergement et supervision",
-      "Maintenance et mises à jour",
-      "Petites modifications convenues",
-      "Assistance",
+      "Suivi de la fiche Google Business",
+      "Mise à jour des informations importantes",
+      "Aide à la gestion des avis clients",
+      "Réponse aux avis positifs et négatifs",
+      "Relance avis client selon le fonctionnement validé",
+      "Amélioration des réponses de la messagerie IA",
+      "Suivi des appels, clics, itinéraires et interactions",
+      "Rapport mensuel simple",
     ],
     result:
-      "Une présence cohérente qui permet de comprendre rapidement l'entreprise et de la contacter facilement.",
+      "Une fiche Google plus professionnelle, une meilleure réputation et une IA capable de guider les clients même quand l'équipe est occupée.",
     cta: "Demander cette formule",
   },
   {
-    code: "tpe_pme_croissance",
-    name: "",
-    category: "Accueil par SMS",
+    code: "commerce_premium",
+    name: "Commerce Premium",
+    category: "Commerce local",
     subtitle:
-      "Pour les entreprises qui ne peuvent pas répondre immédiatement aux messages et reçoivent des demandes incomplètes.",
+      "Pour les commerces qui veulent mieux organiser leurs demandes clients et réduire les opportunités perdues.",
+    target:
+      "Commerces avec beaucoup d'appels, réservations, demandes de devis, urgences ou secrétariat.",
     setupPrice: null,
     monthlyPrice: null,
-    monthlyRequired: true,
     highlighted: false,
     setupIncludes: [
-      "Analyse du fonctionnement de l'entreprise",
-      "Définition des réponses, limites et règles",
-      "Configuration du canal SMS",
-      "Scénarios de qualification",
-      "Collecte des informations nécessaires",
-      "Prise de rendez-vous si elle est autorisée",
-      "Connexion à OptimalLogic Réception",
-      "Tests et ajustements avant lancement",
+      "Tout ce qui est inclus dans Commerce Intelligent",
+      "Mise en place du suivi des demandes clients",
+      "Classement des demandes par type : appel, rendez-vous, devis, urgence ou renseignement",
+      "Création de modèles de réponses pour les demandes fréquentes",
+      "Mise en place d'un processus clair pour transmettre les demandes importantes à l'équipe",
+      "Aide à la coordination si le commerce dispose déjà d'une secrétaire ou d'un accueil",
+      "Configuration d'un suivi plus détaillé des demandes, avis, appels et rendez-vous",
+      "Préparation d'un rapport mensuel plus complet pour suivre ce qui génère réellement des contacts",
     ],
     monthlyIncludes: [
-      "Accès au système, hébergement et maintenance",
-      "Suivi technique et centralisation des demandes",
-      "Ajustements limités des règles et informations",
-      "Volume de SMS défini dans la proposition",
+      "Suivi régulier des avis, messages et demandes entrantes",
+      "Mise à jour des informations utiles si l'activité évolue",
+      "Amélioration continue des scénarios IA selon les vraies questions des clients",
+      "Suivi des demandes clients",
+      "Analyse mensuelle des appels, réservations, devis, visites et avis",
+      "Recommandations concrètes pour réduire les demandes perdues",
+      "Accompagnement plus régulier pour ajuster l'organisation digitale",
+      "Point mensuel pour comprendre ce qui fonctionne et ce qui doit être amélioré",
     ],
     result:
-      "Vos clients obtiennent une réponse et votre équipe reçoit une demande claire et qualifiée.",
+      "Une gestion digitale plus organisée pour suivre les demandes, mieux répartir les informations et réduire les clients perdus.",
+    cta: "Demander cette formule",
+  },
+];
+
+const baseTpePmePacks: PricingPack[] = [
+  {
+    code: "tpe_pme_croissance",
+    name: "Croissance",
+    category: "TPE / PME",
+    subtitle:
+      "Pour une entreprise qui veut générer et suivre ses prospects plus sérieusement.",
+    setupPrice: null,
+    monthlyPrice: null,
+    highlighted: true,
+    setupIncludes: [
+      "Cadrage de l'offre, du positionnement et du parcours de demande",
+      "Pages services plus détaillées",
+      "Demande de devis ou formulaire avancé",
+      "Prise de rendez-vous en ligne si nécessaire",
+      "Chatbot de qualification des prospects",
+      "Suivi structuré des clients et prospects",
+      "Automatisation de confirmation après une demande",
+      "Notification lorsqu'une nouvelle demande arrive",
+    ],
+    monthlyIncludes: [
+      "Suivi des prospects entrants",
+      "Amélioration des pages et appels à l'action",
+      "Ajustement du chatbot",
+      "Suivi des clients et prospects",
+      "Optimisations des formulaires ou prises de rendez-vous",
+      "Rapport mensuel sur les demandes et rendez-vous",
+    ],
+    result:
+      "Un site qui devient un véritable outil commercial pour attirer, qualifier et suivre les prospects.",
   },
   {
     code: "tpe_pme_performance",
-    name: "",
-    category: "Accueil par appels + SMS",
+    name: "Performance",
+    category: "TPE / PME",
     subtitle:
-      "Pour les entreprises qui risquent de perdre un rendez-vous, un devis ou un client lorsqu'elles ne peuvent pas décrocher.",
+      "Pour une PME qui veut mieux structurer son acquisition et son suivi commercial.",
     setupPrice: null,
     monthlyPrice: null,
-    monthlyRequired: true,
-    highlighted: true,
+    highlighted: false,
     setupIncludes: [
-      "Analyse du fonctionnement de l'entreprise",
-      "Configuration de l'accueil vocal intelligent",
-      "Configuration des appels et des SMS",
-      "Scénarios de qualification",
-      "Gestion des horaires, indisponibilités et transferts",
-      "Prise de rendez-vous et notifications",
-      "Connexion à OptimalLogic Réception",
-      "Tests des conversations avant lancement",
+      "Tout ce qui est inclus dans Croissance",
+      "Parcours client plus complet",
+      "Suivi commercial avancé dans vos outils",
+      "Automatisations de relance",
+      "Segmentation des prospects",
+      "Reporting plus détaillé",
+      "Optimisation des conversions",
+      "Accompagnement stratégique initial",
     ],
     monthlyIncludes: [
-      "Accès au système, hébergement et maintenance",
-      "Suivi technique et résumés des échanges",
-      "Centralisation des demandes",
-      "Ajustements limités des règles et informations",
-      "Volumes de minutes et de SMS définis dans la proposition",
+      "Analyse des performances",
+      "Optimisation continue du parcours client",
+      "Suivi commercial et recommandations",
+      "Amélioration des contenus",
+      "Recommandations commerciales",
+      "Rapport mensuel détaillé",
+      "Accompagnement mensuel",
     ],
     result:
-      "Restez joignable sans interrompre votre activité et recevez un résumé exploitable de chaque demande.",
+      "Une acquisition plus structurée, un meilleur suivi commercial et des décisions plus claires.",
+  },
+];
+
+const baseStartupPacks: PricingPack[] = [
+  {
+    code: "startup_launch",
+    name: "Launch",
+    category: "Startup",
+    subtitle:
+      "Pour lancer une bêta, générer des demandes de démo et suivre les premiers leads.",
+    setupPrice: null,
+    monthlyPrice: null,
+    highlighted: true,
+    setupIncludes: [
+      "Cadrage de la proposition de valeur et des signaux à mesurer",
+      "Landing page plus complète",
+      "Inscription bêta ou waitlist avancée",
+      "Demande de démo",
+      "Prise de rendez-vous",
+      "Chatbot IA de qualification",
+      "CRM simple",
+      "E-mails automatiques",
+      "Synthèse des inscriptions et demandes",
+    ],
+    monthlyIncludes: [
+      "Suivi des leads et inscriptions",
+      "Optimisation de la landing page",
+      "Suivi des demandes de démo",
+      "Ajustement du chatbot",
+      "Analyse des conversions",
+      "Reporting traction mensuel",
+    ],
+    result:
+      "Un système de lancement pour générer des leads, mesurer l'intérêt et préparer la croissance.",
   },
 ];
 
@@ -165,7 +247,7 @@ const faqs = [
   {
     question: "L'accompagnement mensuel est-il obligatoire ?",
     answer:
-      "Il est facultatif pour l'offre Présence digitale. Les offres d'accueil automatisé comprennent un abonnement mensuel, auquel s'ajoute la consommation prévue dans la proposition.",
+      "Non. La mise en place sert à construire un système directement utilisable : fiche Google, site, landing page, outils, automatisations ou suivi des demandes. L'accompagnement mensuel est facultatif et sert à maintenir, mesurer et améliorer ce système dans le temps.",
   },
   {
     question: "Les tarifs sont-ils définitifs ?",
@@ -324,7 +406,18 @@ export default function TarifsPage() {
     [databaseOffers, isLoadingOffers],
   );
 
-  const offers = useMemo(() => baseOffers.map(applyDatabaseOffer), [applyDatabaseOffer]);
+  const commercePacks = useMemo(
+    () => baseCommercePacks.map(applyDatabaseOffer),
+    [applyDatabaseOffer],
+  );
+  const tpePmePacks = useMemo(
+    () => baseTpePmePacks.map(applyDatabaseOffer),
+    [applyDatabaseOffer],
+  );
+  const startupPacks = useMemo(
+    () => baseStartupPacks.map(applyDatabaseOffer),
+    [applyDatabaseOffer],
+  );
 
   function updateLeadField<K extends keyof OfferRequestForm>(
     field: K,
@@ -466,8 +559,7 @@ export default function TarifsPage() {
             {pack.category}
           </p>
           <h3 className="mt-2 font-display text-[26px] font-semibold leading-tight">
-            {pack.name ||
-              (isLoadingOffers ? "Chargement de l’offre…" : "Offre indisponible")}
+            {pack.name}
           </h3>
           <p className="mt-3 text-sm leading-6 text-mut">{pack.subtitle}</p>
         </div>
@@ -490,7 +582,7 @@ export default function TarifsPage() {
             style={{ background: "rgba(26,26,29,0.62)" }}
           >
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              {pack.monthlyRequired ? "Abonnement mensuel" : "Accompagnement facultatif"}
+              Accompagnement facultatif
             </p>
             <p className="mt-3 font-display text-[28px] font-semibold leading-none">
               {pack.monthlyPrice ?? (isLoadingOffers ? "Chargement…" : "Non renseigné")}
@@ -524,10 +616,10 @@ export default function TarifsPage() {
         >
           <div className="mb-4 flex items-center justify-between gap-3">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-mut-2">
-              {pack.monthlyRequired ? "Abonnement mensuel" : "Accompagnement facultatif"}
+              Accompagnement facultatif
             </p>
             <span className="rounded-full border border-white/[0.1] px-2.5 py-1 text-[10px] text-mut-2">
-              {pack.monthlyRequired ? "service" : "au choix"}
+              continuité
             </span>
           </div>
           <ul className="grid gap-2.5">
@@ -597,12 +689,12 @@ export default function TarifsPage() {
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:items-end">
             <div>
               <h1 className="max-w-4xl text-[clamp(38px,5.4vw,68px)] font-semibold leading-[1.03]">
-                Trois offres pour renforcer votre présence
-                <span className="grad-text"> et ne plus perdre de demandes.</span>
+                Des formules claires pour transformer votre présence digitale
+                <span className="grad-text"> en demandes concrètes.</span>
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-mut">
-                Présence digitale, accueil par SMS ou accueil par appels + SMS :
-                choisissez le niveau de prise en charge adapté à votre entreprise.
+                Chaque offre associe une mise en place concrète à des outils adaptés.
+                L&apos;accompagnement mensuel reste facultatif, selon vos besoins.
               </p>
 
               <div className="mt-10 flex flex-wrap gap-3">
@@ -613,7 +705,7 @@ export default function TarifsPage() {
                   Réserver un diagnostic
                 </Link>
                 <a
-                  href="#offres"
+                  href="#commerce"
                   className="btn-ghost inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold"
                 >
                   Comparer les formules
@@ -621,11 +713,29 @@ export default function TarifsPage() {
               </div>
 
               <div className="mt-8">
-                <p className="text-xs leading-5 text-mut-2">
-                  Les noms et les prix affichés sont chargés depuis notre base de
-                  données. Les consommations SMS et téléphoniques sont précisées dans
-                  chaque proposition.
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-mut-2">
+                  Accès rapide
                 </p>
+                <div className="flex flex-wrap gap-2.5">
+                  <a
+                    href="#commerce"
+                    className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold"
+                  >
+                    Commerce
+                  </a>
+                  <a
+                    href="#tpe-pme"
+                    className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold"
+                  >
+                    TPE/PME
+                  </a>
+                  <a
+                    href="#startup"
+                    className="btn-ghost rounded-full px-4 py-2 text-xs font-semibold"
+                  >
+                    Startup
+                  </a>
+                </div>
               </div>
 
               {offersError && (
@@ -695,12 +805,12 @@ export default function TarifsPage() {
                   <div className="mb-3 flex items-center gap-2 text-white">
                     <RefreshCw size={18} strokeWidth={1.8} />
                     <p className="font-display text-lg font-semibold text-ink">
-                      Suivi selon l’offre
+                      Accompagnement facultatif
                     </p>
                   </div>
                   <p className="text-sm leading-6 text-mut">
-                    Facultatif pour la présence digitale. Inclus dans l’abonnement des
-                    offres d’accueil automatisé.
+                    Maintenance, amélioration et suivi dans le temps, uniquement si vous
+                    choisissez cet accompagnement.
                   </p>
                 </div>
               </div>
@@ -709,29 +819,91 @@ export default function TarifsPage() {
         </MotionReveal>
       </section>
 
-      {/* Offres */}
-      <section id="offres" className="px-7 py-16">
+      {/* Commerce */}
+      <section id="commerce" className="px-7 py-16">
         <div className="mx-auto max-w-[1240px]">
           <div className="mb-10 max-w-3xl">
             <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
-              Trois réponses concrètes
+              Commerces locaux
             </span>
             <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
-              Choisissez ce que votre entreprise doit mieux gérer
+              Pour être trouvé, rassuré et être choisi rapidement
             </h2>
             <p className="mt-5 text-base leading-7 text-mut">
-              Une présence digitale claire, une réponse automatique par SMS ou une
-              réception complète par appels et SMS. Aucun pack n’est présenté comme
-              illimité.
+              Deux formules pensées pour les commerces qui dépendent des recherches
+              locales, des avis, des appels, des réservations, des devis ou des visites
+              physiques.
             </p>
           </div>
           <MotionGroup
-            className="grid gap-6 lg:grid-cols-3"
-            label="Les trois offres OptimalLogic"
+            className="grid gap-6 lg:grid-cols-2"
+            label="Offres pour commerces locaux"
             preset="rise"
             presetId="reveal-group"
           >
-            {offers.map((pack, index) => (
+            {commercePacks.map((pack, index) => (
+              <MotionItem key={pack.code} order={index}>
+                <PricingCard pack={pack} />
+              </MotionItem>
+            ))}
+          </MotionGroup>
+        </div>
+      </section>
+
+      {/* TPE/PME */}
+      <section id="tpe-pme" className="px-7 py-16">
+        <div className="mx-auto max-w-[1240px]">
+          <div className="mb-10 max-w-3xl">
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              TPE / PME
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Pour générer des prospects et mieux suivre les demandes
+            </h2>
+            <p className="mt-5 text-base leading-7 text-mut">
+              Ces formules transforment le site web en outil commercial : présentation
+              claire, prise de contact, chatbot, suivi clients/prospects et
+              automatisations simples.
+            </p>
+          </div>
+          <MotionGroup
+            className="grid gap-6 lg:grid-cols-2"
+            label="Offres pour TPE et PME"
+            preset="rise"
+            presetId="reveal-group"
+          >
+            {tpePmePacks.map((pack, index) => (
+              <MotionItem key={pack.code} order={index}>
+                <PricingCard pack={pack} />
+              </MotionItem>
+            ))}
+          </MotionGroup>
+        </div>
+      </section>
+
+      {/* Startups */}
+      <section id="startup" className="px-7 py-16">
+        <div className="mx-auto max-w-[1240px]">
+          <div className="mb-10 max-w-3xl">
+            <span className="eyebrow-grad text-[13px] font-semibold uppercase tracking-[0.16em]">
+              Startups
+            </span>
+            <h2 className="mt-3 text-[clamp(28px,3.6vw,44px)] font-semibold">
+              Pour lancer, tester et mesurer la traction
+            </h2>
+            <p className="mt-5 text-base leading-7 text-mut">
+              Cette formule aide les startups à clarifier leur offre, attirer les premiers
+              utilisateurs, générer des demandes de démo et suivre les signaux de
+              traction.
+            </p>
+          </div>
+          <MotionGroup
+            className="grid max-w-[610px] gap-6"
+            label="Offre pour startups"
+            preset="rise"
+            presetId="reveal-group"
+          >
+            {startupPacks.map((pack, index) => (
               <MotionItem key={pack.code} order={index}>
                 <PricingCard pack={pack} />
               </MotionItem>
@@ -874,10 +1046,7 @@ export default function TarifsPage() {
                 </h3>
                 <p className="mt-1 text-sm font-medium text-mut">
                   {selectedPack.category} · Mise en place {selectedPack.setupPrice} ·
-                  {selectedPack.monthlyRequired
-                    ? "Abonnement mensuel"
-                    : "Accompagnement facultatif"}{" "}
-                  {selectedPack.monthlyPrice ?? "non renseigné"}
+                  Accompagnement facultatif {selectedPack.monthlyPrice ?? "non renseigné"}
                 </p>
               </div>
               <button

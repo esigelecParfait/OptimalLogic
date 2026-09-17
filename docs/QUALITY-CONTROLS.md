@@ -1,105 +1,188 @@
-# Quality Gate du dépôt OptimalLogic
+# Contrôles automatiques de qualité
 
-## Périmètre actif
+## Objectif
 
-Le workflow `.github/workflows/quality.yml` est déclenché sur les pull
-requests, `main` et les branches `feat/**`.
+Cette architecture transforme chaque modification en une suite de vérifications
+reproductibles. Une modification n'est considérée comme livrable que si toutes
+les étapes obligatoires réussissent.
 
-Il exécute :
+```text
+formatage
+  → ESLint
+    → TypeScript
+      → build Next.js
+        → tests fonctionnels sur Chromium, Firefox et WebKit
+          → responsive à six profils
+            → WCAG, zoom et mouvement réduit
+              → budgets Lighthouse mobiles
+```
 
-1. installation verrouillée avec `npm ci` ;
-2. installation de Chromium ;
-3. contrôle Prettier ;
-4. ESLint ;
-5. TypeScript ;
-6. build Next.js ;
-7. tests unitaires Vitest ;
-8. parcours fonctionnels Playwright ;
-9. responsive à 320, 390, 768, 1024 et 1440 px ;
-10. budgets Lighthouse.
+Les mêmes commandes sont exécutées sur l'ordinateur du développeur et dans
+GitHub Actions. Cela limite les situations où « le site fonctionne chez moi »
+mais échoue dans un environnement propre.
 
-Les rapports Playwright et Lighthouse sont conservés sept jours comme artefacts
-GitHub Actions.
+## Utilité et résultat de chaque fichier
 
-## Limite Supabase actuelle
+| Fichier                                        | Utilité                                                     | Ce qu'il produit ou renvoie                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `.prettierrc.json`                             | Définit les règles de présentation du code                  | Une configuration lue par Prettier ; aucun HTML                              |
+| `.prettierignore`                              | Exclut dépendances, builds, rapports et fichiers générés    | Une liste de chemins ignorés                                                 |
+| `playwright.config.ts`                         | Définit le serveur, trois moteurs et six profils responsive | Une configuration Playwright exécutée par les tests                          |
+| `tests/functional/showroom.spec.ts`            | Vérifie les routes, les 22 variantes, la FAQ et les actions | Des résultats PASS/FAIL et des traces en cas d'échec                         |
+| `tests/responsive/showroom-responsive.spec.ts` | Cherche les débordements à 320, 768, 1024 et 1440 px        | Un diagnostic contenant les éléments qui sortent de l'écran                  |
+| `lighthouserc.json`                            | Définit les seuils de performance et de qualité             | Un rapport Lighthouse local dans `.lighthouseci/`                            |
+| `scripts/run-lighthouse.mjs`                   | Lance Lighthouse avec le Chromium installé par Playwright   | Le même code de sortie que Lighthouse : `0` si succès, autre valeur si échec |
+| `.github/workflows/quality.yml`                | Rejoue la chaîne dans un environnement GitHub propre        | Un contrôle « Quality gate » et des rapports téléchargeables                 |
+| `package.json`                                 | Fournit les commandes communes                              | Des scripts npm utilisables localement et en CI                              |
 
-Le site utilise Supabase, mais le dépôt ne contient pas encore de dossier
-`supabase/migrations/` reconstruisant son schéma réel. Le job de migrations et
-RLS du dépôt modèle n'a donc pas été copié aveuglément : il aurait testé une
-base différente et donné une fausse assurance.
+## Installation locale
 
-Le contrôle base de données reste `not_tested` jusqu'à l'import versionné du
-schéma réel, des politiques RLS et de leurs tests. Il devra alors devenir un
-second job bloquant.
+Après un clone ou un changement de dépendances :
 
-## Préparation locale
-
-```bash
+```powershell
+# Installe exactement les versions verrouillées dans package-lock.json.
 npm install
+
+# Installe Chromium une seule fois sur cet ordinateur.
 npm run setup:browsers
 ```
 
-Créer `.env.local` depuis `.env.example`. Les secrets réels ne doivent jamais
-être commités. La CI utilise uniquement des valeurs factices pour compiler et
-ouvrir les pages ; ses scénarios n'envoient ni demande client, ni email, ni
-appel IA.
+GitHub Actions utilise `npm ci`, qui refuse un `package-lock.json` incohérent.
 
-## Exécution progressive
+## Commandes disponibles
 
-```bash
-npm run format:check
-npm run lint
-npm run typecheck
-npm run test:unit
-npm run build
-npm run test:functional
-npm run test:responsive
-npm run test:performance
+### Corriger le formatage
+
+```powershell
+# Réécrit les fichiers suivis par Prettier selon la configuration commune.
+npm run format
 ```
 
-Le contrôle complet est :
+Cette commande modifie les fichiers. Il faut ensuite relire le diff Git.
 
-```bash
+### Vérifier le formatage sans écrire
+
+```powershell
+npm run format:check
+```
+
+Cette commande renvoie un code d'échec si un fichier n'est pas correctement
+formaté.
+
+### Contrôles statiques et build
+
+```powershell
+# Formatage, ESLint, TypeScript puis build de production.
+npm run check:static
+```
+
+### Tests fonctionnels
+
+```powershell
+# Nécessite un build existant ; npm run check s'en charge automatiquement.
+npm run test:functional
+```
+
+Les scénarios actuels vérifient :
+
+- réponse HTTP de `/` et `/showroom` ;
+- présence et ordre des 22 variantes ;
+- directive `noindex` du showroom ;
+- ouverture d'une FAQ au clavier ;
+- présence d'un vrai lien pour l'action principale.
+
+### Tests responsive
+
+```powershell
+npm run test:responsive
+```
+
+Playwright rejoue les scénarios responsive aux largeurs suivantes :
+
+| Projet         |       Viewport |
+| -------------- | -------------: |
+| `mobile-320`   |   320 × 900 px |
+| `tablet-768`   |  768 × 1024 px |
+| `desktop-1024` |  1024 × 900 px |
+| `wide-1440`    | 1440 × 1000 px |
+
+Les tests bloquent un débordement horizontal et listent les premiers éléments
+visibles placés hors écran.
+
+### Contrôle obligatoire courant
+
+```powershell
+# Formatage → lint → types → build → fonctionnel → responsive.
+npm run check
+```
+
+### Contrôle complet avec performance
+
+```powershell
+# Ajoute Lighthouse à toute la chaîne obligatoire.
 npm run check:all
 ```
 
-## Diagnostic des erreurs
+## Budgets Lighthouse initiaux
 
-| Étape rouge              | Cause habituelle                              | Correction                                                                     |
-| ------------------------ | --------------------------------------------- | ------------------------------------------------------------------------------ |
-| Check formatting         | fichier non normalisé                         | `npm run format`, puis relire le diff                                          |
-| Run ESLint               | règle React ou Next.js violée                 | corriger la première erreur, sans désactiver globalement la règle              |
-| Check TypeScript         | type, prop ou contexte de route incorrect     | `npm run typecheck` et corriger le contrat                                     |
-| Build production site    | variable manquante ou erreur de rendu serveur | compléter `.env.local`, puis relancer `npm run build`                          |
-| Unit tests               | logique métier modifiée                       | exécuter `npm run test:unit` et traiter le premier scénario                    |
-| Functional browser tests | route ou interaction cassée                   | `npx playwright show-report`                                                   |
-| Responsive tests         | largeur ou élément hors écran                 | utiliser la route, le viewport et l'élément donnés par Playwright              |
-| Lighthouse               | score inférieur au budget                     | ouvrir le rapport HTML dans `.lighthouseci/`                                   |
-| Install Chromium         | navigateur absent                             | `npm run setup:browsers`; en réseau filtré, laisser GitHub Actions l'installer |
+La page d'accueil doit atteindre au minimum :
 
-Ne jamais réduire un seuil ou retirer un parcours uniquement pour obtenir du
-vert. Les routes `app/preview/**` et la sauvegarde historique sont exclues des
-contrôles de style car elles sont classées `reference_only`; elles restent
-compilées par Next.js tant qu'elles sont présentes.
+| Catégorie        | Score bloquant |
+| ---------------- | -------------: |
+| Performance      |           0,90 |
+| Accessibilité    |           0,95 |
+| Bonnes pratiques |           0,95 |
+| SEO              |           0,95 |
 
-## Budgets transférés
+Ces seuils sont un plancher technique du modèle. Un projet client peut imposer
+des objectifs plus élevés dans son `site-spec`, mais ne doit pas les réduire
+silencieusement pour faire passer une livraison.
 
-| Catégorie Lighthouse | Minimum |
-| -------------------- | ------: |
-| Performance          |    0,80 |
-| Accessibilité        |    0,90 |
-| Bonnes pratiques     |    0,90 |
-| SEO                  |    0,90 |
+Lighthouse reste une simulation de laboratoire. Après déploiement, les mesures
+réelles des utilisateurs et les Core Web Vitals doivent compléter ce contrôle.
 
-Ces valeurs sont le plancher du système 0.2.0. La QA premium finale demandera
-des budgets plus élevés et une médiane mobile de plusieurs exécutions.
+## Fonctionnement de GitHub Actions
 
-## Contrôles manuels toujours nécessaires
+Le workflow est déclenché :
 
-- exactitude du contenu et des offres ;
-- validation des médias et droits ;
-- clavier, zoom 200 %, lecteur d'écran de fumée ;
-- cookies et consentement ;
-- accès anonyme, client, autre client et administrateur ;
-- formulaires, emails, réservations et services externes ;
-- revue responsive et visuelle de chaque page finale.
+- à chaque pull request ;
+- à chaque push sur `main` ;
+- à chaque push sur une branche `feat/**`.
+
+GitHub crée un ordinateur Linux temporaire, installe Node.js 24, les dépendances
+et Chromium, puis exécute chaque étape séparément. Cette séparation permet
+d'identifier immédiatement la catégorie de l'erreur.
+
+Les rapports Playwright et Lighthouse sont conservés comme artefacts pendant
+sept jours. Ils ne sont pas envoyés vers un stockage public externe.
+
+## Lire un échec
+
+| Étape rouge                      | Signification probable                     | Première action                              |
+| -------------------------------- | ------------------------------------------ | -------------------------------------------- |
+| `Check formatting`               | Présentation incohérente                   | Lancer `npm run format`, puis relire le diff |
+| `Run ESLint`                     | Mauvaise pratique ou erreur React/Next.js  | Lire le fichier et la règle affichés         |
+| `Check TypeScript`               | Propriété ou type incompatible             | Corriger le contrat ou la donnée transmise   |
+| `Build production site`          | Next.js ne peut pas produire le site       | Lire la première erreur de compilation       |
+| `Run functional browser tests`   | Un parcours ou un élément attendu a changé | Ouvrir le rapport Playwright                 |
+| `Run responsive tests`           | Débordement ou élément hors viewport       | Utiliser le projet et l'élément indiqués     |
+| `Run Lighthouse quality budgets` | Score inférieur au plancher                | Ouvrir le rapport dans `.lighthouseci/`      |
+
+## Ajouter un nouveau contrôle
+
+Lorsqu'une fonctionnalité est ajoutée :
+
+1. ajouter un scénario fonctionnel représentant le besoin client ;
+2. ajouter un scénario responsive si sa composition est nouvelle ;
+3. commenter l'intention du test, pas chaque mot de syntaxe ;
+4. reproduire l'échec avant de corriger le code ;
+5. vérifier que le test échoue réellement lorsque le comportement est cassé ;
+6. exécuter `npm run check:all` ;
+7. documenter le changement dans `CHANGELOG.md`.
+
+## Dernière protection à activer sur GitHub
+
+Le workflow exécute les contrôles, mais il ne bloque une fusion que si la règle
+de protection de `main` exige leur réussite. Après la première exécution verte,
+activer dans les paramètres GitHub une règle de branche ou un ruleset exigeant
+le statut `Format, code, browser and performance` avant fusion.
