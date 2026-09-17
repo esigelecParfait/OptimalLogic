@@ -17,11 +17,10 @@ un site implémenté.
 
 ## Blocages
 
-1. correspondance des trois présentations avec les codes BDD non vérifiée ;
-2. photographies de production et droits non validés ;
-3. volumes et dépassements SMS/minutes non confirmés ;
-4. refonte non implémentée et absence de preview ;
-5. tests techniques, visuels, responsive, accessibilité et non-régression non exécutés.
+1. photographies de production et droits non validés ;
+2. volumes et dépassements SMS/minutes non confirmés ;
+3. refonte complète non implémentée et absence de preview ;
+4. tests visuels, responsive, accessibilité et non-régression non exécutés.
 
 Le schéma Supabase et les politiques RLS ne doivent pas être modifiés pour lever
 ces blocages. La preuve attendue est une lecture du contrat existant et des

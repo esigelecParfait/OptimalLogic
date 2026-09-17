@@ -12,9 +12,9 @@ business:
     - {id: tpe-pme, name: TPE et PME, problem: Qualification et transmission irrégulières des demandes}
   value_proposition: Clarifier la présence digitale et prendre en charge les demandes entrantes pour les rendre exploitables.
   offers:
-    - {id: digital_presence, public_name: "Présence digitale", database_code: existing_code_to_map}
-    - {id: reception_sms, public_name: "Accueil & qualification par SMS", database_code: existing_code_to_map}
-    - {id: reception_calls_sms, public_name: "Accueil & qualification par appels + SMS", database_code: existing_code_to_map}
+    - {id: digital_presence, public_name: "Présence digitale", database_code: commerce_intelligent}
+    - {id: reception_sms, public_name: "Accueil & qualification par SMS", database_code: tpe_pme_croissance}
+    - {id: reception_calls_sms, public_name: "Accueil & qualification par appels + SMS", database_code: tpe_pme_performance}
   catalog_invariants:
     count: 3
     backend_change: forbidden
@@ -56,6 +56,5 @@ quality:
   accessibility_target: WCAG 2.2 AA
   viewports: [320, 390, 768, 1024, 1440]
 open_questions:
-  - {id: Q-001, question: Associer les trois présentations frontend aux codes existants sans changer la BDD, blocking: true}
   - {id: Q-002, question: Confirmer volumes inclus et dépassements SMS/minutes, blocking: true}
   - {id: Q-003, question: Valider les photographies et leurs droits, blocking: true}

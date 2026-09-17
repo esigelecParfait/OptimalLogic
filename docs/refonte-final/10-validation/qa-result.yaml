@@ -15,7 +15,7 @@ summary: {pass: 2, fail: 0, not_tested: 8, not_applicable: 0}
 gates:
   - {id: SPEC-001, level: B, status: pass, evidence: "site-spec mis à jour pour trois offres et backend protégé"}
   - {id: MOT-001, level: C, status: pass, evidence: "trois séquences et reduced-motion documentés"}
-  - {id: MAP-001, level: B, status: not_tested, note: "codes BDD des trois présentations non vérifiés"}
+  - {id: MAP-001, level: B, status: pass, evidence: "mapping frontend explicite vers commerce_intelligent, tpe_pme_croissance et tpe_pme_performance"}
   - {id: BCK-001, level: B, status: not_tested, note: "non-régression backend à prouver après implémentation frontend"}
   - {id: IMP-001, level: C, status: not_tested, note: "refonte non implémentée"}
   - {id: VIS-001, level: C, status: not_tested, note: "validation visuelle humaine absente"}

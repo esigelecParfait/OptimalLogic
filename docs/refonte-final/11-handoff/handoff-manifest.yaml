@@ -17,6 +17,6 @@ directories:
   - {path: 10-validation, purpose: QA documentaire et checklist de revue, status: ready_for_review}
   - {path: 11-handoff, purpose: handoff bloqué avant approbation, status: blocked}
 required_approvals: [brief, offer_copy, art_direction, visual_assets, motion, protected_scope]
-blocking_decisions: [O-001, O-002, O-003]
+blocking_decisions: [O-002, O-003]
 codex_prompt_executable: false
 integrity_file: docs/refonte-final/11-handoff/checksums.sha256

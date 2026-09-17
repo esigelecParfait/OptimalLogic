@@ -8,7 +8,11 @@ offers:
   existing_database_fields: [code, nom_offre, client_type, prix, prix_abonnement, is_active, created_at]
   values_that_must_remain_database_driven: [nom_offre, prix, prix_abonnement]
   public_offer_count: 3
-  code_mapping: verify_existing_codes_before_frontend_change
+  code_mapping:
+    commerce_intelligent: digital_presence
+    tpe_pme_croissance: reception_sms
+    tpe_pme_performance: reception_calls_sms
+  database_codes_not_presented_publicly: [commerce_premium, startup_launch]
   invariants:
     - Ne modifier ni endpoint, ni schéma, ni requête, ni politique RLS.
     - Ne jamais coder en dur un nom ou un prix de secours.

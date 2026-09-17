@@ -1,11 +1,6 @@
 schema_version: 1
 status: ready_for_review
 decisions:
-  - id: O-001
-    question: À quels codes BDD existants correspondent les trois offres frontend ?
-    owner: OptimalLogic
-    blocking: true
-    rule: Vérifier et mapper sans modifier la BDD ni son API.
   - id: O-002
     question: Quels volumes SMS/minutes et dépassements peut-on afficher ?
     owner: OptimalLogic
@@ -22,3 +17,4 @@ resolved:
   - {id: R-003, decision: Le catalogue contient exactement trois offres}
   - {id: R-004, decision: La cible est multisectorielle}
   - {id: R-005, decision: Backend et configuration des offres inchangés}
+  - {id: R-006, decision: "Mapping validé : commerce_intelligent vers Présence digitale; tpe_pme_croissance vers SMS; tpe_pme_performance vers appels + SMS"}
